@@ -1,0 +1,3 @@
+update apconfigure set value='34' where id=28
+
+alter table UnitInfo add WordNum varchar(30);

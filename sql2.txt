@@ -1,0 +1,6 @@
+
+CREATE INDEX "TRAFFIC"."IDX_BILLBASE_MULTI2" ON "TRAFFIC"."BILLBASE" (BillMemID1, BillMemID2, BillMemID3, BillMemID4, RuleVer, Rule1, Rule2, Rule3, Rule4, BillTypeID, RecordStateID, TrafficAccidentType, RecordDate, BillNo, CarNo) TABLESPACE  "TRAFFIC" PCTFREE 10 INITRANS 2 MAXTRANS 255 STORAGE ( INITIAL 64K BUFFER_POOL DEFAULT) LOGGING 
+go
+
+update billbase set TrafficAccidentType=' ' where TrafficAccidentType is null
+go

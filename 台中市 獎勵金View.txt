@@ -1,0 +1,6 @@
+CREATE OR REPLACE VIEW "TRAFFIC"."BILLBASEVIEWREWARD" ("SN","BILLNO","CARNO","BILLTYPEID","USETOOL","CARSIMPLEID","CARADDID","ILLEGALDATE","BILLFILLDATE","BILLMEM1","BILLMEM2","BILLMEM3","BILLMEM4","BILLMEMID1","BILLMEMID2","BILLMEMID3","BILLMEMID4","RULE1","RULE2","RULE3","RULE4","FORFEIT1","FORFEIT2","FORFEIT3","FORFEIT4","DRIVER","DRIVERID","OWNER","BILLUNITID","BILLSTATUS","RECORDSTATEID","RECORDDATE","RECORDMEMBERID","TRAFFICACCIDENTTYPE","BILLBASETYPEID","RULEVER")
+ AS Select SN,BillNo,CarNo,BillTypeID,UseTool,CarSimpleID,CarAddID,IllegalDate,BillFillDate,BillMem1,BillMem2,BillMem3,BillMem4,BillMemID1,BillMemID2,BillMemID3,BillMemID4,Rule1,Rule2,Rule3,Rule4,ForFeit1,ForFeit2,ForFeit3,ForFeit4,Driver,DriverID,Owner,BillUnitID,BillStatus,RecordStateID,RecordDate,RecordMemberID,TrafficAccidentType,BillBaseTypeID,RuleVer from BillBase 
+Union 
+Select SN,BillNo,CarNo,BillTypeID,UseTool,CarSimpleID,CarAddID,IllegalDate,BillFillDate,BillMem1,BillMem2,BillMem3,BillMem4,BillMemID1,BillMemID2,BillMemID3,BillMemID4,Rule1,Rule2,Rule3,Rule4,ForFeit1,ForFeit2,ForFeit3,ForFeit4,Driver,DriverID,Owner,BillUnitID,BillStatus,RecordStateID,RecordDate,RecordMemberID,TrafficAccidentType,BillBaseTypeID,RuleVer from PasserBase 
+
+
