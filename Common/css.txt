@@ -1,0 +1,25 @@
+<style type="text/css">
+<!--
+body {font-family:新細明體;font-size:12pt}
+A:link {text-decoration : none;color=0044ff;line-height:16px;font-size:10pt}
+A:visited {text-decoration : none;color=0044ff;line-height:16px;font-size:10pt}
+A:hover {text-decoration : underline;color=ff6600;line-height:16px;font-size:10pt}
+td {font-family:新細明體;line-height:16px;font-size:12pt}
+input {font-family:新細明體;line-height:16px;font-size:11pt}
+select {font-family:新細明體;line-height:16px;font-size:11pt}
+.listtitle {font-family:新細明體;line-height:16px;font-size:11pt}
+.listtitle1 {font-family:新細明體;line-height:16px;font-size:11pt;background-color:#ffffff;}
+.listtitle2 {font-family:新細明體;line-height:16px;font-size:11pt;background-color:#EAEAEA;}
+.font12 {font-family:新細明體;line-height:16px;font-size:12pt;}
+.font11 {font-family:新細明體;line-height:16px;font-size:11pt;}
+.font10 {font-family:新細明體;line-height:16px;font-size:10pt;}
+
+.content {font-family:新細明體;line-height:16px;font-size:11pt}
+.pagetitle {font-family:新細明體;line-height:16px;font-size:11pt}
+.smallBlock {font-family:新細明體;line-height:16px;font-size:8pt}
+.btn1 {BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; FONT-SIZE: 11pt;
+       BORDER-LEFT: #cccccc 1px solid; COLOR: #000000; LINE-HEIGHT: 25px; BORDER-BOTTOM: #cccccc 1px solid;
+       FONT-FAMILY: Arial; BACKGROUND-COLOR: #FFFFF0}
+.bt {font-size: 10pt; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; height: 20px; width: 80px; background-color: #ECEFFF; cursor: hand} 
+-->
+</style>

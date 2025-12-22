@@ -1,0 +1,20 @@
+<style type="text/css">
+<!--
+body {font-family:新細明體;font-size:15pt}
+A:link {text-decoration : none;color=0044ff;line-height:20px;font-size:13pt}
+A:visited {text-decoration : none;color=0044ff;line-height:20px;font-size:13pt}
+A:hover {text-decoration : underline;color=ff6600;line-height:20px;font-size:13pt}
+td {font-family:新細明體;line-height:20px;font-size:13pt}
+input {font-family:新細明體;line-height:20px;font-size:13pt}
+select {font-family:新細明體;line-height:20px;font-size:13pt}
+.listtitle {font-family:新細明體;line-height:20px;font-size:13pt}
+.listtitle1 {font-family:新細明體;line-height:20px;font-size:13pt;background-color:#ffffff;}
+.listtitle2 {font-family:新細明體;line-height:20px;font-size:13pt;background-color:#EAEAEA;}
+.content {font-family:新細明體;line-height:20px;font-size:13pt}
+.pagetitle {font-family:新細明體;line-height:20px;font-size:13pt}
+.smallBlock {font-family:新細明體;line-height:20px;font-size:13pt}
+.btn1 {BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid; FONT-SIZE: 13pt;
+       BORDER-LEFT: #000000 1px solid; COLOR: #000000; LINE-HEIGHT: 20px; BORDER-BOTTOM: #000000 1px solid;
+       FONT-FAMILY: :新細明體; font-weight: bold; BACKGROUND-COLOR: #99CCFF}
+-->
+</style>

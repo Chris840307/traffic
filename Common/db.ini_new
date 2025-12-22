@@ -1,0 +1,26 @@
+A
+<%
+Dim conn
+Set conn = Server.CreateObject("ADODB.Connection")
+
+conn.ConnectionTimeout = 3
+
+Dim connStr
+connStr = "Provider=OraOLEDB.Oracle.1;" & _
+          "Data Source=localhost:1521/orcl;" & _
+          "User Id=mani;" & _
+          "Password=123456;"
+
+' 先移除錯誤忽略，讓錯誤直接顯示
+conn.Open connStr
+
+If conn.State = 1 Then
+    Response.Write("連線成功！")
+Else
+    Response.Write("連線失敗！")
+End If
+
+conn.Close
+Set conn = Nothing
+%>
+B

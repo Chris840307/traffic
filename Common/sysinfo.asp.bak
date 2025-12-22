@@ -1,0 +1,59 @@
+<%
+response.write "<td width=""650""><div align=""left"">"
+
+'取得登入者
+'strSQL="select UnitName from UnitInfo where UnitID='"& Session("Unit_ID")&"'"
+'set rssysinfo=conn.execute(strSQL)
+response.write "<img src=""../Image/space.gif"" width=""5"" ><img src=""../Image/dot.gif""></img> <span class=""font10"">"&Session("Ch_Name")
+'response.write "<img src=""../Image/dot.gif"" ><font size=""13"">單位："&trim(rssysinfo("UnitName")) & "</font>"
+'取得今日該使用者建檔與傳送數
+sStartDate=gOutDT(ginitdt(now)) & " 00:00:00 "
+sEndDate=gOutDT(ginitdt(now)) & " 23:59:59 "
+strSQL="Select count(*) billcount from BillBase Where RecordDate between TO_DATE('"&sStartDate&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&sEndDate&"','YYYY/MM/DD/HH24/MI/SS')" &" and RecordMemberID="& Session("User_ID")
+
+set rssysinfo=conn.execute(strSQL)
+
+response.write "<img src=""../Image/space.gif"" width=""5"" ><img src=""../Image/dot.gif"" ></img><span class=""font10"">本日建檔 </span>" & rssysinfo("billcount") 
+'strSQL="Select count(*) dcicount from DCILog Where RecordDate between TO_DATE('"&sStartDate&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&sEndDate&"','YYYY/MM/DD/HH24/MI/SS')" &" and RecordMemberID="& Session("User_ID")
+'set rs=conn.execute(strSQL)
+'response.write "<img src=""../Image/space.gif"" width=""5"" ><img src=""../Image/dot.gif""></img>"& rssysinfo("dcicount") 
+response.write "<img src=""../Image/space.gif"" width=""5"" ><img src=""../Image/dot.gif""></img>已傳送 : "
+strSQL="select ExchangeTypeID , count(ExchangeTypeID) as Num from DCILog Where ExchangeDate between TO_DATE('"&sStartDate&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&sEndDate&"','YYYY/MM/DD/HH24/MI/SS')" &" and RecordMemberID="& Session("User_ID") & " Group by EXCHANGETYPEID "
+set rssysinfo=conn.execute(strSQL)
+i=0 
+
+While Not rssysinfo.Eof
+  if rssysinfo("ExchangeTypeID") = "N" then
+	chType="單退"
+  elseif rssysinfo("ExchangeTypeID") = "A" then
+	chType="車籍" 
+  elseif rssysinfo("ExchangeTypeID") = "W" then
+	chType="入案" 
+  elseif rssysinfo("ExchangeTypeID") = "E" then
+	chType="刪除" 
+  end if
+ response.write " " & chType & ":" & rssysinfo("Num") & " "
+  i= i + Cint(rssysinfo("Num"))
+  rssysinfo.MoveNext
+Wend
+response.write  "(共" &  i & "件)"
+
+
+' 取得DCI 上傳下載時間
+strSQL="select CreateDate from DCICreateFileLog where CreateDate  between TO_DATE('"&sStartDate&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&sEndDate&"','YYYY/MM/DD/HH24/MI/SS') " & " and Rownum<10 order by CreateDate desc "
+set rssysinfo=conn.execute(strSQL)
+'><img src=""../Image/dot.gif""></img
+response.write "<img src=""../Image/dot.gif""> <a href=""../Query/DCICreateFileLog.asp"" target=""_blank""><font class=""font10"">上傳下載<font></a>："
+if not rssysinfo.eof then 
+	response.write "<font class=""font10"">" & trim(rssysinfo("CreateDate")) & " 作業完成 </font>"
+else
+	
+end if
+response.write  "</div></td>"
+''response.write "<input type=""button"" name=""MoveUp"" value=""功能選單"" onclick=""location='../Traffic_Web_Main.asp'""><img src=""../Image/space.gif"" width=""10""><input type=""button"" name=""MoveUp"" value=""登 出"" onclick=""location='../UserLogout_Contral.asp'""></div></td>"
+'response.write  "<td><div align=""right""><span class=""font10""><input type=""button"" name=""MoveUp"" onClick=""javascript:window.close();"" value=""關 閉""></span><img src=""../Image/space.gif"" width=""10""></div></td>"
+
+
+	set rssysinfo=nothing
+
+%>
