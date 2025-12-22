@@ -1,0 +1,405 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<!--#include virtual="traffic/Common/DB.ini"-->
+<!--#include virtual="traffic/Common/AllFunction.inc"-->
+<!--#include virtual="traffic/Common/Login_Check.asp"-->
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=big5">
+<title>漏號稽核</title>
+<%
+Server.ScriptTimeout=9000
+
+whereSql=""
+
+if request("DB_state")="UpdateDetail" then
+	strSQL="Update WarningGetBillDetail set NoteContent='"&request("Sys_NoteContent_"&request("SN"))&"' where BillNo='"&request("SN")&"'"
+
+	conn.execute(strSQL)
+	Response.write "<script>"
+	Response.Write "alert('儲存完成！');"
+	Response.write "</script>"
+end if
+if request("DB_Selt")="Selt" then
+	BillCreate=0:BillQuery=0:BillKeyin=0:BillAccept=0:BillReturn=0:BillSend=0:BillOpen=0:BillDel=0:Billclose=0
+	Sno="":Tno=0:Tno2=0:BillStartNumber="":BillEndNumber="":Type_strSQL=""
+
+	BillStartNumber = trim(Request("BillStartNumber"))
+	BillEndNumber = trim(Request("BillEndNumber"))
+	Sno=left(BillStartNumber,5)
+	Tno=MID(BillStartNumber,6,len(BillStartNumber))
+	Tno2=MID(BillEndNumber,6,len(BillEndNumber))
+	DB_Selt="Selt"
+	if Not ifnull(Sno) then
+		Sno=Ucase(trim(Sno))
+
+		whereRepor=whereRepor&" where ReportNo like '"&Sno&"%'"
+	end if
+
+	If not ifnull(BillStartNumber) Then
+		Tno=trim(Tno):Tno2=trim(Tno2)
+
+		whereRepor=whereRepor&" and SUBSTR(ReportNo,"&len(Sno)+1&") between "&Tno&" and "&Tno2
+	End if
+	
+		
+	if Not ifnull(request("fGetBillDate_q")) then
+		RecordDate1=gOutDT(request("fGetBillDate_q"))&" 0:0:0"
+		RecordDate2=gOutDT(request("tGetBillDate_q"))&" 23:59:59"
+
+		whereSql=whereSql&" and Recorddate between TO_DATE('"&RecordDate1&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&RecordDate2&"','YYYY/MM/DD/HH24/MI/SS')"
+	end if
+
+	if not ifnull(request("GetBillMemberID")) then
+		whereSql=whereSql&" and Billmemid1="&request("GetBillMemberID")
+	end if
+
+	if not ifnull(request("UnitID")) then
+		whereSql=whereSql&" and Billmemid1 in(select MemberID from MemberData where UnitID in('"&request("UnitID")&"'))"
+	end if
+
+	BillBaseView="select base.*,billrpt.reportNo from (select Sn,BillNo,BillStatus,billunitid,BillMemID1,Note,BillFillDate,BillBaseTypeID,RecordMemberID from Billbase where 1=1"&whereSql&") base,(select billsn,reportno from billreportno"&whereRepor&") billrpt where base.sn=billrpt.billsn"
+
+	chkData="":Type_strSQL=""
+	if trim(request("Sys_Audit"))="" then
+		Type_strSQL="select a.sn,a.reportNo,a.BillNo,a.BillStatus,b.unitname,c.chname billunitname,d.chname recordName,a.BillFillDate,a.BillBaseTypeID,a.Note from ("&BillBaseView&") a,UnitInfo b,memberdata c,memberdata d where a.billunitid=b.unitid and a.billmemid1=c.memberid and a.recordmemberid=d.memberid order by a.reportNo"
+
+		strSQL="select a.BillStatus,count(*) as cnt from ("&BillBaseView&") a group by a.BillStatus order by a.BillStatus"
+		set rscnt=conn.execute(strSQL)
+		
+		If not rscnt.eof Then
+			while Not rscnt.eof
+				if rscnt("BillStatus")=0 then BillCreate=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=1 then BillQuery=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=2 then BillKeyin=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=3 then BillReturn=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=4 then BillSend=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=5 then BillOpen=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=6 then BillDel=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=7 then BillAccept=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=9 then Billclose=cdbl(rscnt("cnt"))
+				DBsum=int(DBsum)+cdbl(rscnt("cnt"))
+				rscnt.movenext
+			wend
+			UseBill=DBsum
+			chkData="1"
+		end if
+		rscnt.close
+
+	elseif trim(request("Sys_Audit"))="1" then
+		NumCmt=0:Sno="":Tno="":Tno2="":tmpNo=""
+
+		strSQL="select substr(ReportNo,1,5) Sno, min(substr(ReportNo,6)) minReportNo,max(substr(ReportNo,6)) maxReportNo from ("&BillBaseView&") group by substr(ReportNo,1,5)"
+		set rs=conn.execute(strSQL)
+
+		While not rs.eof
+			If not ifnull(Sno) Then
+				Sno=Sno&","
+				Tno=Tno&","
+				Tno2=Tno2&","
+			end if
+
+			Sno=Sno&trim(rs("Sno"))
+			Tno=Tno&trim(rs("minReportNo"))
+			Tno2=Tno2&trim(rs("maxReportNo"))
+
+			rs.movenext
+		Wend
+		rs.close
+		If not ifnull(Sno) Then
+			tmpNo=Sno
+			Sno=split(Sno , ",")
+			Tno=split(Tno , ",")
+			Tno2=split(Tno2 , ",")
+		End if
+
+		StrNumSQL="":DBsum=0:UseBill=0
+		If not ifnull(tmpNo) Then
+			For i = 0 to Ubound(Sno)
+				If not ifnull(StrNumSQL) Then StrNumSQL=StrNumSQL&" Union all "
+				StrNumSQL=StrNumSQL&"select '"&Sno(i)&"'||LPAD("&cdbl(Tno(i))&"+rownum-1,"&len(Tno(i))&",'0') chkbillno from billbase where rownum<"&(cdbl(Tno2(i))-cdbl(Tno(i))+2)
+			Next
+			
+			
+			strSQL="select count(1) cmt from ("&BillBaseView&") a,("&StrNumSQL&") b,(select BillNo,NoteContent from WarningGetBillDetail) c where b.chkbillno=a.ReportNo(+) and b.chkbillno=c.billno(+) and a.ReportNo is null"
+
+			If not ifnull(Request("chkBillBase")) Then strSQL=strSQL&" and c.NoteContent is null"
+
+			set rscmt=conn.execute(strSQL)
+			DBsum=cdbl(rscmt("cmt"))
+			UseBill=DBsum
+
+			rscmt.close
+
+			Type_strSQL="select '' sn,b.chkBillNo ReportNo,'' BillNo,'' unitname,'' billunitname,'' recordName,'' BillFillDate,'' BILLSTATUS,'' BillBaseTypeID,c.NoteContent Note  from ("&BillBaseView&") a,("&StrNumSQL&") b,(select BillNo,NoteContent from WarningGetBillDetail) c where b.chkbillno=a.ReportNo(+) and b.chkbillno=c.billno(+) and a.ReportNo is null"
+
+			If not ifnull(Request("chkBillBase")) Then Type_strSQL=Type_strSQL&" and c.NoteContent is null"
+			
+			Type_strSQL=Type_strSQL&" order by b.chkBillNo"
+		end if
+
+		If cdbl(DBsum) > 0 Then chkData="1"		
+
+
+		
+
+	elseif trim(request("Sys_Audit"))="2" then
+		Type_strSQL="select a.sn,a.ReportNo,a.BillNo,a.BillStatus,b.unitname,c.chname billunitname,d.chname recordName,a.BillFillDate,a.BillBaseTypeID,a.Note from ("&BillBaseView&") a,UnitInfo b,memberdata c,memberdata d where a.billstatus=6 and a.billunitid=b.unitid and a.billmemid1=c.memberid and a.recordmemberid=d.memberid order by a.reportNo"
+
+		strSQL="select a.BillStatus,count(*) as cnt from ("&BillBaseView&") a where a.billstatus=6 group by a.BillStatus order by a.BillStatus"
+		set rscnt=conn.execute(strSQL)
+		
+		If not rscnt.eof Then
+			while Not rscnt.eof
+				if rscnt("BillStatus")=0 then BillCreate=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=1 then BillQuery=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=2 then BillKeyin=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=3 then BillReturn=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=4 then BillSend=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=5 then BillOpen=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=6 then BillDel=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=7 then BillAccept=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=9 then Billclose=cdbl(rscnt("cnt"))
+				DBsum=cdbl(DBsum)+cdbl(rscnt("cnt"))
+				rscnt.movenext
+			wend
+			UseBill=DBsum
+			chkData="1"
+		end if
+		rscnt.close
+	end if
+
+	If ifnull(chkData) Then
+		DB_Selt=""
+		Response.write "<script>"
+		Response.Write "alert('查無資料！');"
+		'Response.write "location='BillBaseAudit.asp';"
+		Response.write "</script>"
+	End if
+end if
+%>
+<!--#include virtual="traffic/Common/css.txt"-->
+</head>
+<body>
+<form name=myForm method="post">
+<table width="100%" height="100%" border="0">
+	<tr>
+		<td bgcolor="#FFCC33" height="23">漏號稽核&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;稽核案件:可下拉選擇要稽核的舉發單種類。</td>
+	</tr>
+	<tr>
+		<td bgcolor="#CCCCCC">
+			<table border="0" bgcolor="#FFFFFF" width="100%">
+				<tr>
+					<td>
+						<span class="font12">建檔日期</span>
+						<input class="btn1" type='text' size='7' id='fGetBillDate_q' name='fGetBillDate_q' value='<%=trim(request("fGetBillDate_q"))%>'>
+						<input type="button" name="datestra" value="..." onclick="OpenWindow('fGetBillDate_q');">
+						~
+						<input class="btn1" type='text' size='7' id='tGetBillDate_q' name='tGetBillDate_q' value='<%=trim(request("tGetBillDate_q"))%>'>
+						<input type="button" name="datestrb" value="..." onclick="OpenWindow('tGetBillDate_q');">
+					標示單號
+						<input name="BillStartNumber" class="btn1" type="text" value="<%=trim(request("BillStartNumber"))%>" size="10" maxlength="11">
+						～
+						<input name="BillEndNumber" class="btn1" type="text" value="<%=trim(request("BillEndNumber"))%>" size="10" maxlength="11">
+
+						<input class="btn1" type="checkbox" name="chkBillBase" value="true"<%
+						If Not ifnull(request("chkBillBase")) Then response.write " checked"
+						If trim(Request("Sys_Audit"))<>"1" Then Response.Write " disabled"
+						%>>只顯示未稽核案件&nbsp;&nbsp;
+					<br>
+					<span class="font12">領單單位</span>
+						<%=UnSelectUnitOption("UnitID","GetBillMemberID")%>
+					<span class="font12">領單人員</span>
+						<%=UnSelectMemberOption("UnitID","GetBillMemberID")%>
+					稽核案件
+						<select name="Sys_Audit" class="btn1" onchange="funCheckBox();">
+							<option value="">全部</option>
+							<option value="1"<%if request("Sys_Audit")="1" then response.write " selected"%>>漏號</option>
+							<option value="2"<%if request("Sys_Audit")="2" then response.write " selected"%>>刪除</option>
+						</select>
+						<input type="button" name="btnSelt" value="確定" onClick='funSelt();'>&nbsp;&nbsp;
+						<input type="button" name="cancel" value="清除" onClick="location='BillBaseAuditCar.asp'">
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td bgcolor="#FFCC33" height="33">漏號稽核紀錄列表<img src="space.gif" width="15" height="8"><strong>( 查詢 <%=DBsum%> 筆紀錄）<br>
+		<font size="3">
+		&nbsp;&nbsp;
+		已開單：<%=UseBill%>筆（<%=BillCreate%>筆建檔，<%=BillQuery%>筆車籍查詢，<%=BillKeyin%>筆入案，<%=BillAccept%>筆收受，<%=BillReturn%>筆單退，<%=BillSend%>筆寄存，<%=BillOpen%>筆公示，<%=BillDel%>筆刪除，<%=Billclose%>筆結案）</font></strong><br>		
+		</td>
+	</tr>
+	<%if DB_Selt="Selt" then%>
+	<tr>
+		<td bgcolor="#E0E0E0">
+			<table width="100%" height="100%" border="0" cellpadding="4" cellspacing="1">
+				<tr bgcolor="#EBFBE3" align="center">
+					<th height="25">標示單</th>
+					<th height="25">單號</th>
+					<th height="25">舉發單位</th>
+					<th height="25">舉發員警</th>
+					<th height="25">填單日期</th>
+					<th height="25">建檔人</th>
+					<th height="25">舉發狀態</th>
+					<th height="25">備註</th>
+				</tr><%
+					if Trim(request("DB_Move"))="" then
+						DBcnt=0
+					else
+						DBcnt=request("DB_Move")
+					end if
+					If not ifnull(Type_strSQL) Then					
+						set rs=conn.execute(Type_strSQL)
+						if Not rs.eof then rs.move cdbl(DBcnt)
+						for i=DBcnt+1 to DBcnt+10
+							if rs.eof then exit for
+							BillStatusTmp=split("建檔,車籍查詢,入案,單退,寄存,公示,刪除,收受,,結案",",")
+
+							response.write "<tr bgcolor='#FFFFFF' align='center' "
+							lightbarstyle 0 
+							response.write ">"
+							if Not rs.eof then
+								response.write "<td>"&rs("ReportNo")&"</td>"
+								response.write "<td>"&rs("BillNo")&"</td>"
+								response.write "<td>"&rs("UnitName")&"</td>"
+								response.write "<td>"&rs("billunitname")&"</td>"
+								response.write "<td>"&gInitDT(rs("BillFillDate"))&"</td>"
+								response.write "<td>"&rs("recordName")&"</td>"
+								response.write "<td>"
+
+								if trim(rs("BILLSTATUS"))<>"" and int(rs("BILLSTATUS"))<100 then
+									response.write BillStatusTmp(rs("BILLSTATUS"))
+								else
+									strSQL="select b.content from (select BillStateID from WarningGetBillDetail where billno='"&trim(rs("ReportNo"))&"') a,(select Content,ID from Code where TypeID=17)b where a.BillStateID=b.ID"
+									set rscode=conn.execute(strSQL)
+									If not rscode.eof Then
+
+										response.write "<strong>"&rscode("content")&"</strong>"
+
+									else
+										response.write "<strong>未使用</strong>"
+									End if
+									rscode.close
+
+								end if
+
+								if trim(rs("BillBaseTypeID"))="0" then%>	
+									<input type="button" name="b1" value="詳細" onclick='window.open("../Query/BillBaseData_Detail.asp?BillSN=<%=trim(rs("SN"))%>&BillType=0","WebPage2","left=0,top=0,location=0,width=980,height=575,resizable=yes,scrollbars=yes,menubar=yes")' <%
+									'1:查詢 ,2:新增 ,3:修改 ,4:刪除
+									if CheckPermission(234,1)=false then response.write "disabled"
+									%> style="font-size: 10pt; width: 40px; height:26px;"><%
+								elseif not ifnull(rs("BillBaseTypeID")) then%>	
+									<input type="button" name="b1" value="詳細" onclick='window.open("../Query/ViewBillBaseData_People.asp?BillSN=<%=trim(rs("SN"))%>&BillType=1","WebPage2","left=0,top=0,location=0,width=980,height=575,resizable=yes,scrollbars=yes,menubar=yes")' <%
+									'1:查詢 ,2:新增 ,3:修改 ,4:刪除
+									if CheckPermission(234,1)=false then
+										response.write "disabled"
+									end if
+									%> style="font-size: 10pt; width: 40px; height:26px;"><%
+								end if
+								response.write "</td>"
+								Response.Write "<td>"
+								if trim(request("Sys_Audit"))="1" then
+									strSQL="select NoteContent from WarningGetBillDetail where billno='"&rs("ReportNo")&"'"
+									set rsrep=conn.execute(strSQL)
+									If not rsrep.eof Then
+										response.write "<input name=""Sys_NoteContent_"&rs("ReportNo")&""" class=""btn1"" type=""text"" value="""&rsrep("NoteContent")&""" size=""15"">"
+										response.write "<input type=""button"" name=""btnNote"" value=""確定"" onClick=""funSubmitDetailNote('"&rs("ReportNo")&"');"">"
+									else
+										Response.Write "無領用標示單紀錄"
+									End if
+									rsrep.close
+								else
+									Response.Write rs("Note")
+								end if
+								
+								Response.Write "</td>"
+							end if
+							response.write "</tr>"
+							rs.movenext
+						next
+						rs.close
+					end if
+					%>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td bgcolor="#FFDD77" align="center">
+			<input type="button" name="MoveUp" value="上一頁" onclick="funDbMove(-10);">
+			<span class="style2"> <%=cdbl(DBcnt)/10+1&"/"&fix(cdbl(DBsum)/10+0.9)%></span>
+			<input type="button" name="MoveDown" value="下一頁" onclick="funDbMove(10);">
+			<input type="button" name="btnExecel" value="轉換成Excel" onclick="funchgExecel();">
+		</td>
+	</tr>
+	<%end if%>
+</table>
+<font size="3" color="red">*要填寫備註填，需先登打領用紀錄</font>
+<input type="Hidden" name="DB_Selt" value="<%=DB_Selt%>">
+<input type="Hidden" name="DB_state" value="">
+<input type="Hidden" name="SN" value="">
+<input type="Hidden" name="BillNo" value="">
+<input type="Hidden" name="strBillNo" value="<%=Sys_BillNo%>">
+<input type="Hidden" name="DB_Move" value="<%=DBcnt%>">
+<input type="Hidden" name="DB_Cnt" value="<%=DBsum%>">
+</form>
+</body>
+</html>
+<script type="text/javascript" src="../js/date.js"></script>
+<script language="javascript">
+<%response.write "UnitMan('UnitID','GetBillMemberID','"&request("GetBillMemberID")&"');"%>
+function funSelt(){
+	if (myForm.BillStartNumber.value==""&&myForm.BillEndNumber.value==""&&myForm.UnitID.value==""&&myForm.fGetBillDate_q.value==""&&myForm.tGetBillDate_q.value==""&&myForm.GetBillMemberID.value==""){
+		alert("必須填寫單號範圍！！");
+	}else{
+		myForm.DB_Move.value=0;
+		myForm.strBillNo.value="";
+		myForm.DB_Selt.value="Selt";
+		myForm.submit();
+	}
+}
+function funDbMove(MoveCnt){
+	if (eval(MoveCnt)>0){
+		if (eval(myForm.DB_Move.value) < eval(myForm.DB_Cnt.value)-10){
+			myForm.DB_Move.value=eval(myForm.DB_Move.value)+MoveCnt;
+			myForm.submit();
+		}
+	}else{
+		if (eval(myForm.DB_Move.value)>0){
+			myForm.DB_Move.value=eval(myForm.DB_Move.value)+MoveCnt;
+			myForm.submit();
+		}
+	}
+}
+function funSubmitDetailNote(SN){
+	myForm.SN.value=SN;
+	myForm.DB_state.value="UpdateDetail";
+	myForm.submit();
+}
+function funCheckBox(){
+	if(myForm.Sys_Audit.value=='1'){
+		myForm.chkBillBase.disabled=false;
+
+	}else{
+		myForm.chkBillBase.disabled=true;
+	}
+}
+function funchgExecel(){
+	UrlStr="BillBaseAuditCar_Execel.asp";
+	myForm.action=UrlStr;
+	myForm.target="inputWin";
+	myForm.submit();
+	myForm.action="";
+	myForm.target="";
+}
+
+function newWin(url,win,w,h,l,t,sBar,mBar,res,full){
+	var win=window.open(url,win,"width="+w+",height="+h+",left="+l+",top="+t+",scrollbars="+sBar+",menubar="+mBar+",resizable="+res+",fullscreen="+full+",status=yes,toolbar=yes");
+	win.focus();
+	return win;
+}
+
+</script>
+<%conn.close%>

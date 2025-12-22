@@ -1,0 +1,253 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<!--#include virtual="traffic/Common/DB.ini"-->
+<!--#include virtual="traffic/Common/AllFunction.inc"-->
+<%
+	fMnoth=month(now)
+	if fMnoth<10 then fMnoth="0"&fMnoth
+	fDay=day(now)
+	if fDay<10 then	fDay="0"&fDay
+	fname=year(now)&fMnoth&fDay&"_標示單漏號稽核紀錄.xls"
+	Response.AddHeader "Content-Disposition", "filename="&fname
+	response.contenttype="application/x-msexcel; charset=MS950"
+
+	Server.ScriptTimeout = 6800
+	Response.flush
+
+	BillCreate=0:BillQuery=0:BillKeyin=0:BillAccept=0:BillReturn=0:BillSend=0:BillOpen=0:BillDel=0:Billclose=0
+	Sno="":Tno=0:Tno2=0:BillStartNumber="":BillEndNumber="":Type_strSQL=""
+
+	BillStartNumber = trim(Request("BillStartNumber"))
+	BillEndNumber = trim(Request("BillEndNumber"))
+	Sno=left(BillStartNumber,5)
+	Tno=MID(BillStartNumber,6,len(BillStartNumber))
+	Tno2=MID(BillEndNumber,6,len(BillEndNumber))
+	DB_Selt="Selt"
+	if Not ifnull(Sno) then
+		Sno=Ucase(trim(Sno))
+
+		whereRepor=whereRepor&" where ReportNo like '"&Sno&"%'"
+	end if
+
+	If not ifnull(BillStartNumber) Then
+		Tno=trim(Tno):Tno2=trim(Tno2)
+
+		whereRepor=whereRepor&" and SUBSTR(ReportNo,"&len(Sno)+1&") between "&Tno&" and "&Tno2
+	End if
+	
+		
+	if Not ifnull(request("fGetBillDate_q")) then
+		RecordDate1=gOutDT(request("fGetBillDate_q"))&" 0:0:0"
+		RecordDate2=gOutDT(request("tGetBillDate_q"))&" 23:59:59"
+
+		whereSql=whereSql&" and Recorddate between TO_DATE('"&RecordDate1&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&RecordDate2&"','YYYY/MM/DD/HH24/MI/SS')"
+	end if
+
+	if not ifnull(request("GetBillMemberID")) then
+		whereSql=whereSql&" and Billmemid1="&request("GetBillMemberID")
+	end if
+
+	if not ifnull(request("UnitID")) then
+		whereSql=whereSql&" and Billmemid1 in(select MemberID from MemberData where UnitID in('"&request("UnitID")&"'))"
+	end if
+
+	BillBaseView="select base.*,billrpt.reportNo from (select Sn,BillNo,BillStatus,billunitid,BillMemID1,Note,BillFillDate,BillBaseTypeID,RecordMemberID from Billbase where 1=1"&whereSql&") base,(select billsn,reportno from billreportno"&whereRepor&") billrpt where base.sn=billrpt.billsn"
+
+	chkData="":Type_strSQL=""
+	if trim(request("Sys_Audit"))="" then
+		Type_strSQL="select a.sn,a.reportNo,a.BillNo,a.BillStatus,b.unitname,c.chname billunitname,d.chname recordName,a.BillFillDate,a.BillBaseTypeID,a.Note from ("&BillBaseView&") a,UnitInfo b,memberdata c,memberdata d where a.billunitid=b.unitid and a.billmemid1=c.memberid and a.recordmemberid=d.memberid order by a.reportNo"
+
+		strSQL="select a.BillStatus,count(*) as cnt from ("&BillBaseView&") a group by a.BillStatus order by a.BillStatus"
+		set rscnt=conn.execute(strSQL)
+		
+		If not rscnt.eof Then
+			while Not rscnt.eof
+				if rscnt("BillStatus")=0 then BillCreate=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=1 then BillQuery=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=2 then BillKeyin=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=3 then BillReturn=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=4 then BillSend=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=5 then BillOpen=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=6 then BillDel=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=7 then BillAccept=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=9 then Billclose=cdbl(rscnt("cnt"))
+				DBsum=int(DBsum)+cdbl(rscnt("cnt"))
+				rscnt.movenext
+			wend
+			UseBill=DBsum
+			chkData="1"
+		end if
+		rscnt.close
+
+	elseif trim(request("Sys_Audit"))="1" then
+		NumCmt=0:Sno="":Tno="":Tno2="":tmpNo=""
+
+		strSQL="select substr(ReportNo,1,5) Sno, min(substr(ReportNo,6)) minReportNo,max(substr(ReportNo,6)) maxReportNo from ("&BillBaseView&") group by substr(ReportNo,1,5)"
+		set rs=conn.execute(strSQL)
+
+		While not rs.eof
+			If not ifnull(Sno) Then
+				Sno=Sno&","
+				Tno=Tno&","
+				Tno2=Tno2&","
+			end if
+
+			Sno=Sno&trim(rs("Sno"))
+			Tno=Tno&trim(rs("minReportNo"))
+			Tno2=Tno2&trim(rs("maxReportNo"))
+
+			rs.movenext
+		Wend
+		rs.close
+
+		If not ifnull(Sno) Then
+			tmpNo=Sno
+			Sno=split(Sno , ",")
+			Tno=split(Tno , ",")
+			Tno2=split(Tno2 , ",")
+		End if
+
+		StrNumSQL="":DBsum=0:UseBill=0
+		If not ifnull(tmpNo) Then
+			For i = 0 to Ubound(Sno)
+				If not ifnull(StrNumSQL) Then StrNumSQL=StrNumSQL&" Union all "
+				StrNumSQL=StrNumSQL&"select '"&Sno(i)&"'||LPAD("&cdbl(Tno(i))&"+rownum-1,"&len(Tno(i))&",'0') chkbillno from billbase where rownum<"&(cdbl(Tno2(i))-cdbl(Tno(i))+2)
+			Next
+			
+			
+			strSQL="select count(1) cmt from ("&BillBaseView&") a,("&StrNumSQL&") b,(select BillNo,NoteContent from WarningGetBillDetail) c where b.chkbillno=a.ReportNo(+) and b.chkbillno=c.billno(+) and a.ReportNo is null"
+
+			If not ifnull(Request("chkBillBase")) Then strSQL=strSQL&" and c.NoteContent is null"
+
+			set rscmt=conn.execute(strSQL)
+			DBsum=cdbl(rscmt("cmt"))
+			UseBill=DBsum
+
+			rscmt.close
+
+			Type_strSQL="select '' sn,b.chkBillNo ReportNo,'' BillNo,'' unitname,'' billunitname,'' recordName,'' BillFillDate,'' BILLSTATUS,'' BillBaseTypeID,c.NoteContent Note  from ("&BillBaseView&") a,("&StrNumSQL&") b,(select BillNo,NoteContent from WarningGetBillDetail) c where b.chkbillno=a.ReportNo(+) and b.chkbillno=c.billno(+) and a.ReportNo is null"
+
+			If not ifnull(Request("chkBillBase")) Then Type_strSQL=Type_strSQL&" and c.NoteContent is null"
+			
+			Type_strSQL=Type_strSQL&" order by b.chkBillNo"
+		end if
+
+		If cdbl(DBsum) > 0 Then chkData="1"		
+
+
+		
+
+	elseif trim(request("Sys_Audit"))="2" then
+		Type_strSQL="select a.sn,a.ReportNo,a.BillNo,a.BillStatus,b.unitname,c.chname billunitname,d.chname recordName,a.BillFillDate,a.BillBaseTypeID,a.Note from ("&BillBaseView&") a,UnitInfo b,memberdata c,memberdata d where a.billstatus=6 and a.billunitid=b.unitid and a.billmemid1=c.memberid and a.recordmemberid=d.memberid order by a.reportNo"
+
+		strSQL="select a.BillStatus,count(*) as cnt from ("&BillBaseView&") a where a.billstatus=6 group by a.BillStatus order by a.BillStatus"
+		set rscnt=conn.execute(strSQL)
+		
+		If not rscnt.eof Then
+			while Not rscnt.eof
+				if rscnt("BillStatus")=0 then BillCreate=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=1 then BillQuery=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=2 then BillKeyin=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=3 then BillReturn=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=4 then BillSend=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=5 then BillOpen=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=6 then BillDel=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=7 then BillAccept=cdbl(rscnt("cnt"))
+				if rscnt("BillStatus")=9 then Billclose=cdbl(rscnt("cnt"))
+				DBsum=cdbl(DBsum)+cdbl(rscnt("cnt"))
+				rscnt.movenext
+			wend
+			UseBill=DBsum
+			chkData="1"
+		end if
+		rscnt.close
+	end if
+%>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=big5">
+<title>標示單漏號稽核</title>
+<!--#include virtual="traffic/Common/css.txt"-->
+</head>
+<body>
+<table width="100%" height="100%" border="1">
+	<tr>
+		<td height="33">標示單漏號稽核紀錄列表</td>
+	</tr>
+	<tr>
+		<td>
+			<table width="100%" height="100%" border="1" cellpadding="4" cellspacing="1">
+				<tr align="center">
+					<th height="25">標示單</th>
+					<th height="25">單號</th>
+					<th height="25">舉發單位</th>
+					<th height="25">舉發員警</th>
+					<th height="25">填單日期</th>
+					<th height="25">建檔人</th>
+					<th height="25">舉發狀態</th>
+					<th height="25">備註</th>
+				</tr><%
+					If not ifnull(Type_strSQL) Then			
+						BillStatusTmp=split("建檔,車籍查詢,入案,單退,寄存,公示,刪除,收受,,結案",",")
+						set rs=conn.execute(Type_strSQL)
+						While not rs.eof
+
+							response.write "<tr bgcolor='#FFFFFF' align='center' "
+							lightbarstyle 0 
+							response.write ">"
+							if Not rs.eof then
+								response.write "<td>"&rs("ReportNo")&"</td>"
+								response.write "<td>"&rs("BillNo")&"</td>"
+								response.write "<td>"&rs("UnitName")&"</td>"
+								response.write "<td>"&rs("billunitname")&"</td>"
+								response.write "<td>"&gInitDT(rs("BillFillDate"))&"</td>"
+								response.write "<td>"&rs("recordName")&"</td>"
+								response.write "<td>"
+
+								if trim(rs("BILLSTATUS"))<>"" and int(rs("BILLSTATUS"))<100 then
+									response.write BillStatusTmp(rs("BILLSTATUS"))
+								else
+									strSQL="select b.content from (select BillStateID from WarningGetBillDetail where billno='"&trim(rs("ReportNo"))&"') a,(select Content,ID from Code where TypeID=17)b where a.BillStateID=b.ID"
+									set rscode=conn.execute(strSQL)
+									If not rscode.eof Then
+
+										response.write "<strong>"&rscode("content")&"</strong>"
+
+									else
+										response.write "<strong>未使用</strong>"
+									End if
+									rscode.close
+								end if
+								response.write "</td>"
+
+								Response.Write "<td>"
+
+								if trim(request("Sys_Audit"))="1" then
+									strSQL="select NoteContent from WarningGetBillDetail where billno='"&rs("ReportNo")&"'"
+
+									set rsrep=conn.execute(strSQL)
+									If not rsrep.eof Then
+										response.write rsrep("NoteContent")
+									else
+										Response.Write "無領用標示單紀錄"
+									End if
+									rsrep.close
+								else
+									Response.Write rs("Note")
+								end if
+								
+								Response.Write "</td>"
+							end if
+							response.write "</tr>"
+							rs.movenext
+						wend
+						rs.close
+					end if
+					%>
+			</table>
+		</td>
+	</tr>
+</table>
+</body>
+</html>
+<%conn.close%>
