@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="utf-8">
-    <title>§»Á¾¬ì§Ş¹ê·~¦³­­¤½¥q - ¤J®×ºŞ²z¨t²Î</title>
+    <title>å®è¬™ç§‘æŠ€å¯¦æ¥­æœ‰é™å…¬å¸ - å…¥æ¡ˆç®¡ç†ç³»çµ±</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="/css/bootstrap-5.3.0.min.css">
+    <link rel="stylesheet" href="./css/bootstrap-5.3.0.min.css">
 
     <style>
         html,
@@ -18,9 +18,10 @@
         }
 
         body {
-            background: url("./assets/img/bg.png") no-repeat center center fixed;
+            background: url("./Image/bg.png") no-repeat center center fixed;
             background-size: cover;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
         }
@@ -32,13 +33,14 @@
             z-index: -1;
         }
 
-        .login-box {
-            width: 100%;
-            max-width: 380px;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.25);
-            background-color: #fff;
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
         }
 
         .system-title {
@@ -47,10 +49,11 @@
         }
 
         .main-title {
+            margin: 0;
             font-size: 1.7rem;
             font-weight: 700;
             color: #1e3c72;
-            letter-spacing: 5px;
+            letter-spacing: 4px;
         }
 
         .second-title {
@@ -60,18 +63,34 @@
             color: #4a90e2;
             letter-spacing: 3px;
         }
+        
+        .login-box {
+            width: 100%;
+            max-width: 380px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.25);
+            background-color: white;
+        }
+        
+        .login-box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1e88e5;
+        }
 
         .form-control:focus {
             border-color: #1e88e5;
             box-shadow: 0 0 5px rgba(30, 136, 229, 0.5);
         }
 
-        .btn-primary {
+        button {
+            width: 100%;
             background-color: #1e88e5;
             border: none;
         }
 
-        .btn-primary:hover {
+        button:hover {
             background-color: #1565c0;
         }
 
@@ -84,6 +103,10 @@
             padding: 15px 20px;
             background-color: #e3f2fd;
             line-height: 1.6;
+        }
+
+        .info-box ul {
+            padding-left: 1.2em;
         }
 
         .copyright {
@@ -102,17 +125,17 @@
 <body>
     <div class="overlay"></div>
 
-    <div class="login-box">
-        <div class="system-title">
-            <div class="main-title">§»Á¾¬ì§Ş¹ê·~¦³­­¤½¥q</div>
-            <div class="second-title">¤J®×ºŞ²z¨t²Î</div>
-        </div>
+    <div class="main-container">
+        <div class="login-box">
+            <div class="system-title">
+            <div class="main-title">å®è¬™ç§‘æŠ€å¯¦æ¥­æœ‰é™å…¬å¸</div>
+            <div class="second-title">å…¥æ¡ˆç®¡ç†ç³»çµ±</div>
+            </div>
 
-        <!-- «O¯d­ì ASP µn¤J -->
-        <form name="myForm" method="post" action="UserLogin_Contral.asp" onsubmit="return User_Login();">
+            <form name="myForm" method="post" action="UserLogin_Contral.asp" onsubmit="return User_Login();">
 
-            <div class="mb-3">
-                <label class="form-label">¨Ï¥ÎªÌ±b¸¹</label>
+            <div class="form-group">
+                <label class="form-label">ä½¿ç”¨è€…å¸³è™Ÿ</label>
                 <input name="MemberID"
                        type="text"
                        class="form-control"
@@ -121,30 +144,29 @@
                        required>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">±K½X</label>
+            <div class="form-group">
+                <label class="form-label">å¯†ç¢¼</label>
                 <input name="MemberPW"
                        type="password"
                        class="form-control"
                        required>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100 mt-3">
-                µn¤J
+            <button type="submit" class="btn btn-primary w-100 mt-4">
+                ç™»å…¥
             </button>
-        </form>
+            </form>
 
-        <div class="info-box">
-            <strong>ª`·N¨Æ¶µ¡G</strong>
-            <ul>
-                <li>±K½Xªø«×¶· 8 ½X¥H¤W</li>
-                <li>»İ¥]§t­^¼Æ¦r¤Î¯S®í²Å¸¹</li>
-                <li>±K½X¿ù»~¦h¦¸±N¼È®ÉÂê©w±b¸¹</li>
-            </ul>
+            <div class="info-box">
+                <strong>æ³¨æ„äº‹é …ï¼š</strong>
+                <ul>
+                    <li>å¯†ç¢¼é ˆåŒ…å«è‡³å°‘8ç¢¼ä»¥ä¸Š</li>
+                    <li>éœ€åŒæ™‚å…·å‚™å››ç¨®å­—å…ƒ(è‹±æ–‡å¤§å°å¯«ã€æ•¸å­—ã€ç‰¹æ®Šç¬¦è™Ÿ)ä¸­çš„ä¸‰ç¨®</li>
+                </ul>
+            </div>
         </div>
     </div>
-
-    <div class="copyright">COPYRIGHT ? 2025</div>
+    <div class="copyright">COPYRIGHT Â© 2025</div>
 
 </body>
 </html>
