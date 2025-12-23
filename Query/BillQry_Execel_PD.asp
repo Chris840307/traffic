@@ -1,0 +1,128 @@
+<!--#include virtual="traffic/Common/Login_Check.asp"-->
+<!--#include virtual="traffic/Common/AllFunction.inc"-->
+<!--#include virtual="traffic/Common/DB.ini"-->
+<%
+fMnoth=month(now)
+if fMnoth<10 then fMnoth="0"&fMnoth
+fDay=day(now)
+if fDay<10 then	fDay="0"&fDay
+fname=year(now)&fMnoth&fDay&"舉發單資料.txt"
+Response.AddHeader "Content-Disposition", "attachment;filename=" &fname
+response.contenttype="application/vnd.ms-txt" 
+
+Server.ScriptTimeout = 650000
+
+%>
+<%
+	'檢查是否可進入本系統
+	'AuthorityCheck(234)
+
+	strSQL="select a.sn,a.billno,a.Carno,a.BillTypeID,a.IllegalDate,a.BillMemID1,a.BillMem1,a.BillMemID2,a.BillMem2,a.BillMemID3,a.BillMem3,a.BillMemID4,a.BillMem4,a.Rule1,a.Rule2,a.IllegalAddress,a.MemberStation,a.BillFillDate,a.EquipMentID,a.BillUnitiD,a.DeallineDate,a.CarSimpleID,a.SignType,a.RecordStateID,a.Recorddate,a.RecordMemberID,a.note from Billbase a where " &_
+	" a.BillNo in ('VP0269323','VP0269337','VP0269345','VP0269353','VP0269364','VP0269368','VP0269369','VP0269393','VP0269417','VP0269418','VP0269422','VP0269429','VP0269477','VP0269499','VP0269515','VP0269529','VP0269541','VP0269552','VP0269553','VP0269603','VP0269648','VP0269652','VP0269653','VP0269654','VP0269655','VP0269671','VP0269728','VP0269767','VP0269801','VP0269887','VP0269965','VP0270029','VP0270127','VP0270180','VP0270205','VP0270219','VP0270239','VP0270286','VP0270289','VP0270291','VP0270305','VP0270309','VP0270336','VP0270342','VP0270359','VP0270364','VP0270365','VP0270379','VP0270382','VP0270412','VP0270430','VP0270432','VP0270438','VP0270451','VP0270460','VP0270476','VP0270505','VP0270508','VP0270515','VP0270522','VP0270523','VP0270535','VP0270543','VP0270600','VP0270629','VP0270632','VP0270636','VP0270848','VP0270874','VP0270895','VP0270897','VP0270898','VP0270937','VP0270938','VP0271299','VP0271492','VP0271507','VP0271509','VP0271567','VP0271594','VP0271604','VP0271617','VP0271624','VP0271739','VP0271796','VP0271815','VP0271923','VP0271953','VP0272028','VP0272040','VP0272045','VP0272058','VP0272059','VP0272067','VP0272079','VP0272158','VP0272160','VP0272250','VP0272257','VP0272262','VP0272270','VP0272289','VP0272328','VP0272341','VP0272416','VP0272418','VP0272518','VP0272528','VP0272542','VP0272550','VP0272563','VP0272590','VP0272644','VP0272705','VP0272706','VP0272724','VP0272739','VP0272747','VP0272810','VP0272846','VP0272849','VP0272853','VP0272890','VP0272904','VP0272910','VP0272912','VP0272919','VP0272935','VP0272952','VP0272961','VP0272981','VP0273031','VP0273035','VP0273036','VP0273064','VP0273081','VP0273086','VP0273103','VP0273105','VP0273110','VP0273117','VP0273119','VP0273131','VP0273147','VP0273193','VP0273225','VP0273298','VP0273301','VP0273317','VP0273335','VP0273341','VP0273385','VP0273404','VP0273405','VP0273406','VP0273412','VP0273420','VP0273438','VP0273466','VP0273470','VP0273476','VP0273481','VP0273517','VP0273543','VP0273592','VP0273595','VP0273629','VP0273671','VP0273682','VP0273687','VP0273747','VP0273770','VP0273818','VP0273820','VP0273851','VP0273869','VP0273880','VP0273887','VP0273910','VP0273945','VP0273950','VP0273980','VP0274012','VP0274113','VP0274126','VP0274141','VP0274148','VP0274163','VP0274170','VP0274176','VP0274200','VP0274207','VP0274213','VP0274218','VP0274246','VP0274277','VP0274298','VP0274299','VP0274319','VP0274328','VP0274426','VP0274437','VP0274451','VP0274455','VP0274469','VP0274493','VP0274509','VP0274513','VP0274521','VP0274524','VP0274533','VP0274588','VP0274589','VP0274601','VP0274602','VP0274618','VP0274623','VP0274629','VP0274633','VP0274637','VP0274680','VP0274694','VP0274696','VP0274697','VP0274720','VP0274723','VP0274728','VP0274731','VP0274774','VP0274793','VP0274837','VP0274866','VP0274869','VP0274876','VP0274893','VP0274950','VP0275049','VP0275050','VP0275063','VP0275072','VP0275103','VP0275116','VP0275164','VP0275165','VP0275166','VP0275167','VP0275209','VP0275363','VP0275373','VP0275391','VP0275438','VP0275451','VP0275482','VP0275485','VP0275558','VP0275938','VP0275978','VP0275983','VP0276041','VP0276068','VP0276087','VP0276148','VP0276193','VP0276255','VP0276265','VP0276287','VP0276300','VP0276301','VP0276303','VP0276306','VP0276314','VP0276321','VP0276399','VP0276400','VP0276401','VP0276402','VP0276414','VP0276423','VP0276431','VP0276435','VP0276445','VP0276469','VP0276473','VP0276480','VP0276535','VP0276542','VP0276573','VP0276619','VP0276632','VP0276635','VP0276663','VP0276674','VP0276679','VP0276680','VP0276690','VP0276725','VP0276726','VP0276727','VP0276738','VP0276803','VP0276811','VP0276812','VP0276915','VP0276923','VP0276930','VP0276941','VP0276990','VP0277003','VP0277005','VP0277007','VP0277014','VP0277040','VP0277042','VP0277047','VP0277088','VP0277091','VP0277112','VP0277115','VP0277127','VP0277148','VP0277154','VP0277166','VP0277182','VP0277228','VP0277235','VP0277267','VP0277271','VP0277324','VP0277331','VP0277360','VP0277384','VP0277415','VP0277421','VP0277441','VP0277457','VP0277473','VP0277488','VP0277491','VP0277514','VP0277518','VP0277535','VP0277537','VP0277542','VP0277543','VP0277554','VP0277574','VP0277577','VP0277589','VP0277598','VP0277604','VP0277620','VP0277647','VP0277656','VP0277659','VP0277668','VP0277694','VP0277708','VP0277709','VP0277735','VP0277736','VP0277742','VP0277819','VP0277910','VP0277966','VP0277976','VP0277983','VP0278121','VP0278182','VP0278219','VP0278393','VP0278394','VP0278444','VP0278495','VP0278547','VP0278566','VP0278667','VP0278711','VP0278800','VP0278858','VP0278896','VP0278919','VP0278924','VP0278929','VP0278932','VP0278936','VP0278952','VP0278957','VP0278960','VP0278987','VP0279143','VP0279145','VP0279274','VP0279326','VP0279439','VP0279456','VP0279463','VP0279493','VP0279497','VP0279531','VP0279543','VP0279548','VP0279551','VP0279581','VP0279595','VP0279601','VP0279622','VP0279623','VP0279637','VP0279644','VP0279647','VP0279717','VP0279979','VP0279995','VP0280000','VP0280068','VP0280098','VP0280189','VP0280190','VP0280212','VP0280216','VP0280219','VP0280409','VP0280427','VP0280540','VP0280567','VP0280568','VP0280569','VP0280899','VP0281120','VP0281121','VP0281123','VP0281155','VP0281197','VP0281286','VP0281302','VP0281344','VP0281389','VP0281395','VP0281468','VP0281470','VP0281489','VP0281506','VP0281527','VP0281549','VP0281570','VP0281580','VP0281583','VP0281598','VP0281612','VP0281620','VP0281637','VP0281655','VP0281660','VP0281661','VP0281672','VP0281695','VP0281701','VP0281703','VP0281714','VP0281724','VP0281728','VP0281739','VP0281770','VP0281807','VP0281816','VP0281828','VP0281830','VP0281833','VP0281834','VP0281836','VP0281838','VP0281866','VP0282060','VP0282165','VP0282168','VP0282194','VP0282222','VP0282344','VP0282376','VP0282392','VP0282403','VP0282429','VP0282440','VP0282484','VP0282489','VP0282496','VP0282503','VP0282528','VP0282557','VP0282566','VP0282613','VP0282624','VP0282644','VP0282649','VP0282650','VP0282652','VP0282655','VP0282661','VP0282674','VP0282690','VP0282777','VP0282798','VP0282808') " &_
+	" and BillStatus>1 and billno is not null order by illegaldate "
+	'response.write  strSQL
+	'response.end
+	set rsfound=conn.execute(strSQL)
+
+
+%>單號,入案日期,監理站接收日期,入案狀態,結案狀態 
+<%  
+					If Not rsfound.Bof Then rsfound.MoveFirst 
+					While Not rsfound.Eof
+					Response.flush
+
+					DciCaseIn=0
+					DciReturnStation=""
+					CaseInDate=""
+					IllegalMemID=""
+					IllegalMem=""
+					IllegalAddress=""
+					OwnerName=""
+					OwnerAddress=""
+					DciCarTypeID=""
+					SecondAddress=""
+					DciStatus=""
+					strsql3="select * from Billbasedcireturn where billno='"&trim(rsfound("Billno"))&"' " &_
+						" and carno='"&trim(rsfound("carno"))&"' and exchangetypeid='W'"
+					set rs3=conn.execute(strsql3)
+					if not rs3.eof then
+						DciCaseIn=1
+						DciReturnStation=trim(rs3("DciReturnStation"))
+						CaseInDate=trim(rs3("DciCaseInDate"))
+						if trim(rsfound("BillTypeID"))="1" then
+							IllegalMemID=trim(rs3("DriverID"))
+							IllegalMem=trim(rs3("Driver"))
+							IllegalAddress=trim(rs3("DriverHomeZip"))&" "&trim(rs3("DriverHomeAddress"))
+						end if
+						OwnerName=trim(rs3("Owner"))
+						OwnerAddress=trim(rs3("OwnerZip"))&" "&trim(rs3("OwnerAddress"))
+						SecondAddress=trim(rs3("DriverHomeZip"))&" "&trim(rs3("DriverHomeAddress"))
+						DciCarTypeID=trim(rs3("DciReturnCarType"))
+						DciStatus=trim(rs3("Status"))
+						BILLCLOSEIDtmp=trim(rs3("BILLCLOSEID"))
+					end if
+					rs3.close
+					set rs3=nothing
+
+					
+					'單號
+					response.write trim(rsfound("BillNo"))
+					
+					%>,<%'入案日
+					response.write CaseInDate
+					
+					%>,<%'入案日
+					response.write CaseInDate
+					
+					%>,<%'入案狀態
+					strSt="select * from dcireturnstatus where DciActionID='W' and Dcireturn='"&DciStatus&"'"
+					set rsSt=conn.execute(strSt)
+					if not rsSt.eof then
+						response.write trim(rsSt("StatusContent"))
+					end if
+					rsSt.close
+					set rsSt=nothing
+					%>,<%'結案狀態
+					BILLCLOSEIDflag=""
+					strClose="select * from billbasedcireturn where billno='"&trim(rsfound("BillNo"))&"'" &_
+						" and CarNo='"&trim(rsfound("CarNo"))&"' and exchangetypeid='N'" 
+					Set rsClose=conn.execute(strClose)
+					If Not rsClose.eof Then
+						If trim(rsClose("BILLCLOSEID"))="" Or isnull(rsClose("BILLCLOSEID")) Then
+							BILLCLOSEIDflag=BILLCLOSEIDtmp
+						else
+							BILLCLOSEIDflag=trim(rsClose("BILLCLOSEID"))
+						End if
+					Else
+						BILLCLOSEIDflag=BILLCLOSEIDtmp
+					End If
+					rsClose.close
+					Set rsClose=nothing
+					strClose2="select * from DciCode where TypeID=9 and ID='"&BILLCLOSEIDflag&"'"
+					set rsClose2=conn.execute(strClose2)
+					if not rsClose2.eof then
+						response.write trim(rsClose2("Content"))
+					Else
+						strClose3="select * from DciCode where TypeID=9 and ID='"&BILLCLOSEIDtmp&"'"
+						set rsClose3=conn.execute(strClose3)
+						if not rsClose3.eof then
+							response.write trim(rsClose3("Content"))
+						end if
+						rsClose3.close
+						set rsClose3=nothing		
+					end if
+					rsClose2.close
+					set rsClose2=nothing										
+
+				response.write vbCrLf
+				rsfound.MoveNext
+				Wend
+				rsfound.close
+				set rsfound=nothing
+				%>
+				
+
+<%
+conn.close
+set conn=nothing
+%>

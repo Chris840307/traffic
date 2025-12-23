@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=big5" />
+<title>逕舉案件無效原因</title>
+<!--#include virtual="traffic/Common/DB.ini"-->
+<style type="text/css">
+<!--
+.style2 {font-size: 20px; font-weight: bold; }
+.style3 {font-size: 14px}
+.style4 {font-size: 16px; }
+-->
+</style>
+</head>
+<%
+strCity="select value from Apconfigure where id=31"
+set rsCity=conn.execute(strCity)
+	sys_City=trim(rsCity("value"))
+rsCity.close
+set rsCity=nothing
+%>
+<body>
+<p class="style2">逕舉案件無效原因</p>
+<p class="style4">1 車號不全</p>
+<p class="style4">3 車號不正確</p>
+<p class="style4">5 處所不明</p>
+<p class="style4">9 時間不明確</p>
+<p class="style4">a 事實不明確</p>
+<p class="style4">j 單號不足9位 </p>
+<p class="style4">A 條款錯誤</p>
+<%if sys_City<>"基隆市" then %>
+<p class="style4">F 繳註銷後案 ( 不含 2607_逾檢註銷 )</p>
+<%end if%>
+<p class="style4">H 證號重號剔退</p>
+<p class="style4">K 單號+車號重覆</p>
+<p class="style4">L 重覆入銷案剔退</p>
+<p class="style4">T 問題車牌</p>
+<p class="style4">V 失竊註銷 </p>
+<p class="style3">&nbsp; </p>
+</body>
+</html>

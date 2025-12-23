@@ -1,0 +1,327 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=big5">
+<title>中華郵政掛號郵件收回執</title>
+<style media=print>
+.Noprint{display:none;}
+.PageNext{page-break-after: always;}
+</style>
+</head>
+<!--#include virtual="traffic/Common/DB.ini"-->
+<!--#include virtual="traffic/Common/AllFunction.inc"-->
+<body>
+
+<%
+Function GetZipName(zipID)
+        tmpZipName=""
+				strZip="select ZipName from Zip where ZipID='"&zipID&"'"
+				set rsZip=conn.execute(strZip)
+				if not rsZip.eof then
+					tmpZipName=trim(rsZip("ZipName"))
+				end if
+				rsZip.close
+				set rsZip=Nothing
+		GetZipName=tmpZipName		
+End function
+
+strCity="select value from Apconfigure where id=31"
+set rsCity=conn.execute(strCity)
+sys_City=trim(rsCity("value"))
+rsCity.close
+set rsCity=nothing
+
+'--------------------------------------------------------------------------------------------------------------------
+'登入者、單位地址
+	strUNit="select UnitName,Address from UnitInfo where UnitID='"&Session("Unit_ID")&"'"
+	set rsUNit=conn.execute(strUNit)
+		if not rsUNit.eof then
+			UnitName=trim(rsUNit("UnitName"))
+			Address=trim(rsUNit("Address"))
+		end If
+	rsUNit.close
+	set rsUNit=nothing	
+StopControl="停管"
+'縣市名稱	
+strCityName="select value from apconfigure where name='縣市名稱'"
+set rsCityName=conn.execute(strCityName)
+		if not rsCityName.eof then
+			CityName=trim(rsCityName("value"))
+		end If
+	rsCityName.close
+	set rsCityName=nothing	
+'管轄郵遞區號
+strCode="select value from apconfigure where name='管轄郵遞區號'"
+set rsCode=conn.execute(strCode)
+		if not rsCode.eof then
+			Code=trim(rsCode("value"))
+		end If
+	rsCode.close
+	set rsCode=nothing	
+	Set DelphiASPObj = Server.CreateObject("GenBarCode.BarCodeASP")
+'--------------------------------------------------------------------------------------------------------------------
+
+PBillSN=split(trim(request("PBillSN")),",")
+for i=0 to Ubound(PBillSN)
+if cint(i)>0 then response.write "<div class=""PageNext"">&nbsp;</div>"
+			GetMailAddress="" :Sys_DriverHomeAddress="" : Sys_DriverHomeZip=""
+			Sys_Driver="" :Billno="" :CarNo="" :Owner=""
+			Zip1="" :Zip2="":Zip3="" :OwnerZip="" :Sys_DriverHomeZip=""
+			Sys_BillTypeID="" :	Zip11="":Zip21="":Zip31="":MailNumber=""
+			Sys_DriverZipName="" : ZipName=""
+strBill="select  b.deallineDate,b.Billno,b.CarNo,a.Owner,a.DriverHomeZip,a.Driver,b.BillTypeID,a.DriverHomeAddress,a.OwnerZip,a.OwnerAddress from billbasedcireturn a,Billbase b where a.BillNO=b.BillNo and a.Carno=b.Carno and a.ExchangeTypeID='W' and b.SN="&PBillSN(i)
+set rsBill=conn.execute(strBill)
+		if not rsBill.eof then
+		
+	    	if sys_City="基隆市" or sys_City="金門縣" or sys_City="澎湖縣"  then
+				ZipName=""
+			else
+				strZip="select ZipName from Zip where ZipID='"&trim(rsBill("OwnerZip"))&"'"
+				set rsZip=conn.execute(strZip)
+				if not rsZip.eof then
+					ZipName=trim(rsZip("ZipName"))
+				end if
+				rsZip.close
+				set rsZip=nothing
+			end if
+			GetMailAddress=ZipName&trim(rsBill("OwnerAddress"))
+            ZipName=replace(ZipName,"臺","台")
+			GetMailAddress=replace(GetMailAddress,ZipName&ZipName,ZipName)
+
+			GetMailAddress=funcCheckFont(replace(GetMailAddress&"","臺","台"),18,1)
+			
+			Billno=trim(rsBill("Billno"))
+			CarNo=trim(rsBill("CarNo"))
+			deallineDate=Year(trim(rsBill("deallineDate")))-1911&"/"&month(trim(rsBill("deallineDate")))&"/"&day(trim(rsBill("deallineDate")))
+			Owner=trim(rsBill("Owner"))
+						Owner=funcCheckFont(Owner,18,1)
+			Sys_BillTypeID=trim(rsBill("BillTypeID"))
+			OwnerZip=trim(rsBill("OwnerZip"))
+
+			OwnerZip=trim(rsBill("OwnerZip"))
+			 Sys_DriverHomeAddress=trim(rsBill("DriverHomeAddress"))
+                 Sys_DriverHomeZip=trim(rsBill("DriverHomeZip"))
+			     Sys_Driver=trim(rsBill("Driver"))
+				 			Sys_Driver=funcCheckFont(Sys_Driver,18,1)
+
+			if sys_City="基隆市" or sys_City="金門縣" or sys_City="澎湖縣"  then
+				Sys_DriverZipName=""
+			else
+				strDZip="select ZipName from Zip where ZipID='"&trim(rsBill("DriverHomeZip"))&"'"
+				set rsDZip=conn.execute(strDZip)
+				if not rsDZip.eof then
+					Sys_DriverZipName=trim(rsDZip("ZipName"))
+				end if
+				rsDZip.close
+				set rsDZip=nothing
+			end if
+
+            Sys_DriverZipName    =replace(Sys_DriverZipName,"臺","台")
+			Sys_DriverHomeAddress=replace(Sys_DriverZipName&Sys_DriverHomeAddress,Sys_DriverZipName&Sys_DriverZipName,Sys_DriverZipName)
+			Sys_DriverHomeAddress=funcCheckFont(replace(Sys_DriverHomeAddress&"","臺","台"),18,1)
+			
+			Sys_BillNo_BarCode=BillNo
+			
+'			If sys_City<>"台中縣" Then
+            	DelphiASPObj.GenSendStoreBillno BillNo,0,50,160
+'             else
+'            	Sys_BillNo_BarCode=Sys_BillNo_BarCode&"_4"
+'            end if	
+			If Sys_City="花蓮縣" Then  '--------20120113花蓮鍾小姐說逕舉要改成 通、車、戶為順序
+				strSql="select * from BillbaseDCIReturn where BillNo='"&BillNo&"' and CarNo='"&CarNo&"' and ExchangetypeID='W'"
+				 
+				set rsfound=conn.execute(strSql)
+				 
+				if Not rsfound.eof then Sys_Owner=trim(rsfound("Owner"))
+				 
+				strSql="select DriverHomeZip,DriverHomeAddress,OwnerNotifyAddress from BillbaseDCIReturn where Carno=(select carno from dcilog where BillSN="&PBillSN(i)&" and ExchangetypeID='A') and ExchangetypeID='A'"
+				 
+				set rs1=conn.execute(strSQL)
+				 
+				OwnerZip=""
+				tmpZipName2=""
+				if not rs1.eof then
+				 
+				 
+						   If not ifnull(rs1("OwnerNotifyAddress")) Then
+									 if Not rs1.eof then GetMailAddress=trim(rs1("OwnerNotifyAddress"))
+				 
+						   elseIf Not ifnull(trim(rsfound("OwnerAddress"))) Then
+									 if Not rsfound.eof then OwnerZip=trim(rsfound("OwnerZip"))
+									 tmpZipName2=replace(GetZipName(OwnerZip),"臺","台")
+									 if Not rsfound.eof then GetMailAddress=funcCheckFont(Replace(tmpZipName2&trim(rsfound("OwnerAddress")),tmpZipName2&tmpZipName2,tmpZipName2),18,1)
+						  
+						   Else
+									 if Not rs1.eof then OwnerZip=trim(rs1("DriverHomeZip"))						   
+									 tmpZipName2=replace(GetZipName(OwnerZip),"臺","台")
+									 if Not rs1.eof then GetMailAddress=funcCheckFont(Replace(tmpZipName2&trim(rs1("DriverHomeAddress")),tmpZipName2&tmpZipName2,tmpZipName2),18,1)
+						   End If
+						   
+				else
+						   If Not ifnull(trim(rsfound("OwnerAddress"))) Then
+									 if Not rsfound.eof then OwnerZip=trim(rsfound("OwnerZip"))
+									 tmpZipName2=replace(GetZipName(OwnerZip),"臺","台")
+									 if Not rsfound.eof then GetMailAddress=funcCheckFont(Replace(tmpZipName2&trim(rsfound("OwnerAddress")),tmpZipName2&tmpZipName2,tmpZipName2),18,1)
+						   Else
+									 if Not rsfound.eof then OwnerZip=trim(rsfound("DriverHomeZip"))	
+									 tmpZipName2=replace(GetZipName(OwnerZip),"臺","台")
+									 if Not rsfound.eof then GetMailAddress=funcCheckFont(Replace(tmpZipName2&trim(rsfound("DriverHomeAddress")),tmpZipName2&tmpZipName2,tmpZipName2),18,1)
+						   End If
+						   
+				end if
+				 
+				rs1.close
+			End if
+			
+		end If
+	rsBill.close
+	set rsBill=nothing	
+'-------------------------------------------------------------------------------------
+strMailNumber="select MailNumber from BillMailHistory where BillSN="&PBillSN(i)
+set rsMailNumber=conn.execute(strMailNumber)
+		if not rsMailNumber.eof then
+			MailNumber=trim(rsMailNumber("MailNumber"))
+		end If
+	rsMailNumber.close
+	set rsMailNumber=nothing	
+			If sys_City="花蓮縣" And MailNumber<>"" Then 
+			    MailNumber=MailNumber&"97000718"
+            	DelphiASPObj.GenSendStoreBillno MailNumber,128,50,125
+			End if
+
+%>
+<div id="R1" style="position:relative;">
+
+	<!-- MSTableType="layout" -->
+
+	<tr>
+		<td colspan="2" valign="top">
+		<p>　</td>
+		<td rowspan="5" valign="top" style="border-style: solid; border-width: 1px" width="420">
+		
+		
+	</p>
+
+
+<%If sys_City="花蓮縣" And MailNumber<>"" Then %>
+<div style="position: absolute; width: 404px; height: 20px; z-index: 7; left: 10px; top: 90px" id="layer31">
+&nbsp;<img src="../BarCodeImage/<%=MailNumber%>.jpg">
+</div>		
+<%End If%>
+
+
+
+<div style="position: absolute; width: 424px; height: 326px; z-index: 9; left: 207px; top: 0px" id="layer14">
+	<table border="0" width="100%" id="table1" cellspacing="0" height="100%" cellpadding="0">
+		<tr>
+			<td height="58">
+			<div style="position: absolute; width: 344px; height: 20px; z-index: 5; left: 74px; top: 67px" id="layer29">
+				<font face="標楷體"><%if Sys_BillTypeID="1" then response.write Sys_Driver else response.write Owner%></font></div>
+
+　</td>
+		</tr>
+		<tr>
+			<td height="103">
+			<div style="position: absolute; width: 225px; height: 35px; z-index: 6; left: 73px; top: 89px" id="layer30">
+				<font face="標楷體">
+				<%if Sys_BillTypeID="1"  and trim(Sys_DriverHomeAddress)<>"" Then
+						If Trim(Sys_DriverHomeZip&"")="" Then 
+							response.write OwnerZip 
+						Else
+							response.write Sys_DriverHomeZip 
+						End if
+					else 
+						If Trim(OwnerZip&"")="" Then 
+							response.write Sys_DriverHomeZip  
+						Else
+							response.write OwnerZip 
+						End if
+					End If
+					%>&nbsp;<%if Sys_BillTypeID="1"  and trim(Sys_DriverHomeAddress)<>""   then  
+							If Trim(Sys_DriverHomeAddress&"")="" Then 
+								response.write GetMailAddress 
+							Else
+								response.write Sys_DriverHomeAddress 
+							End if
+						else 
+							If Trim(GetMailAddress&"")="" Then 
+								response.write Sys_DriverHomeAddress 
+							Else
+								response.write GetMailAddress 
+							End if
+						End if
+						%>
+				</font></div>
+			<div style="position: absolute; width: 404px; height: 31px; z-index: 7; left: 10px; top: 127px" id="layer31">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../BarCodeImage/<%=Sys_BillNo_BarCode%>.jpg">
+
+</div>
+			<div style="position: absolute; width: 404px; height: 31px; z-index: 7; left: 10px; top: 129px" id="layer311">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<%If sys_City="花蓮縣" Then 
+
+response.write "&nbsp;&nbsp;"&Sys_BillNo_BarCode&"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&deallineDate
+End if
+%>
+</div>
+
+<%
+'--------停管入案--------------------------------------------------------------
+if trim(Session("Unit_ID"))="Z000" or trim(Session("Ch_Name"))="工程師" then
+%> 
+<div style="position: absolute; width: 225px; height: 35px; z-index: 7; left: 250px; top: 110px" id="layer30">
+<font face="標楷體" size=4>TG</font>
+</div>
+<%
+end if
+%>
+
+　</td>
+		</tr>
+		<tr>
+			<td>
+			　</td>
+		</tr>
+	</table>
+</div>
+　</td>
+		<td height="67">　</td>
+	</tr>
+	<tr>
+		<td colspan="2" valign="top">
+		<p>　</td>
+		<td height="66">　</td>
+	</tr>
+	<tr>
+		<td colspan="2" valign="top">
+		</p>
+　</td>
+		<td height="66">　</td>
+	</tr>
+	<tr>
+		<td valign="top" width="110">
+		<p>　</td>
+		<td valign="top" width="95">
+		</p>
+　</td>
+		<td height="66">　</td>
+	</tr>
+	<tr>
+		<td colspan="2" valign="top">
+		<p>　</td>
+		<td height="67" width="102">　</td>
+	</tr>
+
+
+			</div>
+<%next%>
+
+</body>
+<object id=factory style="display:none"
+classid="clsid:1663ed61-23eb-11d2-b92f-008048fdd814"
+codebase="../smsx.cab#Version=6,1,432,1">
+</object>
+<script type="text/javascript" src="../js/Print.js"></script>
+<script language="javascript">
+printWindow(true,7,10.08,5.08,0);
+</script></p>
