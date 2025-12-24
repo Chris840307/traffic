@@ -129,7 +129,7 @@
         <div class="login-box">
             <div class="system-title">
             <div class="main-title">宏謙科技實業有限公司</div>
-            <div class="second-title">入案管理系統</div>
+            <div class="second-title">交通違規入案系統</div>
             </div>
 
             <form name="myForm" method="post" action="UserLogin_Contral.asp" onsubmit="return User_Login();">
