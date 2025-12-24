@@ -1,0 +1,34 @@
+<!--#include virtual="traffic/Common/DB.ini"-->
+<!--#include virtual="traffic/Common/AllFunction.inc"-->
+<%
+dim cnt
+
+strCity="select value from Apconfigure where id=31"
+set rsCity=conn.execute(strCity)
+sys_City=trim(rsCity("value"))
+rsCity.close
+
+
+strSQL = "select * from StopCaseSendAddr where CarNo='"&trim(Ucase(request("CarNo")))&"'"
+
+set rscnt=conn.execute(strSQL)
+if Not rscnt.eof then
+	ownerzip="":owneraddr=""
+	If not ifnull(rscnt("HomeAddress")) Then
+		For i=1 to len(trim(rscnt("HomeAddress")))
+			If asc(mid(trim(rscnt("HomeAddress")),i,1))>57 or asc(mid(trim(rscnt("HomeAddress")),i,1))<48 Then
+				ownerzip=mid(trim(rscnt("HomeAddress")),1,(i-1))
+				owneraddr=mid(trim(rscnt("HomeAddress")),i,len(trim(rscnt("HomeAddress"))))
+				exit for
+			End if
+		Next
+	End if%>
+	myForm.OwnerZip[myForm.chkcnt.value-1].value="<%=ownerzip%>";
+	myForm.OwnerAddress[myForm.chkcnt.value-1].value="<%=owneraddr%>";
+	myForm.SendKind[myForm.chkcnt.value-1].value="<%=rscnt("SendAddrFlag")%>";
+	myForm.OwnerZip[myForm.chkcnt.value-1].select();
+<%
+end if
+rscnt.close
+conn.close
+%>
