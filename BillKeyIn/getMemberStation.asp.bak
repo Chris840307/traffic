@@ -1,0 +1,17 @@
+<!--#include virtual="/traffic/Common/db.ini"-->
+<%
+' 檔案名稱： getMemberStation.asp
+	'到案處所
+	strStation="select DciStationName from Station where DciStationID='"&trim(request("StationID"))&"'"
+	set rsStation=conn.execute(strStation)
+	if not rsStation.eof then
+		StationName=trim(rsStation("StationName"))
+	end if
+	rsStation.close
+	set rsStation=nothing
+%>setStationName("<%=StationName%>");
+
+<%
+conn.close
+set conn=nothing
+%>
