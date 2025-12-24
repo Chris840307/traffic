@@ -1,0 +1,501 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<!--#include virtual="traffic/Common/DB.ini"-->
+<!--#include virtual="traffic/Common/AllFunction.inc"-->
+<!-----------------------調整位置的辦法----------------------------------->
+<!
+
+	第一區調整 table
+	第二區紅單區  高低用 pagepx 以及div的 Left 調
+	第三區送達證書區  高低用 pagepx 以及div的 Left 調
+
+>
+<!----------------------------------------------------------------------->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=big5">
+<title>舉發單列印-雲林縣使用 Legal Size</title>
+<style media=print>
+.Noprint{display:none;}
+.PageNext{page-break-after: always;}
+</style>
+<!--#include virtual="traffic/Common/css.txt"-->
+<style type="text/css">
+<!--
+.style1 {font-family:"標楷體"; font-size: 13px; color:#ff0000;}
+.style2 {font-family:"標楷體"; font-size: 20px; line-height:1;}
+.style3 {font-family:"標楷體"; font-size: 14px}
+.style4 {font-family:"標楷體"; font-size: 13px; color:#ff0000;}
+.style5 {font-family:"標楷體"; font-size: 12px}
+.style6 {font-family:"標楷體"; font-size: 13px; color:#ff0000;}
+.style7 {font-family:"標楷體"; font-size: 13px}
+.style8 {font-family:"標楷體"; font-size: 36px}
+.style11 {font-family:"標楷體"; font-size: 16px}
+.style15 {font-family:"標楷體"; font-size: 16px; line-height:1;}
+.pageprint {
+  margin-left: 0mm;
+  margin-right: 0mm;
+  margin-top: 0mm;
+  margin-bottom: 0mm;
+}
+-->
+</style>
+</head>
+
+<body>
+<object id=factory style="display:none"
+classid="clsid:1663ed61-23eb-11d2-b92f-008048fdd814"
+codebase="..\smsx.cab#Version=6,1,432,1">
+</object>
+<%
+Server.ScriptTimeout=6000
+
+PBillSN=split(trim(request("BillSN")),",")
+
+Set DelphiASPObj = Server.CreateObject("GenBarCode.BarCodeASP") 
+
+for i=0 to Ubound(PBillSN)
+if cint(i)<>0 then response.write "<div class=""PageNext"">　</div>"
+	
+	strBil="select distinct BillSN,BillNo,CarNo,BatchNumber from PasserDcilog where BillSN="&PBillSN(i)&" and ExchangetypeID='W' and BillTypeID=2 and dcireturnstatusid in(select dcireturn from dcireturnstatus where dciactionid like 'W%' and dcireturnstatus=1)"
+
+set rsbil=conn.execute(strBil)
+
+strSQL="select count(1) cnt from PassersEndArrived where ArriveType=2 and PasserSN="&trim(rsbil("BillSN"))
+set rsSend=conn.execute(strSQL)
+
+If cdbl(rsSend("cnt")) = 0 Then
+
+	
+	strSQL="insert into PassersEndArrived(SN,PasserSN,ArrivedDate,SenderMemID,RecordmemberID,MailDate,SendMailStation,ArriveType,ReturnResonID,Note) values((select nvl(Max(SN),0)+1 as cnt from PassersEndArrived),"&trim(rsbil("BillSN"))&",sysdate,"&Session("User_ID")&","&Session("User_ID")&",sysdate,MailNumber_Sn.NextVal,2,null,null)"
+
+	conn.execute(strSQL)
+
+End if 
+rsSend.close
+
+strSql="select * from PasserBase where SN="&trim(rsbil("BillSN"))
+
+set rs=conn.execute(strSql)
+
+Sys_BillUnitID="":Sys_RecordMemberID="":Sys_BillFillerMemberID=""
+Sys_Owner="":Sys_OwnerAddress="":Sys_OwnerZip=""
+Sys_Illegaladdress="":Sys_IllegalSpeed="":Sys_RuleSpeed="":Sys_Note=""
+Sys_Rule1="":Sys_Rule2="":Sys_Level1=0:Sys_Level2=0:Sum_Level=0
+Sys_RuleVer="":Sys_MailDate=""
+
+if Not rs.eof then 
+
+	Sys_BillUnitID=trim(rs("BillUnitID"))
+	Sys_RecordMemberID=trim(rs("RecordMemberID"))
+	Sys_BillFillerMemberID=trim(rs("BillFillerMemberID"))
+	Sys_Owner=trim(rs("Driver"))
+	Sys_OwnerAddress=trim(rs("DriverAddress"))
+	Sys_OwnerZip=trim(rs("DriverZip"))
+	Sys_Illegaladdress=trim(rs("ILLEGALADDRESS"))
+	Sys_IllegalSpeed=trim(rs("IllegalSpeed"))
+	Sys_RuleSpeed=trim(rs("RuleSpeed"))
+	Sys_Note=trim(rs("Note"))
+	Sys_RuleVer=trim(rs("RuleVer"))
+
+	Sys_DCIReturnStation=trim(rs("MemberStation"))
+
+	Sys_BillNo=trim(rs("BillNo"))
+	Sys_CarNo=trim(rs("CarNo"))
+
+	Sys_Rule1=trim(rs("Rule1"))
+	Sys_Rule2=trim(rs("Rule2"))
+
+	If isnumeric(rs("FORFEIT1")) Then Sys_Level1=rs("FORFEIT1")
+	If isnumeric(rs("FORFEIT2")) Then Sys_Level2=rs("FORFEIT2")
+
+	Sum_Level=Sys_Level1+Sys_Level2
+
+	Sys_DCIRETURNCARTYPE="微型電動二輪車"
+
+	Sys_MailDate=trim(rs("BillFillDate"))
+
+
+end If 
+
+if Not rs.eof then
+	Sys_IllegalDate=split(gArrDT(trim(rs("IllegalDate"))),"-")
+else
+	Sys_IllegalDate=split(gArrDT(trim("")),"-")
+end If 
+
+if Not rs.eof then
+	Sys_IllegalDate_h=hour(trim(rs("IllegalDate")))
+else
+	Sys_IllegalDate_h=""
+end If 
+
+if Not rs.eof then
+	Sys_IllegalDate_m=minute(trim(rs("IllegalDate")))
+else
+	Sys_IllegalDate_m=""
+end If 
+
+if Not rs.eof then
+	Sys_DealLineDate=split(gArrDT(trim(rs("DealLineDate"))),"-")
+else
+	Sys_DealLineDate=split(gArrDT(trim("")),"-")
+end if
+
+if Not rs.eof then
+	sys_Date=split(gArrDT(trim(rs("BillFillDate"))),"-")
+else
+	sys_Date=split(gArrDT(trim("")),"-")
+end If 
+
+
+
+rs.close
+
+If ifnull(Sys_OwnerAddress) Then
+	strSQL="select Owner,OwnerZip,Owneraddress from PasserBaseDciReturn where billsn="&trim(rsbil("BillSN"))&" and ExchangetypeID='A' and Status='S'"
+	
+	set rsfi=conn.execute(strSql)
+
+	if Not rsfi.eof then
+		If Not ifnull(trim(rsfi("Owneraddress"))) Then
+
+			Sys_Owner=trim(rs("Owner"))
+			Sys_OwnerAddress=trim(rs("OwnerZip"))
+			Sys_OwnerZip=trim(rs("Owneraddress"))
+			
+			strSQL="update passerbase set" & _
+			" Driver='"&trim(rsfi("Owner"))&"',DriverZip='"&trim(rsfi("OwnerZip"))&"'" & _
+			",DriverAddress='"&trim(rsfi("Owneraddress"))&"(車)'" & _
+			" where SN="&trim(rsbil("BillSN"))
+
+			conn.execute(strSQL)
+		end if
+	end If 
+	rsfi.close
+end If 
+
+	strSQL="select ZipName from Zip where ZipID='"&Sys_OwnerZip&"'"
+	set rszip=conn.execute(strSQL)
+	if Not rszip.eof then Sys_OwnerZipName=trim(rszip("ZipName"))
+	rszip.close
+
+	Sys_OwnerAddress=replace(replace(Sys_OwnerAddress,"臺","台"),Sys_OwnerZipName,"")
+
+strSql="select a.LoginID,c.Content,a.ChName,b.UnitLevelID,b.UnitID,b.UnitName,b.UnitTypeID,a.ImageFilename as MemberFileName,b.ImageFilename,b.Tel from MemberData a,UnitInfo b,(select ID,Content from Code where TypeID=4 ) c where a.UnitID=b.UnitID and a.JobID=c.ID(+) and MemberID="&Sys_BillFillerMemberID
+set mem=conn.execute(strsql)
+if Not mem.eof then Sys_BillFillerMemberID=trim(mem("LoginID"))
+if Not mem.eof then Sys_UnitID=trim(mem("UnitID"))
+if Not mem.eof then Sys_UnitLevelID=trim(mem("UnitLevelID"))
+if Not mem.eof then Sys_UnitTypeID=trim(mem("UnitTypeID"))
+if Not mem.eof then Sys_UnitName=trim(mem("UnitName"))
+if Not mem.eof then Sys_BillJobName=trim(mem("Content"))
+if Not mem.eof then Sys_UnitFillerTel=trim(mem("Tel"))
+if Not mem.eof then Sys_UnitFilename=trim(mem("ImageFilename"))
+if Not mem.eof then Sys_ChName=trim(mem("ChName"))
+if Not mem.eof then Sys_MemberFileName=trim(mem("MemberFileName"))
+mem.close
+
+If Sys_UnitLevelID=1 Then
+	strSQL="select * from UnitInfo where UnitID='"&Sys_UnitID&"'"
+else
+	strSQL="select * from UnitInfo where UnitID='"&Sys_UnitTypeID&"'"
+end if
+set unit=conn.Execute(strSQL)
+If Not unit.eof Then
+	SysUnit=unit("UnitName")
+	SysUnitTel=trim(unit("Tel"))
+	SysUnitAddress=trim(unit("Address"))
+end if
+unit.close
+
+
+Sys_IllegalRule1=""
+
+if trim(Sys_Rule1)<>"0" and not isnull(Sys_Rule1) then
+
+	strRule1="select * from Law where ItemID='"&trim(Sys_Rule1)&"' and VerSion='"&Sys_RuleVer&"'"
+	set rsRule1=conn.execute(strRule1)
+	if not rsRule1.eof then
+		Sys_IllegalRule1=trim(rsRule1("IllegalRule"))
+	end if
+	rsRule1.close
+	set rsRule1=nothing
+end If 
+
+Sys_IllegalRule2=""
+if trim(Sys_Rule2)<>"0" and not isnull(Sys_Rule2) then
+
+	strRule1="select * from Law where ItemID='"&trim(Sys_Rule2)&"' and VerSion='"&Sys_RuleVer&"'"
+	set rsRule1=conn.execute(strRule1)
+	if not rsRule1.eof then
+		Sys_IllegalRule2=trim(rsRule1("IllegalRule"))
+	end if
+	rsRule1.close
+	set rsRule1=nothing
+end If 
+
+Sys_STATIONNAME="":Sys_StationTel="":StationID="":theBankAccount="":theBankName=""
+
+strSql="select UnitID,UnitName,Tel,BankName,BankAccount from Unitinfo where unitid='"&Sys_DCIReturnStation&"'"
+set rs=conn.execute(strSql)
+if Not rs.eof then Sys_STATIONNAME=trim(rs("UnitName"))
+if Not rs.eof then Sys_StationTel=trim(rs("Tel"))
+if Not rs.eof then Sys_StationID=trim(rs("UnitID"))
+if Not rs.eof then theBankAccount=trim(rs("BankAccount"))
+if Not rs.eof then theBankName=trim(rs("BankName"))
+rs.close
+
+Sys_MailNumber=0:sMailNumberBarCode=0:sMailNumberImageFileName=0
+
+strSQL="select min(SendMailStation) SendMailStation from PassersEndArrived where ArriveType=2 and PasserSN="&trim(rsbil("BillSN"))
+
+set rsSend=conn.execute(strSQL)
+
+if Not rsSend.eof then
+	Sys_MailNumber=rsSend("SendMailStation")
+	sMailNumberBarCode=right("00000000" & trim(Sys_MailNumber),6)
+	sMailNumberImageFileName=right("00000000" & trim(Sys_MailNumber),6)&"64000017"
+end If 
+rsSend.close
+
+DelphiASPObj.GenBillPrintBarCode PBillSN(i),Sys_BillNo,Sys_Rule1,Sys_CarNo,Sys_MailNumber,"220073",Sys_OwnerZip,right(Sys_DealLineDate(0),2)&Sys_DealLineDate(1)&Sys_DealLineDate(2),Sys_StationID,"台北市交通事件裁決所",0,Sum_Level,0,True,False,Sys_MailDate,640,000,36
+
+DelphiASPObj.GenSendstorebillno sMailNumberImageFileName,"128",101,606
+
+rsbil.close
+pagepx=60
+
+%>
+
+
+<div id="L78" class="pageprint" style="position:relative;">
+<div id="Layer42" style="position:absolute; left:20px; top:<%=10%>px;">
+<table width="710" height="160" border="0" cellspacing=0 cellpadding=0>
+	<!---------------------------------------- start  縣市抬頭, 地址, 電話. --------------------------------------------->
+	<tr>
+		<td>&nbsp;</td>
+		<td class="style15">雲林縣<%=SysUnitAddress&"<br>"&SysUnit& "  " & SysUnitTel%></td>
+		<td>&nbsp;</td>
+	</tr>
+	<!---------------------------------------- 放大宗掛號    --------------------------------------------->
+   <tr >
+    <td>&nbsp;</td>
+    <td  width="530" align="center">
+      <p class="style3">
+			<%If Sys_MailNumber <>0 Then%>
+						<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;
+						大宗郵資已付掛號函件<br>  
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;
+						第 <%=sMailNumberBarCode%> 號  </p>    
+			<%end If %>
+	</td>
+    <td ></td>
+    
+  </tr>
+
+  <tr>
+
+	
+    <td >&nbsp;</td>
+    <td width="530" align="center"><div align="left" z-index:1">
+    	<%If Sys_MailNumber <>0 Then%>
+		<img src=<%="""../BarCodeImage/"&sMailNumberImageFileName &".jpg"""%>></img>
+	<%end If %>
+    </div></td>
+  </tr>
+	<!----------------------------------------  收件人資料. --------------------------------------------->
+	<tr>
+		<td width="80" height="2">&nbsp;</td>
+		<td width="510" valign="TOP" class="style2"><%
+			response.write Sys_OwnerZip&"<br>"
+			response.write funcCheckFont(Sys_OwnerZipName&Sys_OwnerAddress,25,1)
+			response.write "<br>"
+			response.write funcCheckFont(Sys_Owner,25,1)
+		%>	　敬啟<br><br><br>
+			
+		</td> <td><p><%=Sys_StationID%></p></td>
+
+	</tr>
+</table>
+</div>
+
+<!--smith 20091022 蓋掉 大宗掛號碼   
+<div id="Layer123" style="position:absolute; left:340px; top:173px; width:202px; height:46px; z-index:85; background-color: #FFFFFF; visibility: visible;"><%=sMailNumberBarCode%></div>
+-->
+<!---------------------------------------- start 列印紅單紅色區域內容 --------------------------------------------->
+<div id="Layer2" style="position:absolute; left:60px; top:<%=415+pagepx%>px; width:202px; height:36px; z-index:5">Ｖ</div>
+
+<div id="Layer4" style="position:absolute; left:180px; top:<%=400+pagepx%>px; width:202px; height:36px; z-index:5">v</div>
+
+<div id="Layer9" style="position:absolute; left:40px; top:<%=435+pagepx%>px; width:202px; height:36px; z-index:5"><%
+	response.write "<img src=""../BarCodeImage/"&Sys_BillNo&"_3.jpg"">"
+%></div>
+<div id="Layer10" style="position:absolute; left:515px; top:<%=425+pagepx%>px; width:233px; height:32px; z-index:6"><img src=<%="""../BarCodeImage/"&Sys_BillNo&"_4.jpg"""%>></div>
+
+<div id="Layer42" class="style5" style="position:absolute; left:525px; top:<%=465+pagepx%>px; width:233px; height:12px; z-index:36">雲警交字第</div>
+
+<div id="Layer12" style="position:absolute; left:125px; top:<%=490+pagepx%>px; width:300px; height:11px; z-index:3"><span class="style7">逕行舉發　</span></div>
+<div id="Layer13" style="position:absolute; left:270px; top:<%=490+pagepx%>px; width:28px; height:11px; z-index:3"><%'=Sys_Sex%></div>
+<div id="Layer15" class="style5" style="position:absolute; left:270px; top:<%=500+pagepx%>px; width:100px; height:10px; z-index:8"><%'if trim(Sys_DriverBirth(0))<>"" then response.write Sys_DriverBirth(0)&"年"&right("0"&Sys_DriverBirth(1),2)&"月"&right("0"&Sys_DriverBirth(2),2)&"日"%></div>
+<div id="Layer16" style="position:absolute; left:435px; top:<%=500+pagepx%>px; width:106px; height:13px; z-index:9"><%'=Sys_DriverID%></div>
+<div id="Layer17" style="position:absolute; left:630px; top:<%=500+pagepx%>px; width:99px; height:12px; z-index:10"><%'=fastring%></div>
+<div id="Layer18" style="position:absolute; left:135px; top:<%=530+pagepx%>px; width:100px; height:14px; z-index:11"><%=Sys_CarNo%></div>
+<div id="Layer19" style="position:absolute; left:270px; top:<%=530+pagepx%>px; width:117px; height:20px; z-index:12"><%=Sys_DCIRETURNCARTYPE%></div>
+<div id="Layer20" style="position:absolute; left:510px; top:<%=530+pagepx%>px; width:201px; height:17px; z-index:13"><%=funcCheckFont(Sys_Owner,22,1)%></div>
+<div id="Layer21" style="position:absolute; left:135px; top:<%=555+pagepx%>px; width:507px; height:13px; z-index:14"><%=Sys_OwnerZip&" "&funcCheckFont(Sys_OwnerZipName&Sys_OwnerAddress,22,1)%></div>
+
+<div id="Layer22" style="position:absolute; left:130px; top:<%=575+pagepx%>px; width:40px; height:13px; z-index:15"><%=Sys_IllegalDate(0)%></div>
+<div id="Layer23" style="position:absolute; left:180px; top:<%=575+pagepx%>px; width:40px; height:17px; z-index:16"><%=Sys_IllegalDate(1)%></div>
+<div id="Layer24" style="position:absolute; left:230px; top:<%=575+pagepx%>px; width:40px; height:16px; z-index:17"><%=Sys_IllegalDate(2)%></div>
+<div id="Layer25" style="position:absolute; left:275px; top:<%=575+pagepx%>px; width:40px; height:16px; z-index:18"><%=right("00"&Sys_IllegalDate_h,2)%></div>
+<div id="Layer26" style="position:absolute; left:325px; top:<%=575+pagepx%>px; width:40px; height:13px; z-index:19"><%=right("00"&Sys_IllegalDate_m,2)%></div>
+<div id="Layer27" style="position:absolute; left:400px; top:<%=580+pagepx%>px; width:340px; height:31px; z-index:20"><span class="style3"><%
+
+	if (trim(Sys_Rule1)="72000011" or trim(Sys_Rule1)="72000021" or trim(Sys_Rule1)="72000031") then
+		if trim(Sys_IllegalSpeed)<>"" and trim(Sys_RuleSpeed)<>"" then
+
+			response.write "限速"&Sys_RuleSpeed&"公里、經測速時速"&Sys_IllegalSpeed&"公里、超速"&Sys_IllegalSpeed-Sys_RuleSpeed&"公里"
+
+			if Sys_IllegalSpeed-Sys_RuleSpeed>100 then
+				response.write "<br>100以上"
+			elseif Sys_IllegalSpeed-Sys_RuleSpeed>80 then
+				response.write "<br>80以上未滿100"
+			elseif Sys_IllegalSpeed-Sys_RuleSpeed>60 then
+				response.write "<br>60以上未滿80"
+			elseif Sys_IllegalSpeed-Sys_RuleSpeed>40 then
+				response.write "<br>40以上未滿60"
+			elseif Sys_IllegalSpeed-Sys_RuleSpeed>20 then
+				response.write "<br>20以上未滿40"
+			else
+				response.write "<br>未滿20公里"
+			end if
+		end If 
+
+		Response.Write "(前方設有警告示牌)"
+
+
+	else
+		
+		response.write Sys_IllegalRule1
+	end If 
+
+	if (trim(Sys_Rule2)="72000011" or trim(Sys_Rule2)="72000021" or trim(Sys_Rule2)="72000031") then
+		if trim(Sys_IllegalSpeed)<>"" and trim(Sys_RuleSpeed)<>"" then
+
+			response.write "限速"&Sys_RuleSpeed&"公里、經測速時速"&Sys_IllegalSpeed&"公里、超速"&Sys_IllegalSpeed-Sys_RuleSpeed&"公里"
+
+			if Sys_IllegalSpeed-Sys_RuleSpeed>100 then
+				response.write "<br>100以上"
+			elseif Sys_IllegalSpeed-Sys_RuleSpeed>80 then
+				response.write "<br>80以上未滿100"
+			elseif Sys_IllegalSpeed-Sys_RuleSpeed>60 then
+				response.write "<br>60以上未滿80"
+			elseif Sys_IllegalSpeed-Sys_RuleSpeed>40 then
+				response.write "<br>40以上未滿60"
+			elseif Sys_IllegalSpeed-Sys_RuleSpeed>20 then
+				response.write "<br>20以上未滿40"
+			else
+				response.write "<br>未滿20公里"
+			end if
+		end If 
+
+		Response.Write "(前方設有警告示牌)"
+		
+	elseif trim(Sys_Rule2)<>"0" and not isnull(Sys_Rule2) then
+
+		response.write "<br>"&Sys_IllegalRule2
+	end If 
+
+%></span></div>
+<div id="Layer28" style="position:absolute; left:125px; top:<%=600+pagepx%>px; width:220px; height:15px; z-index:21"><span class="style3"><%=Sys_ILLEGALADDRESS%></span></div>
+<div id="Layer29" style="position:absolute; left:140px; top:<%=630+pagepx%>px; width:34px; height:11px; z-index:22"><%=Sys_DealLineDate(0)%></div>
+<div id="Layer30" style="position:absolute; left:220px; top:<%=630+pagepx%>px; width:35px; height:13px; z-index:23"><%=Sys_DealLineDate(1)%></div>
+<div id="Layer31" style="position:absolute; left:290px; top:<%=630+pagepx%>px; width:32px; height:15px; z-index:24"><%=Sys_DealLineDate(2)%></div>
+<!-----------------------------------------法條編號 --------------------------------------------->
+<div id="Layer32"  class="style5" style="position:absolute; left:420px; top:<%=640+pagepx%>px; width:400px; height:49px; z-index:29"><%
+	response.write left(trim(Sys_Rule1),2)&"　　"
+	if len(trim(Sys_Rule1))>7 then response.write "　"&right(trim(Sys_Rule1),1)
+	response.write Mid(trim(Sys_Rule1),3,1)&"　　"&Mid(trim(Sys_Rule1),4,2)
+	response.write "　　　　　　　　　　　　　　　"&Sys_Level1
+	if trim(Sys_Rule2)<>"0" and not isnull(Sys_Rule2) then
+		response.write "<br>"&left(trim(Sys_Rule2),2)&"　　"
+		if len(trim(Sys_Rule2))>7 then response.write "　"&right(trim(Sys_Rule2),1)
+		response.write Mid(trim(Sys_Rule2),3,1)&"　　"&Mid(trim(Sys_Rule2),4,2)
+		response.write "　　　　　　　　　　　　　　　"&Sys_Level2
+	end if
+%></div>
+
+<div id="Layer33" style="position:absolute; left:510px; top:<%=685+pagepx%>px; width:90px; z-index:28"><span class="style3"><%
+	If trim(theBankAccount) <>"" Then
+		Response.Write "郵局劃撥戶名："&theBankName&"<br>劃撥帳號："&theBankAccount
+	else
+		Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+		Response.Write Sys_STATIONNAME&"<br>"
+		Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+		Response.Write Sys_StationTel
+	End if 
+%></span></div>
+<div id="Layer35" style="position:absolute; left:407px; top:<%=743+pagepx%>px; width:100px; height:49px; z-index:29"><%
+
+	if  billprintuseimage=1 then
+		response.write "<table height='60' style=""border-color:#ff0000;border-style:solid;"" border=""1"" cellspacing=0 cellpadding=0>"
+		response.write "<tr><td style=""border-color:#ff0000;border-style:solid;"" width=""90"" align=""center"" nowrap><span class=""style1"">雲林縣警察局<br>交通警察隊<br>(05)5326154</span></td></tr>"
+		
+		response.write "</table>"
+	end if
+
+	%></div>
+
+<div id="Layer37" style="position:absolute; left:609px; top:<%=755+pagepx%>px; width:200px; height:46px; z-index:31"><%
+
+		response.write "<table style=""border-color:#ff0000;border-style:solid;"" border=""1"" cellspacing=0 cellpadding=0>"
+		response.write "<tr><td style=""border-color:#ff0000;border-style:solid;"" width=100 height=25 align=""center""><span class=""style4"">"&Sys_BillJobName&"&nbsp;"&Sys_ChName&"</span></td></tr>"
+		response.write "</table>"
+		
+		%></div>
+
+<!-----------------------------------填單日---------------------------------->
+<div id="Layer38" style="position:absolute; left:210px; top:<%=815+pagepx%>px; width:60px; height:10px; z-index:32"><%=sys_Date(0)%></div>
+<div id="Layer39" style="position:absolute; left:365px; top:<%=815+pagepx%>px; width:60px; height:13px; z-index:33"><%=sys_Date(1)%></div>
+<div id="Layer40" style="position:absolute; left:515px; top:<%=815+pagepx%>px; width:60px; height:11px; z-index:34"><%=sys_Date(2)%></div>
+<!-----------------------------------檢查用車號---------------------------------->
+<div id="Layer40" style="position:absolute; left:355px; top:<%=940+pagepx%>px; width:90px; height:11px; z-index:34"><%=Sys_CarNo%></div>
+
+
+<!-----------------------------------送達證書 收件人資料---------------------------------->
+<!-----------------------------------大宗掛號---------------------------------->
+<div id="Layer45" class="style3" style="position:absolute; left:128px; top:<%=995+pagepx%>px; z-index:1">
+<%
+	response.write funcCheckFont(Sys_Owner,18,1) & " &nbsp;&nbsp;&nbsp;&nbsp; <br>"
+'	response.write InstrAdd(Sys_OwnerZip & Sys_OwnerZipName & Sys_OwnerAddress,14)
+	response.write funcCheckFont(Sys_OwnerZip & Sys_OwnerZipName & Sys_OwnerAddress,18,1)
+%>
+</div>
+<!-----------------------------------送達證書 文 號 ---------------------------------->
+<div id="Layer46" class="style3" style="position:absolute; left:200px; top:<%=1040+pagepx%>px; z-index:1"><%
+	response.write Sys_BillNo
+%>
+</div>
+<!--
+<div id="Layer48" style="position:absolute; left:400px; top:<%=1040+pagepx%>px; width:100px; height:14px; z-index:11"><%=Sys_CarNo%></div>
+-->
+<div id="Layer47" class="style3" style="position:absolute; left:510px; top:<%=1050+pagepx%>px; z-index:1"><img src=<%="""../BarCodeImage/"&Sys_BillNo&"_4.jpg"""%>></div>
+</div>
+</div><%
+	if (i mod 50)=0 then response.flush
+next
+If not ifnull(errBillNo) Then errBillNo="下列車主姓名不足三個字\n"&errBillNo%>
+</body>
+</html>
+<!-----------------------------------------------------------  設定印表機邊界 ---------------------------------------------------------------------------->
+<script type="text/javascript" src="../js/Print.js"></script>
+<script language="javascript">
+	window.focus();<%
+	If Not ifnull(errBillNo) Then%>
+		alert("<%=errBillNo%>");<%
+	end if%>
+	printWindow(true,5.08,5.08,5.08,5.08);
+</script>
