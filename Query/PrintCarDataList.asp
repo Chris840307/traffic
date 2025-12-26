@@ -62,7 +62,7 @@ end if
 		<td bgcolor="#CCCCCC">
 			<table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#FFFFFF">
 	<tr>
-		<td bgcolor="#FFCC33">
+		<td bgcolor="#1BF5FF">
 			<font size="3"><strong>車籍資料清冊</strong></font>
 			<img src="space.gif" width="56" height="8">
 			每頁
@@ -410,7 +410,7 @@ end if
 		</td>
 	</tr>
 	<tr>
-		<td height="35" bgcolor="#FFDD77" align="center">
+		<td height="35" bgcolor="#1BF5FF" align="center">
 			<a href="file:///.."></a>
 			<a href="file:///......"></a>
 			<input type="button" name="MoveUp" value="上一頁" onclick="funDbMove(-10);">

@@ -66,7 +66,7 @@ end if
 <form name=myForm method="post">
 <table border="0" width="100%" bgcolor="#ffffff">
 	<tr>
-		<td height="27" bgcolor="#FFCC33" class="pagetitle">
+		<td height="27" bgcolor="#1BF5FF" class="pagetitle">
 			<strong>舉發單-收受註記</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			
 		</td>
@@ -171,7 +171,7 @@ end if
 		</td>
 	</tr>
 	<tr>
-		<td height="26" bgcolor="#FFCC33">收受/送達 紀錄列表　　　<strong>未上傳前如果註記錯誤存檔時，可以再註記一次，蓋掉原本錯誤的紀錄。 </strong><br><%=titleStr%>
+		<td height="26" bgcolor="#1BF5FF">收受/送達 紀錄列表　　　<strong>未上傳前如果註記錯誤存檔時，可以再註記一次，蓋掉原本錯誤的紀錄。 </strong><br><%=titleStr%>
 		</td>
 	</tr>
 	<tr>
@@ -192,7 +192,7 @@ end if
 		</td>
 	</tr>
 	<tr align="center">
-		<td height="35" bgcolor="#FFDD77">
+		<td height="35" bgcolor="#1BF5FF">
 			<input type="button" name="btnOK1" value="確定存檔" onclick="funSelt();">
 			<%
 

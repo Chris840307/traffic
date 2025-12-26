@@ -59,7 +59,7 @@ end if
 <form name=myForm method="post">
 <table width="100%" border="0" bgcolor="#ffffff">
 	<tr>
-		<td height="27" bgcolor="#FFCC33" class="pagetitle"><strong>寄存送達註記</strong><br>
+		<td height="27" bgcolor="#1BF5FF" class="pagetitle"><strong>寄存送達註記</strong><br>
 			使用者可選擇是否需要先針對單退舉發單依據 舉發單 應到案處所 以及 舉發單位 進行分類,<br>後續在下方使用條碼刷入舉發單號時，
 			系統會自動偵測該舉發單的<br>應到案處所 與 舉發單位 與使用者選取的分類條件是否相同. 
 						
@@ -195,7 +195,7 @@ end if
 		</td>
 	</tr>
 	<tr>
-		<td height="26" bgcolor="#FFCC33">寄存送達註記列表<img src="space.gif" width="12" height="8"> <b>期滿日,掛號碼,郵局 為 非必填 欄位</b>. 其餘為必填欄位<br><%=titleStr%></td>
+		<td height="26" bgcolor="#1BF5FF">寄存送達註記列表<img src="space.gif" width="12" height="8"> <b>期滿日,掛號碼,郵局 為 非必填 欄位</b>. 其餘為必填欄位<br><%=titleStr%></td>
 	</tr>
 	<tr>
 		<td bgcolor="#E0E0E0" valign="top">
@@ -209,7 +209,7 @@ end if
 		</td>
 	</tr>
 	<tr align="center">
-		<td height="35" bgcolor="#FFDD77">
+		<td height="35" bgcolor="#1BF5FF">
 			<input type="button" name="btnOK1" value="確定存檔" onclick="funSelt();">
 			<%
 			Response.Write "<input type=""button"" name=""insert2"" value=""再多30筆"" onClick=""insertRow(fmyTable)"">"

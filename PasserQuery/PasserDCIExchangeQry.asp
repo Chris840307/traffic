@@ -341,7 +341,7 @@ end if
 <form name=myForm method="post">
 <table width="100%" border="0">
 	<tr>
-		<td bgcolor="#FFCC33"><span class="style3">DCI 資料交換紀錄</span>(逕舉手開單入案後，請確認自動帶回之應到案處所是否與舉發單上相同)</td>
+		<td bgcolor="#1BF5FF"><span class="style3">DCI 資料交換紀錄</span>(逕舉手開單入案後，請確認自動帶回之應到案處所是否與舉發單上相同)</td>
 	</tr>
 	<tr>
 		<td bgcolor="#CCCCCC">
@@ -595,7 +595,7 @@ end if
 		</td>
 	</tr>
 	<tr>
-		<td height="26" bgcolor="#FFCC33">
+		<td height="26" bgcolor="#1BF5FF">
 		資料交換紀錄
 		每頁<select name="sys_MoveCnt" onchange="repage();">
 				<option value="0"<%if trim(request("sys_MoveCnt"))="0" then response.write " Selected"%>>10</option>
@@ -839,7 +839,7 @@ end if
 		</td>
 	</tr>
 	<tr>
-		<td height="30" bgcolor="#FFDD77" align="center">
+		<td height="30" bgcolor="#1BF5FF" align="center">
 			<a href="file:///.."></a>
 			<input type="button" name="MoveFirst" value="第一頁" class="btn3" style="width:50px; height:20px;" onclick="funDbMove(0);">
 			<input type="button" name="MoveUp" value="上一頁" class="btn3" style="width:50px; height:20px;" onclick="funDbMove(-10);">

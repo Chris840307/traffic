@@ -114,7 +114,7 @@ end if
 <form name="myForm" method="post">
 <table width="100%" border="0" bgcolor="#ffffff">
 	<tr>
-		<td height="27" bgcolor="#FFCC33" class="pagetitle"><strong>寄存送達證書 戶籍地址補正 </strong> <br><bR>
+		<td height="27" bgcolor="#1BF5FF" class="pagetitle"><strong>寄存送達證書 戶籍地址補正 </strong> <br><bR>
 		透過此功能可修正寄存送達郵記之正確地址。 自動抓取監理站民眾領牌登錄之戶籍地址部份則不適用此功能<br>
 		
 		</td>
@@ -189,7 +189,7 @@ end if
 		</td>
 	</tr>
 	<tr>
-		<td height="26" bgcolor="#FFCC33">二次郵寄紀錄列表( 輸入完成按Enter可自動跳到下一格 )　　<font color="red" size="3">請輸入<b>郵遞區號 </b>取得鄉鎮市 或是 戶籍地址內輸入<b>鄉鎮市</b></font> <br><%=titleStr%></td>
+		<td height="26" bgcolor="#1BF5FF">二次郵寄紀錄列表( 輸入完成按Enter可自動跳到下一格 )　　<font color="red" size="3">請輸入<b>郵遞區號 </b>取得鄉鎮市 或是 戶籍地址內輸入<b>鄉鎮市</b></font> <br><%=titleStr%></td>
 	</tr>
 	<tr>
 		<td bgcolor="#E0E0E0" valign="top">
@@ -203,7 +203,7 @@ end if
 		</td>
 	</tr>
 	<tr align="center">
-		<td height="35" bgcolor="#FFDD77">
+		<td height="35" bgcolor="#1BF5FF">
 		</td>
 	</tr>
 </table>

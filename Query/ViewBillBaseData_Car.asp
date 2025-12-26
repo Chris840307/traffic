@@ -108,7 +108,7 @@
 	While Not rs1.Eof
 %>
 	<table width='100%' border='1' cellpadding="2">
-		<tr bgcolor="#FFCC33">
+		<tr bgcolor="#1BF5FF">
 			<td colspan="6"><strong>舉發單詳細資料</strong></td>
 		</tr>
 		<tr bgcolor="#33FFCC">

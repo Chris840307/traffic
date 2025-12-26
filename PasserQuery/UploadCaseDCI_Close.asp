@@ -191,7 +191,7 @@ end If
 <form name=myForm method="post">
 <table width="100%" border="0">
 	<tr>
-		<td bgcolor="#FFCC33">微電車結案上傳</td>
+		<td bgcolor="#1BF5FF">微電車結案上傳</td>
 	</tr>
 	<tr>
 		<td bgcolor="#CCCCCC">
@@ -248,7 +248,7 @@ end If
 		</td>
 	</tr>
 	<tr>
-		<td bgcolor="#FFCC33" class="style3">
+		<td bgcolor="#1BF5FF" class="style3">
 			舉發單紀錄列表
 			<img src="space.gif" width="56" height="8">
 			每頁 
@@ -360,7 +360,7 @@ end If
 		</td>
 	</tr>
 	<tr>
-		<td height="35" bgcolor="#FFDD77" align="center">
+		<td height="35" bgcolor="#1BF5FF" align="center">
 			<input type="button" name="MoveUp" value="上一頁" onclick="funDbMove(-10);">
 			<span class="style2"> <%=fix(Cint(DBcnt)/(10+request("sys_MoveCnt"))+1)&"/"&fix(Cint(DBsum)/(10+request("sys_MoveCnt"))+0.9)%></span>
 			<input type="button" name="MoveDown" value="下一頁" onclick="funDbMove(10);">
