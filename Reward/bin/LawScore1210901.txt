@@ -1,0 +1,4 @@
+update lawscore set billtype1score=20,billtype2score=20 where lawitem='1210901' and countyornpa=5 and billtype1score=100
+go
+
+update lawscore set billtype1score=30,billtype2score=30 where lawitem='1210901' and countyornpa=5 and billtype1score=200

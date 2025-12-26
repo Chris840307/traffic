@@ -1,0 +1,277 @@
+﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="getRewardList_Unit_Set.aspx.vb" Inherits="ScoreList_getRewardList_Unit_Set" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<script language="JavaScript">
+	window.focus();
+<%
+    if ErrorCode<>"" then
+        Response.Write("alert(""" & ErrorCode & """);")
+    end if
+%>
+</script>
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>支領獎勵金核發清冊(單位)</title>
+</head>
+<body style="text-align: center; font-size: 12pt;">
+    <form id="form1" runat="server">
+    <div>
+        <div style="text-align: center">
+            <table style="width: 300px" border="1" >
+                <tr style="background-color:#FFCC33">
+                    <td style="height: 25px" align="center">
+                        獎勵金核發清冊統計日期</td>
+                </tr>
+                <tr>
+                    <td align="center" style="height: 35px">
+                        <input name="tbDate1" type="text" value="<%=trim(request("tbDate1"))%>" MaxLength="6" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 70px" />
+                        <input id="Button1" type="button" value=".." onclick="OpenSelectDate1('tbDate1')" />&nbsp;
+                        至 &nbsp;<input name="tbDate2" type="text" value="<%=trim(request("tbDate2"))%>" MaxLength="6" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 70px" />
+                        <input id="Button2" type="button" value=".." onclick="OpenSelectDate1('tbDate2')" />
+                        <br>
+<%
+    '取得 Web.config 檔的資料連接設定
+    Dim setting As ConnectionStringSettings = ConfigurationManager.ConnectionStrings("DB_Orcl")
+    '建立 Connection 物件
+    Dim conn As New Data.OracleClient.OracleConnection()
+    conn.ConnectionString = setting.ConnectionString
+    '開啟資料連接
+    conn.Open()
+        
+    Dim strCity = "select Value from ApConfigure where ID=31"
+    Dim CmdCity As New Data.OracleClient.OracleCommand(strCity, conn)
+    Dim rdCity As Data.OracleClient.OracleDataReader = CmdCity.ExecuteReader()
+    If rdCity.HasRows Then
+        rdCity.Read()
+        sys_City = Trim(rdCity("Value"))
+    End If
+    rdCity.Close()
+    
+    conn.close()
+
+ %>
+                        <input type="radio" name="DateType" value="BillFillDate" <%
+                    if sys_City<>"台中縣" then
+                        response.write("checked")
+                    end if
+                    
+                     %> />填單日期&nbsp;
+                        <input type="radio" name="DateType" value="RecordDate" <%
+                    if sys_City="台中縣" then
+                        response.write("checked")
+                    end if
+                    
+                     %> />建檔日期
+                    </td>
+                </tr>
+                <tr style="background-color:#FFCC33">
+                    <td style="height: 25px" align="center">
+                        統計單位</td>
+                </tr>
+                <tr>
+                    <td style="height: 204px" align="center">
+                        <asp:Panel ID="Panel1" runat="server" BorderStyle="Inset" Height="150px" HorizontalAlign="Left"
+                            ScrollBars="Vertical" Width="245px" Font-Size="12pt">
+<%
+    '取得 Web.config 檔的資料連接設定
+    Dim setting As ConnectionStringSettings = ConfigurationManager.ConnectionStrings("DB_Orcl")
+    '建立 Connection 物件
+    Dim conn As New Data.OracleClient.OracleConnection()
+    conn.ConnectionString = setting.ConnectionString
+    '開啟資料連接
+    conn.Open()
+    
+
+    
+    Dim IsChecked As String = ""
+    Response.Write(IsChecked)
+    Dim CmdUnit As New Data.OracleClient.OracleCommand(strUnit, conn)
+    Dim rdUnit As Data.OracleClient.OracleDataReader = CmdUnit.ExecuteReader()
+    If rdUnit.HasRows Then
+        While rdUnit.Read()
+           
+            If InStr(Trim(Request("sUnitID")), Trim(rdUnit("UnitID"))) <> 0 Then
+                IsChecked = " checked"
+            Else
+                IsChecked = ""
+            End If
+                
+            Response.Write("<input type=""checkbox"" name=""sUnitID"" value=""" & "'" & Trim(rdUnit("UnitID")) & "'" & """ " & IsChecked & " />" & Trim(rdUnit("UnitName")) & "<br />")
+        End While
+    End If
+    rdUnit.Close()
+    conn.Close()
+%>
+                        </asp:Panel>
+                        <input id="Button6" style="font-size: 8pt; width: 55px; height: 20px" type="button"
+                            value="全部選取" onclick="AllUnit()" />&nbsp;
+                        <input id="Button5" style="font-size: 8pt; width: 55px; height: 20px" type="button"
+                            value="全部取消" onclick="NoUnit()" />
+                        
+                        </td>
+                </tr>
+                <tr style="background-color:#FFCC33; font-size: 12pt;">
+                    <td style="height: 25px" align="center">
+                        配分標準</td>
+                </tr>
+                <tr style="font-size: 12pt">
+                    <td style="height: 35px" align="center">
+                        <select name="sCountyOrNpa2" style="font-size: 12pt">
+                            <option value="0" <%if trim(request("sCountyOrNpa2"))="0" then response.write("selected") %>>獎勵金</option>
+                            <option value="1" <%if trim(request("sCountyOrNpa2"))="1" then response.write("selected") %>>績效</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr style="background-color:#F0FFFF; font-size: 12pt;">
+                    <td align="center" style="height: 35px">
+                        <input type="button" name="b1" value="匯出Excel檔" onclick="OpenRewardList_Excel();" style="width: 82px; height: 28px" />&nbsp;
+                        <input type="button" name="b2" value="列印" onclick="OpenRewardList();" style="font-size: 12pt; width: 50px; height: 28px" />&nbsp;
+                        <asp:Button ID="Button4" runat="server" Text="離開" OnClientClick="window.close();" Font-Size="12pt" Height="28px" Width="50px" />
+                        <input type="hidden" name="AnalyzeType" value="<%=trim(request("AnalyzeType")) %>" />
+                        <input type="hidden" name="AnalyzeMoney" value="<%=trim(request("AnalyzeMoney")) %>" />
+                        </td>
+                        
+                </tr>
+            </table>
+        </div>
+    
+    </div>
+        <span style="font-size: 10pt; color: #0066ff">計算獎勵金會需要較多時間等待，此為正常現象
+    </form>
+</body>
+<script type="text/javascript" src="../form.js"></script>
+<script language="JavaScript">
+    //開啟萬年曆視窗
+	function OpenSelectDate1(tag){
+	    InitDate=eval("form1."+tag).value;
+	    window.open("SelectDate.aspx?tag="+tag+"&InitDate="+InitDate,"OpenSelectDate1","width=240,height=240,left=350,top=250,scrollbars=no,menubar=no,resizable=no,fullscreen=no,status=no,toolbar=no");
+	}
+	function OpenRewardList(){
+	    var error=0;
+	    var errorString="";
+	    var UnitName="";
+	    //alert(form1.sCountyOrNpa2.value);
+	    CheckFlag1=dateCheck(form1.tbDate1.value);
+	    CheckFlag2=dateCheck(form1.tbDate2.value);
+	    if (CheckFlag1==false){
+	        error=error+1;
+		    errorString=error+"：起始日期輸入錯誤!!";
+	    }
+	    if (CheckFlag2==false){
+	        error=error+1;
+		    errorString=errorString+"\n"+error+"：結束日期輸入錯誤!!";
+	    }
+	    if (form1.sUnitID.length > 0){
+	        for (i=0; i< form1.sUnitID.length; i++){
+	            if(form1.sUnitID[i].checked==true){
+	                if(UnitName==""){
+	                    UnitName=form1.sUnitID[i].value;
+	                }else{
+	                    UnitName=UnitName + "," + form1.sUnitID[i].value;
+	                }
+	            }
+	        }
+	    }else{
+	        if(form1.sUnitID.checked==true){
+	            UnitName=form1.sUnitID.value;
+	        }
+	    }
+	    if (UnitName==""){
+	        error=error+1;
+		    errorString=errorString+"\n"+error+"：請選擇統計單位!!";
+	    }
+	    if (error==0){
+	        var AnalyzeMoney=form1.AnalyzeMoney.value;
+	        var Date1=form1.tbDate1.value;
+	        var Date2=form1.tbDate2.value;
+	        var sCountyOrNpa=form1.sCountyOrNpa2.value;
+	        var sUnitID=UnitName;
+	        var AnalyzeType=form1.AnalyzeType.value;
+	        if (form1.DateType(0).checked==true){
+	            var DateType=form1.DateType(0).value;
+	        }else{
+	            var DateType=form1.DateType(1).value;
+	        }
+	        window.open("getRewardList_Unit.aspx?AnalyzeMoney="+AnalyzeMoney+"&Date1="+Date1+"&Date2="+Date2+"&sCountyOrNpa="+sCountyOrNpa+"&sUnitID="+sUnitID+"&AnalyzeType="+AnalyzeType+"&DateType="+DateType,"getRewardList_Unit2","width=800,height=600,left=0,top=0,scrollbars=yes,menubar=yes,resizable=yes,fullscreen=no,status=no,toolbar=no");
+	        window.close();
+	    }else{
+	        alert(errorString);
+	    }	
+	}
+	//開啟Excel清冊
+	function OpenRewardList_Excel(){
+	    var error=0;
+	    var errorString="";
+	    var UnitName="";
+	    CheckFlag1=dateCheck(form1.tbDate1.value);
+	    CheckFlag2=dateCheck(form1.tbDate2.value);
+	    if (CheckFlag1==false){
+	        error=error+1;
+		    errorString=error+"：起始日期輸入錯誤!!";
+	    }
+	    if (CheckFlag2==false){
+	        error=error+1;
+		    errorString=errorString+"\n"+error+"：結束日期輸入錯誤!!";
+	    }
+	    if (form1.sCountyOrNpa2.value==""){
+	        error=error+1;
+		    errorString=errorString+"\n"+error+"：請選擇統計標準!!";
+	    }
+	    if (form1.sUnitID.length > 0){
+	        for (i=0; i< form1.sUnitID.length; i++){
+	            if(form1.sUnitID[i].checked==true){
+	                if(UnitName==""){
+	                    UnitName=form1.sUnitID[i].value;
+	                }else{
+	                    UnitName=UnitName + "," + form1.sUnitID[i].value;
+	                }
+	            }
+	        }
+	    }else{
+	        if(form1.sUnitID.checked==true){
+	            UnitName=form1.sUnitID.value;
+	        }
+	    }
+	    if (UnitName==""){
+	        error=error+1;
+		    errorString=errorString+"\n"+error+"：請選擇統計單位!!";
+	    }
+	    if (error==0){
+	        var AnalyzeMoney=form1.AnalyzeMoney.value;
+	        var Date1=form1.tbDate1.value;
+	        var Date2=form1.tbDate2.value;
+	        var sCountyOrNpa=form1.sCountyOrNpa2.value;
+	        var sUnitID=UnitName;
+	        var AnalyzeType=form1.AnalyzeType.value;
+	        if (form1.DateType(0).checked==true){
+	            var DateType=form1.DateType(0).value;
+	        }else{
+	            var DateType=form1.DateType(1).value;
+	        }
+	        window.open("getRewardList_Unit_Excel.aspx?AnalyzeMoney="+AnalyzeMoney+"&Date1="+Date1+"&Date2="+Date2+"&sCountyOrNpa="+sCountyOrNpa+"&sUnitID="+sUnitID+"&AnalyzeType="+AnalyzeType+"&DateType="+DateType,"getRewardList_Unit_Excel2","width=800,height=600,left=0,top=0,scrollbars=yes,menubar=yes,resizable=yes,fullscreen=no,status=no,toolbar=no");
+	        window.close();
+	    }else{
+	        alert(errorString);
+	    }	    
+	}
+	function AllUnit(){
+	    if(form1.sUnitID.length > 0){
+	        for (i=0; i< form1.sUnitID.length; i++){
+	            form1.sUnitID[i].checked=true;
+	        }		        
+	    }else{
+	        form1.sUnitID.checked=true;
+	    }
+	}
+	function NoUnit(){
+	    if(form1.sUnitID.length > 0){
+	        for (i=0; i< form1.sUnitID.length; i++){
+	            form1.sUnitID[i].checked=false;
+	        }		        
+	    }else{
+	        form1.sUnitID.checked=false;
+	    }
+	}
+</script>
+</html>

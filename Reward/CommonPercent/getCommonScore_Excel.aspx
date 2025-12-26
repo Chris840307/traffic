@@ -1,0 +1,1729 @@
+﻿<%@ Page Language="VB" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<%
+    Dim fMnoth = Month(Now)
+    If fMnoth < 10 Then fMnoth = "0" & fMnoth
+    Dim fDay = Day(Now)
+    If fDay < 10 Then fDay = "0" & fDay
+    Dim fname = Year(Now) & fMnoth & fDay & ".xls"
+    Response.AddHeader("Content-Disposition", "filename=" & fname)
+    If Trim(Request("sMemID")) = "" Then
+        'Response.ContentEncoding = System.Text.Encoding.GetEncoding("utf-8")
+    End If
+    Response.ContentType = "application/ms-excel" 'Mark這行
+
+    'Response.Clear()
+    'Response.Buffer = True
+    'Response.Charset = "utf-8"
+    ''//下面这行很重要， attachment 参数表示作为附件下载，您可以改成 online在线打开 
+    ''//filename=FileFlow.xls 指定输出文件的名称，注意其扩展名和指定文件类型相符，可以为：.doc 　　 .xls 　　 .txt 　　.htm　　 
+    'Response.AppendHeader("Content-Disposition", "attachment;filename=FileFlow.xls")
+    'Response.ContentEncoding = System.Text.Encoding.GetEncoding("utf-8")
+    ''//Response.ContentType指定文件类型 可以为application/ms-excel 　　 application/ms-word 　　 application/ms-txt 　　 application/ms-html 　　 或其他浏览器可直接支持文档　 
+    'Response.ContentType = "application/ms-excel"
+    'Me.EnableViewState = False
+
+    Server.ScriptTimeout = 86400
+    Response.Flush()
+ %>
+<script runat="server">
+    Dim DBReward, RewardTotal, UnitReward, DBAllReward, UnitScore, UnitScoreTotal As Decimal
+    '將民國yymmdd轉換為yyyy/mm/dd
+    Public Function gOutDT(ByVal iDate)
+        Dim DatetTemp As String
+        If iDate IsNot DBNull.Value Then
+            DatetTemp = DateSerial(Left(iDate, Len(iDate) - 4) + 1911, Mid(iDate, Len(iDate) - 3, 2), Right(iDate, 2))
+            gOutDT = DatetTemp
+        Else
+            gOutDT = ""
+        End If
+    End Function
+    
+    Sub LoginCheck()
+        If (Request.Cookies("UserFunction") IsNot Nothing) Then
+            Dim FuncCookie As HttpCookie = Request.Cookies("UserFunction")
+            If Trim(FuncCookie.Values("FuncID")) = "" Then
+                Response.Redirect("/traffic/Reward/Login.aspx?ErrMsg=1")
+            End If
+        Else
+            Response.Redirect("/traffic/Reward/Login.aspx?ErrMsg=1")
+        End If
+    End Sub
+    
+    
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs)
+        LoginCheck()
+    End Sub
+</script>
+<script language="JavaScript">
+	window.focus();
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <style type="text/css">
+    <!--
+    body {font-family:新細明體;font-size:10pt; FONT-WEIGHT: bold }
+
+    .style1 {font-family:新細明體; font-size: 11pt}
+    -->
+    </style>
+    <title>共同人員獎勵金核發清冊</title>
+</head>
+<body>
+<form id="form1" runat="server">
+    <table border="1" cellpadding="3" cellspacing="0" align="center">
+        <tr>
+        <td align="center" colspan="12"><span class="style1"><span style="font-size: 14pt"><strong><span>獎 勵 金 計 算 總 表</span></strong><br />
+            </span><span style="font-size: 10pt">
+            統計期間： <%=gOutDT(request("Date1")) %>&nbsp;至 <%=gOutDT(request("Date2")) %>
+            </span></span></td>
+        </tr>
+        <tr style="font-size: 10pt">
+        <td rowspan="2">單位名稱</td>
+        <td rowspan="2">配分點數</td>
+        <td rowspan="2">獎勵金額</td>
+        <td rowspan="2">處理交通安全任務之直接執行人員(72%)</td>
+        
+        <td colspan="8" align="center">處理交通安全任務之共同人員(28%)</td>
+        
+        </tr>
+        <tr style="font-size: 10pt">
+        <%
+            '取得 Web.config 檔的資料連接設定
+            Dim setting As ConnectionStringSettings = ConfigurationManager.ConnectionStrings("DB_Orcl")
+            '建立 Connection 物件
+            Dim conn As New Data.OracleClient.OracleConnection()
+            conn.ConnectionString = setting.ConnectionString
+            '開啟資料連接
+            conn.Open()
+            
+            '取得四類別百分比
+            Dim ShareGroup1, ShareGroup2, ShareGroup3, ShareGroup4 As Decimal
+            Dim strGroupReward As String
+            strGroupReward = "select * from CommonShareReward where ShareGroupID=0 order by SN"
+            Dim CmdGroupReward As New Data.OracleClient.OracleCommand(strGroupReward, conn)
+            Dim rdGroupReward As Data.OracleClient.OracleDataReader = CmdGroupReward.ExecuteReader()
+            If rdGroupReward.HasRows Then
+                While rdGroupReward.Read()
+                    If Trim(rdGroupReward("CommonShareUnit")) = "1" Then
+                        ShareGroup1 = CDec(rdGroupReward("SharePercent"))
+                    ElseIf Trim(rdGroupReward("CommonShareUnit")) = "2" Then
+                        ShareGroup2 = CDec(rdGroupReward("SharePercent"))
+                    ElseIf Trim(rdGroupReward("CommonShareUnit")) = "3" Then
+                        ShareGroup3 = CDec(rdGroupReward("SharePercent"))
+                    ElseIf Trim(rdGroupReward("CommonShareUnit")) = "4" Then
+                        ShareGroup4 = CDec(rdGroupReward("SharePercent"))
+                    End If
+                End While
+            End If
+            rdGroupReward.Close()
+            
+        %>
+        <td colspan="2" align="left" style="height: 70px" >業務規劃機關之主官、副主官、承辦單位主管及相關人員(<%=Format(ShareGroup1 * 100, "##0")%>%)</td>
+        <td colspan="2" align="left" style="height: 70px">勤務監督執行機關之主官、副主官、承辦單位主管及相關人員(<%=Format(ShareGroup2 * 100, "##0")%>%)</td>
+        <td colspan="2" align="left" style="height: 70px">勤務執行機構之主管、副主管及承辦業務相關人員(<%=Format(ShareGroup3 * 100, "##0")%>%)</td>
+        <td colspan="2" align="left" style="height: 70px">負責交通安全工作之督導考核、資訊、後勤、人事、主計、秘書、出納等相關作業人員(<%=Format(ShareGroup4 * 100, "##0")%>%)</td>
+        
+        
+        </tr>
+        <%
+
+            
+            '要用填單或建檔日統計
+            Dim theDateType As String = Trim(Request("DateType"))
+            
+            Dim sys_City, strPointT6Plus2, strPointT6Plus As String
+            '取得獎勵金總額
+            If Trim(Request("AnalyzeMoney")) = "" Then
+                DBAllReward = 0
+            Else
+                DBAllReward = CDec(Request("AnalyzeMoney"))
+            End If
+            
+            '取得28%總額
+            Dim strReward As String
+            strReward = "select * from Apconfigure where ID=48"
+            Dim CmdReward As New Data.OracleClient.OracleCommand(strReward, conn)
+            Dim rdReward As Data.OracleClient.OracleDataReader = CmdReward.ExecuteReader()
+            If rdReward.HasRows Then
+                rdReward.Read()
+                DBReward = Trim(rdReward("Value"))
+            Else
+                DBReward = 0
+            End If
+            rdReward.Close()
+
+            sys_City = ""
+            Dim strCity = "select Value from ApConfigure where ID=31"
+            Dim CmdCity As New Data.OracleClient.OracleCommand(strCity, conn)
+            Dim rdCity As Data.OracleClient.OracleDataReader = CmdCity.ExecuteReader()
+            If rdCity.HasRows Then
+                rdCity.Read()
+                sys_City = Trim(rdCity("Value"))
+            End If
+            rdCity.Close()
+            '============計算總點數======================
+            Dim getPointTotal As Decimal
+            getPointTotal = 0
+            
+            If sys_City = "台東縣" Or sys_City = "宜蘭縣" Then
+                strPointT6Plus = " and ((a.CarSimpleID in (3,4) and b.CarSimpleID=3) or(a.CarSimpleID=1 and b.CarSimpleID=5) or(a.CarSimpleID=2 and b.CarSimpleID=6))"
+                strPointT6Plus2 = ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,Other1,CountyOrNpa,IsUsed,CarSimpleID from LawScore"
+
+            Else
+                strPointT6Plus = ""
+                strPointT6Plus2 = ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,Other1,CountyOrNpa,IsUsed from LawScore"
+            End If
+            
+            '雲林拖吊案件分數較高
+            If sys_City = "雲林縣" Or sys_City = "台東縣" Or sys_City = "宜蘭縣" Then
+                '攔停點數
+                Dim strPointT1 As String = "select sum(b.BillType1Score) as cnt from BILLBASEVIEWReward a"
+                strPointT1 = strPointT1 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+                strPointT1 = strPointT1 & " where IsUsed=1 and CountyOrNpa=0) b,UnitInfo c"
+                strPointT1 = strPointT1 & " where a.BillUnitID=c.UnitID and a.RuleVer=b.LawVersion"
+                strPointT1 = strPointT1 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                strPointT1 = strPointT1 & " and (a.CarAddID<>8 or a.CarAddID is null) and a.BillTypeID='1' and a.RecordStateID=0 and (a.TrafficAccidentType is null or a.TrafficAccidentType='')"
+                strPointT1 = strPointT1 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                strPointT1 = strPointT1 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+                Dim CmdPointT1 As New Data.OracleClient.OracleCommand(strPointT1, conn)
+                Dim rdPointT1 As Data.OracleClient.OracleDataReader = CmdPointT1.ExecuteReader()
+                If rdPointT1.HasRows Then
+                    rdPointT1.Read()
+                    If rdPointT1("cnt") Is DBNull.Value Then
+                        getPointTotal = 0
+                    Else
+                        getPointTotal = CDec(rdPointT1("cnt"))
+                    End If
+                End If
+                rdPointT1.Close()
+            
+                '逕舉點數
+                Dim strPointT2 As String = "select sum(b.BillType2Score) as cnt from BILLBASEVIEWReward a"
+                strPointT2 = strPointT2 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+                strPointT2 = strPointT2 & " where IsUsed=1 and CountyOrNpa=0) b,UnitInfo c"
+                strPointT2 = strPointT2 & " where a.BillUnitID=c.UnitID and a.RuleVer=b.LawVersion"
+                strPointT2 = strPointT2 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                strPointT2 = strPointT2 & " and (a.CarAddID<>8 or a.CarAddID is null) and a.BillTypeID='2' and a.RecordStateID=0 and (a.TrafficAccidentType is null or a.TrafficAccidentType='')"
+                strPointT2 = strPointT2 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                strPointT2 = strPointT2 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+                Dim CmdPointT2 As New Data.OracleClient.OracleCommand(strPointT2, conn)
+                Dim rdPointT2 As Data.OracleClient.OracleDataReader = CmdPointT2.ExecuteReader()
+                If rdPointT2.HasRows Then
+                    rdPointT2.Read()
+                    If rdPointT2("cnt") Is DBNull.Value Then
+                        getPointTotal = getPointTotal + 0
+                    Else
+                        getPointTotal = getPointTotal + CDec(rdPointT2("cnt"))
+                    End If
+                End If
+                rdPointT2.Close()
+                
+                '拖吊點數
+                Dim strPointT6 As String = "select sum(b.Other1) as cnt from BILLBASE a" & strPointT6Plus2
+                strPointT6 = strPointT6 & " where IsUsed=1 and CountyOrNpa=0) b,UnitInfo c"
+                strPointT6 = strPointT6 & " where a.BillUnitID=c.UnitID and a.RuleVer=b.LawVersion"
+                strPointT6 = strPointT6 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                strPointT6 = strPointT6 & " and a.CarAddID=8 and a.RecordStateID=0 and (a.TrafficAccidentType is null or a.TrafficAccidentType='')"
+                strPointT6 = strPointT6 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                strPointT6 = strPointT6 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')" & strPointT6Plus
+                Dim CmdPointT6 As New Data.OracleClient.OracleCommand(strPointT6, conn)
+                Dim rdPointT6 As Data.OracleClient.OracleDataReader = CmdPointT6.ExecuteReader()
+                If rdPointT6.HasRows Then
+                    rdPointT6.Read()
+                    If rdPointT6("cnt") Is DBNull.Value Then
+                        getPointTotal = getPointTotal + 0
+                    Else
+                        getPointTotal = getPointTotal + CDec(rdPointT6("cnt"))
+                    End If
+                End If
+                rdPointT6.Close()
+            Else
+                '攔停點數
+                Dim strPointT1 As String = "select sum(b.BillType1Score) as cnt from BILLBASEVIEWReward a"
+                strPointT1 = strPointT1 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+                strPointT1 = strPointT1 & " where IsUsed=1 and CountyOrNpa=0) b,UnitInfo c"
+                strPointT1 = strPointT1 & " where a.BillUnitID=c.UnitID and a.RuleVer=b.LawVersion"
+                strPointT1 = strPointT1 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                strPointT1 = strPointT1 & " and a.BillTypeID='1' and a.RecordStateID=0 and (a.TrafficAccidentType is null or a.TrafficAccidentType='')"
+                strPointT1 = strPointT1 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                strPointT1 = strPointT1 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+                Dim CmdPointT1 As New Data.OracleClient.OracleCommand(strPointT1, conn)
+                Dim rdPointT1 As Data.OracleClient.OracleDataReader = CmdPointT1.ExecuteReader()
+                If rdPointT1.HasRows Then
+                    rdPointT1.Read()
+                    If rdPointT1("cnt") Is DBNull.Value Then
+                        getPointTotal = 0
+                    Else
+                        getPointTotal = CDec(rdPointT1("cnt"))
+                    End If
+                End If
+                rdPointT1.Close()
+            
+                '逕舉點數
+                Dim strPointT2 As String = "select sum(b.BillType2Score) as cnt from BILLBASEVIEWReward a"
+                strPointT2 = strPointT2 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+                strPointT2 = strPointT2 & " where IsUsed=1 and CountyOrNpa=0) b,UnitInfo c"
+                strPointT2 = strPointT2 & " where a.BillUnitID=c.UnitID and a.RuleVer=b.LawVersion"
+                strPointT2 = strPointT2 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                strPointT2 = strPointT2 & " and a.BillTypeID='2' and a.RecordStateID=0 and (a.TrafficAccidentType is null or a.TrafficAccidentType='')"
+                strPointT2 = strPointT2 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                strPointT2 = strPointT2 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+                Dim CmdPointT2 As New Data.OracleClient.OracleCommand(strPointT2, conn)
+                Dim rdPointT2 As Data.OracleClient.OracleDataReader = CmdPointT2.ExecuteReader()
+                If rdPointT2.HasRows Then
+                    rdPointT2.Read()
+                    If rdPointT2("cnt") Is DBNull.Value Then
+                        getPointTotal = getPointTotal + 0
+                    Else
+                        getPointTotal = getPointTotal + CDec(rdPointT2("cnt"))
+                    End If
+                End If
+                rdPointT2.Close()
+            End If
+            'A1點數
+            Dim strPointT3 As String = "select b.A1Score,b.BillType1Score from BILLBASEVIEWReward a"
+            strPointT3 = strPointT3 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+            strPointT3 = strPointT3 & " where IsUsed=1 and CountyOrNpa=0) b,UnitInfo c"
+            strPointT3 = strPointT3 & " where a.BillUnitID=c.UnitID and a.RuleVer=b.LawVersion"
+            strPointT3 = strPointT3 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+            strPointT3 = strPointT3 & " and a.RecordStateID=0 and (a.TrafficAccidentType='1') and a.BillTypeID='1'"
+            strPointT3 = strPointT3 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+            strPointT3 = strPointT3 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+            Dim CmdPointT3 As New Data.OracleClient.OracleCommand(strPointT3, conn)
+            Dim rdPointT3 As Data.OracleClient.OracleDataReader = CmdPointT3.ExecuteReader()
+            If rdPointT3.HasRows Then
+                While rdPointT3.Read()
+                    If rdPointT3("BillType1Score") > rdPointT3("A1Score") Then
+                        If rdPointT3("BillType1Score") Is DBNull.Value Then
+                            getPointTotal = getPointTotal + 0
+                        Else
+                            getPointTotal = getPointTotal + CDec(rdPointT3("BillType1Score"))
+                        End If
+                    Else
+                        If rdPointT3("A1Score") Is DBNull.Value Then
+                            getPointTotal = getPointTotal + 0
+                        Else
+                            getPointTotal = getPointTotal + CDec(rdPointT3("A1Score"))
+                        End If
+                    End If
+                End While
+            End If
+            rdPointT3.Close()
+            
+            'A2點數
+            Dim strPointT4 As String = "select b.A2Score,b.BillType1Score from BILLBASEVIEWReward a"
+            strPointT4 = strPointT4 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+            strPointT4 = strPointT4 & " where IsUsed=1 and CountyOrNpa=0) b,UnitInfo c"
+            strPointT4 = strPointT4 & " where a.BillUnitID=c.UnitID and a.RuleVer=b.LawVersion"
+            strPointT4 = strPointT4 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+            strPointT4 = strPointT4 & " and a.RecordStateID=0 and (a.TrafficAccidentType='2') and a.BillTypeID='1'"
+            strPointT4 = strPointT4 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+            strPointT4 = strPointT4 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+            Dim CmdPointT4 As New Data.OracleClient.OracleCommand(strPointT4, conn)
+            Dim rdPointT4 As Data.OracleClient.OracleDataReader = CmdPointT4.ExecuteReader()
+            If rdPointT4.HasRows Then
+                While rdPointT4.Read()
+                    If rdPointT4("BillType1Score") > rdPointT4("A2Score") Then
+                        If rdPointT4("BillType1Score") Is DBNull.Value Then
+                            getPointTotal = getPointTotal + 0
+                        Else
+                            getPointTotal = getPointTotal + CDec(rdPointT4("BillType1Score"))
+                        End If
+                    Else
+                        If rdPointT4("A2Score") Is DBNull.Value Then
+                            getPointTotal = getPointTotal + 0
+                        Else
+                            getPointTotal = getPointTotal + CDec(rdPointT4("A2Score"))
+                        End If
+                    End If
+                End While
+            End If
+            rdPointT4.Close()
+                    
+            'A3點數
+            Dim strPointT5 As String = "select b.A3Score,b.BillType1Score from BILLBASEVIEWReward a"
+            strPointT5 = strPointT5 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+            strPointT5 = strPointT5 & " where IsUsed=1 and CountyOrNpa=0) b,UnitInfo c"
+            strPointT5 = strPointT5 & " where a.BillUnitID=c.UnitID and a.RuleVer=b.LawVersion"
+            strPointT5 = strPointT5 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+            strPointT5 = strPointT5 & " and a.RecordStateID=0 and (a.TrafficAccidentType='3') and a.BillTypeID='1'"
+            strPointT5 = strPointT5 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+            strPointT5 = strPointT5 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+            Dim CmdPointT5 As New Data.OracleClient.OracleCommand(strPointT5, conn)
+            Dim rdPointT5 As Data.OracleClient.OracleDataReader = CmdPointT5.ExecuteReader()
+            If rdPointT5.HasRows Then
+                While rdPointT5.Read()
+                    If rdPointT5("BillType1Score") > rdPointT5("A3Score") Then
+                        If rdPointT5("BillType1Score") Is DBNull.Value Then
+                            getPointTotal = getPointTotal + 0
+                        Else
+                            getPointTotal = getPointTotal + CDec(rdPointT5("BillType1Score"))
+                        End If
+                    Else
+                        If rdPointT5("A3Score") Is DBNull.Value Then
+                            getPointTotal = getPointTotal + 0
+                        Else
+                            getPointTotal = getPointTotal + CDec(rdPointT5("A3Score"))
+                        End If
+                    End If
+                End While
+            End If
+            rdPointT5.Close()
+            
+            Dim PointMoney As Decimal
+            If getPointTotal = 0 Then
+                PointMoney = 0
+            Else
+                PointMoney = DBAllReward / getPointTotal
+            End If
+
+            '===================================================================================
+            Dim strType2Unit As String
+            Dim GroupMoney2Total As Decimal = 0
+            Dim GroupMoney3Total As Decimal = 0
+            Dim getMoneyTotal, DirectMoneyTotal, A1ScoreTmp, A2ScoreTmp, A3ScoreTmp As Decimal
+            Dim strUnit As String
+            UnitScoreTotal = 0
+            '先跑交通隊、保安隊
+            strUnit = "select * from UnitInfo where ShowOrder=0 order by UnitTypeID,UnitID"
+            Dim CmdUnit As New Data.OracleClient.OracleCommand(strUnit, conn)
+            Dim rdUnit As Data.OracleClient.OracleDataReader = CmdUnit.ExecuteReader()
+            If rdUnit.HasRows Then
+                While rdUnit.Read()
+                    UnitScore = 0
+                    UnitReward = 0
+                    Dim strPer = "select MemberID,Money from MemberData where UnitID='" & Trim(rdUnit("UnitID")) & "'"
+                    Dim CmdPer As New Data.OracleClient.OracleCommand(strPer, conn)
+                    Dim rdPer As Data.OracleClient.OracleDataReader = CmdPer.ExecuteReader()
+                    If rdPer.HasRows Then
+                        While rdPer.Read()
+                            '雲林拖吊案件分數較高
+                            If sys_City = "雲林縣" Or sys_City = "台東縣" Or sys_City = "宜蘭縣" Then
+                                '攔停點數
+                                Dim strPoint1 As String = "select b.BillType1Score,a.BillMemID1,a.BillMemID2,a.BillMemID3,a.BillMemID4 from BILLBASEVIEWReward a"
+                                strPoint1 = strPoint1 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+                                strPoint1 = strPoint1 & " where IsUsed=1 and CountyOrNpa=0) b"
+                                strPoint1 = strPoint1 & " where a.RuleVer=b.LawVersion"
+                                strPoint1 = strPoint1 & " and (a.BillMemID1='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint1 = strPoint1 & " or a.BillMemID2='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint1 = strPoint1 & " or a.BillMemID3='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint1 = strPoint1 & " or a.BillMemID4='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint1 = strPoint1 & ")"
+                                strPoint1 = strPoint1 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                                strPoint1 = strPoint1 & " and (a.CarAddID<>8 or a.CarAddID is null) and a.BillTypeID='1' and a.RecordStateID=0 and (a.TrafficAccidentType is null or a.TrafficAccidentType='')"
+                                strPoint1 = strPoint1 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                                strPoint1 = strPoint1 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+                                Dim CmdPoint1 As New Data.OracleClient.OracleCommand(strPoint1, conn)
+                                Dim rdPoint1 As Data.OracleClient.OracleDataReader = CmdPoint1.ExecuteReader()
+                                If rdPoint1.HasRows Then
+                                    While rdPoint1.Read()
+                                        If rdPoint1("BillType1Score") Is DBNull.Value Then
+                                            UnitScore = UnitScore + 0
+                                        Else
+                                            If rdPoint1("BillMemID1") IsNot DBNull.Value And rdPoint1("BillMemID2") Is DBNull.Value And rdPoint1("BillMemID3") Is DBNull.Value And rdPoint1("BillMemID4") Is DBNull.Value Then
+                                                UnitScore = UnitScore + CDec(rdPoint1("BillType1Score"))
+                                            ElseIf rdPoint1("BillMemID1") IsNot DBNull.Value And rdPoint1("BillMemID2") IsNot DBNull.Value And rdPoint1("BillMemID3") Is DBNull.Value And rdPoint1("BillMemID4") Is DBNull.Value Then
+                                                If Trim(rdPoint1("BillMemID1")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 2)
+                                                End If
+                                                If Trim(rdPoint1("BillMemID2")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 2)
+                                                End If
+                                            ElseIf rdPoint1("BillMemID1") IsNot DBNull.Value And rdPoint1("BillMemID2") IsNot DBNull.Value And rdPoint1("BillMemID3") IsNot DBNull.Value And rdPoint1("BillMemID4") Is DBNull.Value Then
+                                                If Trim(rdPoint1("BillMemID1")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") * 0.34)
+                                                End If
+                                                If Trim(rdPoint1("BillMemID2")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") * 0.33)
+                                                End If
+                                                If Trim(rdPoint1("BillMemID3")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") * 0.33)
+                                                End If
+                                            ElseIf rdPoint1("BillMemID1") IsNot DBNull.Value And rdPoint1("BillMemID2") IsNot DBNull.Value And rdPoint1("BillMemID3") IsNot DBNull.Value And rdPoint1("BillMemID4") IsNot DBNull.Value Then
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint1("BillMemID1")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 4)
+                                                End If
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint1("BillMemID2")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 4)
+                                                End If
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint1("BillMemID3")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 4)
+                                                End If
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint1("BillMemID4")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 4)
+                                                End If
+                                            End If
+                                        End If
+                                    End While
+
+                                End If
+                                rdPoint1.Close()
+                    
+                                '逕舉點數
+                                Dim strPoint2 As String = "select b.BillType2Score,a.BillMemID1,a.BillMemID2,a.BillMemID3,a.BillMemID4 from BILLBASEVIEWReward a"
+                                strPoint2 = strPoint2 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+                                strPoint2 = strPoint2 & " where IsUsed=1 and CountyOrNpa=0) b"
+                                strPoint2 = strPoint2 & " where a.RuleVer=b.LawVersion"
+                                strPoint2 = strPoint2 & " and (a.BillMemID1='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint2 = strPoint2 & " or a.BillMemID2='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint2 = strPoint2 & " or a.BillMemID3='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint2 = strPoint2 & " or a.BillMemID4='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint2 = strPoint2 & ")"
+                                strPoint2 = strPoint2 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                                strPoint2 = strPoint2 & " and (a.CarAddID<>8 or a.CarAddID is null) and a.BillTypeID='2' and a.RecordStateID=0 and (a.TrafficAccidentType is null or a.TrafficAccidentType='')"
+                                strPoint2 = strPoint2 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                                strPoint2 = strPoint2 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+                                Dim CmdPoint2 As New Data.OracleClient.OracleCommand(strPoint2, conn)
+                                Dim rdPoint2 As Data.OracleClient.OracleDataReader = CmdPoint2.ExecuteReader()
+                                If rdPoint2.HasRows Then
+                                    While rdPoint2.Read()
+                                        If rdPoint2("BillType2Score") Is DBNull.Value Then
+                                            UnitScore = UnitScore + 0
+                                        Else
+                                            If rdPoint2("BillMemID1") IsNot DBNull.Value And rdPoint2("BillMemID2") Is DBNull.Value And rdPoint2("BillMemID3") Is DBNull.Value And rdPoint2("BillMemID4") Is DBNull.Value Then
+                                                UnitScore = UnitScore + CDec(rdPoint2("BillType2Score"))
+                                            ElseIf rdPoint2("BillMemID1") IsNot DBNull.Value And rdPoint2("BillMemID2") IsNot DBNull.Value And rdPoint2("BillMemID3") Is DBNull.Value And rdPoint2("BillMemID4") Is DBNull.Value Then
+                                                If Trim(rdPoint2("BillMemID1")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 2)
+                                                End If
+                                                If Trim(rdPoint2("BillMemID2")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 2)
+                                                End If
+                                            ElseIf rdPoint2("BillMemID1") IsNot DBNull.Value And rdPoint2("BillMemID2") IsNot DBNull.Value And rdPoint2("BillMemID3") IsNot DBNull.Value And rdPoint2("BillMemID4") Is DBNull.Value Then
+                                                If Trim(rdPoint2("BillMemID1")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") * 0.34)
+                                                End If
+                                                If Trim(rdPoint2("BillMemID2")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") * 0.33)
+                                                End If
+                                                If Trim(rdPoint2("BillMemID3")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") * 0.33)
+                                                End If
+                                            ElseIf rdPoint2("BillMemID1") IsNot DBNull.Value And rdPoint2("BillMemID2") IsNot DBNull.Value And rdPoint2("BillMemID3") IsNot DBNull.Value And rdPoint2("BillMemID4") IsNot DBNull.Value Then
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint2("BillMemID1")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 4)
+                                                End If
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint2("BillMemID2")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 4)
+                                                End If
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint2("BillMemID3")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 4)
+                                                End If
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint2("BillMemID4")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 4)
+                                                End If
+                                            End If
+                                        End If
+                                    End While
+
+                                End If
+                                rdPoint2.Close()
+                        
+                                '拖吊點數
+                                Dim strPoint6 As String = "select b.Other1,a.BillMemID1,a.BillMemID2,a.BillMemID3,a.BillMemID4 from BILLBASE a" & strPointT6Plus2
+                                strPoint6 = strPoint6 & " where IsUsed=1 and CountyOrNpa=0) b"
+                                strPoint6 = strPoint6 & " where a.RuleVer=b.LawVersion"
+                                strPoint6 = strPoint6 & " and (a.BillMemID1='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint6 = strPoint6 & " or a.BillMemID2='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint6 = strPoint6 & " or a.BillMemID3='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint6 = strPoint6 & " or a.BillMemID4='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint6 = strPoint6 & ")"
+                                strPoint6 = strPoint6 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                                strPoint6 = strPoint6 & " and a.CarAddID=8 and a.RecordStateID=0 and (a.TrafficAccidentType is null or a.TrafficAccidentType='')"
+                                strPoint6 = strPoint6 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                                strPoint6 = strPoint6 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')" & strPointT6Plus
+                                'Response.Write(strPoint6)
+                                ' Response.End()
+                                Dim CmdPoint6 As New Data.OracleClient.OracleCommand(strPoint6, conn)
+                                Dim rdPoint6 As Data.OracleClient.OracleDataReader = CmdPoint6.ExecuteReader()
+                                If rdPoint6.HasRows Then
+                                    While rdPoint6.Read()
+                                        If rdPoint6("Other1") Is DBNull.Value Then
+                                            UnitScore = UnitScore + 0
+                                        Else
+                                            If rdPoint6("BillMemID1") IsNot DBNull.Value And rdPoint6("BillMemID2") Is DBNull.Value And rdPoint6("BillMemID3") Is DBNull.Value And rdPoint6("BillMemID4") Is DBNull.Value Then
+                                                UnitScore = UnitScore + CDec(rdPoint6("Other1"))
+                                            ElseIf rdPoint6("BillMemID1") IsNot DBNull.Value And rdPoint6("BillMemID2") IsNot DBNull.Value And rdPoint6("BillMemID3") Is DBNull.Value And rdPoint6("BillMemID4") Is DBNull.Value Then
+                                                If Trim(rdPoint6("BillMemID1")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint6("Other1") / 2)
+                                                End If
+                                                If Trim(rdPoint6("BillMemID2")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint6("Other1") / 2)
+                                                End If
+                                            ElseIf rdPoint6("BillMemID1") IsNot DBNull.Value And rdPoint6("BillMemID2") IsNot DBNull.Value And rdPoint6("BillMemID3") IsNot DBNull.Value And rdPoint6("BillMemID4") Is DBNull.Value Then
+                                                If Trim(rdPoint6("BillMemID1")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint6("Other1") * 0.34)
+                                                End If
+                                                If Trim(rdPoint6("BillMemID2")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint6("Other1") * 0.33)
+                                                End If
+                                                If Trim(rdPoint6("BillMemID3")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint6("Other1") * 0.33)
+                                                End If
+                                            ElseIf rdPoint6("BillMemID1") IsNot DBNull.Value And rdPoint6("BillMemID2") IsNot DBNull.Value And rdPoint6("BillMemID3") IsNot DBNull.Value And rdPoint6("BillMemID4") IsNot DBNull.Value Then
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint6("BillMemID1")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint6("Other1") / 4)
+                                                End If
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint6("BillMemID2")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint6("Other1") / 4)
+                                                End If
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint6("BillMemID3")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint6("Other1") / 4)
+                                                End If
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint6("BillMemID4")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint6("Other1") / 4)
+                                                End If
+                                            End If
+                                        End If
+                                    End While
+                            
+                                End If
+                                rdPoint6.Close()
+                            Else
+                                '攔停點數
+                                Dim strPoint1 As String = "select b.BillType1Score,a.BillMemID1,a.BillMemID2,a.BillMemID3,a.BillMemID4 from BILLBASEVIEWReward a"
+                                strPoint1 = strPoint1 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+                                strPoint1 = strPoint1 & " where IsUsed=1 and CountyOrNpa=0) b"
+                                strPoint1 = strPoint1 & " where a.RuleVer=b.LawVersion"
+                                strPoint1 = strPoint1 & " and (a.BillMemID1='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint1 = strPoint1 & " or a.BillMemID2='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint1 = strPoint1 & " or a.BillMemID3='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint1 = strPoint1 & " or a.BillMemID4='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint1 = strPoint1 & ")"
+                                strPoint1 = strPoint1 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                                strPoint1 = strPoint1 & " and a.BillTypeID='1' and a.RecordStateID=0 and (a.TrafficAccidentType is null or a.TrafficAccidentType='')"
+                                strPoint1 = strPoint1 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                                strPoint1 = strPoint1 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+                                Dim CmdPoint1 As New Data.OracleClient.OracleCommand(strPoint1, conn)
+                                Dim rdPoint1 As Data.OracleClient.OracleDataReader = CmdPoint1.ExecuteReader()
+                                If rdPoint1.HasRows Then
+                                    While rdPoint1.Read()
+                                        If rdPoint1("BillType1Score") Is DBNull.Value Then
+                                            UnitScore = UnitScore + 0
+                                        Else
+                                            If rdPoint1("BillMemID1") IsNot DBNull.Value And rdPoint1("BillMemID2") Is DBNull.Value And rdPoint1("BillMemID3") Is DBNull.Value And rdPoint1("BillMemID4") Is DBNull.Value Then
+                                                UnitScore = UnitScore + CDec(rdPoint1("BillType1Score"))
+                                            ElseIf rdPoint1("BillMemID1") IsNot DBNull.Value And rdPoint1("BillMemID2") IsNot DBNull.Value And rdPoint1("BillMemID3") Is DBNull.Value And rdPoint1("BillMemID4") Is DBNull.Value Then
+                                                If Trim(rdPoint1("BillMemID1")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 2)
+                                                End If
+                                                If Trim(rdPoint1("BillMemID2")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 2)
+                                                End If
+
+                                            ElseIf rdPoint1("BillMemID1") IsNot DBNull.Value And rdPoint1("BillMemID2") IsNot DBNull.Value And rdPoint1("BillMemID3") IsNot DBNull.Value And rdPoint1("BillMemID4") Is DBNull.Value Then
+                                                If Trim(rdPoint1("BillMemID1")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") * 0.34)
+                                                End If
+                                                If Trim(rdPoint1("BillMemID2")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") * 0.33)
+                                                End If
+                                                If Trim(rdPoint1("BillMemID3")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") * 0.33)
+                                                End If
+                                            ElseIf rdPoint1("BillMemID1") IsNot DBNull.Value And rdPoint1("BillMemID2") IsNot DBNull.Value And rdPoint1("BillMemID3") IsNot DBNull.Value And rdPoint1("BillMemID4") IsNot DBNull.Value Then
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint1("BillMemID1")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 4)
+                                                End If
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint1("BillMemID2")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 4)
+                                                End If
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint1("BillMemID3")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 4)
+                                                End If
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint1("BillMemID4")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 4)
+                                                End If
+                                            End If
+                                        End If
+                                    End While
+
+                                End If
+                                rdPoint1.Close()
+                    
+                                '逕舉點數
+                                Dim strPoint2 As String = "select b.BillType2Score,a.BillMemID1,a.BillMemID2,a.BillMemID3,a.BillMemID4 from BILLBASEVIEWReward a"
+                                strPoint2 = strPoint2 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+                                strPoint2 = strPoint2 & " where IsUsed=1 and CountyOrNpa=0) b"
+                                strPoint2 = strPoint2 & " where a.RuleVer=b.LawVersion"
+                                strPoint2 = strPoint2 & " and (a.BillMemID1='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint2 = strPoint2 & " or a.BillMemID2='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint2 = strPoint2 & " or a.BillMemID3='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint2 = strPoint2 & " or a.BillMemID4='" & Trim(rdPer("MemberID")) & "'"
+                                strPoint2 = strPoint2 & ")"
+                                strPoint2 = strPoint2 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                                strPoint2 = strPoint2 & " and a.BillTypeID='2' and a.RecordStateID=0 and (a.TrafficAccidentType is null or a.TrafficAccidentType='')"
+                                strPoint2 = strPoint2 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                                strPoint2 = strPoint2 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+                                Dim CmdPoint2 As New Data.OracleClient.OracleCommand(strPoint2, conn)
+                                Dim rdPoint2 As Data.OracleClient.OracleDataReader = CmdPoint2.ExecuteReader()
+                                If rdPoint2.HasRows Then
+                                    While rdPoint2.Read()
+                                        If rdPoint2("BillType2Score") Is DBNull.Value Then
+                                            UnitScore = UnitScore + 0
+                                        Else
+                                            If rdPoint2("BillMemID1") IsNot DBNull.Value And rdPoint2("BillMemID2") Is DBNull.Value And rdPoint2("BillMemID3") Is DBNull.Value And rdPoint2("BillMemID4") Is DBNull.Value Then
+                                                UnitScore = UnitScore + CDec(rdPoint2("BillType2Score"))
+                                            ElseIf rdPoint2("BillMemID1") IsNot DBNull.Value And rdPoint2("BillMemID2") IsNot DBNull.Value And rdPoint2("BillMemID3") Is DBNull.Value And rdPoint2("BillMemID4") Is DBNull.Value Then
+                                                If Trim(rdPoint2("BillMemID1")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 2)
+                                                End If
+                                                If Trim(rdPoint2("BillMemID2")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 2)
+                                                End If
+                                            ElseIf rdPoint2("BillMemID1") IsNot DBNull.Value And rdPoint2("BillMemID2") IsNot DBNull.Value And rdPoint2("BillMemID3") IsNot DBNull.Value And rdPoint2("BillMemID4") Is DBNull.Value Then
+                                                If Trim(rdPoint2("BillMemID1")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") * 0.34)
+                                                End If
+                                                If Trim(rdPoint2("BillMemID2")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") * 0.33)
+                                                End If
+                                                If Trim(rdPoint2("BillMemID3")) = Trim(rdPer("MemberID")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") * 0.33)
+                                                End If
+                                            ElseIf rdPoint2("BillMemID1") IsNot DBNull.Value And rdPoint2("BillMemID2") IsNot DBNull.Value And rdPoint2("BillMemID3") IsNot DBNull.Value And rdPoint2("BillMemID4") IsNot DBNull.Value Then
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint2("BillMemID1")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 4)
+                                                End If
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint2("BillMemID2")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 4)
+                                                End If
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint2("BillMemID3")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 4)
+                                                End If
+                                                If Trim(rdPer("MemberID")) = Trim(rdPoint2("BillMemID4")) Then
+                                                    UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 4)
+                                                End If
+                                            End If
+                                        End If
+                                    End While
+                                End If
+                                rdPoint2.Close()
+                            End If
+                            'A1點數
+                            Dim strPoint3 As String = "select b.BillType1Score,b.A1Score,a.BillMemID1,a.BillMemID2,a.BillMemID3,a.BillMemID4 from BILLBASEVIEWReward a"
+                            strPoint3 = strPoint3 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+                            strPoint3 = strPoint3 & " where IsUsed=1 and CountyOrNpa=0) b"
+                            strPoint3 = strPoint3 & " where a.RuleVer=b.LawVersion"
+                            strPoint3 = strPoint3 & " and (a.BillMemID1='" & Trim(rdPer("MemberID")) & "'"
+                            strPoint3 = strPoint3 & " or a.BillMemID2='" & Trim(rdPer("MemberID")) & "'"
+                            strPoint3 = strPoint3 & " or a.BillMemID3='" & Trim(rdPer("MemberID")) & "'"
+                            strPoint3 = strPoint3 & " or a.BillMemID4='" & Trim(rdPer("MemberID")) & "'"
+                            strPoint3 = strPoint3 & ")"
+                            strPoint3 = strPoint3 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                            strPoint3 = strPoint3 & " and a.RecordStateID=0 and (a.TrafficAccidentType='1') and a.BillTypeID='1'"
+                            strPoint3 = strPoint3 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                            strPoint3 = strPoint3 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+                            Dim CmdPoint3 As New Data.OracleClient.OracleCommand(strPoint3, conn)
+                            Dim rdPoint3 As Data.OracleClient.OracleDataReader = CmdPoint3.ExecuteReader()
+                            If rdPoint3.HasRows Then
+                                While rdPoint3.Read()
+                                    If rdPoint3("BillType1Score") > rdPoint3("A1Score") Then
+                                        If rdPoint3("BillType1Score") Is DBNull.Value Then
+                                            A1ScoreTmp = 0
+                                        Else
+                                            A1ScoreTmp = CDec(rdPoint3("BillType1Score"))
+                                        End If
+                                    Else
+                                        If rdPoint3("A1Score") Is DBNull.Value Then
+                                            A1ScoreTmp = 0
+                                        Else
+                                            A1ScoreTmp = CDec(rdPoint3("A1Score"))
+                                        End If
+                                    End If
+                                    
+                                    If A1ScoreTmp = 0 Then
+                                        UnitScore = UnitScore + 0
+                                    Else
+                                        If rdPoint3("BillMemID1") IsNot DBNull.Value And rdPoint3("BillMemID2") Is DBNull.Value And rdPoint3("BillMemID3") Is DBNull.Value And rdPoint3("BillMemID4") Is DBNull.Value Then
+                                            UnitScore = UnitScore + CDec(A1ScoreTmp)
+                                        ElseIf rdPoint3("BillMemID1") IsNot DBNull.Value And rdPoint3("BillMemID2") IsNot DBNull.Value And rdPoint3("BillMemID3") Is DBNull.Value And rdPoint3("BillMemID4") Is DBNull.Value Then
+                                            If Trim(rdPoint3("BillMemID1")) = Trim(rdPer("MemberID")) Then
+                                                UnitScore = UnitScore + CDec(A1ScoreTmp / 2)
+                                            End If
+                                            If Trim(rdPoint3("BillMemID2")) = Trim(rdPer("MemberID")) Then
+                                                UnitScore = UnitScore + CDec(A1ScoreTmp / 2)
+                                            End If
+                                        ElseIf rdPoint3("BillMemID1") IsNot DBNull.Value And rdPoint3("BillMemID2") IsNot DBNull.Value And rdPoint3("BillMemID3") IsNot DBNull.Value And rdPoint3("BillMemID4") Is DBNull.Value Then
+                                            If Trim(rdPoint3("BillMemID1")) = Trim(rdPer("MemberID")) Then
+                                                UnitScore = UnitScore + CDec(A1ScoreTmp * 0.34)
+                                            End If
+                                            If Trim(rdPoint3("BillMemID2")) = Trim(rdPer("MemberID")) Then
+                                                UnitScore = UnitScore + CDec(A1ScoreTmp * 0.33)
+                                            End If
+                                            If Trim(rdPoint3("BillMemID3")) = Trim(rdPer("MemberID")) Then
+                                                UnitScore = UnitScore + CDec(A1ScoreTmp * 0.33)
+                                            End If
+                                        ElseIf rdPoint3("BillMemID1") IsNot DBNull.Value And rdPoint3("BillMemID2") IsNot DBNull.Value And rdPoint3("BillMemID3") IsNot DBNull.Value And rdPoint3("BillMemID4") IsNot DBNull.Value Then
+                                            If Trim(rdPer("MemberID")) = Trim(rdPoint3("BillMemID1")) Then
+                                                UnitScore = UnitScore + CDec(A1ScoreTmp / 4)
+                                            End If
+                                            If Trim(rdPer("MemberID")) = Trim(rdPoint3("BillMemID2")) Then
+                                                UnitScore = UnitScore + CDec(A1ScoreTmp / 4)
+                                            End If
+                                            If Trim(rdPer("MemberID")) = Trim(rdPoint3("BillMemID3")) Then
+                                                UnitScore = UnitScore + CDec(A1ScoreTmp / 4)
+                                            End If
+                                            If Trim(rdPer("MemberID")) = Trim(rdPoint3("BillMemID4")) Then
+                                                UnitScore = UnitScore + CDec(A1ScoreTmp / 4)
+                                            End If
+                                        End If
+                                    End If
+                                End While
+
+                            End If
+                            rdPoint3.Close()
+                    
+                            'A2點數
+                            Dim strPoint4 As String = "select b.BillType1Score,b.A2Score,a.BillMemID1,a.BillMemID2,a.BillMemID3,a.BillMemID4 from BILLBASEVIEWReward a"
+                            strPoint4 = strPoint4 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+                            strPoint4 = strPoint4 & " where IsUsed=1 and CountyOrNpa=0) b"
+                            strPoint4 = strPoint4 & " where a.RuleVer=b.LawVersion"
+                            strPoint4 = strPoint4 & " and (a.BillMemID1='" & Trim(rdPer("MemberID")) & "'"
+                            strPoint4 = strPoint4 & " or a.BillMemID2='" & Trim(rdPer("MemberID")) & "'"
+                            strPoint4 = strPoint4 & " or a.BillMemID3='" & Trim(rdPer("MemberID")) & "'"
+                            strPoint4 = strPoint4 & " or a.BillMemID4='" & Trim(rdPer("MemberID")) & "'"
+                            strPoint4 = strPoint4 & ")"
+                            strPoint4 = strPoint4 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                            strPoint4 = strPoint4 & " and a.RecordStateID=0 and (a.TrafficAccidentType='2') and a.BillTypeID='1'"
+                            strPoint4 = strPoint4 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                            strPoint4 = strPoint4 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+                            Dim CmdPoint4 As New Data.OracleClient.OracleCommand(strPoint4, conn)
+                            Dim rdPoint4 As Data.OracleClient.OracleDataReader = CmdPoint4.ExecuteReader()
+                            If rdPoint4.HasRows Then
+                                While rdPoint4.Read()
+                                    If rdPoint4("BillType1Score") > rdPoint4("A2Score") Then
+                                        If rdPoint4("BillType1Score") Is DBNull.Value Then
+                                            A2ScoreTmp = 0
+                                        Else
+                                            A2ScoreTmp = CDec(rdPoint4("BillType1Score"))
+                                        End If
+                                    Else
+                                        If rdPoint4("A2Score") Is DBNull.Value Then
+                                            A2ScoreTmp = 0
+                                        Else
+                                            A2ScoreTmp = CDec(rdPoint4("A2Score"))
+                                        End If
+                                    End If
+                                    
+                                    If A2ScoreTmp = 0 Then
+                                        UnitScore = UnitScore + 0
+                                    Else
+                                        If rdPoint4("BillMemID1") IsNot DBNull.Value And rdPoint4("BillMemID2") Is DBNull.Value And rdPoint4("BillMemID3") Is DBNull.Value And rdPoint4("BillMemID4") Is DBNull.Value Then
+                                            UnitScore = UnitScore + CDec(A2ScoreTmp)
+                                        ElseIf rdPoint4("BillMemID1") IsNot DBNull.Value And rdPoint4("BillMemID2") IsNot DBNull.Value And rdPoint4("BillMemID3") Is DBNull.Value And rdPoint4("BillMemID4") Is DBNull.Value Then
+                                            If Trim(rdPoint4("BillMemID1")) = Trim(rdPer("MemberID")) Then
+                                                UnitScore = UnitScore + CDec(A2ScoreTmp / 2)
+                                            End If
+                                            If Trim(rdPoint4("BillMemID2")) = Trim(rdPer("MemberID")) Then
+                                                UnitScore = UnitScore + CDec(A2ScoreTmp / 2)
+                                            End If
+                                        ElseIf rdPoint4("BillMemID1") IsNot DBNull.Value And rdPoint4("BillMemID2") IsNot DBNull.Value And rdPoint4("BillMemID3") IsNot DBNull.Value And rdPoint4("BillMemID4") Is DBNull.Value Then
+                                            If Trim(rdPoint4("BillMemID1")) = Trim(rdPer("MemberID")) Then
+                                                UnitScore = UnitScore + CDec(A2ScoreTmp * 0.34)
+                                            End If
+                                            If Trim(rdPoint4("BillMemID2")) = Trim(rdPer("MemberID")) Then
+                                                UnitScore = UnitScore + CDec(A2ScoreTmp * 0.33)
+                                            End If
+                                            If Trim(rdPoint4("BillMemID3")) = Trim(rdPer("MemberID")) Then
+                                                UnitScore = UnitScore + CDec(A2ScoreTmp * 0.33)
+                                            End If
+                                        ElseIf rdPoint4("BillMemID1") IsNot DBNull.Value And rdPoint4("BillMemID2") IsNot DBNull.Value And rdPoint4("BillMemID3") IsNot DBNull.Value And rdPoint4("BillMemID4") IsNot DBNull.Value Then
+                                            If Trim(rdPer("MemberID")) = Trim(rdPoint4("BillMemID1")) Then
+                                                UnitScore = UnitScore + CDec(A2ScoreTmp / 4)
+                                            End If
+                                            If Trim(rdPer("MemberID")) = Trim(rdPoint4("BillMemID2")) Then
+                                                UnitScore = UnitScore + CDec(A2ScoreTmp / 4)
+                                            End If
+                                            If Trim(rdPer("MemberID")) = Trim(rdPoint4("BillMemID3")) Then
+                                                UnitScore = UnitScore + CDec(A2ScoreTmp / 4)
+                                            End If
+                                            If Trim(rdPer("MemberID")) = Trim(rdPoint4("BillMemID4")) Then
+                                                UnitScore = UnitScore + CDec(A2ScoreTmp / 4)
+                                            End If
+                                        End If
+                                    End If
+                                End While
+
+                            End If
+                            rdPoint4.Close()
+                    
+                            'A3點數
+                            Dim strPoint5 As String = "select b.BillType1Score,b.A3Score,a.BillMemID1,a.BillMemID2,a.BillMemID3,a.BillMemID4 from BILLBASEVIEWReward a"
+                            strPoint5 = strPoint5 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+                            strPoint5 = strPoint5 & " where IsUsed=1 and CountyOrNpa=0) b"
+                            strPoint5 = strPoint5 & " where a.RuleVer=b.LawVersion"
+                            strPoint5 = strPoint5 & " and (a.BillMemID1='" & Trim(rdPer("MemberID")) & "'"
+                            strPoint5 = strPoint5 & " or a.BillMemID2='" & Trim(rdPer("MemberID")) & "'"
+                            strPoint5 = strPoint5 & " or a.BillMemID3='" & Trim(rdPer("MemberID")) & "'"
+                            strPoint5 = strPoint5 & " or a.BillMemID4='" & Trim(rdPer("MemberID")) & "'"
+                            strPoint5 = strPoint5 & ")"
+                            strPoint5 = strPoint5 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                            strPoint5 = strPoint5 & " and a.RecordStateID=0 and (a.TrafficAccidentType='3') and a.BillTypeID='1'"
+                            strPoint5 = strPoint5 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                            strPoint5 = strPoint5 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+                            Dim CmdPoint5 As New Data.OracleClient.OracleCommand(strPoint5, conn)
+                            Dim rdPoint5 As Data.OracleClient.OracleDataReader = CmdPoint5.ExecuteReader()
+                            If rdPoint5.HasRows Then
+                                While rdPoint5.Read()
+                                    If rdPoint5("BillType1Score") > rdPoint5("A3Score") Then
+                                        If rdPoint5("BillType1Score") Is DBNull.Value Then
+                                            A3ScoreTmp = 0
+                                        Else
+                                            A3ScoreTmp = CDec(rdPoint5("BillType1Score"))
+                                        End If
+                                    Else
+                                        If rdPoint5("A3Score") Is DBNull.Value Then
+                                            A3ScoreTmp = 0
+                                        Else
+                                            A3ScoreTmp = CDec(rdPoint5("A3Score"))
+                                        End If
+                                    End If
+                                    
+                                    If A3ScoreTmp = 0 Then
+                                        UnitScore = UnitScore + 0
+                                    Else
+                                        If rdPoint5("BillMemID1") IsNot DBNull.Value And rdPoint5("BillMemID2") Is DBNull.Value And rdPoint5("BillMemID3") Is DBNull.Value And rdPoint5("BillMemID4") Is DBNull.Value Then
+                                            UnitScore = UnitScore + CDec(A3ScoreTmp)
+                                        ElseIf rdPoint5("BillMemID1") IsNot DBNull.Value And rdPoint5("BillMemID2") IsNot DBNull.Value And rdPoint5("BillMemID3") Is DBNull.Value And rdPoint5("BillMemID4") Is DBNull.Value Then
+                                            If Trim(rdPoint5("BillMemID1")) = Trim(rdPer("MemberID")) Then
+                                                UnitScore = UnitScore + CDec(A3ScoreTmp / 2)
+                                            End If
+                                            If Trim(rdPoint5("BillMemID2")) = Trim(rdPer("MemberID")) Then
+                                                UnitScore = UnitScore + CDec(A3ScoreTmp / 2)
+                                            End If
+                                        ElseIf rdPoint5("BillMemID1") IsNot DBNull.Value And rdPoint5("BillMemID2") IsNot DBNull.Value And rdPoint5("BillMemID3") IsNot DBNull.Value And rdPoint5("BillMemID4") Is DBNull.Value Then
+                                            If Trim(rdPoint5("BillMemID1")) = Trim(rdPer("MemberID")) Then
+                                                UnitScore = UnitScore + CDec(A3ScoreTmp * 0.34)
+                                            End If
+                                            If Trim(rdPoint5("BillMemID2")) = Trim(rdPer("MemberID")) Then
+                                                UnitScore = UnitScore + CDec(A3ScoreTmp * 0.33)
+                                            End If
+                                            If Trim(rdPoint5("BillMemID3")) = Trim(rdPer("MemberID")) Then
+                                                UnitScore = UnitScore + CDec(A3ScoreTmp * 0.33)
+                                            End If
+                                        ElseIf rdPoint5("BillMemID1") IsNot DBNull.Value And rdPoint5("BillMemID2") IsNot DBNull.Value And rdPoint5("BillMemID3") IsNot DBNull.Value And rdPoint5("BillMemID4") IsNot DBNull.Value Then
+                                            If Trim(rdPer("MemberID")) = Trim(rdPoint5("BillMemID1")) Then
+                                                UnitScore = UnitScore + CDec(A3ScoreTmp / 4)
+                                            End If
+                                            If Trim(rdPer("MemberID")) = Trim(rdPoint5("BillMemID2")) Then
+                                                UnitScore = UnitScore + CDec(A3ScoreTmp / 4)
+                                            End If
+                                            If Trim(rdPer("MemberID")) = Trim(rdPoint5("BillMemID3")) Then
+                                                UnitScore = UnitScore + CDec(A3ScoreTmp / 4)
+                                            End If
+                                            If Trim(rdPer("MemberID")) = Trim(rdPoint5("BillMemID4")) Then
+                                                UnitScore = UnitScore + CDec(A3ScoreTmp / 4)
+                                            End If
+                                        End If
+                                    End If
+                                End While
+
+                            End If
+                            rdPoint5.Close()
+                    
+                        End While
+                    End If
+                    rdPer.Close()
+                    
+                    If UnitScore <> 0 Then
+                        UnitScoreTotal = UnitScoreTotal + UnitScore
+                        getMoneyTotal = getMoneyTotal + Decimal.Truncate(PointMoney * UnitScore)
+                        DirectMoneyTotal = DirectMoneyTotal + Decimal.Truncate(PointMoney * UnitScore * 0.72)
+                        Response.Write("<tr>")
+                        Response.Write("<td style=""width: 100px"">" & rdUnit("UnitName") & "</td>")
+                        Response.Write("<td style=""width: 60px"" align=""right"">" & Format(UnitScore, "##,##0.##") & "</td>")
+                        Response.Write("<td style=""width: 60px"" align=""right"">" & Format(Decimal.Truncate(PointMoney * UnitScore), "##,##0") & "</td>")
+                        Response.Write("<td style=""width: 60px"" align=""right"">" & Format(Decimal.Truncate(PointMoney * UnitScore * 0.72), "##,##0") & "</td>")
+                        Response.Write("<td colspan=""2"">&nbsp;</td>")
+                        '類別2
+                        If Trim(rdUnit("ShowOrder")) = "0" Or Trim(rdUnit("ShowOrder")) = "1" Then
+                            Dim GroupMoney2 As Integer = 0
+                            Response.Write("<td style=""width: 10%"">")
+                            Response.Write("<table border=""1"">")
+                            Dim strGroup2 = "select * from CommonShareReward where ShareGroupID=2 and UnitID='" & Trim(rdUnit("UnitID")) & "' order by SN"
+                            Dim CmdGroup2 As New Data.OracleClient.OracleCommand(strGroup2, conn)
+                            Dim rdGroup2 As Data.OracleClient.OracleDataReader = CmdGroup2.ExecuteReader()
+                            If rdGroup2.HasRows Then
+                                While rdGroup2.Read()
+                                    Response.Write("<tr>")
+                                    Response.Write("<td style=""width: 50px"">" & rdGroup2("CommonShareUnit") & "(" & Format(rdGroup2("SharePercent") * 100, "##,##0") & "%)</td>")
+                                    Response.Write("<td style=""width: 20px"">" & Format(Decimal.Truncate(rdGroup2("SharePercent") * Decimal.Truncate(PointMoney * UnitScore) * 0.28 * ShareGroup2), "##,##0") & "</td>")
+                                    Response.Write("</tr>")
+                                    GroupMoney2 = GroupMoney2 + Decimal.Truncate(rdGroup2("SharePercent") * Decimal.Truncate(PointMoney * UnitScore) * 0.28 * ShareGroup2)
+                                    GroupMoney2Total = GroupMoney2Total + Decimal.Truncate(rdGroup2("SharePercent") * Decimal.Truncate(PointMoney * UnitScore) * 0.28 * ShareGroup2)
+                                End While
+                            End If
+                            rdGroup2.Close()
+                            Response.Write("</table>")
+                            Response.Write("</td>")
+                            Response.Write("<td style=""width: 6%"">" & GroupMoney2 & "</td>")
+                        Else
+                            Response.Write("<td colspan=""2"">&nbsp;</td>")
+                        End If
+                        '類別3
+                        If Trim(rdUnit("ShowOrder")) = "0" Or Trim(rdUnit("ShowOrder")) = "2" Then
+                            Dim GroupMoney3 As Integer = 0
+                            Response.Write("<td style=""width: 10%"">")
+                            Response.Write("<table border=""1"">")
+                            Dim strGroup3 = "select * from CommonShareReward where ShareGroupID=3 and UnitID='" & Trim(rdUnit("UnitID")) & "' order by SN"
+                            Dim CmdGroup3 As New Data.OracleClient.OracleCommand(strGroup3, conn)
+                            Dim rdGroup3 As Data.OracleClient.OracleDataReader = CmdGroup3.ExecuteReader()
+                            If rdGroup3.HasRows Then
+                                While rdGroup3.Read()
+                                    Response.Write("<tr>")
+                                    Response.Write("<td style=""width: 50px"">" & rdGroup3("CommonShareUnit") & "(" & Format(rdGroup3("SharePercent") * 100, "##,##0") & "%)</td>")
+                                    Response.Write("<td style=""width: 20px"">" & Format(Decimal.Truncate(rdGroup3("SharePercent") * Decimal.Truncate(PointMoney * UnitScore) * 0.28 * ShareGroup3), "##,##0") & "</td>")
+                                    GroupMoney3 = GroupMoney3 + Decimal.Truncate(rdGroup3("SharePercent") * Decimal.Truncate(PointMoney * UnitScore) * 0.28 * ShareGroup3)
+                                    GroupMoney3Total = GroupMoney3Total + Decimal.Truncate(rdGroup3("SharePercent") * Decimal.Truncate(PointMoney * UnitScore) * 0.28 * ShareGroup3)
+                                    Response.Write("</tr>")
+                                End While
+                            End If
+                            rdGroup3.Close()
+                            Response.Write("</table>")
+                            Response.Write("</td>")
+                            Response.Write("<td style=""width: 6%"">" & GroupMoney3 & "</td>")
+                        Else
+                            Response.Write("<td colspan=""2"">&nbsp;</td>")
+                        End If
+                        Response.Write("<td colspan=""2"">&nbsp;</td>")
+                        'Response.Write("<td style=""width: 10%"">" & "</td>")
+                        'Response.Write("<td style=""width: 6%"">" & "</td>")
+                        Response.Write("")
+                        Response.Write("</tr>")
+                    End If
+                    
+                End While
+            End If
+            rdUnit.Close()
+            
+            '跑分局及底下派出所，分局由派出所加總
+            Dim strSubUnit As String
+            strSubUnit = "select UnitName,UnitID,UnitTypeID from UnitInfo where ShowOrder=1 order by UnitTypeID,UnitID"
+            Dim CmdSubUnit As New Data.OracleClient.OracleCommand(strSubUnit, conn)
+            Dim rdSubUnit As Data.OracleClient.OracleDataReader = CmdSubUnit.ExecuteReader()
+            If rdSubUnit.HasRows Then
+                While rdSubUnit.Read()
+                    Dim SubUnitScore As Integer = 0
+                    Dim SubMoney As Integer = 0
+                    Dim SubMoney2 As Integer = 0
+                    Dim strUnit2 As String
+                    strUnit2 = "select * from UnitInfo where (UnitTypeID='" & Trim(rdSubUnit("UnitID")) & "' and ShowOrder=2) or UnitID='" & Trim(rdSubUnit("UnitID")) & "' order by UnitID"
+                    'strUnit2 = "select * from UnitInfo where UnitTypeID='05BA' or  UnitID='05BA'"
+                    Dim CmdUnit2 As New Data.OracleClient.OracleCommand(strUnit2, conn)
+                    Dim rdUnit2 As Data.OracleClient.OracleDataReader = CmdUnit2.ExecuteReader()
+                    If rdUnit2.HasRows Then
+                        While rdUnit2.Read()
+                            UnitScore = 0
+                            UnitReward = 0
+                            
+                            Dim strPer1 = "select MemberID,Money from MemberData where UnitID='" & Trim(rdUnit2("UnitID")) & "'"
+                            Dim CmdPer1 As New Data.OracleClient.OracleCommand(strPer1, conn)
+                            Dim rdPer1 As Data.OracleClient.OracleDataReader = CmdPer1.ExecuteReader()
+                            If rdPer1.HasRows Then
+                                While rdPer1.Read()
+                                    '雲林拖吊案件分數較高
+                                    If sys_City = "雲林縣" Or sys_City = "台東縣" Or sys_City = "宜蘭縣" Then
+                                        '攔停點數
+                                        Dim strPoint1 As String = "select b.BillType1Score,a.BillMemID1,a.BillMemID2,a.BillMemID3,a.BillMemID4 from BILLBASEVIEWReward a"
+                                        strPoint1 = strPoint1 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+                                        strPoint1 = strPoint1 & " where IsUsed=1 and CountyOrNpa=0) b"
+                                        strPoint1 = strPoint1 & " where a.RuleVer=b.LawVersion"
+                                        strPoint1 = strPoint1 & " and (a.BillMemID1='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint1 = strPoint1 & " or a.BillMemID2='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint1 = strPoint1 & " or a.BillMemID3='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint1 = strPoint1 & " or a.BillMemID4='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint1 = strPoint1 & ")"
+                                        strPoint1 = strPoint1 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                                        strPoint1 = strPoint1 & " and (a.CarAddID<>8 or a.CarAddID is null) and a.BillTypeID='1' and a.RecordStateID=0 and (a.TrafficAccidentType is null or a.TrafficAccidentType='')"
+                                        strPoint1 = strPoint1 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                                        strPoint1 = strPoint1 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+                                        Dim CmdPoint1 As New Data.OracleClient.OracleCommand(strPoint1, conn)
+                                        Dim rdPoint1 As Data.OracleClient.OracleDataReader = CmdPoint1.ExecuteReader()
+                                        If rdPoint1.HasRows Then
+                                            While rdPoint1.Read()
+                                                If rdPoint1("BillType1Score") Is DBNull.Value Then
+                                                    UnitScore = UnitScore + 0
+                                                Else
+                                                    If rdPoint1("BillMemID1") IsNot DBNull.Value And rdPoint1("BillMemID2") Is DBNull.Value And rdPoint1("BillMemID3") Is DBNull.Value And rdPoint1("BillMemID4") Is DBNull.Value Then
+                                                        UnitScore = UnitScore + CDec(rdPoint1("BillType1Score"))
+                                                    ElseIf rdPoint1("BillMemID1") IsNot DBNull.Value And rdPoint1("BillMemID2") IsNot DBNull.Value And rdPoint1("BillMemID3") Is DBNull.Value And rdPoint1("BillMemID4") Is DBNull.Value Then
+                                                        If Trim(rdPoint1("BillMemID1")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 2)
+                                                        End If
+                                                        If Trim(rdPoint1("BillMemID2")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 2)
+                                                        End If
+                                                    ElseIf rdPoint1("BillMemID1") IsNot DBNull.Value And rdPoint1("BillMemID2") IsNot DBNull.Value And rdPoint1("BillMemID3") IsNot DBNull.Value And rdPoint1("BillMemID4") Is DBNull.Value Then
+                                                        If Trim(rdPoint1("BillMemID1")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") * 0.34)
+                                                        End If
+                                                        If Trim(rdPoint1("BillMemID2")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") * 0.33)
+                                                        End If
+                                                        If Trim(rdPoint1("BillMemID3")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") * 0.33)
+                                                        End If
+                                                    ElseIf rdPoint1("BillMemID1") IsNot DBNull.Value And rdPoint1("BillMemID2") IsNot DBNull.Value And rdPoint1("BillMemID3") IsNot DBNull.Value And rdPoint1("BillMemID4") IsNot DBNull.Value Then
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint1("BillMemID1")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 4)
+                                                        End If
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint1("BillMemID2")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 4)
+                                                        End If
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint1("BillMemID3")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 4)
+                                                        End If
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint1("BillMemID4")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 4)
+                                                        End If
+                                                    End If
+                                                End If
+                                            End While
+
+                                        End If
+                                        rdPoint1.Close()
+                    
+                                        '逕舉點數
+                                        Dim strPoint2 As String = "select b.BillType2Score,a.BillMemID1,a.BillMemID2,a.BillMemID3,a.BillMemID4 from BILLBASEVIEWReward a"
+                                        strPoint2 = strPoint2 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+                                        strPoint2 = strPoint2 & " where IsUsed=1 and CountyOrNpa=0) b"
+                                        strPoint2 = strPoint2 & " where a.RuleVer=b.LawVersion"
+                                        strPoint2 = strPoint2 & " and (a.BillMemID1='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint2 = strPoint2 & " or a.BillMemID2='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint2 = strPoint2 & " or a.BillMemID3='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint2 = strPoint2 & " or a.BillMemID4='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint2 = strPoint2 & ")"
+                                        strPoint2 = strPoint2 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                                        strPoint2 = strPoint2 & " and (a.CarAddID<>8 or a.CarAddID is null) and a.BillTypeID='2' and a.RecordStateID=0 and (a.TrafficAccidentType is null or a.TrafficAccidentType='')"
+                                        strPoint2 = strPoint2 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                                        strPoint2 = strPoint2 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+                                        Dim CmdPoint2 As New Data.OracleClient.OracleCommand(strPoint2, conn)
+                                        Dim rdPoint2 As Data.OracleClient.OracleDataReader = CmdPoint2.ExecuteReader()
+                                        If rdPoint2.HasRows Then
+                                            While rdPoint2.Read()
+                                                If rdPoint2("BillType2Score") Is DBNull.Value Then
+                                                    UnitScore = UnitScore + 0
+                                                Else
+                                                    If rdPoint2("BillMemID1") IsNot DBNull.Value And rdPoint2("BillMemID2") Is DBNull.Value And rdPoint2("BillMemID3") Is DBNull.Value And rdPoint2("BillMemID4") Is DBNull.Value Then
+                                                        UnitScore = UnitScore + CDec(rdPoint2("BillType2Score"))
+                                                    ElseIf rdPoint2("BillMemID1") IsNot DBNull.Value And rdPoint2("BillMemID2") IsNot DBNull.Value And rdPoint2("BillMemID3") Is DBNull.Value And rdPoint2("BillMemID4") Is DBNull.Value Then
+                                                        If Trim(rdPoint2("BillMemID1")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 2)
+                                                        End If
+                                                        If Trim(rdPoint2("BillMemID2")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 2)
+                                                        End If
+                                                    ElseIf rdPoint2("BillMemID1") IsNot DBNull.Value And rdPoint2("BillMemID2") IsNot DBNull.Value And rdPoint2("BillMemID3") IsNot DBNull.Value And rdPoint2("BillMemID4") Is DBNull.Value Then
+                                                        If Trim(rdPoint2("BillMemID1")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") * 0.34)
+                                                        End If
+                                                        If Trim(rdPoint2("BillMemID2")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") * 0.33)
+                                                        End If
+                                                        If Trim(rdPoint2("BillMemID3")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") * 0.33)
+                                                        End If
+                           
+                                                    ElseIf rdPoint2("BillMemID1") IsNot DBNull.Value And rdPoint2("BillMemID2") IsNot DBNull.Value And rdPoint2("BillMemID3") IsNot DBNull.Value And rdPoint2("BillMemID4") IsNot DBNull.Value Then
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint2("BillMemID1")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 4)
+                                                        End If
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint2("BillMemID2")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 4)
+                                                        End If
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint2("BillMemID3")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 4)
+                                                        End If
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint2("BillMemID4")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 4)
+                                                        End If
+                                                    End If
+                                                End If
+                                            End While
+
+                                        End If
+                                        rdPoint2.Close()
+                                
+                                        '拖吊點數
+                                        Dim strPoint6 As String = "select b.other1,a.BillMemID1,a.BillMemID2,a.BillMemID3,a.BillMemID4 from BILLBASE a" & strPointT6Plus2
+                                        strPoint6 = strPoint6 & " where IsUsed=1 and CountyOrNpa=0) b"
+                                        strPoint6 = strPoint6 & " where a.RuleVer=b.LawVersion"
+                                        strPoint6 = strPoint6 & " and (a.BillMemID1='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint6 = strPoint6 & " or a.BillMemID2='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint6 = strPoint6 & " or a.BillMemID3='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint6 = strPoint6 & " or a.BillMemID4='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint6 = strPoint6 & ")"
+                                        strPoint6 = strPoint6 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                                        strPoint6 = strPoint6 & " and a.CarAddID=8 and a.RecordStateID=0 and (a.TrafficAccidentType is null or a.TrafficAccidentType='')"
+                                        strPoint6 = strPoint6 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                                        strPoint6 = strPoint6 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')" & strPointT6Plus
+                                        Dim CmdPoint6 As New Data.OracleClient.OracleCommand(strPoint6, conn)
+                                        Dim rdPoint6 As Data.OracleClient.OracleDataReader = CmdPoint6.ExecuteReader()
+                                        If rdPoint6.HasRows Then
+                                            While rdPoint6.Read()
+                                                If rdPoint6("Other1") Is DBNull.Value Then
+                                                    UnitScore = UnitScore + 0
+                                                Else
+                                                    If rdPoint6("BillMemID1") IsNot DBNull.Value And rdPoint6("BillMemID2") Is DBNull.Value And rdPoint6("BillMemID3") Is DBNull.Value And rdPoint6("BillMemID4") Is DBNull.Value Then
+                                                        UnitScore = UnitScore + CDec(rdPoint6("Other1"))
+                                                    ElseIf rdPoint6("BillMemID1") IsNot DBNull.Value And rdPoint6("BillMemID2") IsNot DBNull.Value And rdPoint6("BillMemID3") Is DBNull.Value And rdPoint6("BillMemID4") Is DBNull.Value Then
+                                                        If Trim(rdPoint6("BillMemID1")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint6("Other1") / 2)
+                                                        End If
+                                                        If Trim(rdPoint6("BillMemID2")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint6("Other1") / 2)
+                                                        End If
+                                                    ElseIf rdPoint6("BillMemID1") IsNot DBNull.Value And rdPoint6("BillMemID2") IsNot DBNull.Value And rdPoint6("BillMemID3") IsNot DBNull.Value And rdPoint6("BillMemID4") Is DBNull.Value Then
+                                                        If Trim(rdPoint6("BillMemID1")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint6("Other1") * 0.34)
+                                                        End If
+                                                        If Trim(rdPoint6("BillMemID2")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint6("Other1") * 0.33)
+                                                        End If
+                                                        If Trim(rdPoint6("BillMemID3")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint6("Other1") * 0.33)
+                                                        End If
+                                                    ElseIf rdPoint6("BillMemID1") IsNot DBNull.Value And rdPoint6("BillMemID2") IsNot DBNull.Value And rdPoint6("BillMemID3") IsNot DBNull.Value And rdPoint6("BillMemID4") IsNot DBNull.Value Then
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint6("BillMemID1")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint6("Other1") / 4)
+                                                        End If
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint6("BillMemID2")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint6("Other1") / 4)
+                                                        End If
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint6("BillMemID3")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint6("Other1") / 4)
+                                                        End If
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint6("BillMemID4")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint6("Other1") / 4)
+                                                        End If
+                                                    End If
+                                                End If
+                                            End While
+                                    
+                                        End If
+                                        rdPoint6.Close()
+                                    Else
+                                        '攔停點數
+                                        Dim strPoint1 As String = "select b.BillType1Score,a.BillMemID1,a.BillMemID2,a.BillMemID3,a.BillMemID4 from BILLBASEVIEWReward a"
+                                        strPoint1 = strPoint1 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+                                        strPoint1 = strPoint1 & " where IsUsed=1 and CountyOrNpa=0) b"
+                                        strPoint1 = strPoint1 & " where a.RuleVer=b.LawVersion"
+                                        strPoint1 = strPoint1 & " and (a.BillMemID1='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint1 = strPoint1 & " or a.BillMemID2='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint1 = strPoint1 & " or a.BillMemID3='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint1 = strPoint1 & " or a.BillMemID4='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint1 = strPoint1 & ")"
+                                        strPoint1 = strPoint1 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                                        strPoint1 = strPoint1 & " and a.BillTypeID='1' and a.RecordStateID=0 and (a.TrafficAccidentType is null or a.TrafficAccidentType='')"
+                                        strPoint1 = strPoint1 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                                        strPoint1 = strPoint1 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+                                        Dim CmdPoint1 As New Data.OracleClient.OracleCommand(strPoint1, conn)
+                                        Dim rdPoint1 As Data.OracleClient.OracleDataReader = CmdPoint1.ExecuteReader()
+                                        If rdPoint1.HasRows Then
+                                            While rdPoint1.Read()
+                                                If rdPoint1("BillType1Score") Is DBNull.Value Then
+                                                    UnitScore = UnitScore + 0
+                                                Else
+                                                    If rdPoint1("BillMemID1") IsNot DBNull.Value And rdPoint1("BillMemID2") Is DBNull.Value And rdPoint1("BillMemID3") Is DBNull.Value And rdPoint1("BillMemID4") Is DBNull.Value Then
+                                                        UnitScore = UnitScore + CDec(rdPoint1("BillType1Score"))
+                                                    ElseIf rdPoint1("BillMemID1") IsNot DBNull.Value And rdPoint1("BillMemID2") IsNot DBNull.Value And rdPoint1("BillMemID3") Is DBNull.Value And rdPoint1("BillMemID4") Is DBNull.Value Then
+                                                        If Trim(rdPoint1("BillMemID1")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 2)
+                                                        End If
+                                                        If Trim(rdPoint1("BillMemID2")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 2)
+                                                        End If
+                                                    ElseIf rdPoint1("BillMemID1") IsNot DBNull.Value And rdPoint1("BillMemID2") IsNot DBNull.Value And rdPoint1("BillMemID3") IsNot DBNull.Value And rdPoint1("BillMemID4") Is DBNull.Value Then
+                                                        If Trim(rdPoint1("BillMemID1")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") * 0.34)
+                                                        End If
+                                                        If Trim(rdPoint1("BillMemID2")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") * 0.33)
+                                                        End If
+                                                        If Trim(rdPoint1("BillMemID3")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") * 0.33)
+                                                        End If
+                                                    ElseIf rdPoint1("BillMemID1") IsNot DBNull.Value And rdPoint1("BillMemID2") IsNot DBNull.Value And rdPoint1("BillMemID3") IsNot DBNull.Value And rdPoint1("BillMemID4") IsNot DBNull.Value Then
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint1("BillMemID1")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 4)
+                                                        End If
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint1("BillMemID2")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 4)
+                                                        End If
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint1("BillMemID3")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 4)
+                                                        End If
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint1("BillMemID4")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint1("BillType1Score") / 4)
+                                                        End If
+                                                    End If
+                                                End If
+                                            End While
+
+                                        End If
+                                        rdPoint1.Close()
+                    
+                                        '逕舉點數
+                                        Dim strPoint2 As String = "select b.BillType2Score,a.BillMemID1,a.BillMemID2,a.BillMemID3,a.BillMemID4 from BILLBASEVIEWReward a"
+                                        strPoint2 = strPoint2 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+                                        strPoint2 = strPoint2 & " where IsUsed=1 and CountyOrNpa=0) b"
+                                        strPoint2 = strPoint2 & " where a.RuleVer=b.LawVersion"
+                                        strPoint2 = strPoint2 & " and (a.BillMemID1='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint2 = strPoint2 & " or a.BillMemID2='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint2 = strPoint2 & " or a.BillMemID3='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint2 = strPoint2 & " or a.BillMemID4='" & Trim(rdPer1("MemberID")) & "'"
+                                        strPoint2 = strPoint2 & ")"
+                                        strPoint2 = strPoint2 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                                        strPoint2 = strPoint2 & " and a.BillTypeID='2' and a.RecordStateID=0 and (a.TrafficAccidentType is null or a.TrafficAccidentType='')"
+                                        strPoint2 = strPoint2 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                                        strPoint2 = strPoint2 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+                                        Dim CmdPoint2 As New Data.OracleClient.OracleCommand(strPoint2, conn)
+                                        Dim rdPoint2 As Data.OracleClient.OracleDataReader = CmdPoint2.ExecuteReader()
+                                        If rdPoint2.HasRows Then
+                                            While rdPoint2.Read()
+                                                If rdPoint2("BillType2Score") Is DBNull.Value Then
+                                                    UnitScore = UnitScore + 0
+                                                Else
+                                                    If rdPoint2("BillMemID1") IsNot DBNull.Value And rdPoint2("BillMemID2") Is DBNull.Value And rdPoint2("BillMemID3") Is DBNull.Value And rdPoint2("BillMemID4") Is DBNull.Value Then
+                                                        UnitScore = UnitScore + CDec(rdPoint2("BillType2Score"))
+                                                    ElseIf rdPoint2("BillMemID1") IsNot DBNull.Value And rdPoint2("BillMemID2") IsNot DBNull.Value And rdPoint2("BillMemID3") Is DBNull.Value And rdPoint2("BillMemID4") Is DBNull.Value Then
+                                                        If Trim(rdPoint2("BillMemID1")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 2)
+                                                        End If
+                                                        If Trim(rdPoint2("BillMemID2")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 2)
+                                                        End If
+                                                    ElseIf rdPoint2("BillMemID1") IsNot DBNull.Value And rdPoint2("BillMemID2") IsNot DBNull.Value And rdPoint2("BillMemID3") IsNot DBNull.Value And rdPoint2("BillMemID4") Is DBNull.Value Then
+                                                        If Trim(rdPoint2("BillMemID1")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") * 0.34)
+                                                        End If
+                                                        If Trim(rdPoint2("BillMemID2")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") * 0.33)
+                                                        End If
+                                                        If Trim(rdPoint2("BillMemID3")) = Trim(rdPer1("MemberID")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") * 0.33)
+                                                        End If
+                                                    ElseIf rdPoint2("BillMemID1") IsNot DBNull.Value And rdPoint2("BillMemID2") IsNot DBNull.Value And rdPoint2("BillMemID3") IsNot DBNull.Value And rdPoint2("BillMemID4") IsNot DBNull.Value Then
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint2("BillMemID1")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 4)
+                                                        End If
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint2("BillMemID2")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 4)
+                                                        End If
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint2("BillMemID3")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 4)
+                                                        End If
+                                                        If Trim(rdPer1("MemberID")) = Trim(rdPoint2("BillMemID4")) Then
+                                                            UnitScore = UnitScore + CDec(rdPoint2("BillType2Score") / 4)
+                                                        End If
+                                                    End If
+                                                End If
+                                            End While
+
+                                        End If
+                                        rdPoint2.Close()
+                                    End If
+                                    'A1點數
+                                    Dim strPoint3 As String = "select b.BillType1Score,b.A1Score,a.BillMemID1,a.BillMemID2,a.BillMemID3,a.BillMemID4 from BILLBASEVIEWReward a"
+                                    strPoint3 = strPoint3 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+                                    strPoint3 = strPoint3 & " where IsUsed=1 and CountyOrNpa=0) b"
+                                    strPoint3 = strPoint3 & " where a.RuleVer=b.LawVersion"
+                                    strPoint3 = strPoint3 & " and (a.BillMemID1='" & Trim(rdPer1("MemberID")) & "'"
+                                    strPoint3 = strPoint3 & " or a.BillMemID2='" & Trim(rdPer1("MemberID")) & "'"
+                                    strPoint3 = strPoint3 & " or a.BillMemID3='" & Trim(rdPer1("MemberID")) & "'"
+                                    strPoint3 = strPoint3 & " or a.BillMemID4='" & Trim(rdPer1("MemberID")) & "'"
+                                    strPoint3 = strPoint3 & ")"
+                                    strPoint3 = strPoint3 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                                    strPoint3 = strPoint3 & " and a.RecordStateID=0 and (a.TrafficAccidentType='1') and a.BillTypeID='1'"
+                                    strPoint3 = strPoint3 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                                    strPoint3 = strPoint3 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+                                    Dim CmdPoint3 As New Data.OracleClient.OracleCommand(strPoint3, conn)
+                                    Dim rdPoint3 As Data.OracleClient.OracleDataReader = CmdPoint3.ExecuteReader()
+                                    If rdPoint3.HasRows Then
+                                        While rdPoint3.Read()
+                                            If rdPoint3("BillType1Score") > rdPoint3("A1Score") Then
+                                                If rdPoint3("BillType1Score") Is DBNull.Value Then
+                                                    A1ScoreTmp = 0
+                                                Else
+                                                    A1ScoreTmp = CDec(rdPoint3("BillType1Score"))
+                                                End If
+                                            Else
+                                                If rdPoint3("A1Score") Is DBNull.Value Then
+                                                    A1ScoreTmp = 0
+                                                Else
+                                                    A1ScoreTmp = CDec(rdPoint3("A1Score"))
+                                                End If
+                                            End If
+                                    
+                                            If A1ScoreTmp = 0 Then
+                                                UnitScore = UnitScore + 0
+                                            Else
+                                                If rdPoint3("BillMemID1") IsNot DBNull.Value And rdPoint3("BillMemID2") Is DBNull.Value And rdPoint3("BillMemID3") Is DBNull.Value And rdPoint3("BillMemID4") Is DBNull.Value Then
+                                                    UnitScore = UnitScore + CDec(A1ScoreTmp)
+                                                ElseIf rdPoint3("BillMemID1") IsNot DBNull.Value And rdPoint3("BillMemID2") IsNot DBNull.Value And rdPoint3("BillMemID3") Is DBNull.Value And rdPoint3("BillMemID4") Is DBNull.Value Then
+                                                    If Trim(rdPoint3("BillMemID1")) = Trim(rdPer1("MemberID")) Then
+                                                        UnitScore = UnitScore + CDec(A1ScoreTmp / 2)
+                                                    End If
+                                                    If Trim(rdPoint3("BillMemID2")) = Trim(rdPer1("MemberID")) Then
+                                                        UnitScore = UnitScore + CDec(A1ScoreTmp / 2)
+                                                    End If
+                                                ElseIf rdPoint3("BillMemID1") IsNot DBNull.Value And rdPoint3("BillMemID2") IsNot DBNull.Value And rdPoint3("BillMemID3") IsNot DBNull.Value And rdPoint3("BillMemID4") Is DBNull.Value Then
+                                                    If Trim(rdPoint3("BillMemID1")) = Trim(rdPer1("MemberID")) Then
+                                                        UnitScore = UnitScore + CDec(A1ScoreTmp * 0.34)
+                                                    End If
+                                                    If Trim(rdPoint3("BillMemID2")) = Trim(rdPer1("MemberID")) Then
+                                                        UnitScore = UnitScore + CDec(A1ScoreTmp * 0.33)
+                                                    End If
+                                                    If Trim(rdPoint3("BillMemID3")) = Trim(rdPer1("MemberID")) Then
+                                                        UnitScore = UnitScore + CDec(A1ScoreTmp * 0.33)
+                                                    End If
+                                                ElseIf rdPoint3("BillMemID1") IsNot DBNull.Value And rdPoint3("BillMemID2") IsNot DBNull.Value And rdPoint3("BillMemID3") IsNot DBNull.Value And rdPoint3("BillMemID4") IsNot DBNull.Value Then
+                                                    If Trim(rdPer1("MemberID")) = Trim(rdPoint3("BillMemID1")) Then
+                                                        UnitScore = UnitScore + CDec(A1ScoreTmp / 4)
+                                                    End If
+                                                    If Trim(rdPer1("MemberID")) = Trim(rdPoint3("BillMemID2")) Then
+                                                        UnitScore = UnitScore + CDec(A1ScoreTmp / 4)
+                                                    End If
+                                                    If Trim(rdPer1("MemberID")) = Trim(rdPoint3("BillMemID3")) Then
+                                                        UnitScore = UnitScore + CDec(A1ScoreTmp / 4)
+                                                    End If
+                                                    If Trim(rdPer1("MemberID")) = Trim(rdPoint3("BillMemID4")) Then
+                                                        UnitScore = UnitScore + CDec(A1ScoreTmp / 4)
+                                                    End If
+                                                End If
+                                            End If
+                                        End While
+                            
+                                    End If
+                                    rdPoint3.Close()
+                    
+                                    'A2點數
+                                    Dim strPoint4 As String = "select b.BillType1Score,b.A2Score,a.BillMemID1,a.BillMemID2,a.BillMemID3,a.BillMemID4 from BILLBASEVIEWReward a"
+                                    strPoint4 = strPoint4 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+                                    strPoint4 = strPoint4 & " where IsUsed=1 and CountyOrNpa=0) b"
+                                    strPoint4 = strPoint4 & " where a.RuleVer=b.LawVersion"
+                                    strPoint4 = strPoint4 & " and (a.BillMemID1='" & Trim(rdPer1("MemberID")) & "'"
+                                    strPoint4 = strPoint4 & " or a.BillMemID2='" & Trim(rdPer1("MemberID")) & "'"
+                                    strPoint4 = strPoint4 & " or a.BillMemID3='" & Trim(rdPer1("MemberID")) & "'"
+                                    strPoint4 = strPoint4 & " or a.BillMemID4='" & Trim(rdPer1("MemberID")) & "'"
+                                    strPoint4 = strPoint4 & ")"
+                                    strPoint4 = strPoint4 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                                    strPoint4 = strPoint4 & " and a.RecordStateID=0 and (a.TrafficAccidentType='2') and a.BillTypeID='1'"
+                                    strPoint4 = strPoint4 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                                    strPoint4 = strPoint4 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+                                    Dim CmdPoint4 As New Data.OracleClient.OracleCommand(strPoint4, conn)
+                                    Dim rdPoint4 As Data.OracleClient.OracleDataReader = CmdPoint4.ExecuteReader()
+                                    If rdPoint4.HasRows Then
+                                        While rdPoint4.Read()
+                                            If rdPoint4("BillType1Score") > rdPoint4("A2Score") Then
+                                                If rdPoint4("BillType1Score") Is DBNull.Value Then
+                                                    A2ScoreTmp = 0
+                                                Else
+                                                    A2ScoreTmp = CDec(rdPoint4("BillType1Score"))
+                                                End If
+                                            Else
+                                                If rdPoint4("A2Score") Is DBNull.Value Then
+                                                    A2ScoreTmp = 0
+                                                Else
+                                                    A2ScoreTmp = CDec(rdPoint4("A2Score"))
+                                                End If
+                                            End If
+                                    
+                                            If A2ScoreTmp = 0 Then
+                                                UnitScore = UnitScore + 0
+                                            Else
+                                                If rdPoint4("BillMemID1") IsNot DBNull.Value And rdPoint4("BillMemID2") Is DBNull.Value And rdPoint4("BillMemID3") Is DBNull.Value And rdPoint4("BillMemID4") Is DBNull.Value Then
+                                                    UnitScore = UnitScore + CDec(A2ScoreTmp)
+                                                ElseIf rdPoint4("BillMemID1") IsNot DBNull.Value And rdPoint4("BillMemID2") IsNot DBNull.Value And rdPoint4("BillMemID3") Is DBNull.Value And rdPoint4("BillMemID4") Is DBNull.Value Then
+                                                    If Trim(rdPoint4("BillMemID1")) = Trim(rdPer1("MemberID")) Then
+                                                        UnitScore = UnitScore + CDec(A2ScoreTmp / 2)
+                                                    End If
+                                                    If Trim(rdPoint4("BillMemID2")) = Trim(rdPer1("MemberID")) Then
+                                                        UnitScore = UnitScore + CDec(A2ScoreTmp / 2)
+                                                    End If
+                                                ElseIf rdPoint4("BillMemID1") IsNot DBNull.Value And rdPoint4("BillMemID2") IsNot DBNull.Value And rdPoint4("BillMemID3") IsNot DBNull.Value And rdPoint4("BillMemID4") Is DBNull.Value Then
+                                                    If Trim(rdPoint4("BillMemID1")) = Trim(rdPer1("MemberID")) Then
+                                                        UnitScore = UnitScore + CDec(A2ScoreTmp * 0.34)
+                                                    End If
+                                                    If Trim(rdPoint4("BillMemID2")) = Trim(rdPer1("MemberID")) Then
+                                                        UnitScore = UnitScore + CDec(A2ScoreTmp * 0.33)
+                                                    End If
+                                                    If Trim(rdPoint4("BillMemID3")) = Trim(rdPer1("MemberID")) Then
+                                                        UnitScore = UnitScore + CDec(A2ScoreTmp * 0.33)
+                                                    End If
+                                     
+                                                ElseIf rdPoint4("BillMemID1") IsNot DBNull.Value And rdPoint4("BillMemID2") IsNot DBNull.Value And rdPoint4("BillMemID3") IsNot DBNull.Value And rdPoint4("BillMemID4") IsNot DBNull.Value Then
+                                                    If Trim(rdPer1("MemberID")) = Trim(rdPoint4("BillMemID1")) Then
+                                                        UnitScore = UnitScore + CDec(A2ScoreTmp / 4)
+                                                    End If
+                                                    If Trim(rdPer1("MemberID")) = Trim(rdPoint4("BillMemID2")) Then
+                                                        UnitScore = UnitScore + CDec(A2ScoreTmp / 4)
+                                                    End If
+                                                    If Trim(rdPer1("MemberID")) = Trim(rdPoint4("BillMemID3")) Then
+                                                        UnitScore = UnitScore + CDec(A2ScoreTmp / 4)
+                                                    End If
+                                                    If Trim(rdPer1("MemberID")) = Trim(rdPoint4("BillMemID4")) Then
+                                                        UnitScore = UnitScore + CDec(A2ScoreTmp / 4)
+                                                    End If
+                                                End If
+                                            End If
+                                        End While
+
+                                    End If
+                                    rdPoint4.Close()
+                    
+                                    'A3點數
+                                    Dim strPoint5 As String = "select b.BillType1Score,b.A3Score,a.BillMemID1,a.BillMemID2,a.BillMemID3,a.BillMemID4 from BILLBASEVIEWReward a"
+                                    strPoint5 = strPoint5 & ",(select distinct LawVersion,LawItem,BillType1Score,BillType2Score,A1Score,A2Score,A3Score,CountyOrNpa,IsUsed from LawScore"
+                                    strPoint5 = strPoint5 & " where IsUsed=1 and CountyOrNpa=0) b"
+                                    strPoint5 = strPoint5 & " where a.RuleVer=b.LawVersion"
+                                    strPoint5 = strPoint5 & " and (a.BillMemID1='" & Trim(rdPer1("MemberID")) & "'"
+                                    strPoint5 = strPoint5 & " or a.BillMemID2='" & Trim(rdPer1("MemberID")) & "'"
+                                    strPoint5 = strPoint5 & " or a.BillMemID3='" & Trim(rdPer1("MemberID")) & "'"
+                                    strPoint5 = strPoint5 & " or a.BillMemID4='" & Trim(rdPer1("MemberID")) & "'"
+                                    strPoint5 = strPoint5 & ")"
+                                    strPoint5 = strPoint5 & " and (a.Rule1=b.LawItem or a.Rule2=b.LawItem or a.Rule3=b.LawItem or a.Rule4=b.LawItem)"
+                                    strPoint5 = strPoint5 & " and a.RecordStateID=0 and (a.TrafficAccidentType='3') and a.BillTypeID='1'"
+                                    strPoint5 = strPoint5 & " and a." & theDateType & " between TO_DATE('" & gOutDT(Trim(Request("Date1"))) & " 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
+                                    strPoint5 = strPoint5 & " and TO_DATE('" & gOutDT(Trim(Request("Date2"))) & " 23:59:59','YYYY/MM/DD/HH24/MI/SS')"
+                                    Dim CmdPoint5 As New Data.OracleClient.OracleCommand(strPoint5, conn)
+                                    Dim rdPoint5 As Data.OracleClient.OracleDataReader = CmdPoint5.ExecuteReader()
+                                    If rdPoint5.HasRows Then
+                                        While rdPoint5.Read()
+                                            If rdPoint5("BillType1Score") > rdPoint5("A3Score") Then
+                                                If rdPoint5("BillType1Score") Is DBNull.Value Then
+                                                    A3ScoreTmp = 0
+                                                Else
+                                                    A3ScoreTmp = CDec(rdPoint5("BillType1Score"))
+                                                End If
+                                            Else
+                                                If rdPoint5("A3Score") Is DBNull.Value Then
+                                                    A3ScoreTmp = 0
+                                                Else
+                                                    A3ScoreTmp = CDec(rdPoint5("A3Score"))
+                                                End If
+                                            End If
+                                    
+                                            If A3ScoreTmp = 0 Then
+                                                UnitScore = UnitScore + 0
+                                            Else
+                                                If rdPoint5("BillMemID1") IsNot DBNull.Value And rdPoint5("BillMemID2") Is DBNull.Value And rdPoint5("BillMemID3") Is DBNull.Value And rdPoint5("BillMemID4") Is DBNull.Value Then
+                                                    UnitScore = UnitScore + CDec(A3ScoreTmp)
+                                                ElseIf rdPoint5("BillMemID1") IsNot DBNull.Value And rdPoint5("BillMemID2") IsNot DBNull.Value And rdPoint5("BillMemID3") Is DBNull.Value And rdPoint5("BillMemID4") Is DBNull.Value Then
+                                                    If Trim(rdPoint5("BillMemID1")) = Trim(rdPer1("MemberID")) Then
+                                                        UnitScore = UnitScore + CDec(A3ScoreTmp / 2)
+                                                    End If
+                                                    If Trim(rdPoint5("BillMemID2")) = Trim(rdPer1("MemberID")) Then
+                                                        UnitScore = UnitScore + CDec(A3ScoreTmp / 2)
+                                                    End If
+                                                ElseIf rdPoint5("BillMemID1") IsNot DBNull.Value And rdPoint5("BillMemID2") IsNot DBNull.Value And rdPoint5("BillMemID3") IsNot DBNull.Value And rdPoint5("BillMemID4") Is DBNull.Value Then
+                                                    If Trim(rdPoint5("BillMemID1")) = Trim(rdPer1("MemberID")) Then
+                                                        UnitScore = UnitScore + CDec(A3ScoreTmp * 0.34)
+                                                    End If
+                                                    If Trim(rdPoint5("BillMemID2")) = Trim(rdPer1("MemberID")) Then
+                                                        UnitScore = UnitScore + CDec(A3ScoreTmp * 0.33)
+                                                    End If
+                                                    If Trim(rdPoint5("BillMemID3")) = Trim(rdPer1("MemberID")) Then
+                                                        UnitScore = UnitScore + CDec(A3ScoreTmp * 0.33)
+                                                    End If
+                                                ElseIf rdPoint5("BillMemID1") IsNot DBNull.Value And rdPoint5("BillMemID2") IsNot DBNull.Value And rdPoint5("BillMemID3") IsNot DBNull.Value And rdPoint5("BillMemID4") IsNot DBNull.Value Then
+                                                    If Trim(rdPer1("MemberID")) = Trim(rdPoint5("BillMemID1")) Then
+                                                        UnitScore = UnitScore + CDec(A3ScoreTmp / 4)
+                                                    End If
+                                                    If Trim(rdPer1("MemberID")) = Trim(rdPoint5("BillMemID2")) Then
+                                                        UnitScore = UnitScore + CDec(A3ScoreTmp / 4)
+                                                    End If
+                                                    If Trim(rdPer1("MemberID")) = Trim(rdPoint5("BillMemID3")) Then
+                                                        UnitScore = UnitScore + CDec(A3ScoreTmp / 4)
+                                                    End If
+                                                    If Trim(rdPer1("MemberID")) = Trim(rdPoint5("BillMemID4")) Then
+                                                        UnitScore = UnitScore + CDec(A3ScoreTmp / 4)
+                                                    End If
+                                                End If
+                                            End If
+                                        End While
+
+                                    End If
+                                    rdPoint5.Close()
+                                    
+                                End While
+                            End If
+                            rdPer1.Close()
+                            
+                            If UnitScore <> 0 Then
+                                SubUnitScore = SubUnitScore + UnitScore
+                                SubMoney = SubMoney + Decimal.Truncate(PointMoney * UnitScore)
+                                SubMoney2 = SubMoney2 + Decimal.Truncate(PointMoney * UnitScore * 0.72)
+                                UnitScoreTotal = UnitScoreTotal + UnitScore
+                                getMoneyTotal = getMoneyTotal + Decimal.Truncate(PointMoney * UnitScore)
+                                DirectMoneyTotal = DirectMoneyTotal + Decimal.Truncate(PointMoney * UnitScore * 0.72)
+                                Response.Write("<tr>")
+                                Response.Write("<td style=""width: 100px"">" & rdUnit2("UnitName") & "</td>")
+                                Response.Write("<td style=""width: 60px"" align=""right"">" & Format(UnitScore, "##,##0") & "</td>")
+                                Response.Write("<td style=""width: 60px"" align=""right"">" & Format(Decimal.Truncate(PointMoney * UnitScore), "##,##0") & "</td>")
+                                Response.Write("<td style=""width: 60px"" align=""right"">" & Format(Decimal.Truncate(PointMoney * UnitScore * 0.72), "##,##0") & "</td>")
+                                Response.Write("<td colspan=""2"">&nbsp;</td>")
+                                '類別2
+                                'If Trim(rdUnit2("ShowOrder")) = "0" Or Trim(rdUnit2("ShowOrder")) = "1" Then
+                                '    Dim GroupMoney2 As Integer = 0
+                                '    Response.Write("<td style=""width: 10%"">")
+                                '    Response.Write("<table border=""1"">")
+                                '    Dim strGroup2 = "select * from CommonShareReward where ShareGroupID=2 and UnitID='" & Trim(rdUnit2("UnitID")) & "' order by SN"
+                                '    Dim CmdGroup2 As New Data.OracleClient.OracleCommand(strGroup2, conn)
+                                '    Dim rdGroup2 As Data.OracleClient.OracleDataReader = CmdGroup2.ExecuteReader()
+                                '    If rdGroup2.HasRows Then
+                                '        While rdGroup2.Read()
+                                '            Response.Write("<tr>")
+                                '            Response.Write("<td style=""width: 50px"">" & rdGroup2("CommonShareUnit") & "(" & Format(rdGroup2("SharePercent") * 100, "##,##0") & "%)</td>")
+                                '            Response.Write("<td style=""width: 20px"">" & Format(Decimal.Truncate(rdGroup2("SharePercent") * Decimal.Truncate(PointMoney * UnitScore) * 0.28 * ShareGroup2), "##,##0") & "</td>")
+                                '            Response.Write("</tr>")
+                                '            GroupMoney2 = GroupMoney2 + Decimal.Truncate(rdGroup2("SharePercent") * Decimal.Truncate(PointMoney * UnitScore) * 0.28 * ShareGroup2)
+                                '            GroupMoney2Total = GroupMoney2Total + Decimal.Truncate(rdGroup2("SharePercent") * Decimal.Truncate(PointMoney * UnitScore) * 0.28 * ShareGroup2)
+                                '        End While
+                                '    End If
+                                '    rdGroup2.Close()
+                                '    Response.Write("</table>")
+                                '    Response.Write("</td>")
+                                '    Response.Write("<td style=""width: 6%"">" & GroupMoney2 & "</td>")
+                                'Else
+                                Response.Write("<td colspan=""2"">&nbsp;</td>")
+                                'End If
+                                '類別3
+                                If Trim(rdUnit2("ShowOrder")) = "0" Or Trim(rdUnit2("ShowOrder")) = "1" Or Trim(rdUnit2("ShowOrder")) = "2" Then
+                                    If Trim(rdUnit2("ShowOrder")) = "0" Or Trim(rdUnit2("ShowOrder")) = "1" Then
+                                        strType2Unit = Trim(rdUnit2("UnitID"))
+                                    Else
+                                        strType2Unit = Trim(rdUnit2("UnitTypeID"))
+                                    End If
+                                    Dim GroupMoney3 As Integer = 0
+                                    Response.Write("<td style=""width: 10%"">")
+                                    Response.Write("<table border=""1"">")
+                                    Dim strGroup3 = "select * from CommonShareReward where ShareGroupID=3 and UnitID='" & strType2Unit & "' order by SN"
+                                    Dim CmdGroup3 As New Data.OracleClient.OracleCommand(strGroup3, conn)
+                                    Dim rdGroup3 As Data.OracleClient.OracleDataReader = CmdGroup3.ExecuteReader()
+                                    If rdGroup3.HasRows Then
+                                        While rdGroup3.Read()
+                                            Response.Write("<tr>")
+                                            Response.Write("<td style=""width: 50px"">" & rdGroup3("CommonShareUnit") & "(" & Format(rdGroup3("SharePercent") * 100, "##,##0") & "%)</td>")
+                                            Response.Write("<td style=""width: 20px"">" & Format(Decimal.Truncate(rdGroup3("SharePercent") * Decimal.Truncate(PointMoney * UnitScore) * 0.28 * ShareGroup3), "##,##0") & "</td>")
+                                            GroupMoney3 = GroupMoney3 + Decimal.Truncate(rdGroup3("SharePercent") * Decimal.Truncate(PointMoney * UnitScore) * 0.28 * ShareGroup3)
+                                            GroupMoney3Total = GroupMoney3Total + Decimal.Truncate(rdGroup3("SharePercent") * Decimal.Truncate(PointMoney * UnitScore) * 0.28 * ShareGroup3)
+                                            Response.Write("</tr>")
+                                        End While
+                                    End If
+                                    rdGroup3.Close()
+                                    Response.Write("</table>")
+                                    Response.Write("</td>")
+                                    Response.Write("<td style=""width: 6%"">" & GroupMoney3 & "</td>")
+                                Else
+                                    Response.Write("<td colspan=""2"">&nbsp;</td>")
+                                End If
+                                Response.Write("<td colspan=""2"">&nbsp;</td>")
+                                'Response.Write("<td style=""width: 10%"">" & "</td>")
+                                'Response.Write("<td style=""width: 6%"">" & "</td>")
+                                Response.Write("")
+                                Response.Write("</tr>")
+                            End If
+
+                        End While
+                    End If
+                    rdUnit2.Close()
+                    Response.Write("<tr>")
+                    Response.Write("<td>" & rdSubUnit("UnitName") & "</td>")
+                    Response.Write("<td>" & Format(SubUnitScore, "##,##0.##") & "</td>")
+                    Response.Write("<td>" & Format(SubMoney, "##,##0") & "</td>")
+                    Response.Write("<td>" & Format(SubMoney2, "##,##0") & "</td>")
+                    Response.Write("<td colspan=""2"">&nbsp;</td>")
+                    '分局是類別2
+                    Dim GroupMoney2a As Integer = 0
+                    Response.Write("<td style=""width: 10%"">")
+                    Response.Write("<table border=""1"">")
+                    Dim strGroup2a = "select * from CommonShareReward where ShareGroupID=2 and UnitID='" & Trim(rdSubUnit("UnitID")) & "' order by SN"
+                    Dim CmdGroup2a As New Data.OracleClient.OracleCommand(strGroup2a, conn)
+                    Dim rdGroup2a As Data.OracleClient.OracleDataReader = CmdGroup2a.ExecuteReader()
+                    If rdGroup2a.HasRows Then
+                        While rdGroup2a.Read()
+                            Response.Write("<tr>")
+                            Response.Write("<td style=""width: 50px"">" & rdGroup2a("CommonShareUnit") & "(" & Format(rdGroup2a("SharePercent") * 100, "##,##0") & "%)</td>")
+                            Response.Write("<td style=""width: 20px"">" & Format(Decimal.Truncate(rdGroup2a("SharePercent") * Decimal.Truncate(SubMoney) * 0.28 * ShareGroup2), "##,##0") & "</td>")
+                            Response.Write("</tr>")
+                            GroupMoney2a = GroupMoney2a + Decimal.Truncate(rdGroup2a("SharePercent") * Decimal.Truncate(SubMoney) * 0.28 * ShareGroup2)
+                            GroupMoney2Total = GroupMoney2Total + Decimal.Truncate(rdGroup2a("SharePercent") * Decimal.Truncate(SubMoney) * 0.28 * ShareGroup2)
+                        End While
+                    End If
+                    rdGroup2a.Close()
+                    Response.Write("</table>")
+                    Response.Write("</td>")
+                    Response.Write("<td style=""width: 6%"">" & GroupMoney2a & "</td>")
+                    
+                    Response.Write("<td colspan=""2"">&nbsp;</td>")
+                    Response.Write("<td colspan=""2"">&nbsp;</td>")
+                    Response.Write("</tr>")
+                End While
+            End If
+            rdSubUnit.Close()
+        %>
+        <tr style="font-size: 10pt">
+        <td style="width: 100px" >總計</td>
+        <td align="right"><%=Format(UnitScoreTotal, "##,##0")%></td>
+        <td align="right"><%=Format(getMoneyTotal, "##,##0")%></td>
+        <td align="right" ><%=Format(DirectMoneyTotal, "##,##0")%></td>
+        <td style="width: 10%">
+        <%  '類別1
+            Dim GroupMoney1 As Integer = 0
+            Response.Write("<table border=""1"">")
+            Dim strGroup1 = "select * from CommonShareReward where ShareGroupID=1 order by SN"
+            Dim CmdGroup1 As New Data.OracleClient.OracleCommand(strGroup1, conn)
+            Dim rdGroup1 As Data.OracleClient.OracleDataReader = CmdGroup1.ExecuteReader()
+            If rdGroup1.HasRows Then
+                While rdGroup1.Read()
+                    Response.Write("<tr>")
+                    Response.Write("<td style=""width: 50px"">" & rdGroup1("CommonShareUnit") & "(" & Format(rdGroup1("SharePercent") * 100, "##,##0") & "%)</td>")
+                    Response.Write("<td style=""width: 20px"">" & Format(Decimal.Truncate(rdGroup1("SharePercent") * getMoneyTotal * 0.28 * ShareGroup1), "##,##0") & "</td>")
+                    GroupMoney1 = GroupMoney1 + Decimal.Truncate(rdGroup1("SharePercent") * getMoneyTotal * 0.28 * ShareGroup1)
+                    Response.Write("</tr>")
+                End While
+            End If
+            rdGroup1.Close()
+            Response.Write("</table>")
+
+            %></td>
+        <td align="right"><%=Format(GroupMoney1, "##,##0")%></td>
+        <td align="right" colspan="2"><%=Format(GroupMoney2Total, "##,##0")%></td>
+        <td align="right" colspan="2"><%=Format(GroupMoney3Total, "##,##0")%></td>
+        <td>
+        <%  '類別4
+            Dim GroupMoney4 As Integer = 0
+            
+            Response.Write("<table border=""1"">")
+            Dim strGroup4 = "select * from CommonShareReward where ShareGroupID=4 order by SN"
+            Dim CmdGroup4 As New Data.OracleClient.OracleCommand(strGroup4, conn)
+            Dim rdGroup4 As Data.OracleClient.OracleDataReader = CmdGroup4.ExecuteReader()
+            If rdGroup4.HasRows Then
+                While rdGroup4.Read()
+                    Response.Write("<tr>")
+                    Response.Write("<td style=""width: 50px"">" & rdGroup4("CommonShareUnit") & "(" & Format(rdGroup4("SharePercent") * 100, "##,##0") & "%)</td>")
+                    Response.Write("<td style=""width: 20px"">" & Format(Decimal.Truncate(rdGroup4("SharePercent") * getMoneyTotal * 0.28 * ShareGroup4), "##,##0") & "</td>")
+                    Response.Write("</tr>")
+                    GroupMoney4 = GroupMoney4 + Decimal.Truncate(rdGroup4("SharePercent") * getMoneyTotal * 0.28 * ShareGroup4)
+                End While
+            End If
+            rdGroup4.Close()
+            Response.Write("</table>")
+            
+         %></td>
+        <td align="right" ><%=Format(GroupMoney4, "##,##0")%></td>
+        </tr>
+<%
+    
+    conn.Close()
+%>    
+    </table>
+    </form>
+</body>
+</html>
