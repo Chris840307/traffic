@@ -1,0 +1,607 @@
+<!--#include virtual="traffic/Common/DB.ini"-->
+<!--#include virtual="traffic/Common/AllFunction.inc"-->
+<!--#include virtual="traffic/Common/Login_Check.asp"--> 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+</head>
+  
+<% 
+  Response.flush
+  %>
+<script language="javascript">
+function KeyDown(event)
+{
+    if (event.keyCode == 13)
+    {
+        myForm.btnModify.click();
+    }
+}
+</script>  
+<script language="JavaScript">
+function newWin(url,win,w,h,l,t,sBar,mBar,res,full){
+	var win=window.open(url,win,"width="+w+",height="+h+",left="+l+",top="+t+",scrollbars="+sBar+",menubar="+mBar+",resizable="+res+",fullscreen="+full+",status=yes,toolbar=no");
+	win.focus();
+	return win;
+}                   
+  </script>
+<script language="JavaScript">
+function ShowPIC(filename,SN)
+{
+  myForm.PicName.value=filename;
+  myForm.SelSN.value=SN;
+  myForm.kinds.value="";
+  myForm.DB_Selt.value="SP";
+  myForm.submit();
+}
+function Clear()
+{
+ document.myForm.txtBillNo.value="";
+ document.myForm.Sys_ScanUnit.value="";
+ document.myForm.Sys_ScanMemberID.value="";
+ document.myForm.ScanDate.value="";
+ document.myForm.ScanDate1.value="";
+ document.myForm.RuleDate.value="";
+ document.myForm.RuleDate1.value="";
+ document.myForm.CkboxYN.checked=false;
+ document.myForm.IllegalAddressQry.value="";
+ document.myForm.IllegalAddressIDQry.value="";
+}
+function toBook()
+{
+ document.myForm.RuleDateS.value="";
+ document.myForm.RuleDateS1.value="";
+ document.myForm.IllegalAddress.value="";
+ document.myForm.IllegalAddressID.value="";
+}
+  </script>
+<script  language="javascript">
+    function SetFocusOnMe()
+ {
+     document.myForm.txtBillNo.focus();
+
+      <%	
+        dim fso
+        dim directory 
+        directory="\\"&Request.ServerVariables("SERVER_NAME")&"\Image\Scan\" 
+        
+     	set fso=Server.CreateObject("Scripting.FileSystemObject")
+	    if (fso.FolderExists(directory&Session("User_ID")))=false then
+       		fso.CreateFolder(directory&Session("User_ID"))
+     	end if
+
+    	set fso=nothing
+	  %>
+ }
+  </script>
+
+
+<script language="JavaScript">
+function RunScanner()
+{
+  myForm.DB_Selt.value="DB_Insert";
+  myForm.submit();
+}
+  </script>
+
+<script language="javascript">
+function Qry()
+{
+   myForm.DB_Selt.value="Selt";
+   myForm.submit();
+}
+  </script>
+<script language="javascript">
+function funDbMove(MoveCnt){
+	if (eval(MoveCnt)==0){
+		myForm.DB_Move.value="";
+		myForm.submit();
+	}else if (eval(MoveCnt)==10){
+		if (eval(myForm.DB_Move.value) < eval(myForm.DB_Cnt.value)-10){
+			myForm.DB_Move.value=eval(myForm.DB_Move.value)+MoveCnt;
+			myForm.submit();
+		}
+	}else if(eval(MoveCnt)==-10){
+		if (eval(myForm.DB_Move.value)>0){
+			myForm.DB_Move.value=eval(myForm.DB_Move.value)+MoveCnt;
+			myForm.submit();
+		}
+	}else if(eval(MoveCnt)==999){
+		if (eval(myForm.DB_Cnt.value)%(10)==0){
+			myForm.DB_Move.value=Math.floor(eval(myForm.DB_Cnt.value)/(10)-1)*(10);
+		}else{
+			myForm.DB_Move.value=Math.floor(eval(myForm.DB_Cnt.value)/(10))*(10);
+		}
+		myForm.submit();
+	}
+}
+  </script>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=big5">
+
+<title>寄存送達證書掃描</title>
+<style type="text/css">
+<!--
+.style2 {font-size: 12px}
+.style3 {
+font-size: 12px ;
+color: #FF0000}
+.style4 {
+font-size: 12px ;
+}
+.btn2 {font-size: 13px}
+.Text1{
+font-weight:bold;font-size: 16px;
+}
+-->
+</style>
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" Onload="SetFocusOnMe();">
+
+<form name="myForm" method="post">  
+
+<table border='1' align="left" cellpadding="0" height="554" width="993">
+		<tr>
+		<td  bgcolor="#FFCC33" width="985" height="24" colspan="2" align="center">
+		<p align="center"><font size="4">掃描備查系統</font></td>
+	</tr>
+
+	    <tr>
+		<td height="38" valign="top" width="321" >
+                        <input type="radio" value="Pic" name="Type" <%if request("Type")="Pic" then response.write "Checked" else response.write "" %>><font color="#FF0000">違規相片</font>　
+                        <input type="radio" name="Type" value="Book" onclick="toBook();" <%
+                        if request("Type")="Book" then 
+                          response.write "Checked" 
+                        else 
+                          response.write "" 
+                        end if 
+                          if request("Type")="" then 
+                            response.write "Checked"
+                          end if  
+                        %>>
+                        <font color="#FF0000">送達證書&nbsp;
+                        </font> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 違規日期 <input name="RuleDateS" type="text" class="btn1" value="<%
+								response.write trim(request("RuleDateS"))
+							%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+						<input type="button" name="datestr4" value="..." onclick="OpenWindow('RuleDateS');">
+						~
+						<input name="RuleDateS1" type="text" class="btn1" value="<%
+								response.write trim(request("RuleDateS1"))
+							%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+						<input type="button" name="datestr5" value="..." onclick="OpenWindow('RuleDateS1');">&nbsp;
+						<br>違規代碼路段 <input type="text" size="7" value="<% if request("bIllegalAddressID")="" then response.write request("IllegalAddressID") else response.write request("bIllegalAddressID") %>" name="IllegalAddressID" onKeyUp="getillStreet();" style=ime-mode:disabled>&nbsp; 
+						<input type="text" size="8" value="<% if request("bIllegalAddress")="" then response.write request("IllegalAddress") else response.write request("bIllegalAddress") %>" name="IllegalAddress" style=ime-mode:active ">
+					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("../BillKeyIn/Query_Street.asp","WebPage3","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'> <img src="../Image/BillkeyInButton.jpg" width="25" height="17" onclick='window.open("../BillKeyIn/Query_Street.asp","WebPage3","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
+					<br> &nbsp;&nbsp;<input type="radio" name="Print" value="Mutli" <%
+                        if request("Print")="Mutli" then 
+                          response.write "Checked" 
+                        else 
+                          response.write "" 
+                        end if 
+                          if request("Print")="" then 
+                            response.write "Checked"
+                          end if  
+                        %>>
+					<font color="#000080">多張</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="Print" value="Single" <%if request("Print")="Single" then response.write "Checked" else response.write "" %>  >
+					<font color="#000080">單張</font> 
+                        　 <input type="button" value="開始掃描" name="btnRunScanner" onclick="RunScanner();">
+					<td width="660" valign="top" height="38">
+                        掃描單位
+				    	<%=SelectUnitOption("Sys_ScanUnit","Sys_ScanMemberID")%>&nbsp;
+                        掃描人員
+						<%=SelectMemberOption("Sys_ScanUnit","Sys_ScanMemberID")%>&nbsp;
+						掃描日期
+						<input name="ScanDate" type="text" class="btn1" value="<%
+						       If Trim(request("DB_Selt"))<>"" Then 
+								response.write trim(request("ScanDate"))
+                               Else
+                                response.write gInitDT(date)
+                               End if
+							%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+						<input type="button" name="datestr1" value="..." onclick="OpenWindow('ScanDate');">
+						~
+						<input name="ScanDate1" type="text" class="btn1" value="<%
+						       If Trim(request("DB_Selt"))<>"" Then 
+								response.write trim(request("ScanDate1"))
+                               Else
+                                response.write gInitDT(date)
+                               End if
+							%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+						<input type="button" name="datestr" value="..." onclick="OpenWindow('ScanDate1');"><br>
+						違規日期
+						<input name="RuleDate" type="text" class="btn1" value="<%
+								response.write trim(request("RuleDate"))
+							%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+						<input type="button" name="datestr2" value="..." onclick="OpenWindow('RuleDate');">
+						~
+						<input name="RuleDate1" type="text" class="btn1" value="<%
+								response.write trim(request("RuleDate1"))
+							%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+						<input type="button" name="datestr3" value="..." onclick="OpenWindow('RuleDate1');">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="checkbox" name="CkboxYN" value="on" <%
+						if request("CkboxYN")<>"" then
+						   response.write "Checked"
+						end if
+                        %>
+						>確認否(是否有對應舉發單號)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+                        <br> 違規代碼路段
+					<input type="text" size="7" value="<%
+								response.write trim(request("IllegalAddressIDQry"))
+							%>" name="IllegalAddressIDQry" onKeyUp="getillStreet();" style=ime-mode:disabled> <input type="text" size="8" value="<%
+								response.write trim(request("IllegalAddressQry"))
+							%>" name="IllegalAddressQry" style=ime-mode:active ">
+					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("../BillKeyIn/Query_Street.asp","WebPage4","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'> <img src="../Image/BillkeyInButton.jpg" width="25" height="17" onclick='window.open("Query_Street.asp","WebPage4","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'> &nbsp;&nbsp;&nbsp;<input type="radio" value="PicQry" name="TypeQry" <%if request("TypeQry")="PicQry" then response.write "Checked" else response.write "" %>><font color="#FF0000">違規相片</font>　<input type="radio" name="TypeQry" value="BookQry" <%
+                        if request("TypeQry")="BookQry" then 
+                          response.write "Checked" 
+                        else 
+                          response.write "" 
+                        end if 
+                          if request("TypeQry")="" then 
+                            response.write "Checked"
+                          end if  
+                        %> >
+					<font color="#FF0000">送達證書</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="button" value="查詢" name="btnQry" onclick="Qry();">　<input type="button" value="清除" name="btnClear" onClick="Clear();"></td>
+	</tr>
+
+		<td width="321" height="443" valign="top">
+		<table width='305' border='1' align="left" cellpadding="3" height="31">
+			<tr bgcolor="#FFFFCC">
+			<td align="center" width="141" height="1"><span class="style2">單位</span></td>
+			<td align="center" width="80" height="1"><span class="style2">人員</span></td>
+			<td align="center" width="78" height="1"><span class="style2">舉發單號</span></td>
+			<td align="center" width="60" height="1"><span class="style2">顯示圖片</span></td>
+			</tr>
+	<%	
+'	if request("DB_Selt")="Selt" then
+dim bIllegalAddressID,bIllegalAddress,strtmp,strUnitID,strSQL,rs1,ScanDate1,ScanDate2
+dim RuleDate1,RuleDate2,strwhere,rs2,DBsum,objFSO,DBcnt,tFileName,SelSnNum,i,tSN,PicName
+
+		        ScanDate1=gOutDT(request("ScanDate"))&" 0:0:0"
+				ScanDate2=gOutDT(request("ScanDate1"))&" 23:59:59"
+				
+		        RuleDate1=gOutDT(request("RuleDate"))&" 0:0:0"
+				RuleDate2=gOutDT(request("RuleDate1"))&" 23:59:59"
+
+			If request("DB_Selt")="" Then 	
+			  ScanDate1=(date)&" 0:0:0"
+			  ScanDate2=(date)&" 23:59:59"
+    			strwhere=" and a.RecordDate between TO_DATE('"&ScanDate1&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&ScanDate2&"','YYYY/MM/DD/HH24/MI/SS')"
+			End if	
+
+			if request("ScanDate")<>"" and request("ScanDate1")<>"" then 
+    			strwhere=" and a.RecordDate between TO_DATE('"&ScanDate1&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&ScanDate2&"','YYYY/MM/DD/HH24/MI/SS')"
+            end if
+            
+			if request("RuleDate")<>"" and request("RuleDate1")<>"" then 
+    			strwhere=" and a.RuleDateS >= TO_DATE('"&RuleDate1&"','YYYY/MM/DD/HH24/MI/SS') and a.RuleDateE <= TO_DATE('"&RuleDate2&"','YYYY/MM/DD/HH24/MI/SS')"
+            end if            
+            
+				if request("Sys_ScanUnit")<>"" then
+	    			strwhere=strwhere&" and c.UnitID ='"&request("Sys_ScanUnit")&"'"
+   		    	end if
+   		    	
+   		    	if request("IllegalAddressQry")<>"" then
+    		    	  strwhere=strwhere&" and a.IllegalAddress='"&request("IllegalAddressQry")&"'"
+   		    	end if
+   		    	
+   		    	if request("IllegalAddressIDQry")<>"" then
+    		    	  strwhere=strwhere&" and a.IllegalAddressID='"&request("IllegalAddressIDQry")&"'"
+   		    	end if
+   		    	
+				if request("Sys_ScanMemberID")<>"" then
+	    			strwhere=strwhere&" and a.RecordMemberID='"&request("Sys_ScanMemberID")&"'"
+     			end if
+     			
+    			if request("CkboxYN")="" then
+	    			strwhere=strwhere&" and (a.BillNo is null or a.BillNo='')"
+     			else
+	    			strwhere=strwhere&" and (a.BillNo is not null or a.BillNo<>'')"
+     			end if
+     			
+     			if request("TypeQry")="PicQry" then
+	    			strwhere=strwhere&" and a.TypeID=1"
+     			else
+	    			strwhere=strwhere&" and a.TypeID=0"
+     			end if
+     			
+			strSQL="select count(*) as Total from BillAttatchImage a,MemberData b,UnitInfo c where a.RecordMemberID=b.MemberID and b.unitid=c.unitid and a.RecordStateID=0 " 
+			set rs2=conn.execute(strSQL & strwhere)
+			' response.write strSQL & strwhere
+			DBsum=cint(rs2("Total"))
+            rs2.close
+            
+			strSQL="select a.SN,a.BillNo,a.FileName,To_Char(a.RecordDate,'yyyyMMDDhh24miss') as IMGDate,b.ChName,c.unitname from BillAttatchImage a,MemberData b,UnitInfo c where a.RecordMemberID=b.MemberID and b.unitid=c.unitid and a.RecordStateID=0 " 
+			'response.write strSQL & strwhere & " order by desc 1"
+			set rs2=conn.execute(strSQL & strwhere & " order by 1 desc ")
+			
+			Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+
+					if Trim(request("DB_Move"))="" then
+						DBcnt=0
+					else
+						DBcnt=request("DB_Move")
+					end if
+					
+  					if Not rs2.eof then 
+  					  if DBcnt<0 then 
+  					    rs2.move 0
+  					  else
+  					    rs2.move DBcnt
+  					  end if  
+  					end if  
+	
+
+                    tFileName=""
+                    SelSnNum=""
+                    
+					for i=DBcnt+1 to DBcnt+10
+					  
+						if rs2.eof then exit for
+     				  if i=DBcnt+1 then 
+
+	                    tFileName=rs2("FileName")
+                        tSN=rs2("SN")
+                        if request("DB_Selt")<>"SP" then 
+                            SelSnNum=tSN 
+                        else
+                            SelSnNum=rs2("SN") 
+                            tSN=""
+                        end if  
+					  end if
+
+						
+						directory=trim("\\"&Request.ServerVariables("SERVER_NAME")&Replace(Replace(rs2("FileName") & "","/","\"),"img","Image"))
+						
+						If objFSO.FileExists(directory)=true Then
+						else
+						    strDelete="delete BillAttatchImage where SN=" & rs2("SN")
+                           	conn.execute strDelete
+                        End If
+		                
+		%>	
+			<tr onMouseOver="this.style.backgroundColor='#CCFFFF'" onMouseOut="this.style.backgroundColor='#FFFFFF'" >
+				<td height="21" width="141"><span class="style2">
+		        <%
+					response.write rs2("unitname")
+				%>
+				  </span>　</td>
+				<td height="21" width="80"><span class="style2">
+		        <%
+   					response.write rs2("ChName") 
+				%>
+				  </span>　</td>
+				<td height="21" width="84"><span class="style2">
+		        <%
+					response.write rs2("BillNo") & ""
+				%>
+				  </span>　</td>				  
+				<td height="21" width="60" align="center"><span class="style2">
+					<input type="Button" Name="btn" onclick="ShowPIC('<%=rs2("FileName")%>','<%=rs2("SN")%>');" value="顯示">
+    			  </span>　</td>
+				  
+			</tr>
+		<%  PicName=rs2("FileName")	
+					rs2.movenext
+					next
+
+    	%>
+			<input type="button" name="MoveFirst" value="第一頁" onclick="funDbMove(0);">
+			<input type="button" name="MoveUp" value="上一頁" onclick="funDbMove(-10);">
+			<span class="style2"> <%=fix(Cint(DBcnt)/(10)+1)&"/"&fix(Cint(DBsum)/(10)+0.9)%></span>
+			<input type="button" name="MoveDown" value="下一頁" onclick="funDbMove(10);">
+			<input type="button" name="MoveDown" value="最末頁" onclick="funDbMove(999);">
+			
+
+        <%
+		rs2.close
+            set objFSO=nothing
+			set rs2=nothing
+        'end if%>		
+		
+		</table>
+		</td>
+
+		<td height="400" width="660">
+		<!-- 影像大圖 -->
+<div style="overflow:hidden">
+<img border="0" src="<%if trim(request("PicName"))="" then response.write tFileName else response.write Request("PicName")%>"  id="img" width="300" height="300" alt="點選看原圖" Onclick="newWin('<%if trim(request("PicName"))="" then response.write tFileName else response.write Request("PicName")%>','ShowPic',980,575,0,0,'yes','no','yes','no');">
+</div>
+
+<script language="JavaScript">
+
+var rate=5;
+document.getElementById("img").parentNode.style.width=675;
+document.getElementById("img").parentNode.style.height=500;
+if ('<%=request("TypeQry")%>'=="BookQry") 
+{
+document.getElementById("img").height = 600*rate;
+document.getElementById("img").width = 600*rate;
+document.getElementById("img").style.marginLeft=-1700;
+document.getElementById("img").style.marginTop=-150;
+}
+else
+{
+document.getElementById("img").height = 600;
+document.getElementById("img").width = 600;
+}
+        </script>
+</td>
+	</tr>
+
+	<tr>
+		<td height="33" colspan="2" valign="top" width="985">
+     	<div align="left">
+     	<table border='0' cellpadding="0" bordercolor="#FFCC33" cellspacing="0" height="33" style="border-collapse: collapse" width="970">
+			<tr>
+				<td bgcolor="#FFFFCC" height="33" width="145" align="center"> 
+                <p style="margin-top: 0"> <span class="style3"><font size="5">＊</font></span><font size="5">舉發單號&nbsp; </font></td>
+				<td bgcolor="#FFCC33" width="825">
+				&nbsp;<font size="5"><input type="text" size="17" name="txtBillNo" maxlength=9 onkeyup="javascript:this.value=this.value.toUpperCase();" onkeydown="KeyDown(event);"></font>
+				<input type="button" value="確定" name="btnModify" onclick="UpdateData('<%if tSN="" then response.write request("SelSN") else response.write tSN%>',document.myForm.txtBillNo.value);">&nbsp;&nbsp;&nbsp;
+                <input type="button" value="刪除" name="btnDelete" onclick="DeleteData('<%=request("SelSN")%>')"></td>
+				<input type="Hidden" name="PicName" value="">
+				<input type="Hidden" name="kinds" value="">
+                <input type="Hidden" name="DB_Move" value="<%=DBcnt%>">
+                <input type="Hidden" name="DB_Cnt" value="<%=DBsum%>">
+                <input type="Hidden" name="SelSN" value="<%=SelSnNum%>">
+                <input type="Hidden" name="DB_Selt" value="">
+                
+							
+		</table>
+        </div>
+            
+</table>
+
+</form>
+
+  
+
+<br>
+<OBJECT classid=clsid:5220cb21-c88d-11cf-b347-00aa00a28331><PARAM NAME="LPKPath" VALUE="twaincontrolxtrial.lpk"></object>
+<OBJECT id=tcx1 classid=CLSID:C46A8919-8107-11D8-8671-00C1261173F0 codebase=twaincontrolxtrial.cab>
+  ACTIVEX 掃描元件讀取失敗，請下載<A href="twaincontrolxtrial.exe">掃描元件</a></object>
+</body>
+<script type="text/javascript" src="../js/date.js"></script>      
+
+<%
+if request("DB_Selt")="DB_Insert" then
+                       '填單人代碼
+                       theRecordMemberID=trim(Session("User_ID"))
+                       gCh_Name = session("CH_Name")
+                       gUnit_ID = Session("Unit_ID")
+                 if request("Type")="Pic" then
+                   if (request("RuleDateS")="" or request("RuleDateS1")="") and (request("IllegalAddress")="" or request("IllegalAddressID")="") then 
+                     %>
+                       <script>
+                         alert("請輸入違規日期或違規代碼路段");
+                       </script>
+                     <%
+                     response.End
+                   end if
+                 end if
+                       '新增告發單
+	           %>
+             	<script language="javascript">
+                 var ImageNum;
+
+                  if (tcx1.devicecount > 0)
+                  {
+                    tcx1.selectdevice();
+                    // tcx1.CurrentDevice=1;
+                   if (tcx1.connected)
+                   {
+                     
+                     if (document.myForm.Print[0].checked) 
+                     {
+                       tcx1.MultiImage=true;
+                       tcx1.UseADF=true;
+                     }
+                     else
+                     {
+                       tcx1.MultiImage=false;
+                       tcx1.UseADF=false;
+                     }
+                     tcx1.KeepImages=true;
+                     tcx1.UseInterface=false;
+                     tcx1.ShowProgress=true;
+                     tcx1.acquire();  
+                          for (i = 1; i <=tcx1.ImageCount ; i++) 
+                            {
+                              ImageNum=getCurDate()+1;
+                              SaveData(ImageNum,'<%=theRecordMemberID%>','<%=gOutDT(request("RuleDateS"))%>','<%=gOutDT(request("RuleDateS1"))%>','<%if request("Type")="Pic" then response.write "1" else response.write "0" %>','<%=request("IllegalAddress")%>','<%=request("IllegalAddressID")%>');         
+                              tcx1.SelectedImage = i;
+                              tcx1.SaveToFile("//<%=Request.ServerVariables("SERVER_NAME")%>/image/scan/<%=theRecordMemberID%>/" + ImageNum + ".jpg");
+   
+                            }
+                            alert("共掃描" + tcx1.ImageCount + "張\n\n存檔完畢"); 
+                            tcx1.Clear();
+
+                         }   
+                       else
+                         alert("放棄處理影像");
+                       }
+                   else
+                      alert("無掃描器");
+                      
+                  function getCurDate(){
+                	var d = new Date();
+                	var a = ["00","0",""];
+                	var yyyy = d.getFullYear();
+                	var mm = String(d.getMonth() + 1);
+                	mm = a[mm.length] + mm;
+                	var dd = String(d.getDay());
+                	dd = a[dd.length] + dd;
+                	var hh = String(d.getHours());
+                	hh = a[hh.length] + hh;
+                	var nn = String(d.getMinutes());
+                	nn = a[nn.length] + nn;
+                	var ss = String(d.getSeconds());
+                	ss = a[ss.length] + ss;
+                	var ms = String(d.getMilliseconds());
+                	return yyyy + mm + dd + hh + nn + ss;
+                   }
+                   function SaveData(ImageNum,theRecordMemberID,RuleDateS,RuleDateE,TypeID,IlgalAddr,IlgalAddrID){
+                     runServerScript("SaveData.asp?ImageNum="+ImageNum+"&theRecordMemberID="+theRecordMemberID+"&RuleDateS="+RuleDateS+"&RuleDateE="+RuleDateE+"&TypeID="+TypeID+"&IlgalAddr="+IlgalAddr+"&IlgalAddrID="+IlgalAddrID);
+                   }	
+                 </script>     
+<%     	
+     set oRST = nothing
+end if 
+%><%
+
+conn.close
+set conn=nothing
+%>
+<script language="javascript">
+		<%response.write "UnitMan('Sys_ScanUnit','Sys_ScanMemberID','"&request("Sys_ScanMemberID")&"');"%>
+		<%response.write "UnitMan('Sys_ScanUnit','Sys_ScanMemberID','"&request("Sys_ScanMemberID")&"');"%>
+		
+function UnitMan(UnitName,UnitMem,tmpMemID){
+	if(document.all[UnitName].value!=''){
+		runServerScript("UnitAdd.asp?UnitID="+document.all[UnitName].value+"&UnitMem="+UnitMem+"&MemberID="+tmpMemID);
+	}else{
+		document.all[UnitMem].options[1]=new Option('所有人','');
+		document.all[UnitMem].length=1;
+	}
+}
+
+function DeleteData(SN)
+{
+  if (confirm("是否確定刪除")){
+    runServerScript("DeleteData.asp?SN="+SN);
+    Qry();
+  }  
+}
+
+function UpdateData(SN,BillNo)
+{
+  var err=0;
+  if (myForm.txtBillNo.value=="") 
+  {
+    err=1;
+  }
+  else
+  {
+    if (myForm.txtBillNo.value.length!=9)
+    {
+      err=1;
+    }
+  }
+  
+  if (err==0) 
+  {
+     runServerScript("UpdateData.asp?SN="+SN+"&BillNo="+BillNo);
+     Qry();
+  }  
+  else
+  {
+    alert("不得輸入空值或輸入值需９碼");
+  }
+    
+}
+</script>
+</html>
