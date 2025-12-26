@@ -68,7 +68,7 @@ end if
 %>	
 <table width="100%" height="100%" border="0">
   <tr>
-    <td height="27" bgcolor="#FFCC33"><span class="pagetitle">路段代碼檔維護  (為確保歷史案件資料查詢及統計正確性,路段代碼不可修改)</span></td>
+    <td height="27" bgcolor="#1BF5FF"><span class="pagetitle">路段代碼檔維護  (為確保歷史案件資料查詢及統計正確性,路段代碼不可修改)</span></td>
   </tr>
 <FORM NAME="Street" ACTION="" METHOD="POST">   
 	<input type="hidden" name="isQuery" value="y">
@@ -111,7 +111,7 @@ end if
   </tr>
 </FORM>    
   <tr>
-    <td height="26" bgcolor="#FFCC33"><span class="pagetitle">路段代碼檔紀錄列表</span></td>
+    <td height="26" bgcolor="#1BF5FF"><span class="pagetitle">路段代碼檔紀錄列表</span></td>
   </tr>
 <%
 if Request("isQuery") = "y" then
@@ -182,7 +182,7 @@ End if
      </td>
   </tr>
 	<tr>              
-		<td align="center" height="35" bgcolor="#FFDD77">
+		<td align="center" height="35" bgcolor="#1BF5FF">
 <%
    urlParam = "&isQuery=" & Request("isQuery") & "&StreetID=" & Request("StreetID") & "&StreetSimpleName=" & Request("StreetSimpleName") & "&Address=" & Request("Address")
 %>			

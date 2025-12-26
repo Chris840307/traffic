@@ -62,12 +62,12 @@ end if
 
 <table width="100%" height="100%" border="0">
   <tr>
-    <td height="27" bgcolor="#FFCC33"><span class="pagetitle">路段代碼檔維護</span></td>
+    <td height="27" bgcolor="#1BF5FF"><span class="pagetitle">路段代碼檔維護</span></td>
   </tr>
   <tr>
     <td height="26" bgcolor="#CCCCCC"><table width="100%"  border="0" cellpadding="5" cellspacing="1" bgcolor="#FFFFFF">
       <tr>
-        <td width="11%" bgcolor="#FFFFCC"><div align="right">路段代碼</div></td>
+        <td width="11%" bgcolor="#1BF5FF"><div align="right">路段代碼</div></td>
         <td width="89%">
            <input name="StreetId" type="text" size="10" maxlength="9" onKeyDown="lockSpecialCharr(this);" onKeyUp="lockSpecialCharr(this);" class="btn1">
         </td>
@@ -76,7 +76,7 @@ end if
           <input name="StreetSimpleName" type="hidden" size="10" maxlength="50" onKeyDown="lockSpecialCharr(this);" onKeyUp="lockSpecialCharr(this);" class="btn1">
 
       <tr>
-        <td bgcolor="#FFFFCC"><div align="right">路段詳細</div></td>
+        <td bgcolor="#1BF5FF"><div align="right">路段詳細</div></td>
         <td>
           <input name="Address" type="text" size="41" maxlength="50" onKeyDown="lockSpecialCharr(this);" onKeyUp="lockSpecialCharr(this);" class="btn1">
         </td>
@@ -91,7 +91,7 @@ end if
     </table></td>
   </tr>
   <tr>
-    <td height="35" bgcolor="#FFDD77"><p align="center" class="style1">
+    <td height="35" bgcolor="#1BF5FF"><p align="center" class="style1">
     
         <input type="submit" value="確 定" name="submit001">
         <img src="space.gif" width="9" height="8">       

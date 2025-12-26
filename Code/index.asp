@@ -32,7 +32,7 @@ End If
 <body>
 <table width="100%" height="100%" border="0">
   <tr>
-    <td height="26" bgcolor="#FFCC33"><span class="style3">代碼維護主頁</span></td>
+    <td height="26" bgcolor="#1BF5FF"><span class="style3">代碼維護主頁</span></td>
   </tr>
   <tr>
     <td height="385" bgcolor="#E0E0E0"><table width="100%" height="100%" border="0" cellpadding="4" cellspacing="1">
@@ -93,7 +93,7 @@ End If
     </table></td>
   </tr>
   <tr>
-    <td height="35" bgcolor="#FFDD77"><p align="center" class="style1"><a href="file:///C|/Documents%20and%20Settings/Smith/&#26700;&#38754;/&#31995;&#32113;&#35498;&#26126;/&#38936;&#21934;&#31649;&#29702;&#31995;&#32113;/sssss">
+    <td height="35" bgcolor="#1BF5FF"><p align="center" class="style1"><a href="file:///C|/Documents%20and%20Settings/Smith/&#26700;&#38754;/&#31995;&#32113;&#35498;&#26126;/&#38936;&#21934;&#31649;&#29702;&#31995;&#32113;/sssss">
       </a></p>    </td>
   </tr>
   <tr>

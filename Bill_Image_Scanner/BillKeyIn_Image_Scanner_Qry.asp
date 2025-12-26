@@ -267,7 +267,7 @@ function funDbMove(MoveCnt){
 <!--<table border='1' align="left" cellpadding="0" height="554" width="993">-->
 <table border='1' align="left" cellpadding="0" height="100%" width="100%">
 		<tr>
-		<td  bgcolor="#FFCC33" width="985" height="24" colspan="2" align="center">
+		<td  bgcolor="#1BF5FF" width="985" height="24" colspan="2" align="center">
 		<p align="center"><font size="4">掃描備查系統</font>&nbsp;&nbsp;&nbsp;<a href="掃描第一次使用時注意事項.doc">掃描第一次使用時注意事項</a>&nbsp;&nbsp;&nbsp;<a href="掃描備查系統.doc">掃描備查系統使用手冊</a>
 		<% If Sys_City="高雄縣" then%>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="條碼自動辨識注意事項.doc">條碼自動辨識注意事項</a>
@@ -754,14 +754,14 @@ document.getElementById("img").style.marginTop=50;
 	<tr>
 		<td height="33" colspan="2" valign="top" width="100%">
      	<div align="left">
-     	<table border='0' cellpadding="0" bordercolor="#FFCC33" cellspacing="0" height="33" style="border-collapse: collapse" width="100%">
+     	<table border='0' cellpadding="0" bordercolor="#1BF5FF" cellspacing="0" height="33" style="border-collapse: collapse" width="100%">
 			<tr>
 				<td bgcolor="<%=tempcolor%>" height="33" width="145" align="center"> 
 
 
 
                 <p style="margin-top: 0"> <span class="style3"><font size="5">＊</font></span><font size="5">舉發單號&nbsp; </font></td>
-				<td bgcolor="#FFCC33" width="825">
+				<td bgcolor="#1BF5FF" width="825">
 				&nbsp;<font size="5"><input type="text" size="17" name="txtBillNo" maxlength=9 onkeyup="getkeyupBillno();" onkeydown="KeyDown(event);" onfocus="this.select()"  style="background-color:<%=tempcolor%>"></font>
 				<input type="button" value="確定" name="btnModify" onclick="UpdateData('<%if tSN="" then response.write request("SelSN") else response.write tSN%>',document.myForm.txtBillNo.value,'<%=request("TypeQry")%>');">&nbsp;&nbsp;&nbsp;
         <input type="button" value="刪除" name="btnDelete" onclick="DeleteData('<%if tSN="" then response.write request("SelSN") else response.write tSN%>')">

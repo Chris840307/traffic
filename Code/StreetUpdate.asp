@@ -55,19 +55,19 @@ end if
 
 <table width="100%" height="100%" border="0">
   <tr>
-    <td height="27" bgcolor="#FFCC33"><span class="pagetitle">路段代碼檔維護</span></td>
+    <td height="27" bgcolor="#1BF5FF"><span class="pagetitle">路段代碼檔維護</span></td>
   </tr>
   <tr>
     <td height="26" bgcolor="#CCCCCC"><table width="100%"  border="0" cellpadding="5" cellspacing="1" bgcolor="#FFFFFF">
       <tr>
-        <td width="11%" bgcolor="#FFFFCC"><div align="right">路段代碼</div></td>
+        <td width="11%" bgcolor="#1BF5FF"><div align="right">路段代碼</div></td>
         <td width="89%">
            <%=Request("StreetID")%>
         </td>
       </tr>
           <input name="StreetSimpleName" type="hidden" value="<%=Request("StreetSimpleName")%>" size="10" maxlength="9" onKeyDown="lockSpecialCharr(this);" onKeyUp="lockSpecialCharr(this);" class="btn1">
       <tr>
-        <td bgcolor="#FFFFCC"><div align="right">路段詳細</div></td>
+        <td bgcolor="#1BF5FF"><div align="right">路段詳細</div></td>
         <td>
           <input name="Address" type="text" size="41" maxlength="40" value="<%=Request("Address")%>" onKeyDown="lockSpecialCharr(this);" onKeyUp="lockSpecialCharr(this);" class="btn1">
         </td>
@@ -82,7 +82,7 @@ end if
     </table></td>
   </tr>
   <tr>
-    <td height="35" bgcolor="#FFDD77"><p align="center" class="style1"><a href="file:///C|/Documents%20and%20Settings/Smith/&#26700;&#38754;/&#31995;&#32113;&#35498;&#26126;/&#38936;&#21934;&#31649;&#29702;&#31995;&#32113;/sssss">
+    <td height="35" bgcolor="#1BF5FF"><p align="center" class="style1"><a href="file:///C|/Documents%20and%20Settings/Smith/&#26700;&#38754;/&#31995;&#32113;&#35498;&#26126;/&#38936;&#21934;&#31649;&#29702;&#31995;&#32113;/sssss">
        </a>
         <input type="submit" name="submit001" value="確 定">
         <input type="hidden" name="StreetID" value="<%=Request("StreetID")%>">
