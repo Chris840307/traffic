@@ -111,7 +111,7 @@
 		<tr bgcolor="#1BF5FF">
 			<td colspan="6"><strong>舉發單詳細資料</strong></td>
 		</tr>
-		<tr bgcolor="#33FFCC">
+		<tr bgcolor="#D4B483">
 			<td align="center" width="20%"><strong>單號</strong></td>
 			<td align="center" width="20%"><strong>車號</strong></td>
 			<td align="center" width="20%"><strong>違規法條</strong></td>
@@ -217,7 +217,7 @@
 			end if
 			%></td>
 		</tr>
-		<tr bgcolor="#33FFCC">
+		<tr bgcolor="#D4B483">
 			<td align="center" width="20%"><strong>填單日</strong></td>
 			<td align="center" width="20%"><strong>建檔日,建檔人</strong></td>
 			<td align="center" width="20%"><strong>違規日</strong></td>
@@ -327,7 +327,7 @@
 			end if
 			%></td>
 		</tr>
-		<tr bgcolor="#33FFCC">
+		<tr bgcolor="#D4B483">
 			<td align="center" width="20%"><strong>單退日,單退人</strong></td>
 			<td align="center" width="20%"><strong>寄存送達日,寄存人</strong></td>
 			<td align="center" width="20%"><strong>公示送達日</strong></td>
@@ -516,7 +516,7 @@
 			set rsScan=nothing
 			%></td>
 		</tr>
-		<tr bgcolor="#33FFCC">
+		<tr bgcolor="#D4B483">
 			<td align="center" width="20%"><strong>回執聯掃描檔</strong></td>
 			<td align="center" ><strong>監理站日期</strong></td>
 			<td align="center"><strong>移送聯掃描檔</strong></td>
@@ -558,7 +558,7 @@
 			<td align="center"><%=FirstMailStation%></td>
 			<td align="center" ><%=SignMan%></td>
 		</tr>
-		<tr bgcolor="#33FFCC">
+		<tr bgcolor="#D4B483">
 			<td align="center" colspan="5"><strong>相關文件掃描檔</strong></td>
 		<tr>
 			<td align="center" colspan="5"><%
@@ -641,7 +641,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td bgcolor="#FFFF99" width="13%" align="right"><strong>單號</strong></td>
+			<td bgcolor="#EBE5FF" width="13%" align="right"><strong>單號</strong></td>
 			<td align="left" width="20%"><%
 			'單號
 			if trim(rs1("BillNo"))<>"" and not isnull(rs1("BillNo")) then
@@ -650,7 +650,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td bgcolor="#FFFF99" width="13%" align="right"><strong>舉發類別</strong></td>
+			<td bgcolor="#EBE5FF" width="13%" align="right"><strong>舉發類別</strong></td>
 			<td align="left" width="20%"><%
 			'舉發類別
 			if trim(rs1("BillTypeID"))<>"" and not isnull(rs1("BillTypeID")) then
@@ -665,7 +665,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td bgcolor="#FFFF99" width="13%" align="right"><strong>車號</strong></td>
+			<td bgcolor="#EBE5FF" width="13%" align="right"><strong>車號</strong></td>
 			<td align="left" width="20%"><%
 			'車號
 			if trim(rs1("CarNo"))<>"" and not isnull(rs1("CarNo")) then
@@ -676,7 +676,7 @@
 			%></td>
 		</tr>
 		</tr>
-			<td bgcolor="#FFFF99" align="right"><strong>違規人姓名</strong></td>
+			<td bgcolor="#EBE5FF" align="right"><strong>違規人姓名</strong></td>
 			<td align="left"><%
 			'違規人姓名
 			if trim(rs1("Driver"))<>"" and not isnull(rs1("Driver")) then
@@ -685,7 +685,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td bgcolor="#FFFF99" align="right"><strong>違規人身份證</strong></td>
+			<td bgcolor="#EBE5FF" align="right"><strong>違規人身份證</strong></td>
 			<td align="left"><%
 			'違規人身分証
 			if trim(rs1("DriverID"))<>"" and not isnull(rs1("DriverID")) then
@@ -694,7 +694,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td bgcolor="#FFFF99" align="right"><strong>違規人生日</strong></td>
+			<td bgcolor="#EBE5FF" align="right"><strong>違規人生日</strong></td>
 			<td align="left"><%
 			'違規人生日
 			if trim(rs1("DriverBirth"))<>"" and not isnull(rs1("DriverBirth")) then
@@ -705,7 +705,7 @@
 			%></td>
 		</tr>
 		<tr>			
-			<td bgcolor="#FFFF99" align="right"><strong>違規人性別</strong></td>
+			<td bgcolor="#EBE5FF" align="right"><strong>違規人性別</strong></td>
 			<td align="left"><%
 			'違規人性別
 			if trim(rs1("DriverSex"))<>"" and not isnull(rs1("DriverSex")) then
@@ -718,7 +718,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td bgcolor="#FFFF99" align="right"><strong>違規人地址</strong></td>
+			<td bgcolor="#EBE5FF" align="right"><strong>違規人地址</strong></td>
 			<td align="left" colspan="3"><%
 			'違規人地址
 			if trim(rs1("DriverZip"))<>"" and not isnull(rs1("DriverZip")) then
@@ -732,7 +732,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>簡示車種</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>簡示車種</strong></td>
 			<td align="left"><%
 			'簡式車種
 			if trim(rs1("CarSimpleID"))<>"" and not isnull(rs1("CarSimpleID")) then
@@ -755,7 +755,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>輔助車種</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>輔助車種</strong></td>
 			<td align="left"><%
 			'輔助車種
 			if trim(rs1("CarAddID"))<>"" and not isnull(rs1("CarAddID")) then
@@ -790,7 +790,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>違規日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>違規日期</strong></td>
 			<td align="left"><%
 			'違規日期
 			if trim(rs1("IllegalDate"))<>"" and not isnull(rs1("IllegalDate")) then
@@ -803,7 +803,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>違規地點</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>違規地點</strong></td>
 			<td align="left" colspan="5"><%
 			'違規地點
 			if trim(rs1("IllegalAddressID"))<>"" and not isnull(rs1("IllegalAddressID")) then
@@ -818,7 +818,7 @@
 			
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>違規事實</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>違規事實</strong></td>
 			<td align="left" colspan="5"><%
 			'違規事實
 			if trim(rs1("Rule1"))<>"" and not isnull(rs1("Rule1")) then
@@ -920,7 +920,7 @@
 		</tr>
 		<tr>
 
-			<td align="right" bgcolor="#FFFF99"><strong>限速、限重</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>限速、限重</strong></td>
 			<td align="left"><%
 			'限速、限重
 			if trim(rs1("RuleSpeed"))<>"" and not isnull(rs1("RuleSpeed")) then
@@ -929,7 +929,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>車速</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>車速</strong></td>
 			<td align="left"><%
 			'車速
 			if trim(rs1("IllegalSpeed"))<>"" and not isnull(rs1("IllegalSpeed")) then
@@ -938,7 +938,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>填單日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>填單日期</strong></td>
 			<td align="left"><%
 			'填單日期
 			if trim(rs1("BillFillDate"))<>"" and not isnull(rs1("BillFillDate")) then
@@ -948,7 +948,7 @@
 			end if
 			%></td>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>應到案日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>應到案日期</strong></td>
 			<td align="left"><%
 			'應到案日期
 			if trim(rs1("DealLineDate"))<>"" and not isnull(rs1("DealLineDate")) then
@@ -957,7 +957,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>應到案處所</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>應到案處所</strong></td>
 			<td align="left"><%
 			'應到案處所
 			if trim(rs1("MemberStation"))<>"" and not isnull(rs1("MemberStation")) then
@@ -972,7 +972,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>舉發單位</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>舉發單位</strong></td>
 			<td align="left"><%
 			'舉發單位
 			if trim(rs1("BillUnitID"))<>"" and not isnull(rs1("BillUnitID")) then
@@ -989,7 +989,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>舉發人</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>舉發人</strong></td>
 			<td align="left"><%
 			'舉發人
 			if trim(rs1("BillMem1"))<>"" and not isnull(rs1("BillMem1")) then
@@ -1043,7 +1043,7 @@
 				End if
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>代保管物</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>代保管物</strong></td>
 			<td align="left"><%
 			'代保管物
 			FastenerDetail=""
@@ -1066,7 +1066,7 @@
 			set rsFas=nothing
 				response.write FastenerDetail
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>專案</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>專案</strong></td>
 			<td align="left"><%
 			'專案
 			if trim(rs1("ProjectID"))<>"" and not isnull(rs1("ProjectID")) then
@@ -1083,7 +1083,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>第三責任險</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>第三責任險</strong></td>
 			<td align="left"><%
 			'第三責任險(0:有出示/1:未出示/2:肇事且未出示/3:逾期或未保險/4:肇事且逾期或未保險) *欄停才顯示
 			if trim(rs1("Insurance"))<>"" and not isnull(rs1("Insurance")) and rs1("BillTypeID")="1" then
@@ -1102,7 +1102,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>採証工具</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>採証工具</strong></td>
 			<td align="left"><%
 			'採証工具 (空:無/1:固定桿/2:雷達測速[三腳架]/3:儀器[相機]) 
 			if trim(rs1("UseTool"))<>"" and not isnull(rs1("UseTool")) and trim(rs1("UseTool"))<>"0" then
@@ -1123,7 +1123,7 @@
 				response.write "無"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>是否郵寄</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>是否郵寄</strong></td>
 			<td align="left"><%
 			'是否郵寄
 			if trim(rs1("EquipmentID"))<>"" and not isnull(rs1("EquipmentID")) then
@@ -1138,7 +1138,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>交通事故案號</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>交通事故案號</strong></td>
 			<td align="left"><%
 			'交通事故案號
 			if trim(rs1("TrafficAccidentNo"))<>"" and not isnull(rs1("TrafficAccidentNo")) then
@@ -1147,7 +1147,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>交通事故種類</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>交通事故種類</strong></td>
 			<td align="left"><%
 			'交通事故種類
 			if trim(rs1("TrafficAccidentType"))<>"" and not isnull(rs1("TrafficAccidentType")) then
@@ -1156,7 +1156,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>備註</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>備註</strong></td>
 			<td align="left"><%
 			'備註
 			if trim(rs1("Note"))<>"" and not isnull(rs1("Note")) then
@@ -1167,7 +1167,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>填單人</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>填單人</strong></td>
 			<td align="left"><%
 			'填單人
 			if trim(rs1("BillFiller"))<>"" and not isnull(rs1("BillFiller")) then
@@ -1176,7 +1176,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>建檔人</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>建檔人</strong></td>
 			<td align="left"><%
 			'建檔人
 			if trim(rs1("RecordMemberID"))<>"" and not isnull(rs1("RecordMemberID")) then
@@ -1191,7 +1191,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>建檔日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>建檔日期</strong></td>
 			<td align="left"><%
 			'建檔日期
 			if trim(rs1("RecordDate"))<>"" and not isnull(rs1("RecordDate")) then
@@ -1204,7 +1204,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>DCI作業階段</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>DCI作業階段</strong></td>
 			<td align="left"><%
 			'DCI作業階段
 			if trim(rs1("BillStatus"))<>"" and not isnull(rs1("BillStatus")) then
@@ -1231,7 +1231,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>舉發單狀態</strong></td>	
+			<td align="right" bgcolor="#EBE5FF"><strong>舉發單狀態</strong></td>	
 			<td align="left"><%
 			'舉發單狀態
 			if trim(rs1("RecordStateID"))<>"" and not isnull(rs1("RecordStateID")) then
@@ -1244,7 +1244,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>法條版本</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>法條版本</strong></td>
 			<td align="left"><%
 			'法條版本
 			if trim(rs1("RuleVer"))<>"" and not isnull(rs1("RuleVer")) then
@@ -1255,7 +1255,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>刪除原因</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>刪除原因</strong></td>
 			<td align="left"><%
 			'刪除原因
 			strDelRea="select b.Content from BillDeleteReason a,DciCode b where a.BillSn="&trim(rs1("SN"))&" and b.TypeID=3 and a.DelReason=b.ID"
@@ -1268,7 +1268,7 @@
 			rsDelRea.close
 			set rsDelRea=nothing
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>刪除人</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>刪除人</strong></td>
 			<td align="left"><%
 			'刪除人
 			if trim(rs1("DelMemberID"))<>"" and not isnull(rs1("DelMemberID")) then
@@ -1283,7 +1283,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>違規影像資料</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>違規影像資料</strong></td>
 			<td align="left"><%
 		If (sys_City="高雄縣" And (trim(rs1("IllegalAddress"))="鳳山市鳳頂路與田中央路口" Or trim(rs1("IllegalAddress"))="大寮鄉鳳屏路高屏大橋下橋處(往高雄)")) Or sys_City<>"高雄縣" Then
 			'違規影像資料
@@ -1327,7 +1327,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>簽收狀況</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>簽收狀況</strong></td>
 			<td align="left" colspan="5"><%
 			'可參考google doc "攔停 簽收 狀況 "
 				if trim(rs1("SignType"))<>"" and not isnull(rs1("SignType")) then
@@ -1395,7 +1395,7 @@
 	While Not rsReturn.Eof
 		if i=0 then
 			i=i+1
-			TRcolor="#FFFF99"
+			TRcolor="#EBE5FF"
 		else
 			i=i-1
 			TRcolor="#AAF2A2"
@@ -1937,7 +1937,7 @@
 	if not rsMH.eof then
 %>
 		<tr>
-			<td align="right" bgcolor="#FFFF99" width="16%"><strong>舉發單號</strong></td>
+			<td align="right" bgcolor="#EBE5FF" width="16%"><strong>舉發單號</strong></td>
 			<td align="left" width="16%"><%
 			'舉發單號
 			if trim(rsMH("BILLNO"))<>"" and not isnull(rsMH("BILLNO")) then
@@ -1946,7 +1946,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99" width="16%"><strong>車號</strong></td>
+			<td align="right" bgcolor="#EBE5FF" width="16%"><strong>車號</strong></td>
 			<td align="left" width="16%"><%
 			'車號
 			if trim(rsMH("CARNO"))<>"" and not isnull(rsMH("CARNO")) then
@@ -1955,7 +1955,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99" width="16%"><strong>大宗掛號貼條碼</strong></td>
+			<td align="right" bgcolor="#EBE5FF" width="16%"><strong>大宗掛號貼條碼</strong></td>
 			<td align="left" width="16%" ><%
 			'大宗掛號貼條碼
 			if trim(rsMH("MailNumber"))<>"" and not isnull(rsMH("MailNumber")) then
@@ -1967,7 +1967,7 @@
 		</tr>
 
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>第一次郵寄日</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>第一次郵寄日</strong></td>
 			<td align="left"><%
 			'第一次郵寄日
 			If sys_City="苗栗縣" Then
@@ -1983,7 +1983,7 @@
 			End if
 			
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>第二次郵寄日</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>第二次郵寄日</strong></td>
 			<td align="left">
 <%			ReturnIsClose=0
 		if sys_City="南投縣" then	'南投交通隊說單退結案不要顯示退件郵寄日981005
@@ -2017,7 +2017,7 @@
 			'	response.write "&nbsp;"
 			'end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>最後送達狀態</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>最後送達狀態</strong></td>
 			<td align="left"><%
 			'送達狀態
 			if trim(rsMH("USERMARKRESONID"))<>"" and not isnull(rsMH("USERMARKRESONID")) then
@@ -2040,7 +2040,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><span class="style1"><strong>第一次雙掛號寄存郵局</strong></span></td>
+			<td align="right" bgcolor="#EBE5FF"><span class="style1"><strong>第一次雙掛號寄存郵局</strong></span></td>
 			<td align="left"><%
 			'第一次雙掛號寄存郵局
 			if trim(rsMH("MailStation"))<>"" and not isnull(rsMH("MailStation")) then
@@ -2049,7 +2049,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>代收人</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>代收人</strong></td>
 			<td align="left"><%
 			'代收人
 			if trim(rsMH("SignMan"))<>"" and not isnull(rsMH("SignMan")) then
@@ -2058,7 +2058,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>移送監理站日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>移送監理站日期</strong></td>
 			<td align="left"><%
 			'移送監理站日期
 			if trim(rsMH("SendOpenGovDocToStationDate"))<>"" and not isnull(rsMH("SendOpenGovDocToStationDate")) then
@@ -2072,7 +2072,7 @@
 			<td colspan="6" bgcolor="#FFCCCC">第一次退件</tr>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>退件日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>退件日期</strong></td>
 			<td align="left"><%
 			'檢查是單退還是收受
 			strCheck="select count(*) as cnt from Dcilog where BillSn="&trim(rs1("SN"))&" and ExchangeTypeID='N' and ReturnMarkType='7'"
@@ -2097,7 +2097,7 @@
 			'	response.write "&nbsp;"
 			'end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>退件原因</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>退件原因</strong></td>
 			<td align="left"><%
 			'退件原因
 			'if CheckFlag=0 then
@@ -2116,7 +2116,7 @@
 			'	response.write "&nbsp;"
 			'end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>退件註記人員</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>退件註記人員</strong></td>
 			<td align="left"><%
 			'退件註記人員
 			'if CheckFlag=0 then
@@ -2135,7 +2135,7 @@
 			'	response.write "&nbsp;"
 			'end if
 			%></td>
-			<!-- <td align="right" bgcolor="#FFFF99"><strong>移送日期</strong></td>
+			<!-- <td align="right" bgcolor="#EBE5FF"><strong>移送日期</strong></td>
 			<td align="left"> --><%
 			'移送日期
 			'if CheckFlag=0 then
@@ -2150,7 +2150,7 @@
 			%><!-- </td> -->
 		</tr>
 		<!-- <TR>
-			<td align="right" bgcolor="#FFFF99"><strong>退件註記日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>退件註記日期</strong></td>
 			<td align="left" colspan="5"> --><%
 			'退件記錄日期
 			'if CheckFlag=0 then
@@ -2168,7 +2168,7 @@
 			<td colspan="6" bgcolor="#FFCCCC">寄存送達</tr>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong><span class="style1">寄存送達文號</span></strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong><span class="style1">寄存送達文號</span></strong></td>
 			<td align="left"><%
 			'寄存送達文號
 			if trim(rsMH("STOREANDSENDGOVNUMBER"))<>"" and not isnull(rsMH("STOREANDSENDGOVNUMBER")) then
@@ -2177,7 +2177,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong><span class="style1">寄存送達單退日</span></strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong><span class="style1">寄存送達單退日</span></strong></td>
 			<td align="left"><%
 			'寄存送達單退日
 			if trim(rsMH("STOREANDSENDMAILRETURNDATE"))<>"" and not isnull(rsMH("STOREANDSENDMAILRETURNDATE")) then
@@ -2186,7 +2186,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>寄存送達原因</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>寄存送達原因</strong></td>
 			<td align="left"><%
 			'寄存送達原因
 			if trim(rsMH("STOREANDSENDRETURNRESONID"))<>"" and not isnull(rsMH("STOREANDSENDRETURNRESONID")) then
@@ -2203,7 +2203,7 @@
 			%></td>		
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong><span class="style1">寄存送達投郵日</span></strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong><span class="style1">寄存送達投郵日</span></strong></td>
 			<td align="left"><%
 			'寄存送達投郵日
 			if trim(rsMH("STOREANDSENDMAILDATE"))<>"" and not isnull(rsMH("STOREANDSENDMAILDATE")) then
@@ -2212,7 +2212,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong><span class="style1">寄存送達郵件日期</span></strong></td>	
+			<td align="right" bgcolor="#EBE5FF"><strong><span class="style1">寄存送達郵件日期</span></strong></td>	
 			<td align="left"><%
 			'寄存送達郵件日期
 			if trim(rsMH("STOREANDSENDSENDDATE"))<>"" and not isnull(rsMH("STOREANDSENDSENDDATE")) then
@@ -2221,7 +2221,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong><span class="style1">寄存送達生效日</span></strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong><span class="style1">寄存送達生效日</span></strong></td>
 			<td align="left"><%
 			'寄存送達生效日
 			if trim(rsMH("STOREANDSENDMailDate"))<>"" and not isnull(rsMH("STOREANDSENDMailDate")) then
@@ -2232,7 +2232,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<!-- <td align="right" bgcolor="#FFFF99"><strong>寄存送達紀錄時間</strong></td>
+			<!-- <td align="right" bgcolor="#EBE5FF"><strong>寄存送達紀錄時間</strong></td>
 			<td align="left"> --><%
 			'寄存送達紀錄時間
 			'if trim(rsMH("STOREANDSENDRECORDDATE"))<>"" and not isnull(rsMH("STOREANDSENDRECORDDATE")) then
@@ -2243,7 +2243,7 @@
 			'	response.write "&nbsp;"
 			'end if
 			%><!-- </td> -->
-			<td align="right" bgcolor="#FFFF99"><strong><span class="style1">寄存送達註記人員</span></strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong><span class="style1">寄存送達註記人員</span></strong></td>
 			<td align="left" colspan="5"><%
 			'寄存送達紀錄人員
 			if trim(rsMH("STOREANDSENDRECORDMEMBERID"))<>"" and not isnull(rsMH("STOREANDSENDRECORDMEMBERID")) then
@@ -2263,7 +2263,7 @@
 			<td colspan="6" bgcolor="#FFCCCC">公示送達</tr>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong><span class="style1">公示送達文號</span></strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong><span class="style1">公示送達文號</span></strong></td>
 			<td align="left"><%
 
 			'公示送達文號
@@ -2274,7 +2274,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong><span class="style1">公示送達單退日</span></strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong><span class="style1">公示送達單退日</span></strong></td>
 			<td align="left"><%
 			'公示退件日期
 			if trim(rsMH("OPENGOVMAILRETURNDATE"))<>"" and not isnull(rsMH("OPENGOVMAILRETURNDATE")) then
@@ -2283,7 +2283,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>公示送達原因</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>公示送達原因</strong></td>
 			<td align="left"><%
 			'公示送達原因
 			if trim(rsMH("OPENGOVRESONID"))<>"" and not isnull(rsMH("OPENGOVRESONID")) then
@@ -2301,7 +2301,7 @@
 			
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>公告日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>公告日期</strong></td>
 			<td align="left"><%
 			'公告日期
 			if trim(rsMH("OPENGOVDATE"))<>"" and not isnull(rsMH("OPENGOVDATE")) then
@@ -2310,7 +2310,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong><span class="style1">公示送達生效日期</span></strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong><span class="style1">公示送達生效日期</span></strong></td>
 			<td align="left"><%
 			'公示送達生效日期
 			if trim(rsMH("OPENGOVEFFECTDATE"))<>"" and not isnull(rsMH("OPENGOVEFFECTDATE")) then
@@ -2320,7 +2320,7 @@
 			end if
 			%></td>
 
-			<td align="right" bgcolor="#FFFF99"><strong><span class="style1">公示送達監理所</span></strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong><span class="style1">公示送達監理所</span></strong></td>
 			<td align="left"><%
 			'公示送達監理所
 			if trim(rsMH("OPENGOVSTATIONID"))<>"" and not isnull(rsMH("OPENGOVSTATIONID")) then
@@ -2339,7 +2339,7 @@
 		<tr>
 		</tr>
 		<!-- <tr> -->
-			<!-- <td align="right" bgcolor="#FFFF99"><strong>公示刊載日期</strong></td>
+			<!-- <td align="right" bgcolor="#EBE5FF"><strong>公示刊載日期</strong></td>
 			<td align="left"> --><%
 			'公示刊載日期
 			'if trim(rsMH("OPENGOVSENDDATE"))<>"" and not isnull(rsMH("OPENGOVSENDDATE")) then
@@ -2348,7 +2348,7 @@
 			'	response.write "&nbsp;"
 			'end if
 			%><!-- </td> -->
-			<!-- <td align="right" bgcolor="#FFFF99"><strong>公示紀錄時間</strong></td>
+			<!-- <td align="right" bgcolor="#EBE5FF"><strong>公示紀錄時間</strong></td>
 			<td align="left"> --><%
 			'公示紀錄時間
 			'if trim(rsMH("OPENGOVDATE"))<>"" and not isnull(rsMH("OPENGOVDATE")) then
@@ -2359,7 +2359,7 @@
 			'	response.write "&nbsp;"
 			'end if
 			%><!-- </td> -->
-			<!-- <td align="right" bgcolor="#FFFF99"><strong>公示送達報表</strong></td>
+			<!-- <td align="right" bgcolor="#EBE5FF"><strong>公示送達報表</strong></td>
 			<td align="left"> --><%
 			'公示送達報表
 			'if trim(rsMH("OPENGOVREPORTNUMBER"))<>"" and not isnull(rsMH("OPENGOVREPORTNUMBER")) then
@@ -2373,7 +2373,7 @@
 			<td colspan="6" bgcolor="#FFCCCC">收受註記</tr>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>收受日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>收受日期</strong></td>
 			<td align="left"><%
 			'收受日期
 			'if CheckFlag=1 then
@@ -2391,7 +2391,7 @@
 			'	response.write "&nbsp;"
 			'end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>收受原因</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>收受原因</strong></td>
 			<td align="left"><%
 			'收受原因
 			'if CheckFlag=1 then
@@ -2421,7 +2421,7 @@
 			'	response.write "&nbsp;"
 			'end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>收受註記人員</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>收受註記人員</strong></td>
 			<td align="left"><%
 			'收受註記人員
 			'if CheckFlag=1 Then
@@ -2451,7 +2451,7 @@
 			'	response.write "&nbsp;"
 			'end if
 			%></td>
-			<!-- <td align="right" bgcolor="#FFFF99"><strong>收受移送日期</strong></td>
+			<!-- <td align="right" bgcolor="#EBE5FF"><strong>收受移送日期</strong></td>
 			<td align="left"> --><%
 			'收受移送日期
 			'if CheckFlag=1 then
@@ -2466,7 +2466,7 @@
 			%><!-- </td> -->
 		</tr>
 		<!-- <TR>
-			<td align="right" bgcolor="#FFFF99"><strong>收受註記日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>收受註記日期</strong></td>
 			<td align="left" colspan="5"> --><%
 			'收受記錄日期
 			'if CheckFlag=1 then
@@ -2504,7 +2504,7 @@
 	While Not rsLog.Eof
 		if i=0 then
 			i=i+1
-			TRcolor="#FFFF99"
+			TRcolor="#EBE5FF"
 		else
 			i=i-1
 			TRcolor="#AAF2A2"

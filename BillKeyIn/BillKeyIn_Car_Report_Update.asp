@@ -511,8 +511,8 @@ set rs1=conn.execute(strSql)
 <%end if%>
 	<form name="myForm" method="post">  
 		<table width='985' border='1' align="left" cellpadding="1">
-			<tr bgcolor="#FFCC33">
-				<td colspan="6"><strong>逕舉資料修改</strong>&nbsp; &nbsp; 日期格式：951220 &nbsp;時間格式：2300(24小時制)&nbsp; &nbsp; &nbsp; 
+			<tr bgcolor="#1BF5FF">
+				<td colspan="6"><strong>逕舉資料修改</strong>&nbsp; &nbsp; 日期格式：1150101 &nbsp;時間格式：2300(24小時制)&nbsp; &nbsp; &nbsp; 
 				<input type="checkbox" name="CaseInByMem" value="1" <%if trim(request("CaseInByMem"))="1" then response.write "checked"%>>逾違規日期超過二個月強制建檔</td>
 			</tr>
 			<tr>
@@ -1626,7 +1626,7 @@ set rs1=conn.execute(strSql)
 				%>" name="FromNoteId" onkeydown="funTextControl(this);" style=ime-mode:active></td>
 </tr>
 			<tr>
-				<td bgcolor="#FFDD77" align="center" colspan="6">
+				<td bgcolor="#1BF5FF" align="center" colspan="6">
 					<span style="color: #FF0000;font-size: 18px;"><strong>※重要：如果要刪除案件，請勿在刪除案件前修改單號、車號，修改後會無法刪除案件</strong></span>
 					<br>
 					<input type="button" value="儲 存 <%
