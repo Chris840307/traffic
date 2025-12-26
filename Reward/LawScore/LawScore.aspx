@@ -12,7 +12,7 @@
 <body>
     <form id="form1" runat="server">
      <table width="985" border="0" align="left" style="background-color:#E0E0E0">
-        <tr style="background-color:#FFCC33">
+        <tr style="background-color:#1BF5FF">
 <%
     If sys_City = "雲林縣" Or sys_City = "宜蘭縣" Or sys_City = "台東縣" Or sys_City = "嘉義市" Then
         Response.Write("<td align=""left"" colspan=""12"">")
@@ -49,7 +49,7 @@
             <span style="font-size: 11pt; color: #0000cc"><img src="../image/space.gif" height="8" style="width: 76px">( 可用逗號間格輸入多筆法條，例如：1210101,3310101,.......
                 )</span></td>
         </tr>
-        <tr style="background-color:#FFCC33">
+        <tr style="background-color:#1BF5FF">
 <%
     If sys_City = "雲林縣" Or sys_City = "宜蘭縣" Or sys_City = "台東縣" Or sys_City = "嘉義市" Then
         Response.Write("<td align=""left"" colspan=""12"">")
@@ -95,7 +95,7 @@
 <%
     Response.Write(str1)
  %>
-        <tr style="background-color:#FFCC33">
+        <tr style="background-color:#1BF5FF">
 <%
     If sys_City = "雲林縣" Or sys_City = "宜蘭縣" Or sys_City = "台東縣" Or sys_City = "嘉義市" Then
         Response.Write("<td align=""center"" colspan=""12"">")

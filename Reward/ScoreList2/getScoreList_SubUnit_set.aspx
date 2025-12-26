@@ -13,7 +13,7 @@
     <form id="form1" runat="server">
         <table align="center" border="1" style="position: relative; top: 20px">
             <tr>
-                <td style="width: 371px; background-color: #FFCC33" align="center" >
+                <td style="width: 371px; background-color: #1BF5FF" align="center" >
                     <strong>法條別配分統計日期</strong></td>
             </tr>
             <tr>
@@ -28,12 +28,12 @@
                 </td>
             </tr>
             <tr>
-                <td style="width: 371px; background-color: #FFCC33" align="center" >
+                <td style="width: 371px; background-color: #1BF5FF" align="center" >
                     <strong>統計法條</strong></td>
             </tr>
             <tr>
                 <td align="center" style="width: 371px">
-                    <asp:Panel ID="Panel3" runat="server" Height="50px" HorizontalAlign="Left" Width="245px">
+                    <asp:Panel ID="Panel3" runat="server" HorizontalAlign="Left" Width="245px">
                     <input type="radio" name="RadioLaw" value="0" checked/>全部
                     <br>
                     <input type="radio" name="RadioLaw" value="1" />攔停、逕舉(1~68條)
@@ -43,7 +43,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="width: 371px; background-color: #FFCC33" align="center" >
+                <td style="width: 371px; background-color: #1BF5FF" align="center" >
                     <strong>配分標準</strong></td>
             </tr>
             <tr>
@@ -55,7 +55,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="width: 371px; background-color: #FFCC33" align="center" >
+                <td style="width: 371px; background-color: #1BF5FF" align="center" >
                     <strong>統計單位</strong></td>
             </tr>
             <tr>
@@ -103,7 +103,7 @@
                     <input id="Button3" style="width: 62px; height: 21px" type="button" value="全部選取" onclick="AllUnit();" />
                     <input id="Button4" style="width: 62px; height: 21px" type="button" value="全部取消" onclick="NoUnit();" /><br />
                     <br />
-                    <asp:Panel ID="Panel2" runat="server" Height="30px" HorizontalAlign="Left" Width="265px">
+                    <asp:Panel ID="Panel2" runat="server" HorizontalAlign="Left" Width="265px">
                     臂章號碼：<input id="Text1" name="LoginID" style="width: 80px" type="text" onkeyup="QueryMemName();" />
                     <div id="Layer1" style="position:absolute ; width:110px; height:25px; z-index:0;  border: 1px none #000000; "></div>
                     <br><span style="font-size: 10pt; color: #0066ff">(計算單一員警請輸入員警個人代號)</span>
