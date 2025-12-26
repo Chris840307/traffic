@@ -451,7 +451,7 @@ Session("BillTime_Stop")=year(rs1("RecordDate"))&"/"&month(rs1("RecordDate"))&"/
 	<form name="myForm" method="post">  
 		<table width='985' border='1' align="center" cellpadding="1">
 			<tr bgcolor="#1BF5FF">
-				<td colspan="6"><strong>攔停資料修改</strong>&nbsp; &nbsp; 日期格式：1050101 &nbsp;時間格式：2030 (24小時制)&nbsp; &nbsp; <input type="checkbox" name="CaseInByMem" value="1" <%if trim(request("CaseInByMem"))="1" then response.write "checked"%> <%
+				<td colspan="6"><strong>攔停資料修改</strong>&nbsp; &nbsp; 日期格式：1150101 &nbsp;時間格式：2030 (24小時制)&nbsp; &nbsp; <input type="checkbox" name="CaseInByMem" value="1" <%if trim(request("CaseInByMem"))="1" then response.write "checked"%> <%
 			if sys_City="台中市" then
 				'response.write "disabled"
 			end if

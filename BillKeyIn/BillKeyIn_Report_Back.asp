@@ -457,7 +457,7 @@ Session("BillTime_Report")=year(rs1("RecordDate"))&"/"&month(rs1("RecordDate"))&
 	<form name="myForm" method="post">  
 		<table width='985' border='1' align="center" cellpadding="1">
 			<tr bgcolor="#1BF5FF">
-				<td colspan="6"><strong>逕舉資料修改</strong>&nbsp; &nbsp; 日期格式：1050101 &nbsp;時間格式：2210 (24小時制)&nbsp; &nbsp;&nbsp; &nbsp;
+				<td colspan="6"><strong>逕舉資料修改</strong>&nbsp; &nbsp; 日期格式：1150101 &nbsp;時間格式：2210 (24小時制)&nbsp; &nbsp;&nbsp; &nbsp;
 				<input type="checkbox" name="ReportChk" value="1" onclick="funcReportChk();" <%
 				if trim(rs1("Billno"))<>"" and not isnull(rs1("Billno")) then
 					response.write "checked"
