@@ -1,0 +1,811 @@
+<!--#include virtual="traffic/Common/Login_Check.asp"-->
+<!--#include File="../Common/DbUtil.asp"-->
+<!--#include File="../Common/Allfunction.inc"-->
+<!--#include file="../Common/Banner.asp"-->
+<%
+AuthorityCheck(270)
+Dim sMessage
+sMessage = ""
+
+'固定測試人員
+gUser_ID = Session("User_ID")
+gCh_Name = session("CH_Name")
+gUnit_ID = Session("Unit_ID")
+
+'gUser_ID = "1"
+'gCh_Name = "Max"
+'gUnit_ID = "Group"
+
+'***********************************************************************************
+'傳送資料處理
+'***********************************************************************************
+	if Request.Form("SubmitType") <> "" then
+		'============更改審核狀況時==============
+		if Request.Form("SubmitType") = "UpdateVerifyResult" then
+				'將單一筆變成有效(只更新 REALCARNO,保留 CARNO,以方便以後驗證用)
+				sSQL ="update ProsecutionImageDetail set MEMBERID = " & gUser_ID & ", VerifyResultID = " & Request.Form("SelValue") & ",REALCARNO = '" & UCASE(Request.Form("SelCarNo")) & "' where FileName = '" & Request.Form("SelFileName") & "' and SN = '" & Request.Form("SelSN") & "' " + vbcrlf
+				Conn.execute(sSQL)
+				
+				'response.write sSQL
+				
+				sMessage = "審核完成!!"
+		end if
+
+		'============逕舉建檔=================
+		if Request.Form("SubmitType") = "InsertBillBase" then
+			'***********************************************************************
+			'BillBase 資料處理
+			'***********************************************************************
+			Dim bOK,sMaxSN, sValue, piPROSECUTIONTIME,piLOCATION,piTRIGGERSPEED,piLIMITSPEED,piSITECODE,piIMAGEFILENAMEA,piIMAGEPATHNAME,sCarSimpleID,sLawItemID
+			
+			bOK = true
+			'抓 ApConfigure id=3 Value
+			sSQL = "SELECT VALUE FROM ApConfigure WHERE ID=3"
+			set oRST = Conn.execute(sSQL)
+			if not oRST.EOF then
+				sValue = oRST(0).value
+			else
+				sMessage = sMessage + "無法取得 ApConfigure 資料!!" + vbcrlf
+				bOK = false
+			end if
+			oRST.close
+			set oRST = nothing
+			'抓
+			sSqlDetail="select CarSimpleID,LawItemID from ProsecutionImageDetail where FileName='"&Request.Form("SelFileName")&"' and SN='" & Request.Form("SelSN") & "'"
+			set rsDetail=Conn.execute(sSqlDetail)
+			if not rsDetail.eof then
+				sCarSimpleID=trim(rsDetail("CarSimpleID"))
+				sLawItemID=trim(rsDetail("LawItemID"))
+			end if
+			rsDetail.close
+			set rsDetail=nothing
+
+			'抓 ProsecutionImage 資料
+			sSQL = "select PROSECUTIONTIME,LOCATION,TRIGGERSPEED,LIMITSPEED,SITECODE,IMAGEFILENAMEA, FILENAME,case when FIXEQUIPTYPE = 1 then 'Type1' when  FIXEQUIPTYPE = 2 then 'Type2' else 'Type3' end FIXEQUIPTYPE from ProsecutionImage where FileName = '" & Request.Form("SelFileName") & "'"
+			set oRST = Conn.execute(sSQL)
+			if not oRST.EOF then
+				piPROSECUTIONTIME = oRST(0).value
+				piLOCATION = oRST(1).value
+				piTRIGGERSPEED = oRST(2).value
+				piLIMITSPEED = oRST(3).value
+				piSITECODE = oRST(4).value
+				
+				if trim(oRST("FIXEQUIPTYPE").value)="Type1" or trim(oRST("FIXEQUIPTYPE").value)="Type2" then
+					piIMAGEPATHNAME = "\finish\" & oRST("FIXEQUIPTYPE").value & "\" & oRST("FILENAME").value & "\"
+					piIMAGEFILENAMEA = oRST(5).value
+				else
+					piIMAGEPATHNAME = "\finish\" & oRST("FIXEQUIPTYPE").value & "\" & left(trim(oRST("FILENAME").value),14) & "\"
+					piIMAGEFILENAMEA = right(trim(oRST(5).value),8)
+				end if
+				if piPROSECUTIONTIME="" or isnull(piPROSECUTIONTIME) then
+					piPROSECUTIONTIME = "null"
+				else
+					piPROSECUTIONTIME = FormatDateTime(piPROSECUTIONTIME, 2) + " " + FormatDateTime(piPROSECUTIONTIME, 4)
+					piPROSECUTIONTIME = "TO_DATE('" & FormatDateTime(piPROSECUTIONTIME, 2) + " " + FormatDateTime(piPROSECUTIONTIME, 4) & "', 'YYYY/MM/DD HH24:MI')"
+				end if
+				if piTRIGGERSPEED="" or isnull(piTRIGGERSPEED) then
+					piTRIGGERSPEED="null"
+				end if
+				if piLIMITSPEED="" or isnull(piLIMITSPEED) then
+					piLIMITSPEED="null"
+				end if
+			else
+				sMessage = sMessage + "無法取得 ProsecutionImage 資料!!" + vbcrlf
+				bOK = false
+			end if
+			oRST.close
+			set oRST = nothing
+			'抓取使用者臂章號碼
+			if gUser_ID<>"" and not isnull(gUser_ID) then
+				strUser="select LoginID from MemberData where MemberID="&gUser_ID
+				set rsUser=conn.execute(strUser)
+				if not rsUser.eof then
+					gLogin_ID=trim(rsUser("LoginID"))
+				end if
+				rsUser.close
+				set rsUser=nothing
+			end if
+			'***********************************************************************
+			
+			if bOK = true then
+				'抓最大值
+				sSQL = "select BillBase_seq.nextval as SN from Dual"
+				set oRST = Conn.execute(sSQL)
+				if not oRST.EOF then
+					sMaxSN = oRST("SN")
+				end if
+				oRST.close
+				set oRST = nothing
+				'更新PID的BILLSN
+				strUpdate="Update ProsecutionImageDetail set BillSn="&sMaxSN&" where FileName='"&Request.Form("SelFileName")&"' and SN='" & Request.Form("SelSN") & "'"
+				Conn.execute strUpdate
+
+				sSQL = "INSERT INTO BillBase (SN, BILLTYPEID,CARNO,ILLEGALDATE,ILLEGALADDRESS,ILLEGALSPEED,RULESPEED,USETOOL,BILLUNITID,BILLMEMID1,BILLMEM1,BILLFILLERMEMBERID,BILLFILLER,BILLFILLDATE,BILLSTATUS,RECORDSTATEID,RECORDDATE,RECORDMEMBERID,EQUIPMENTID,RULEVER,IMAGEFILENAME,IMAGEPATHNAME,CarSimpleID,Rule1) VALUES " + _
+					"(" & sMaxSN & ",2,'" & UCASE(Request.Form("SelCarNo")) & "'," & piPROSECUTIONTIME & ",'" & piLOCATION & "'," & piTRIGGERSPEED & "," & piLIMITSPEED & ",1,'" & gUnit_ID & "','" & gLogin_ID & "','" & gCh_Name & "'," & gLogin_ID & ",'" & gCh_Name & "',SYSDATE,-1,0,SYSDATE," & gUser_ID & ",'" & piSITECODE & "','" & sValue & "','" & piIMAGEFILENAMEA & "', '" & piIMAGEPATHNAME & "','" & sCarSimpleID & "','" & sLawItemID & "') "
+				Conn.execute(sSQL)
+				'response.write sSQL
+				'response.end
+%>
+<script language="javascript">
+	window.open('../BillKeyIn/BillKeyIn_Car_Report_Update.asp?BillSN='+<%=sMaxSN%>,'MyFromCaseIn','left=0,top=0,width=1000,height=615,resizable=yes,scrollbars=yes');
+</script>
+<%
+			else
+				sMessage = "建檔發生錯誤如下,請通知系統管理員:" + vbcrlf + sMessage
+			end if
+		end if 
+	end if
+'***********************************************************************************
+'主資料處理
+'***********************************************************************************
+Dim i
+Dim j	'機算需要補多少空白
+Dim oRST
+Dim sTypeID	'ProsecutionTypeID
+Dim sFileName, sVerifyResult
+Dim sSQL, sOption, sRoadOption, sTypeOption
+Dim sMylightbarstyle
+Dim sImgWebPath
+Dim sMenuButton	
+Dim sWhere	
+Dim formLocation, formFIXEQUIPTYPE, formVerifyResult, formCarNo, formStartDate, formEndDate
+Dim formYear, formStartMonth, formStartDay, formEndMonth, formEndDay
+Dim formOperator
+
+'if Request.Form("SubmitType") = "DataSearch" then
+	j = 1
+	sFileName = ""
+	sCarNo = ""
+	sType = ""
+	sImgWebPath = "/Img/finish/"
+	
+	'分業處理
+	sAllPage = 1
+	sNowPage = 1
+	if Request.QueryString("page") <> "" then
+		sNowPage = Request.QueryString("page")
+	end if	
+	'日期判斷 by kevin
+	if Request.Form("StartDate") <> "" and Request.Form("EndDate") <> "" then
+		formStartDate =gOutDT(request("StartDate"))&" 0:0:0"
+		formEndDate =gOutDT(request("EndDate"))&" 23:59:59"
+		
+		formYear = Request.Form("Year")
+		formStartMonth = Request.Form("StartMonth")
+		formStartDay = Request.Form("StartDay")
+		formEndMonth = Request.Form("EndMonth")
+		formEndDay = Request.Form("EndDay")
+
+		sWhere = sWhere + " and PROSECUTIONTIME between TO_DATE('"&formStartDate&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&formEndDate&"','YYYY/MM/DD/HH24/MI/SS')"
+	end if
+
+	'舉發路段判斷
+	if Request.Form("Location") <> "" then
+		sWhere = sWhere + " and LOCATION like '%" + Request.Form("Location") + "%'"
+		formLocation = Request.Form("Location")
+	end if
+	
+	'類型判斷
+	if Request.Form("FIXEQUIPTYPE") <> "" then
+		sWhere = sWhere + " and FIXEQUIPTYPE = '" + Request.Form("FIXEQUIPTYPE") + "'"
+		formFIXEQUIPTYPE = Request.Form("FIXEQUIPTYPE")
+	end if
+		
+	'有效性判斷
+	if Request.Form("VerifyResult") <> "" then
+		if Request.Form("VerifyResult") <> "NO" then
+			if Request.Form("VerifyResult")="2" then
+				sWhere = sWhere + " and VERIFYRESULTID = 0 and BillSn is null"
+				formVerifyResult = Request.Form("VerifyResult")
+			else
+				sWhere = sWhere + " and VERIFYRESULTID = " + Request.Form("VerifyResult")
+				formVerifyResult = Request.Form("VerifyResult")
+			end if
+		end if 
+	else
+		sWhere = sWhere + " and VERIFYRESULTID = 1 "
+		formVerifyResult = Request.Form("VerifyResult")
+	end if
+	
+	'車牌號碼判斷
+	if Request.Form("CarNo") <> "" then
+		sWhere = sWhere + " and (b.CARNO like '%" + UCASE(Request.Form("CarNo")) + "%' OR REALCARNO like '%" + UCASE(Request.Form("CarNo")) + "%') "
+		formCarNo = UCASE(Request.Form("CarNo"))
+	end if
+	
+	'舉發人判斷 by kevin
+	if Request.Form("OperatorID") <> "" then
+		sWhere = sWhere + " and (OperatorA = '" + Request.Form("OperatorID") + "' or OperatorB = '" + Request.Form("OperatorID") + "')" 
+		formOperator = Request.Form("OperatorID")
+	end if
+	sMylightbarstyle = "onMouseOver=""this.style.backgroundColor='#FF99FF'"" onMouseOut=""this.style.backgroundColor='#FFFFFF'"""
+	
+	'新增 SpecCar 資料 2006/10/25
+	sSQL = "select OVERSPEED,LIMITSPEED,LINE,a.FILENAME, case when FIXEQUIPTYPE = 1 then 'Type1' when FIXEQUIPTYPE = 2 then 'Type2' else 'Type3' end  FIXEQUIPTYPE, a.DIRECTORYNAME," + _
+			" a.PROSECUTIONTIME, a.LOCATION, a.PROSECUTIONTYPEID, a.IMAGEFILENAMEA, a.IMAGEFILENAMEB, a.VIDEOFILENAME, b.VERIFYRESULTID, b.SN, " + _
+			" b.CARNO, b.MEMBERID,b.REALCARNO,b.BillSN, c.CHNAME, d.CARSN " + _
+			"from ProsecutionImage a, ProsecutionImageDetail b, MEMBERDATA c, SpecCar d " + _
+			"where a.FILENAME = b.FILENAME and b.MEMBERID = c.MEMBERID(+) and b.CARNO = d.CARNO(+) " + sWhere + "  order by PROSECUTIONTIME"
+			
+			'response.write sSQL
+			'response.end
+
+	'set oRST = Conn.execute(sSQL)
+	set oRST = CreateObject("ADODB.Recordset")
+	oRST.cursorlocation = 3	
+	oRST.Open sSQL, Conn, 3,1
+
+	if not oRST.eof Then
+		oRST.pagesize=PageSize
+		sAllPage = oRST.pagecount
+		
+		if Cint(sNowPage)>Cint(sAllPage) then
+			sNowPage = sAllPage
+		end if		
+		oRST.absolutepage=sNowPage
+
+	'if not oRST.EOF then
+		for i=1 to oRST.pagesize
+		'do while not oRST.EOF							
+			'審核狀態
+			sCarNo = ""
+			if oRST("VerifyResultID").value =  "1" or isnull(oRST("VerifyResultID").value) then
+				sMemberName = ""
+				sVerifyResultID = "<button onClick=""UpdateData('select_" & j & "', '" & oRST("FileName").value & "', '0', '" & oRST("SN").value & "')"">有效</button>" + _
+									"<button onClick=""UpdateData('select_" & j & "', '" & oRST("FileName").value & "', '-1', '" & oRST("SN").value & "')"">無效</button>"
+									
+				'車牌號碼 (含 SpaceCar)
+				if oRST("CARSN").value = "" or isnull(oRST("CARSN").value) then
+				 sCarNo = "<input id=""select_" & j & """ type=""text"" size=9 maxlength=8 value=""" & oRST("CarNo").value & """  onkeyup='value=value.toUpperCase()'/>"
+				else
+				 sCarNo = "<b><font color=red>*</font></b> <input id=""select_" & j & """ type=""text"" size=9 maxlength=8 value=""" & oRST("CarNo").value & """  onkeyup='value=value.toUpperCase()'/>"
+				end if
+			else
+				sMemberName = oRST("CHNAME").value
+				
+				'車牌號碼
+				if trim(oRST("RealCarNo").value)<>"" and not isnull(oRST("RealCarNo").value) then 
+					sCarNo = oRST("RealCarNo").value
+				else
+					sCarNo=" "
+				end if
+			
+				if oRST("VerifyResultID").value = "0" then
+					sVerifyResultID = "有效"
+				else
+					sVerifyResultID = "無效"
+				end if
+			end if
+			'無效就不出現建檔鈕
+			'建檔按鈕(BillSN有值的話直接進入修改頁面 不做新增)
+			if oRST("VerifyResultID").value = "0" then
+				if trim(oRST("BillSN").value)<>"" and not isnull(oRST("BillSN").value) then
+					sCaseInButton="<input type='button' value='舉發單' onClick=""OpenCaseData('" & trim(oRST("BillSN").value) & "')"">"
+				else
+					sCaseInButton=""
+'					sCaseInButton="<input type='button' value='建檔' onClick=""funcInCaseData('" & trim(oRST("FileName").value) & "','" & trim(oRST("SN").value) & "','" & trim(oRST("REALCARNO").value) & "')"">"
+				end if
+			else
+				sCaseInButton=""
+			end if
+
+			'類型
+			if trim(oRST("FIXEQUIPTYPE").value) = "Type1" then
+				sFIXEQUIPTYPE = "數位桿"
+			elseif trim(oRST("FIXEQUIPTYPE").value) = "Type2" then
+				sFIXEQUIPTYPE = "升級桿"
+			else 
+				sFIXEQUIPTYPE = "相機"
+			end if
+			
+			'按紐功能
+			sMenuButton = ""
+			'違規類型
+		if trim(oRST("FIXEQUIPTYPE").value) = "Type1" or trim(oRST("FIXEQUIPTYPE").value) = "Type2" then
+			sTypeID = oRST("ProsecutionTypeID").value
+			select case(sTypeID)
+				case "R":	sTypeID = "闖紅燈"
+							if oRST("VideoFileName").value <> "" then
+								sMenuButton = "<input type=""button"" onclick=""OpenPic2('" & sImgWebPath & oRST("FIXEQUIPTYPE").value & "/" & oRST("FileName").value & "/" & oRST("VideoFileName").value & "')"" value=""動態影像"">"
+							end if
+							
+							sMenuButton = sMenuButton + "<input type=""button"" onClick=""OpenPic('" & sImgWebPath & oRST("FIXEQUIPTYPE").value & "/" & oRST("FileName").value & "/" & replace(lcase(oRST("IMAGEFILENAMEA").value), ".jpg", "_small.jpg") & "')"" value=""圖一"">"
+							if oRST("IMAGEFILENAMEB").value <> "" then
+								sMenuButton = sMenuButton + "<input type=""button"" onClick=""OpenPic('" & sImgWebPath & oRST("FIXEQUIPTYPE").value & "/" & oRST("FileName").value & "/" & replace(lcase(oRST("IMAGEFILENAMEB").value), ".jpg", "_small.jpg") & "')"" value=""圖二"">"
+							end if
+							
+							'目前並沒有檢視原圖,因為縮圖就已經很清楚了,而且檔案又小.
+							'"<input type=""button"" onClick=""OpenPic('" & sImgWebPath & oRST("DirectoryName").value & oRST("FileName").value & "')"" value=""原圖"">" + _
+							sMenuButton = sMenuButton + "<input type=""button"" onClick=""OpenDetail('" & oRST("FileName").value & "','" & oRST("SN").value & "')"" value=""詳細資料"">"
+				case "S":	sTypeID = "超速"
+							sLIMITSPEED = oRST("LIMITSPEED").value
+							sOVERSPEED = "<b><font color=red>" & oRST("OVERSPEED").value & "</font></b>"
+							sLINE = oRST("LINE").value
+				
+							sMenuButton = "<input type=""button"" onClick=""OpenPic('" & sImgWebPath & oRST("FIXEQUIPTYPE").value & "/" & oRST("FileName").value & "/" & replace(lcase(oRST("IMAGEFILENAMEA").value), ".jpg", "_small.jpg") & "')"" value=""圖一"">"
+							if oRST("IMAGEFILENAMEB").value <> "" and not isnull(oRST("IMAGEFILENAMEB")) then
+								sMenuButton = sMenuButton + "<input type=""button"" onClick=""OpenPic('" & sImgWebPath & oRST("FIXEQUIPTYPE").value & "/" & oRST("FileName").value & "/" & replace(lcase(oRST("IMAGEFILENAMEB").value), ".jpg", "_small.jpg") & "')"" value=""圖二"">"
+							end if
+							
+							'目前並沒有檢視原圖,因為縮圖就已經很清楚了,而且檔案又小.
+							'"<input type=""button"" onClick=""OpenPic('" & sImgWebPath & oRST("DirectoryName").value & oRST("FileName").value & "')"" value=""原圖"">" + _
+							sMenuButton = sMenuButton + "<input type=""button"" onClick=""OpenDetail('" & oRST("FileName").value & "','" & oRST("SN").value & "')"" value=""詳細資料"">"
+				case "L":	sTypeID = "越線"
+				case "T":	sTypeID = "緊跟著前車駕駛"
+				case "U":	sTypeID = "左轉"
+				defaule:	sTypeID = "未知類型"
+			end select	
+		else
+			sTypeID = oRST("ProsecutionTypeID").value
+			RealFileName=right(oRST("FileName").value,4)
+			WebPicPath=left(oRST("FileName").value,14)
+			select case(sTypeID)
+				case "R":	sTypeID = "闖紅燈"
+				case "S":	sTypeID = "超速"
+							sLIMITSPEED = oRST("LIMITSPEED").value
+							sOVERSPEED = "<b><font color=red>" & oRST("OVERSPEED").value & "</font></b>"
+							sLINE = oRST("LINE").value
+				case "L":	sTypeID = "越線"
+				case "T":	sTypeID = "緊跟著前車駕駛"
+				case "U":	sTypeID = "左轉"
+				defaule:	sTypeID = "未知類型"
+			end select
+			sMenuButton = "<input type=""button"" onClick=""OpenPic('" & sImgWebPath & oRST("FIXEQUIPTYPE").value & "/" & WebPicPath & "/" & RealFileName & ".jpg" & "')"" value=""圖一"">"
+			sMenuButton = sMenuButton + "<input type=""button"" onClick=""OpenDetail('" & oRST("FileName").value & "','" & oRST("SN").value & "')"" value=""詳細資料"">"
+		end if
+			if not isnull(oRST("ProsecutionTime")) then 
+				sProsecutionDate= gInitDT(oRST("ProsecutionTime").value)
+				sProsecutionTime= TimeValue(oRST("ProsecutionTime").value)
+			else 
+				sProsecutionDate=""
+				sProsecutionTime=""
+			end if
+			sTR = sTR + "<tr bgcolor=""#FFFFFF"" " & sMylightbarstyle & ">" + _
+						"	<td height=""25"" nowrap>" &  sProsecutionDate & sProsecutionTime & "</td>" + _
+							"	<td>" & sFIXEQUIPTYPE & "</td>" + _
+						"	<td><span class=""font12"">" & oRST("Location").value & "</span></td>" + _
+					
+						"	<td><span class=""font12"">@@CarNo@@</span></td>" + _
+						"	<td><span class=""font12"">" & sTypeID & "</span></td>" + _
+						"	<td><span class=""font12"">" & sLIMITSPEED & "</span></td>" + _
+						"	<td><span class=""font12"">" & sOVERSPEED & "</span></td>" + _
+						"	<td><span class=""font12"">" & sLINE & "</span></td>" + _
+						"	<td><span class=""font12""> @@VerifyResult@@ " & sCaseInButton & "</span></td>" + _
+						"	<td>" & sMenuButton & "</td>" + _
+						"</tr>"		
+						
+			j = j + 1		
+			
+			if sCarNo <> "" then
+				sTR = replace(sTR, "@@CarNo@@", sCarNo)
+				sTR = replace(sTR, "@@VerifyResult@@", sVerifyResultID)
+			end if
+			
+			oRST.movenext
+		'loop		
+		if oRST.eof then exit for
+		next
+		
+	'end if
+	
+	end if
+	oRST.close
+	set oRST = nothing
+'end if
+
+'補空白
+for i = j to 10
+	sTR = sTR + "<tr bgcolor=""#FFFFFF"">" + _
+				"	<td height=""25""></td>" + _
+				"	<td></td>" + _
+				"	<td></td>" + _
+				"	<td></td>" + _
+				"	<td></td>" + _
+				"	<td></td>" + _
+				"	<td></td>" + _
+				"	<td></td>" + _
+				"	<td></td>" + _
+				"	<td></td>" + _
+				"</tr>"
+next
+'***********************************************************************************
+'舉發路段資料處理
+'***********************************************************************************
+	sRoadOption = ""
+	sSQL = "select distinct(ProsecutionImage.LOCATION) as location from ProsecutionImage"
+
+	set oRST = Conn.execute(sSQL)
+	if not oRST.EOF then
+		do while not oRST.EOF
+			sRoadOption = sRoadOption + "<option value=""" & oRST("location").value & """>" & oRST("location").value & "</option>"
+			oRST.movenext
+		loop
+	end if
+	oRST.close
+	set oRST = nothing
+'***********************************************************************************
+'類型資料處理
+'***********************************************************************************
+	sTypeOption = ""
+	sID = ""
+	sSQL = "select Content,ID from Code where TypeID=18"
+
+	set oRST = Conn.execute(sSQL)
+	if not oRST.EOF then
+		do while not oRST.EOF
+			sID = oRST("ID").value
+			if sID = "472" then
+				sID = "1"
+			end if
+			
+			if sID = "471" then
+				sID = "2"
+			end if
+			if sID = "469" then
+				sID = "3"
+			end if
+			sTypeOption = sTypeOption + "<option value=""" & sID & """>" & oRST("Content").value & "</option>"
+			oRST.movenext
+		loop
+	end if
+	oRST.close
+	set oRST = nothing
+'***********************************************************************************
+
+
+%>
+
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=big5">
+	<title>數位固定桿處理系統</title>
+	<!--#include File="../Common/css.txt"-->
+<style type="text/css">
+<!--
+.btn2 { FONT-SIZE: 9pt; FONT-FAMILY: Arial;}
+-->
+</style>
+</head>
+
+<body topmargin="0" leftmargin="0" onfocus="ClosePic();">
+<form method="post" action="ProsecutionImage.asp">
+<input type="hidden" name="SubmitType" value="">
+<input type="hidden" name="SelValue" value="">
+<input type="hidden" name="SelFileName" value="">
+<input type="hidden" name="SelCarNo" value="">
+<input type="hidden" name="SelSN" value="">
+	  <input type="button" name="uploadb1" value='上傳"員警/類比式固定桿"舉發數位相片' onclick='window.open("ProsecutionImageUpload.asp","WebPageUpload","left=0,top=0,location=0,width=770,height=555,resizable=yes,scrollbars=yes")' class="btn2">
+	  <input type="button" name="uploadb1" value='上傳 "數位升級固定桿"舉發數位資料' onclick='window.open("<%
+	 strType1="select Value from Apconfigure where ID=41"
+	 set rsType1=conn.execute(strType1)
+	 if not rsType1.eof then
+		response.write trim(rsType1("value"))
+	 end if
+	 rsType1.close
+	 set rsType1=nothing
+	  %>","WebPageUpload_Fix","location=0,width=770,height=455,resizable=yes,scrollbars=yes")' class="btn2">
+	  <input type="button" name="uploadb1" value='上傳"數位式固定桿"舉發數位資料  (基隆/高雄)' onclick='window.open("<%
+	  strType2="select Value from Apconfigure where ID=42"
+	 set rsType2=conn.execute(strType2)
+	 if not rsType2.eof then
+		response.write trim(rsType2("value"))
+	 end if
+	 rsType2.close
+	 set rsType2=nothing
+	  %>","WebPageUpload_FixUp","location=0,width=770,height=455,resizable=yes,scrollbars=yes")' class="btn2">
+<table width="100%" border="0">
+  <tr class="pagetitle">
+    <td height="20" bgcolor="#FFCC33" class="font12">數位固定桿處理系統&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="FtpSet.htm" target="_blank">解決FTP連線設定</a> </td>
+  </tr>
+  <tr>
+    <td height="20" bgcolor="#CCCCCC"><table width="100%"  border="0" cellpadding="5" cellspacing="1" bgcolor="#FFFFFF">
+      <tr>
+        <td><span class="font12">舉發日期        
+			<input name="StartDate" type="text" value="<%
+				StartDateTmp=trim(request("StartDate"))
+			response.write StartDateTmp
+			%>" size="8" maxlength="7" class="btn1">
+			<input type="button" name="datestr" value="..." onclick="OpenWindow('StartDate');">
+			~
+			<input name="EndDate" type="text" value="<%
+				EndDateTmp=trim(request("EndDate"))
+			response.write EndDateTmp
+			%>" size="8" maxlength="7" class="btn1">
+			<input type="button" name="datestr" value="..." onclick="OpenWindow('EndDate');">
+     
+      路段              
+<select name="Location">
+  <option selected value="">選擇舉發路段...</option>
+  <%=sRoadOption%>
+</select>
+舉發來源        
+<select name="FIXEQUIPTYPE">
+  <option selected value="">選擇舉發來源...</option>
+  <%=sTypeOption%>
+</select>
+
+ 有效性        
+<select name="VerifyResult">
+	<option value="NO" <%if trim(request("VerifyResult"))="NO" then response.write "selected"%>>選擇有效性</option>
+  <option value="1" <%if trim(request("VerifyResult"))="1" or trim(request("SubmitType"))="" then response.write "selected"%>>未審核</option>
+  <option value="0" <%if trim(request("VerifyResult"))="0" then response.write "selected"%>>有效</option>
+  <option value="2" <%if trim(request("VerifyResult"))="2" then response.write "selected"%>>有效未建檔</option>
+  <option value="-1" <%if trim(request("VerifyResult"))="-1" then response.write "selected"%>>無效</option>
+</select>
+
+<br>
+舉發人
+	<select name="OperatorID" class="btn1">
+		<option value="">請選擇</option>
+<%
+	strMember="select MemberID,chName from MemberData where UnitID='"&trim(Session("Unit_ID"))&"' order by MemberID"
+	set rsMember=conn.execute(strMember)
+	If Not rsMember.Bof Then rsMember.MoveFirst 
+	While Not rsMember.Eof
+%>
+			<option value="<%=trim(rsMember("MemberID"))%>" <%
+				formOperatorTmp=trim(formOperator)
+			if trim(rsMember("MemberID"))= trim(formOperatorTmp) then
+				response.write "selected"
+			end if
+			%>><%=trim(rsMember("chName"))%></option>
+<%
+	rsMember.MoveNext
+	Wend
+	rsMember.close
+	set rsMember=nothing
+%>
+	</select>
+	車牌號碼        
+	<input name="CarNo" type="text" value="" size="7" maxlength="6">
+
+      <input type="button" name="Submit" value="查詢" onclick='funcDataSearch();'>     
+	          </span>  
+		<strong>( 闖紅燈 <%
+		strRed = "select count(*) as cnt " + _
+			"from ProsecutionImage a, ProsecutionImageDetail b, MEMBERDATA c, SpecCar d " + _
+			"where a.FILENAME = b.FILENAME and b.MEMBERID = c.MEMBERID(+) and b.CARNO = d.CARNO(+) and a.ProsecutionTypeID='R' " + sWhere
+		set rsRed=Conn.execute(strRed)
+		if not rsRed.eof then
+			response.write trim(rsRed("cnt"))
+		end if
+		rsRed.close
+		set rsRed=nothing
+		%> 件，超速 <%
+		strS = "select count(*) as cnt " + _
+			"from ProsecutionImage a, ProsecutionImageDetail b, MEMBERDATA c, SpecCar d " + _
+			"where a.FILENAME = b.FILENAME and b.MEMBERID = c.MEMBERID(+) and b.CARNO = d.CARNO(+) and a.ProsecutionTypeID='S' " + sWhere
+		set rsS=Conn.execute(strS)
+		if not rsS.eof then
+			response.write trim(rsS("cnt"))
+		end if
+		rsS.close
+		set rsS=nothing
+		%> 件，平均時速 <%
+		SpeedAvg=0
+		SpeedCount=0
+		strOver = "select a.OverSpeed " + _
+			"from ProsecutionImage a, ProsecutionImageDetail b, MEMBERDATA c, SpecCar d " + _
+			"where a.FILENAME = b.FILENAME and b.MEMBERID = c.MEMBERID(+) and b.CARNO = d.CARNO(+) " + sWhere
+		set rsOver=Conn.execute(strOver)
+		If Not rsOver.Bof Then rsOver.MoveFirst 
+		While Not rsOver.Eof
+			if trim(rsOver("OverSpeed"))<>"" and not isnull(rsOver("OverSpeed")) then
+				SpeedAvg=SpeedAvg+trim(rsOver("OverSpeed"))
+				SpeedCount=SpeedCount+1
+			end if
+		rsOver.MoveNext
+		Wend
+		rsOver.close
+		set rsOver=nothing	
+		if SpeedAvg<>0 and SpeedCount<>0 then
+			response.write formatNumber(SpeedAvg/SpeedCount,1)
+		else
+			response.write "0"
+		end if
+		%> Km )</strong>
+<%
+if isObject(Conn) then
+    if Conn.state then
+        Conn.close
+    end if
+    Set Conn = Nothing
+end if
+%>
+	</td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr class="listtitle">
+    <td height="26" bgcolor="#FFCC33"><span class="font12">數位相片舉發-資料列表</span></td>
+  </tr>
+  <tr>
+    <td height="335" bgcolor="#E0E0E0"><span id="DataList"><table id="DataList1" width="100%" height="100%" border="0" cellpadding="2" cellspacing="1">
+      <tr bgcolor="#EBFBE3">
+        <th width="120" height="15" nowrap><span class="font12">日期</span></th>
+        <th width="40" nowrap><span class="font12">來源</span></th>        
+        <th width="120" nowrap><span class="font12">路段</span></th>
+
+        <th width="80" nowrap><span class="font12">車牌</span></th>
+        <th width="60" nowrap><span class="font12">類型</span></th>
+        <th width="40" nowrap>限速</th>
+        <th width="40" nowrap>車速</th>
+        <th width="40" nowrap>車道</th>
+        <th width="40" nowrap>審核</th>
+        <th width="100" nowrap></th>
+      </tr>
+	<%=sTR%>
+    </table></span></td>
+  </tr>
+  <tr>
+    <td height="35" bgcolor="#FFDD77"><p align="center" class="style1">
+    	<%
+    		ShowPageLink sNowPage, sAllPage, "ProsecutionImage.asp", ""
+    	%>
+      <img src="space.gif" width="20" height="5"> 
+      <input type="button" onclick="OpenExcel()" value="轉換成Excel"> 
+</p>    </td>
+  </tr>
+</table>
+</form>
+<script type="text/javascript" src="../js/date.js"></script>
+<script language="javascript">
+	var OldObj = '';
+	var sformLocation = '<%=formLocation%>';
+	var formFIXEQUIPTYPE = '<%=formFIXEQUIPTYPE%>';
+	var sformVerifyResult = '<%=formVerifyResult%>';
+	var sformCarNo = '<%=formCarNo%>';
+	var sMessage = '<%=sMessage%>';
+	
+	if(sMessage!=''){
+		alert(sMessage);
+	}
+	
+	if(sformCarNo!=''){
+		document.getElementById('CarNo').value=sformCarNo;
+	}
+	
+	if(sformLocation!=''){
+		for(var i=0;i<document.getElementById('Location').length;i++){
+			if(document.getElementById('Location')[i].value==sformLocation){
+				document.getElementById('Location')[i].selected=true;
+			}
+		}
+	}
+	
+	if(formFIXEQUIPTYPE!=''){
+		for(var i=0;i<document.getElementById('FIXEQUIPTYPE').length;i++){
+			if(document.getElementById('FIXEQUIPTYPE')[i].value==formFIXEQUIPTYPE){
+				document.getElementById('FIXEQUIPTYPE')[i].selected=true;
+			}
+		}
+	}
+	
+	if(sformVerifyResult!=''){
+		for(var i=0;i<document.getElementById('VerifyResult').length;i++){
+			if(document.getElementById('VerifyResult')[i].value==sformVerifyResult){
+				document.getElementById('VerifyResult')[i].selected=true;
+			}
+		}
+	}
+	
+	//置中 function
+	function centerPos(size, type) {
+	    switch(type) {
+	        case 0:   //Top position
+	            return (parseInt(window.screen.height) - size) / 2;
+	            break;
+	        case 1:   //Left position
+	            return (parseInt(window.screen.width) - size) / 2;
+	            break;
+	        default:
+	            alert('centerPos() : Type value error!!');
+	    }
+	}
+	
+	function OpenExcel(){
+		window.open('ProsecutionImageExcel.asp?' +
+					'Location='+escape(document.all('Location').value) +
+					'&VerifyResult='+document.all('VerifyResult').value +
+					'&CarNo='+escape(document.all('CarNo').value) +
+					'&StartDate='+document.all('StartDate').value +
+					'&EndDate='+document.all('EndDate').value +
+					'&OperatorID='+document.all('OperatorID').value
+					,'','scrollbars=yes');
+	}
+	
+	function NewWindow(Width, Height, URL, WinName){
+	    var nWidth = Width;
+	    var nHeight = Height;
+	    var sURL = URL;
+	    var nTop = centerPos(nHeight,0);
+	    var nLeft = centerPos(nWidth,1);
+	    var sWinSize = "left=" + nLeft.toString(10) + ",top=" + nTop.toString(10) + ",width=" + nWidth.toString(10) + ",height=" + nHeight.toString(10);
+	    var sWinStatus = "menubar=0,toolbar=0,scrollbars=1,resizable=1,status=0";
+	    var sWinName = WinName;
+	    OldObj = window.open(sURL,sWinName,sWinSize + "," + sWinStatus);
+	}
+
+	//開啟檢視圖
+	function OpenPic(FileName){
+		NewWindow(1000, 700, 'ShowMap.asp?PicName=' + FileName.replace(/\+/g, '@2@'), 'MyPic');
+	}
+
+	//開啟檢視圖
+	function OpenPic2(FileName){
+		NewWindow(1000, 700, FileName, 'MyPic');
+	}
+
+	//關閉檢是圖
+	function ClosePic(){
+		try{
+			if(OldObj!=''){
+				OldObj.close();
+				OldObj = '';
+			}
+		}
+		catch(e){
+		}
+	}
+	
+	//開啟詳細資料
+	function OpenDetail(FileName, SN){
+		//+ URL 傳送時會不見,所以置換,到Server Side 再換回來
+		NewWindow(1000, 600, 'ProsecutionImageDetail.asp?FileName=' + FileName.replace(/\+/g, '@2@') + '&SN='+SN, 'MyDetail');
+	}
+	
+	//資料審核
+	function UpdateData(CarNoObj, FileName, Value, SN){
+		//抓取汽車號碼
+		var CarNo = document.getElementById(CarNoObj).value;
+
+		if(CarNo!='' || (CarNo=='' && Value=='-1')){
+			var sType = '';
+			if(Value=='0'){
+				sType = '有效';
+			}
+			else{
+				sType = '無效';
+			}
+	
+			var bOK = confirm('確定要將 ' + CarNo + ' 資料審核成 \'' + sType + '\' 嗎?');
+			
+			if(bOK){
+				document.getElementsByName('SubmitType')[0].value = 'UpdateVerifyResult';
+				document.getElementsByName('SelFileName')[0].value = FileName;
+				document.getElementsByName('SelValue')[0].value = Value;
+				document.getElementsByName('SelCarNo')[0].value = CarNo;
+				document.getElementsByName('SelSN')[0].value = SN;
+				
+				document.forms[0].submit();
+			}
+		}
+		else if (CarNo=='' && Value=='0'){
+			alert('請輸入車牌號碼!!');
+		}
+	}
+
+	//進入舉發單修改頁面
+	function OpenCaseData(BillSN){
+		NewWindow(1000, 600, '../BillKeyIn/BillKeyIn_Car_Report_Update.asp?BillSN=' + BillSN, 'MyDetail');
+	}
+	//逕舉資料建檔
+	function funcInCaseData(FileName,SN,CarNo){
+		document.getElementsByName('SubmitType')[0].value = 'InsertBillBase';
+		document.getElementsByName('SelFileName')[0].value = FileName;
+		document.getElementsByName('SelCarNo')[0].value = CarNo;
+		document.getElementsByName('SelSN')[0].value = SN;
+
+		document.forms[0].submit();
+	}
+	function funcDataSearch(){
+		document.getElementsByName('SubmitType')[0].value = 'DataSearch';
+		document.forms[0].submit();
+	}
+<%if trim(request("SubmitType"))="" then%>
+	//funcDataSearch();
+<%end if%>
+</script>
+</body>
+</html>
