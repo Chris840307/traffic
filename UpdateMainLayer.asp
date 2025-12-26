@@ -9,13 +9,13 @@
 	set rsCity=nothing
 
 	'顯示dcilog上傳記錄
-	strUpdDci="<table border='1' width='100%'><tr bgcolor='#FFFF99'><td colspan='2'>"
+	strUpdDci="<table border='0' width='100%'><tr bgcolor='#C36A2D'><td colspan='2'><font color='#FFFFFF'>"
 	if sys_City="雲林縣" then
 		strUpdDci=strUpdDci&"監理站資料交換進度(一天內)"
 	else
 		strUpdDci=strUpdDci&"監理站資料交換進度(三天內)"
 	end if
-	strUpdDci=strUpdDci&"</td></tr><tr bgcolor='#99FF99'><td align='center' width='50%'>批號</td><td align='center' width='50%'>狀態</td></tr>"
+	strUpdDci=strUpdDci&"</td></tr><tr bgcolor='#2F5D8A'><td align='center' width='50%'><font color='#FFFFFF'>批號</td><td align='center' width='50%'><font color='#FFFFFF'>狀態</td></tr>"
 	if sys_City="雲林縣" then
 		strUp="select distinct BatchNumber from Dcilog where ExchangeDate between " &_
 			" TO_DATE('"&Date&" 0:0:0','YYYY/MM/DD/HH24/MI/SS') " &_
@@ -42,7 +42,7 @@
 					strUpdDci=strUpdDci&"</td></tr>"
 
 				Else
-					strUpdDci=strUpdDci&"<tr bgColor='#FFCCCC'><td align='center' width='50%'>"&trim(rsUp("BatchNumber"))&"</td>"
+					strUpdDci=strUpdDci&"<tr bgColor='#CAD6E2'><td align='center' width='50%'>"&trim(rsUp("BatchNumber"))&"</td>"
 					strUpdDci=strUpdDci&"<td align='center' width='50%'>"
 					strUpdDci=strUpdDci&"未回傳"
 					strUpdDci=strUpdDci&"</td></tr>"

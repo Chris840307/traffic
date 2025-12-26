@@ -46,7 +46,7 @@ body {
 	z-index:2;
 }
 #D1 {
-	BACKGROUND-COLOR: #99FFFF; 
+	BACKGROUND-COLOR: #F4F6F8; 
 	BORDER-BOTTOM: white 2px outset; 
 	BORDER-LEFT: white 2px outset; 
 	BORDER-RIGHT: white 2px outset; 
@@ -54,7 +54,7 @@ body {
 	LEFT: 0px; POSITION: absolute; 
 	TOP: 0px; VISIBILITY: hidden; 
 	WIDTH: 150px; 
-	layer-background-color: #99FFFF;
+	layer-background-color: #F4F6F8;
 	
 	z-index:5;
 }
@@ -501,386 +501,386 @@ UnitNo=Session("Unit_ID")
 	strChkL2="select * from Law where itemid ='35300169' and version=2"
 	Set rsChkL2=conn.execute(strChkL2)
 	If rsChkL2.eof Then
-		strInsL2="insert into law values('35300169','3','汽機車駕駛人駕駛汽機車，於十年內酒精濃度超過規定標準第2次',90000,90000,90000,90000,'V','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300169','3','汽機車駕駛人駕駛汽機車，於十年內酒精濃度超過規定標準第2次',90000,90000,90000,90000,'V','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('35300169','4','汽機車駕駛人駕駛汽機車，於十年內酒精濃度超過規定標準第2次',120000,120000,120000,120000,'V','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300169','4','汽機車駕駛人駕駛汽機車，於十年內酒精濃度超過規定標準第2次',120000,120000,120000,120000,'V','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('35300170','3','汽機車駕駛人駕駛汽機車肇事致人重傷，且於十年內酒精濃度超過規定標準第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300170','3','汽機車駕駛人駕駛汽機車肇事致人重傷，且於十年內酒精濃度超過規定標準第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 		
-		strInsL2="insert into law values('35300170','4','汽機車駕駛人駕駛汽機車肇事致人重傷，且於十年內酒精濃度超過規定標準第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300170','4','汽機車駕駛人駕駛汽機車肇事致人重傷，且於十年內酒精濃度超過規定標準第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('35300171','3','汽機車駕駛人駕駛汽機車肇事致人死亡，且於十年內酒精濃度超過規定標準第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300171','3','汽機車駕駛人駕駛汽機車肇事致人死亡，且於十年內酒精濃度超過規定標準第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 		
-		strInsL2="insert into law values('35300171','4','汽機車駕駛人駕駛汽機車肇事致人死亡，且於十年內酒精濃度超過規定標準第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300171','4','汽機車駕駛人駕駛汽機車肇事致人死亡，且於十年內酒精濃度超過規定標準第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('35300172','3','汽機車駕駛人駕駛汽機車，於十年內酒精濃度超過規定標準第2次(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300172','3','汽機車駕駛人駕駛汽機車，於十年內酒精濃度超過規定標準第2次(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 		
-		strInsL2="insert into law values('35300172','4','汽機車駕駛人駕駛汽機車，於十年內酒精濃度超過規定標準第2次(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300172','4','汽機車駕駛人駕駛汽機車，於十年內酒精濃度超過規定標準第2次(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('35300173','3','汽機車駕駛人駕駛汽機車肇事致人重傷，且於十年內酒精濃度超過規定標準第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300173','3','汽機車駕駛人駕駛汽機車肇事致人重傷，且於十年內酒精濃度超過規定標準第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 		
-		strInsL2="insert into law values('35300173','4','汽機車駕駛人駕駛汽機車肇事致人重傷，且於十年內酒精濃度超過規定標準第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300173','4','汽機車駕駛人駕駛汽機車肇事致人重傷，且於十年內酒精濃度超過規定標準第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('35300174','3','汽機車駕駛人駕駛汽機車肇事致人死亡，且於十年內酒精濃度超過規定標準第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300174','3','汽機車駕駛人駕駛汽機車肇事致人死亡，且於十年內酒精濃度超過規定標準第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 		
-		strInsL2="insert into law values('35300174','4','汽機車駕駛人駕駛汽機車肇事致人死亡，且於十年內酒精濃度超過規定標準第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300174','4','汽機車駕駛人駕駛汽機車肇事致人死亡，且於十年內酒精濃度超過規定標準第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 		
-		strInsL2="insert into law values('35300175','3','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食毒品第2次',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300175','3','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食毒品第2次',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('35300175','4','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食毒品第2次',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300175','4','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食毒品第2次',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 		
-		strInsL2="insert into law values('35300176','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食毒品第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300176','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食毒品第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300176','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食毒品第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300176','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食毒品第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2		
 
-		strInsL2="insert into law values('35300177','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食毒品第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300177','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食毒品第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300177','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食毒品第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		
-		strInsL2="insert into law values('35300178','3','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食毒品第2次(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		strInsL2="insert into law values('35300178','4','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食毒品第2次(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300177','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食毒品第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 		
-		strInsL2="insert into law values('35300179','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食毒品第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300178','3','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食毒品第2次(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300179','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食毒品第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300178','4','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食毒品第2次(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		
+		strInsL2="insert into law values('35300179','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食毒品第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		strInsL2="insert into law values('35300179','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食毒品第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('35300180','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食毒品第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300180','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食毒品第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300180','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食毒品第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		
-		strInsL2="insert into law values('35300181','3','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食迷幻藥第2次',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		strInsL2="insert into law values('35300181','4','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食迷幻藥第2次',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300180','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食毒品第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 		
-		strInsL2="insert into law values('35300182','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食迷幻藥第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300181','3','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食迷幻藥第2次',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300182','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食迷幻藥第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300181','4','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食迷幻藥第2次',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		
+		strInsL2="insert into law values('35300182','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食迷幻藥第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		strInsL2="insert into law values('35300182','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食迷幻藥第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('35300183','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食迷幻藥第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300183','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食迷幻藥第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300183','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食迷幻藥第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-				
-		strInsL2="insert into law values('35300184','3','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食迷幻藥第2次(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		strInsL2="insert into law values('35300184','4','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食迷幻藥第2次(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300183','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食迷幻藥第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 				
-		strInsL2="insert into law values('35300185','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食迷幻藥第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300184','3','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食迷幻藥第2次(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300185','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食迷幻藥第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300184','4','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食迷幻藥第2次(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 				
-		strInsL2="insert into law values('35300186','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食迷幻藥第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300185','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食迷幻藥第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300186','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食迷幻藥第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300185','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食迷幻藥第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+				
+		strInsL2="insert into law values('35300186','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食迷幻藥第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		strInsL2="insert into law values('35300186','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食迷幻藥第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 			
-		strInsL2="insert into law values('35300187','3','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食麻醉藥品第2次',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300187','3','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食麻醉藥品第2次',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300187','4','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食麻醉藥品第2次',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-				
-		strInsL2="insert into law values('35300188','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食麻醉藥品第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		strInsL2="insert into law values('35300188','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食麻醉藥品第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300187','4','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食麻醉藥品第2次',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 				
-		strInsL2="insert into law values('35300189','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食麻醉藥品第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300188','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食麻醉藥品第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300189','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食麻醉藥品第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300188','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食麻醉藥品第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+				
+		strInsL2="insert into law values('35300189','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食麻醉藥品第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		strInsL2="insert into law values('35300189','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食麻醉藥品第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 			
-		strInsL2="insert into law values('35300190','3','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食麻醉藥品第2次(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300190','3','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食麻醉藥品第2次(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300190','4','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食麻醉藥品第2次(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-				
-		strInsL2="insert into law values('35300191','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食麻醉藥品第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		strInsL2="insert into law values('35300191','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食麻醉藥品第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300190','4','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食麻醉藥品第2次(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 				
-		strInsL2="insert into law values('35300192','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食麻醉藥品第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300191','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食麻醉藥品第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300192','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食麻醉藥品第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300191','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食麻醉藥品第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		
-		strInsL2="insert into law values('35300193','3','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食管制藥品第2次',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+				
+		strInsL2="insert into law values('35300192','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食麻醉藥品第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300193','4','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食管制藥品第2次',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		
-		strInsL2="insert into law values('35300194','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食管制藥第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		strInsL2="insert into law values('35300194','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食管制藥第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300192','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食麻醉藥品第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 		
-		strInsL2="insert into law values('35300195','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食管制藥第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300193','3','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食管制藥品第2次',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300195','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食管制藥第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		
-		strInsL2="insert into law values('35300196','3','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食管制藥品第2次(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		strInsL2="insert into law values('35300196','4','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食管制藥品第2次(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300193','4','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食管制藥品第2次',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 		
-		strInsL2="insert into law values('35300197','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食管制藥第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300194','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食管制藥第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300197','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食管制藥第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		
-		strInsL2="insert into law values('35300198','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食管制藥第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		strInsL2="insert into law values('35300198','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食管制藥第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300194','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食管制藥第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 		
-		strInsL2="insert into law values('35300199','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食毒品)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300195','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食管制藥第2次',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300199','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食毒品)',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		
-		strInsL2="insert into law values('35300200','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		strInsL2="insert into law values('35300200','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300195','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食管制藥第2次',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 		
-		strInsL2="insert into law values('35300201','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300196','3','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食管制藥品第2次(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300201','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		
-		strInsL2="insert into law values('35300202','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		strInsL2="insert into law values('35300202','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300196','4','汽機車駕駛人駕駛汽機車，於十年內經測試檢定有吸食管制藥品第2次(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 		
-		strInsL2="insert into law values('35300203','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食毒品)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300197','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食管制藥第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300203','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食毒品)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		
-		strInsL2="insert into law values('35300204','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
-		conn.execute strInsL2
-		strInsL2="insert into law values('35300204','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300197','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內經測試檢定有吸食管制藥第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 		
-		strInsL2="insert into law values('35300205','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300198','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食管制藥第2次(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300205','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300198','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內經測試檢定有吸食管制藥第2次(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 		
-		strInsL2="insert into law values('35300206','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300199','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食毒品)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300206','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)',120000,120000,120000,120000,'0','0','9','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300199','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食毒品)',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		
+		strInsL2="insert into law values('35300200','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		strInsL2="insert into law values('35300200','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		
+		strInsL2="insert into law values('35300201','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		strInsL2="insert into law values('35300201','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		
+		strInsL2="insert into law values('35300202','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		strInsL2="insert into law values('35300202','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		
+		strInsL2="insert into law values('35300203','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食毒品)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		strInsL2="insert into law values('35300203','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食毒品)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		
+		strInsL2="insert into law values('35300204','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		strInsL2="insert into law values('35300204','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		
+		strInsL2="insert into law values('35300205','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		strInsL2="insert into law values('35300205','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		
+		strInsL2="insert into law values('35300206','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		conn.execute strInsL2
+		strInsL2="insert into law values('35300206','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)',120000,120000,120000,120000,'0','0','9','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('35300207','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食毒品)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300207','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食毒品)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300207','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食毒品)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300207','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食毒品)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300208','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300208','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300208','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300208','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300209','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300209','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300209','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300209','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300210','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300210','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300210','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300210','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300211','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食毒品)(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300211','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食毒品)(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300211','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食毒品)(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300211','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食毒品)(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300212','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300212','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300212','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300212','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300213','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300213','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300213','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300213','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300214','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300214','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300214','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300214','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300215','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食毒品)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300215','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食毒品)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300215','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食毒品)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300215','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食毒品)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300216','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300216','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300216','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300216','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300217','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300217','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300217','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300217','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300218','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300218','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300218','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300218','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300219','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食毒品)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300219','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食毒品)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300219','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食毒品)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300219','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食毒品)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300220','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300220','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300220','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300220','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食迷幻藥)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300221','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300221','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300221','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300221','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食麻醉藥品)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300222','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300222','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300222','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300222','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先酒駕、後吸食管制藥品)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300223','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食毒品、後酒駕)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300223','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食毒品、後酒駕)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300223','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食毒品、後酒駕)',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300223','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食毒品、後酒駕)',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300224','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300224','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300224','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300224','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300225','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300225','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300225','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300225','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300226','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300226','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300226','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300226','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)',120000,120000,120000,120000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300227','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食毒品、後酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300227','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食毒品、後酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300227','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食毒品、後酒駕)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300227','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食毒品、後酒駕)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300228','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300228','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300228','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300228','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300229','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300229','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300229','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300229','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300230','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300230','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300230','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300230','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300231','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食毒品、後酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300231','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食毒品、後酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300231','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食毒品、後酒駕)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300231','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食毒品、後酒駕)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300232','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300232','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300232','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300232','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300233','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300233','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300233','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300233','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300234','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300234','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300234','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300234','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)',120000,120000,120000,120000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300235','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食毒品、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300235','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食毒品、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300235','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食毒品、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300235','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食毒品、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300236','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300236','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300236','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300236','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300237','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300237','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300237','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300237','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300238','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300238','3','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300238','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300238','4','汽機車駕駛人駕駛汽機車，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300239','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食毒品、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300239','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食毒品、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300239','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食毒品、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300239','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食毒品、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300240','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300240','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300240','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300240','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300241','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300241','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300241','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300241','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300242','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300242','3','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300242','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300242','4','汽機車駕駛人駕駛汽機車肇事致人重傷，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300243','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食毒品、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300243','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食毒品、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300243','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食毒品、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300243','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食毒品、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300244','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300244','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300244','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300244','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食迷幻藥、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300245','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300245','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300245','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300245','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食麻醉藥品、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300246','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300246','3','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)(無照)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300246','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300246','4','汽機車駕駛人駕駛汽機車肇事致人死亡，於十年內違反第一項第2次(先吸食管制藥品、後酒駕)(無照)',120000,120000,120000,120000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300247','0','汽機車駕駛人駕駛汽機車，於十年內違反第一項規定第3次以上(酒駕)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300247','0','汽機車駕駛人駕駛汽機車，於十年內違反第一項規定第3次以上(酒駕)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300248','0','汽機車駕駛人駕駛汽機車致人重傷，於十年內違反第一項規定第3次以上(酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300248','0','汽機車駕駛人駕駛汽機車致人重傷，於十年內違反第一項規定第3次以上(酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300249','0','汽機車駕駛人駕駛汽機車致人死亡，於十年內違反第一項規定第3次以上(酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300249','0','汽機車駕駛人駕駛汽機車致人死亡，於十年內違反第一項規定第3次以上(酒駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300250','0','汽機車駕駛人駕駛汽機車，於十年內違反第一項規定(無照)第3次以上(酒駕)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300250','0','汽機車駕駛人駕駛汽機車，於十年內違反第一項規定(無照)第3次以上(酒駕)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300251','0','汽機車駕駛人駕駛汽機車致人重傷，於十年內違反第一項規定(無照)第3次以上(酒駕)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300251','0','汽機車駕駛人駕駛汽機車致人重傷，於十年內違反第一項規定(無照)第3次以上(酒駕)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300252','0','汽機車駕駛人駕駛汽機車致人死亡，於十年內違反第一項規定(無照)第3次以上(酒駕)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300252','0','汽機車駕駛人駕駛汽機車致人死亡，於十年內違反第一項規定(無照)第3次以上(酒駕)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300253','0','汽機車駕駛人駕駛汽機車，於十年內違反第一項規定第3次以上(藥駕)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300253','0','汽機車駕駛人駕駛汽機車，於十年內違反第一項規定第3次以上(藥駕)',90000,90000,90000,90000,'0','0','2','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300254','0','汽機車駕駛人駕駛汽機車致人重傷，於十年內違反第一項規定第3次以上(藥駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300254','0','汽機車駕駛人駕駛汽機車致人重傷，於十年內違反第一項規定第3次以上(藥駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300255','0','汽機車駕駛人駕駛汽機車致人死亡，於十年內違反第一項規定第3次以上(藥駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300255','0','汽機車駕駛人駕駛汽機車致人死亡，於十年內違反第一項規定第3次以上(藥駕)',90000,90000,90000,90000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300256','0','汽機車駕駛人駕駛汽機車，於十年內違反第一項規定(無照)第3次以上(藥駕)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300256','0','汽機車駕駛人駕駛汽機車，於十年內違反第一項規定(無照)第3次以上(藥駕)',90000,90000,90000,90000,'0','0','0','3','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300257','0','汽機車駕駛人駕駛汽機車致人重傷，於十年內違反第一項規定(無照)第3次以上(藥駕)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300257','0','汽機車駕駛人駕駛汽機車致人重傷，於十年內違反第一項規定(無照)第3次以上(藥駕)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35300258','0','汽機車駕駛人駕駛汽機車致人死亡，於十年內違反第一項規定(無照)第3次以上(藥駕)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35300258','0','汽機車駕駛人駕駛汽機車致人死亡，於十年內違反第一項規定(無照)第3次以上(藥駕)',90000,90000,90000,90000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 		strInsL2="insert into law values('35403001','0','接受酒精濃度測試檢定前，吸食服用含酒精之物、毒品、迷幻藥、麻醉藥品及其相類似之管制藥品',180000,180000,180000,180000,'0','0','2','3','0','6',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
@@ -1002,29 +1002,29 @@ UnitNo=Session("Unit_ID")
 		conn.execute strInsL2
 		strInsL2="insert into law values('35404030','0','發生交通事故後，在接受管制藥品測試檢定前，吸食服用含酒精之物、毒品、迷幻藥、麻醉藥品及其相類似之管制藥品，且肇事致人死亡(無駕駛執照)',180000,180000,180000,180000,'0','0','0','9','0','6',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35500013','0','汽機車駕駛人駕駛汽機車，於十年內第2次違反第4項規定',360000,360000,360000,360000,'0','0','2','5','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35500013','0','汽機車駕駛人駕駛汽機車，於十年內第2次違反第4項規定',360000,360000,360000,360000,'0','0','2','5','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35500014','0','汽機車駕駛人駕駛汽機車，於十年內第2次違反第4項規定，肇事致人重傷',360000,360000,360000,360000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35500014','0','汽機車駕駛人駕駛汽機車，於十年內第2次違反第4項規定，肇事致人重傷',360000,360000,360000,360000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35500015','0','汽機車駕駛人駕駛汽機車，於十年內第2次違反第4項規定，肇事致人死亡',360000,360000,360000,360000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35500015','0','汽機車駕駛人駕駛汽機車，於十年內第2次違反第4項規定，肇事致人死亡',360000,360000,360000,360000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35500016','0','汽機車駕駛人駕駛汽機車，於十年內第2次違反第4項規定(無照)',360000,360000,360000,360000,'0','0','0','5','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35500016','0','汽機車駕駛人駕駛汽機車，於十年內第2次違反第4項規定(無照)',360000,360000,360000,360000,'0','0','0','5','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35500017','0','汽機車駕駛人駕駛汽機車，於十年內第2次違反第4項規定，肇事致人重傷(無照)',360000,360000,360000,360000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35500017','0','汽機車駕駛人駕駛汽機車，於十年內第2次違反第4項規定，肇事致人重傷(無照)',360000,360000,360000,360000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35500018','0','汽機車駕駛人駕駛汽機車，於十年內第2次違反第4項規定，肇事致人死亡(無照)',360000,360000,360000,360000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35500018','0','汽機車駕駛人駕駛汽機車，於十年內第2次違反第4項規定，肇事致人死亡(無照)',360000,360000,360000,360000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35500019','0','汽機車駕駛人駕駛汽機車，於十年內第3次以上違反第4項規定',180000,180000,180000,180000,'0','0','2','5','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35500019','0','汽機車駕駛人駕駛汽機車，於十年內第3次以上違反第4項規定',180000,180000,180000,180000,'0','0','2','5','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35500020','0','汽機車駕駛人駕駛汽機車，於十年內第3次以上違反第4項規定，肇事致人重傷',180000,180000,180000,180000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35500020','0','汽機車駕駛人駕駛汽機車，於十年內第3次以上違反第4項規定，肇事致人重傷',180000,180000,180000,180000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35500021','0','汽機車駕駛人駕駛汽機車，於十年內第3次以上違反第4項規定，肇事致人死亡',180000,180000,180000,180000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35500021','0','汽機車駕駛人駕駛汽機車，於十年內第3次以上違反第4項規定，肇事致人死亡',180000,180000,180000,180000,'0','0','2','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35500022','0','汽機車駕駛人駕駛汽機車，於十年內第3次以上違反第4項規定(無照)',180000,180000,180000,180000,'0','0','0','5','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35500022','0','汽機車駕駛人駕駛汽機車，於十年內第3次以上違反第4項規定(無照)',180000,180000,180000,180000,'0','0','0','5','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35500023','0','汽機車駕駛人駕駛汽機車，於十年內第3次以上違反第4項規定，肇事致人重傷(無照)',180000,180000,180000,180000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35500023','0','汽機車駕駛人駕駛汽機車，於十年內第3次以上違反第4項規定，肇事致人重傷(無照)',180000,180000,180000,180000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
-		strInsL2="insert into law values('35500024','0','汽機車駕駛人駕駛汽機車，於十年內第3次以上違反第4項規定，肇事致人死亡(無照)',180000,180000,180000,180000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('35500024','0','汽機車駕駛人駕駛汽機車，於十年內第3次以上違反第4項規定，肇事致人死亡(無照)',180000,180000,180000,180000,'0','0','0','9','0','6,g',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 		strInsL2="insert into law values('35700009','3','汽機車所有人明知駕駛人酒精濃度超過規定標準(0.15-0.25(未含))而不禁駛',15000,16500,19500,22500,'V','0','X','0','0','0',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
@@ -2168,16 +2168,16 @@ UnitNo=Session("Unit_ID")
 		strInsL2="insert into law values('5510211','4','在消防車出入口五公尺內臨時停車',600,600,600,600,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('5510212','3','在交岔路口十公尺內臨時停車',500,600,600,600,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('5510212','3','在交岔路口十公尺內臨時停車',500,600,600,600,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('5510212','4','在交岔路口十公尺內臨時停車',600,600,600,600,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('5510212','4','在交岔路口十公尺內臨時停車',600,600,600,600,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('5510213','3','在公共汽車招呼站十公尺內臨時停車',500,600,600,600,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('5510213','3','在公共汽車招呼站十公尺內臨時停車',500,600,600,600,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('5510213','4','在公共汽車招呼站十公尺內臨時停車',600,600,600,600,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('5510213','4','在公共汽車招呼站十公尺內臨時停車',600,600,600,600,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
 		strInsL2="insert into law values('5510407','3','併排臨時停車',500,600,600,600,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
@@ -2186,10 +2186,10 @@ UnitNo=Session("Unit_ID")
 		strInsL2="insert into law values('5510407','4','併排臨時停車',600,600,600,600,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('5610118','3','在公共汽車招呼站十公尺內停車',900,1000,1100,1200,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('5610118','3','在公共汽車招呼站十公尺內停車',900,1000,1100,1200,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('5610118','4','在公共汽車招呼站十公尺內停車',1200,1200,1200,1200,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('5610118','4','在公共汽車招呼站十公尺內停車',1200,1200,1200,1200,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
 		strInsL2="insert into law values('5610119','3','在橋樑停車',600,700,800,900,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
@@ -2246,13 +2246,13 @@ UnitNo=Session("Unit_ID")
 		strInsL2="insert into law values('5610124','6','在快車道停車',1200,1200,1200,1200,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('5610125','3','在交岔路口十公尺內停車',600,700,800,900,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('5610125','3','在交岔路口十公尺內停車',600,700,800,900,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('5610125','5','在交岔路口十公尺內停車',900,1000,1100,1200,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('5610125','5','在交岔路口十公尺內停車',900,1000,1100,1200,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
-		strInsL2="insert into law values('5610125','6','在交岔路口十公尺內停車',1200,1200,1200,1200,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
+		strInsL2="insert into law values('5610125','6','在交岔路口十公尺內停車',1200,1200,1200,1200,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
 		conn.execute strInsL2
 
 		strInsL2="insert into law values('5610126','3','在消防車出入口五公尺內停車',600,700,800,900,'0','0','0','0','0','0',sysdate,'2',0,sysdate,null,null)"
@@ -2431,8 +2431,8 @@ MM_reloadPage(true);
 	<tr>
 		<!-- 處理進度 -->
 		<td valign="top"> 
-			<table width="100%" border="1">
-				<tr bgcolor="#FFFF99">
+			<table width="100%" border="0">
+				<tr bgcolor="#CAD6E2">
 					<td >處理進度(1~68條)</td>
 				</tr>
 				<tr bgColor="#FFFFFF">
@@ -2447,7 +2447,7 @@ MM_reloadPage(true);
 				</tr>
 			</table>
 		</td>
-		<td align="middle" bgColor="#FF0000" rowSpan="2" width="20" >
+		<td align="middle" bgColor="#C36A2D" rowSpan="2" width="20" >
 			<font color="#FFFFFF"> 
 			個<br>人<br>資<br>料
 			</font>
@@ -2857,7 +2857,7 @@ set rsUnit=nothing
 		<table width="100%" align="left" border="0">
 			<tr>
 				<td width="40%">
-				十天內建檔後超過四天內未入案之案件共 <strong><%
+				十天內建檔後超過四天內未入案之案件共 <strong><%
 			LimitDate=DateAdd("d",-4,date)
 			TenDate=DateAdd("d",-10,date)
 			strA="select count(*) as cnt from billbase where billstatus in ('0','1') and recordstateid=0 and recorddate between to_date('"&TenDate&" 0:0:0','YYYY/MM/DD/HH24/MI/SS') and to_date('"&LimitDate&" 23:59:59','YYYY/MM/DD/HH24/MI/SS') and SN not in (select BillSN from ALERTCHECK where TypeID='1')"
@@ -2875,7 +2875,7 @@ set rsUnit=nothing
 			</tr>
 			<tr>
 				<td>
-				十天內建檔後僅做車籍查詢就刪除之案件共 <strong><%
+				十天內建檔後僅做車籍查詢就刪除之案件共 <strong><%
 			strA="select count(*) as cnt from billbase where billno is null and sn in (select billsn from dcilog where exchangetypeid='A') and recordstateid=-1 and Recorddate > to_date('"&TenDate&" 0:0:0','YYYY/MM/DD/HH24/MI/SS') and SN not in (select BillSN from ALERTCHECK where TypeID='2')"
 			Set rsA=conn.execute(strA)
 			If Not rsA.eof Then
@@ -2891,7 +2891,7 @@ set rsUnit=nothing
 			</tr>
 			<tr>
 				<td>
-				十天內密碼輸入錯誤三次後系統鎖定之帳號共 <strong><%
+				十天內密碼輸入錯誤三次後系統鎖定之帳號共 <strong><%
 			strA="select count(*) as cnt from Memberdata where AccountStateID=-1 and DelMemberID=99999 and LeaveJOBDate > to_date('"&TenDate&" 0:0:0','YYYY/MM/DD/HH24/MI/SS')"
 			Set rsA=conn.execute(strA)
 			If Not rsA.eof Then
