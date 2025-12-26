@@ -806,7 +806,7 @@ td {font-size: 16px}
 		<table width='1000' border='1' align="left" cellpadding="1">
 			<tr bgcolor="#1BF5FF">
 				<td colspan="6" nowrap>
-					<strong>慢車行人攤販建檔作業</strong>&nbsp; &nbsp; 日期格式：1050101 &nbsp;時間格式：2210 (24小時制)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 建檔日期：<span id="CreatDate"><%=ginitdt(now)%></span>&nbsp;&nbsp;&nbsp;第<span id="Sumefile"><%=cdbl(DBsume)+1%></span>筆
+					<strong>慢車行人攤販建檔作業</strong>&nbsp; &nbsp; 日期格式：1150101 &nbsp;時間格式：2210 (24小時制)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 建檔日期：<span id="CreatDate"><%=ginitdt(now)%></span>&nbsp;&nbsp;&nbsp;第<span id="Sumefile"><%=cdbl(DBsume)+1%></span>筆
 
 
 					<%
