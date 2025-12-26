@@ -46,7 +46,7 @@
                     Response.Write("<tr>")
                 End If
                 If IsDBNull(rdFunc("ImageLocation")) Then
-                    picName = "tmp.jpg"
+                    picName = "open-folder.png"
                 Else
                     picName = rdFunc("ImageLocation")
                 End If
