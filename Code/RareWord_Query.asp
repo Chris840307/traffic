@@ -68,7 +68,7 @@ end if
 <form name=myForm method="post">
 <table width="100%" border="0">
 	<tr>
-		<td bgcolor="#FFCC33">罕見字回報系統</td>
+		<td bgcolor="#1BF5FF">罕見字回報系統</td>
 	</tr>
 	<tr>
 		<td bgcolor="#CCCCCC">
@@ -125,7 +125,7 @@ end if
 		</td>
 	</tr>
 	<tr>
-		<td bgcolor="#FFCC33" height="33">罕見字回報紀錄列表
+		<td bgcolor="#1BF5FF" height="33">罕見字回報紀錄列表
 		　　<b>( 查詢 <%=DBsum%> 筆紀錄 )</b></td>
 	</tr>
 	<tr>
@@ -173,7 +173,7 @@ end if
 		</td>
 	</tr>
 	<tr>
-		<td bgcolor="#FFDD77" align="center">
+		<td bgcolor="#1BF5FF" align="center">
 			<input type="button" name="MoveUp" value="上一頁" onclick="funDbMove(-10);">
 			<span class="style2"> <%=cdbl(DBcnt)/10+1&"/"&fix(cdbl(DBsum)/10+0.9)%></span>
 			<input type="button" name="MoveDown" value="下一頁" onclick="funDbMove(10);">

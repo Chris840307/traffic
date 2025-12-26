@@ -73,7 +73,7 @@ end if
 %> 
 <table width="100%" border="0">
   <tr>
-    <td height="27" bgcolor="#FFCC33"><span class="style3">權限設定系統</span></td>
+    <td height="27" bgcolor="#1BF5FF"><span class="style3">權限設定系統</span></td>
   </tr>
 <FORM NAME="Function" ACTION="" METHOD="POST">       
   <tr>
@@ -133,7 +133,7 @@ end if
   </tr>
 </FORM>
   <tr>
-     <td height="26" bgcolor="#FFCC33"><span class="pagetitle style3"><span class="style3">權限設定</span>紀錄列表</span></td>
+     <td height="26" bgcolor="#1BF5FF"><span class="pagetitle style3"><span class="style3">權限設定</span>紀錄列表</span></td>
   </tr>
 <%
 qryType = 0
@@ -206,7 +206,7 @@ if not rs.EOF then
      </td>
   </tr>
 	<tr>              
-		<td align="center" height="35" bgcolor="#FFDD77">
+		<td align="center" height="35" bgcolor="#1BF5FF">
 <%urlParam = "&SN=" & Request("SN") & "&GroupID=" & trim(request("GroupID")) & "&SystemID=" & trim(request("SystemID"))%>			
 			<font size="2"><%ShowPageLink actionPage,rs.PageCount,"Function.asp",urlParam%></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<input type="button" name="SaveAs" value="轉換成Excel" onclick="openAddWindow('saveExcel.asp','saveExcel')"></td>              

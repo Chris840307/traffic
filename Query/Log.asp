@@ -82,7 +82,7 @@ end if
 <form name=myForm method="post">
 <table width="100%" border="0">
 	<tr>
-		<td bgcolor="#FFCC33">Log紀錄</td>
+		<td bgcolor="#1BF5FF">Log紀錄</td>
 	</tr>
 	<tr>
 		<td bgcolor="#CCCCCC">
@@ -182,7 +182,7 @@ end if
 <%if DB_Selt="Selt" then%>
 <table border="0" width="100%">
 	<tr>
-		<td colspan="6" bgcolor="#FFCC33">Log紀錄列表</td>
+		<td colspan="6" bgcolor="#1BF5FF">Log紀錄列表</td>
 	</tr>
 	<tr bgcolor="#EBFBE3" align="center">
 		<td height="34" width="10%">日期</td>
@@ -254,7 +254,7 @@ end if
 			rsfound.movenext
 		next%>
 	<tr>
-		<td bgcolor="#FFDD77" align="center" colspan="6">
+		<td bgcolor="#1BF5FF" align="center" colspan="6">
 			<input type="button" name="MoveUp" value="上一頁" onclick="funDbMove(-10);">
 			<span class="style2"> <%=cdbl(DBcnt)/10+1&"/"&fix(cdbl(DBsum)/10+0.9)%></span>
 			<input type="button" name="MoveDown" value="下一頁" onclick="funDbMove(10);">

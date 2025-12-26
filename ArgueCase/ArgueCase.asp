@@ -169,7 +169,7 @@ end if
 <form name=myForm method="post">
 <table width="100%" border="0">
 	<tr>
-		<td bgcolor="#FFCC33" height="39">申訴案件(<a href="使用說明_申訴系統.doc" target="_blank"><font  class="style2">使用說明下載</font></a>	)</td>
+		<td bgcolor="#1BF5FF" height="39">申訴案件(<a href="使用說明_申訴系統.doc" target="_blank"><font  class="style2">使用說明下載</font></a>	)</td>
 	</tr>
 	<tr>
 		<td bgcolor="#CCCCCC">
@@ -255,7 +255,7 @@ end if
 		</td>
 	</tr>
 	<tr>
-		<td bgcolor="#FFCC33">申訴案件紀錄列表<img src="space.gif" width="15" height="8"><strong>( 查詢 <%=DBsum%> 筆紀錄 )</strong></td>
+		<td bgcolor="#1BF5FF">申訴案件紀錄列表<img src="space.gif" width="15" height="8"><strong>( 查詢 <%=DBsum%> 筆紀錄 )</strong></td>
 	</tr>
 	<tr>
 		<td bgcolor="#E0E0E0">
@@ -362,7 +362,7 @@ end if
 		</td>
 	</tr>
 	<tr>
-		<td bgcolor="#FFDD77" align="center">
+		<td bgcolor="#1BF5FF" align="center">
 			<input type="button" name="MoveUp" value="上一頁" onclick="funDbMove(-10);">
 			<span class="style2"> <%=Cint(DBcnt)/10+1&"/"&fix(Cint(DBsum)/10+0.9)%></span>
 			<input type="button" name="MoveDown" value="下一頁" onclick="funDbMove(10);">
