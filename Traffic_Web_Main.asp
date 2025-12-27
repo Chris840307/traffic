@@ -2984,31 +2984,36 @@ While Not rsFuncGroup.Eof
 	if s=1 then
 		response.write "<tr>"
 	end if
-%>	<td width="190" height="180">
-<div id="<%=rsFunc("SystemID")%>" style="width:155px; height:170px; z-index:1 ;">  
-		<table id="<%="table"&rsFunc("SystemID")%>" width='100%' border='0' align="center" >
-		<tr><td id="td1" align="center">
-		<a onclick="OpenSystem('<%=rsFunc("URLLocation")%>','<%=rsFunc("SystemID")%>');" onMouseOver="DivColorChange('<%="table"&rsFunc("SystemID")%>');" onMouseOut="DivColorChange2('<%="table"&rsFunc("SystemID")%>');">
-		<%
-		if trim(rsFunc("ImageLocation"))="" or isnull(rsFunc("ImageLocation")) then
-			picName="tmp.jpg"
-		else
-			picName=rsFunc("ImageLocation")
-		end if
-		%>
-		<img src="image/<%=picName%>" alt="" width="128" height="128" border="0" align="baseline">
-		  <br><font size="4"><%
-		  strCode="select * from Code where ID="&trim(rsFunc("SystemID"))
-		  set rsCode=conn.execute(strCode)
-		  if not rsCode.eof then
-			response.write trim(rsCode("Content"))		
-		  end if
-		  rsCode.close
-		  set rsCode=nothing
-		  %></font></a>
-		</td></tr>
-		</table>
-</div>
+%>	
+	<td width="190" height="180">
+		<div id="<%=rsFunc("SystemID")%>" style="width:155px; height:170px; z-index:1 ;">  
+			<table id="<%="table"&rsFunc("SystemID")%>" width='100%' border='0' align="center" >
+				<tr>
+					<td id="td1" align="center">
+						<a onclick="OpenSystem('<%=rsFunc("URLLocation")%>','<%=rsFunc("SystemID")%>');" onMouseOver="DivColorChange('<%="table"&rsFunc("SystemID")%>');" onMouseOut="DivColorChange2('<%="table"&rsFunc("SystemID")%>');">
+							<%
+							if trim(rsFunc("ImageLocation"))="" or isnull(rsFunc("ImageLocation")) then
+								picName="tmp.jpg"
+							else
+								picName=rsFunc("ImageLocation")
+							end if
+							%>
+							<img src="image/<%=picName%>" alt="" width="128" height="128" border="0" align="baseline">
+							<br>
+							<font size="4"><%
+							strCode="select * from Code where ID="&trim(rsFunc("SystemID"))
+							set rsCode=conn.execute(strCode)
+							if not rsCode.eof then
+								response.write trim(rsCode("Content"))		
+							end if
+							rsCode.close
+							set rsCode=nothing
+							%></font>
+						</a>
+					</td>
+				</tr>
+			</table>
+		</div>
 	</td>
 <%	
 	if s=5 then

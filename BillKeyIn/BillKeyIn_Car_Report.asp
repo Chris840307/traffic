@@ -1720,7 +1720,7 @@ End If
 				<td>
 					<input type="text" size="10" value="<%=bIllegalAddressID%>" name="IllegalAddressID" onKeyUp="getillStreet();" onblur="funGetSpeedRule()" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 					<input type="hidden" name="OldIllegalAddressID" value="<%=bIllegalAddressID%>">
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Street.asp","WebPage3","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_Street.asp","WebPage3","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
 			<%If sys_City="基隆市" then%>
 					<input type="checkbox" name="LockIllegalAddress" value="1" onclick="changeLockIllegalAddress();" <%
 				If Trim(request("CarNo"))<>"" Then
@@ -1751,14 +1751,14 @@ End If
 						<input type="text" class="btn5" size="3" value="<%=Trim(request("IllegalZip"))%>" name="IllegalZip" onBlur="getDriverZip(this,'IllegalAddress');" onkeydown="funTextControl(this);">
 						<Input type="hidden" name="OldIllegalZip" value="<%=Trim(request("IllegalZip"))%>">
 						區號
-						<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick="QryIllegalZip();">
+						<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick="QryIllegalZip();">
 					<%end if%>
 					<%if sys_City="高雄市" then %>
 						區號
 						<input type="text" class="btn5" size="3" value="<%=bIllZip%>" name="IllegalZip" onKeyUp="getIllZip();" onkeydown="funTextControl(this);" maxlength="3">
 						<Input type="hidden" name="OldIllegalZip" value="<%=Trim(request("IllegalZip"))%>">
 						
-						<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick="QryIllegalZip();">
+						<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick="QryIllegalZip();">
 						<div id="LayerIllZip" style="position:absolute ; width:160px; height:30; z-index:0;  border: 1px none #000000;""><%
 					if trim(bIllZip)<>"" then
 						strZip1="select ZipName from Zip where ZipNo='"&trim(bIllZip)&"'"
@@ -1809,7 +1809,7 @@ End If
 						<input type="text" class="btn5" size="3" value="<%=bIllZip%>" name="IllegalZip" onKeyUp="getIllZip();" onkeydown="funTextControl(this);" maxlength="3">
 						<Input type="hidden" name="OldIllegalZip" value="<%=Trim(request("IllegalZip"))%>">
 						
-						<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick="QryIllegalZip();">
+						<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick="QryIllegalZip();">
 						</td>
 						<td style="vertical-align:text-top;">
 						<div id="LayerIllZip" style="position:absolute ; width:160px; height:30; z-index:0;  border: 1px none #000000;""><%
@@ -1850,8 +1850,8 @@ End If
 					<tr>
 					<td>
 					<input type="text" maxlength="9" size="10" value="<%=bRule1%>" name="Rule1" onkeyup="getRuleData1();" onfocus="this.select()" onkeydown="funTextControl(this);" onchange="DelSpace1();" style=ime-mode:disabled>
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Law.asp?LawOrder=1&RuleVer=<%=theRuleVer%>&sBillTypeID=2","WebPage1","left=0,top=0,location=0,width=900,height=555,resizable=yes,scrollbars=yes")' alt="查詢法條">
-					<img src="../Image/BillLawPlusButton.jpg" width="25" height="23" onclick="Add_LawPlus()" alt="附加說明">
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_Law.asp?LawOrder=1&RuleVer=<%=theRuleVer%>&sBillTypeID=2","WebPage1","left=0,top=0,location=0,width=900,height=555,resizable=yes,scrollbars=yes")' alt="查詢法條">
+					<img src="../Image/BillLawPlusButton2.png" width="25" height="23" onclick="Add_LawPlus()" alt="附加說明">
 					</td>
 					<td style="vertical-align:text-top;">
 					<div id="Layer1" style="position:absolute ; width:560px; height:30px; z-index:0; background-color: #CCFFFF; layer-background-color: #CCFFFF; border: 1px none #000000;"><%
@@ -1899,7 +1899,7 @@ End If
 					response.write bRule2
 				end if
 					%>" name="Rule2" onkeyup="getRuleData2();" onkeydown="funTextControl(this);" onchange="DelSpace2();" style=ime-mode:disabled onBlur="TabFocus()">
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Law.asp?LawOrder=2&RuleVer=<%=theRuleVer%>","WebPage1","left=0,top=0,location=0,width=900,height=555,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_Law.asp?LawOrder=2&RuleVer=<%=theRuleVer%>","WebPage1","left=0,top=0,location=0,width=900,height=555,resizable=yes,scrollbars=yes")'>
 					</td>
 					<td style="vertical-align:text-top;">
 					<div id="Layer2" style="position:absolute ; width:590px; height:30px; z-index:0; background-color: #CCFFFF; layer-background-color: #CCFFFF; border: 1px none #000000;"><%
@@ -1937,7 +1937,7 @@ End If
 				<td>
 					<input type="text" size="10" value="<%=bIllegalAddressID%>" name="IllegalAddressID" onKeyUp="getillStreet();" onblur="funGetSpeedRule()" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 					<input type="hidden" name="OldIllegalAddressID" value="<%=bIllegalAddressID%>">
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Street.asp","WebPage3","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_Street.asp","WebPage3","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
 				</td>
 				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規地點</div></td>
 				<td colspan="3">
@@ -1978,7 +1978,7 @@ End If
 					<tr>
 					<td>
 					<input type="text" size="10" name="BillMem1" value="<%=trim(bLoginID1)%>" onkeyup="getBillMemID1();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_MemID.asp?MemOrder=1","WebPage1","left=0,top=0,location=0,width=800,height=555,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_MemID.asp?MemOrder=1","WebPage1","left=0,top=0,location=0,width=800,height=555,resizable=yes,scrollbars=yes")'>
 					</td>
 					<td style="vertical-align:text-top;">
 					<div id="Layer12" style="position:absolute ; width:130px; height:30; z-index:0;  border: 1px none #000000;"><%=trim(bBillMem1)%></div>
@@ -1994,7 +1994,7 @@ End If
 					<tr>
 					<td>
 					<input type="text" size="10" name="BillMem2" value="<%=trim(bLoginID2)%>" onkeyup="getBillMemID2();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_MemID.asp?MemOrder=2","WebPage1","left=0,top=0,location=0,width=800,height=555,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_MemID.asp?MemOrder=2","WebPage1","left=0,top=0,location=0,width=800,height=555,resizable=yes,scrollbars=yes")'>
 					</td>
 					<td style="vertical-align:text-top;">
 					<div id="Layer13" style="position:absolute ; width:130px; height:30; z-index:0;  border: 1px none #000000;"><%=trim(bBillMem2)%></div>
@@ -2036,7 +2036,7 @@ End If
 					<tr>
 					<td>
 					<input type="text" size="10" name="BillMem3" value="<%=trim(bLoginID3)%>" onkeyup="getBillMemID3();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_MemID.asp?MemOrder=3","WebPage1","left=0,top=0,location=0,width=800,height=555,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_MemID.asp?MemOrder=3","WebPage1","left=0,top=0,location=0,width=800,height=555,resizable=yes,scrollbars=yes")'>
 					</td>
 					<td style="vertical-align:text-top;">
 					<div id="Layer14" style="position:absolute ; width:130px; height:30; z-index:0;  border: 1px none #000000;"><%=trim(bBillMem3)%></div>
@@ -2052,7 +2052,7 @@ End If
 					<tr>
 					<td>
 					<input type="text" size="10" name="BillMem4" value="<%=trim(bLoginID4)%>" onkeyup="getBillMemID4();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_MemID.asp?MemOrder=4","WebPage1","left=0,top=0,location=0,width=800,height=555,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_MemID.asp?MemOrder=4","WebPage1","left=0,top=0,location=0,width=800,height=555,resizable=yes,scrollbars=yes")'>
 					</td>
 					<td style="vertical-align:text-top;">
 					<div id="Layer17" style="position:absolute ; width:130px; height:30; z-index:0;  border: 1px none #000000;"><%=trim(bBillMem4)%></div>
@@ -2076,7 +2076,7 @@ End If
 					<tr>
 					<td>
 					<input type="text" size="10" name="BillUnitID" value="<%=trim(bBillUnitID)%>" onkeyup="getUnit();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Unit.asp?SType=U","WebPage2","left=0,top=0,location=0,width=800,height=575,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_Unit.asp?SType=U","WebPage2","left=0,top=0,location=0,width=800,height=575,resizable=yes,scrollbars=yes")'>
 					</td>
 					<td style="vertical-align:text-top;">
 					<div id="Layer6" style="position:absolute ; width:180px; height:30px; z-index:0;  border: 1px none #000000;"><%
@@ -2153,7 +2153,7 @@ End If
 					<tr>
 					<td>
 					<input type="text" size="5" value="" name="MemberStation" onkeyup="getStation();" onkeydown="funTextControl(this);" style=ime-mode:disabled >
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Station.asp","WebPage1","left=0,top=0,location=0,width=760,height=575,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_Station.asp","WebPage1","left=0,top=0,location=0,width=760,height=575,resizable=yes,scrollbars=yes")'>
 					</td>
 					<td style="vertical-align:text-top;">
 					<span class="style5">
@@ -2178,7 +2178,7 @@ End If
 					End if
 				end if
 					%>" name="ProjectID" style=ime-mode:disabled onkeyup="ProjectF5()" onkeydown="funTextControl(this);">
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onClick='window.open("Query_Project.asp","WebPage1","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onClick='window.open("Query_Project.asp","WebPage1","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
 			<%if sys_City="苗栗縣" then%>
 					<font style="font-size:12px;">檢舉達人1 / 拖吊9 </font>
 			<%End If %>
@@ -2246,7 +2246,7 @@ End If
 					<td style="vertical-align:text-top;">
 			        <div id="Layer11" style="position:absolute; width:275px; height:24px; z-index:0; background-color: #FFFFFF; layer-background-color: #FFFFFF; border: 1px none #000000; color: #FF0000; font-weight: bold; visibility: hidden;"> <font color="#0000FF">&nbsp;&nbsp;<font color="#000000">固定桿編號：</font></font>
                     <input type='text' size='6' name='FixID' value='<%=request("FixID")%>' onBlur="setFixEquip();" style=ime-mode:disabled>
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_FixEquip.asp","WebPageFix","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_FixEquip.asp","WebPageFix","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
 					</div>
 					<font class="style7"> 1固定桿/ 2雷達三腳架/ 3相機/<%
 				If sys_City="台南市" Then
@@ -2266,12 +2266,12 @@ End If
 				<td bgcolor="#FFFFCC"><div align="right">代保管物</div></td>
 				<td>
 					1. <input type="text" size="2" value="" name="Fastener1" onkeyup="getFastener1();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Fastener.asp?FaOrder=1","FastPage","left=0,top=0,location=0,width=500,height=355,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_Fastener.asp?FaOrder=1","FastPage","left=0,top=0,location=0,width=500,height=355,resizable=yes,scrollbars=yes")'>
 					<div id="Layer8" style="position:absolute ; width:90px; height:30px; z-index:0; layer-background-color: #CCFFFF; border: 1px none #000000; visibility: hidden;"></div>
 					<input type="hidden" value="" name="Fastener1Val">
 
 					2. <input type="text" size="2" value="" name="Fastener2" onkeyup="getFastener2();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Fastener.asp?FaOrder=2","FastPage","left=0,top=0,location=0,width=500,height=355,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_Fastener.asp?FaOrder=2","FastPage","left=0,top=0,location=0,width=500,height=355,resizable=yes,scrollbars=yes")'>
 					 <div id="Layer9" style="position:absolute ; width:90px; height:30px; z-index:0;  layer-background-color: #CCFFFF; border: 1px none #000000; visibility: hidden;"></div>
 	                 <input type="hidden" value="" name="Fastener2Val">
 				</td>
@@ -3603,7 +3603,7 @@ function InsertLaw(){
 	}else{
 	TDLawNum=1;
 	TDLaw1.innerHTML="違規法條三";
-	TDLaw2.innerHTML="<table ><tr><td><input type='text' size='10' value='' name='Rule3' onKeyUp='getRuleData3();' onchange='DelSpace1();'  onkeydown='funTextControl(this);'> <img src='../Image/BillkeyInButton.jpg' width='25' height='23' onclick='OpenQueryLaw3()' alt='查詢法條'></td> <td style='vertical-align:text-top;'> <div id='Layer3' style='position:absolute ; width:589px; height:30px; z-index:0; background-color: #CCFFFF; layer-background-color: #CCFFFF; border: 1px none #000000;'></div><input type='hidden' name='ForFeit3' value=''></td></tr></table>";
+	TDLaw2.innerHTML="<table ><tr><td><input type='text' size='10' value='' name='Rule3' onKeyUp='getRuleData3();' onchange='DelSpace1();'  onkeydown='funTextControl(this);'> <img src='../Image/BillkeyInButton2.png' width='25' height='23' onclick='OpenQueryLaw3()' alt='查詢法條'></td> <td style='vertical-align:text-top;'> <div id='Layer3' style='position:absolute ; width:589px; height:30px; z-index:0; background-color: #CCFFFF; layer-background-color: #CCFFFF; border: 1px none #000000;'></div><input type='hidden' name='ForFeit3' value=''></td></tr></table>";
 
 	if (myForm.ReportChk.checked==true){
 	<%if sys_City="彰化縣" then %>

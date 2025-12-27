@@ -911,7 +911,7 @@ td {font-size: 16px}
 					<td colspan="3">
 					<input type="text" class="btn5" size="1" value="" name="DriverZip"  onBlur="getDriverZip(this,'DriverAddress');" onkeydown="funTextControl(this);">
 					區號
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick="QryDriverZip();">
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick="QryDriverZip();">
 
 					<input type="text" class="btn5" size="40" value="" name="DriverAddress" onkeydown="funTextControl(this);" style=ime-mode:active>
 					</td>
@@ -938,14 +938,14 @@ td {font-size: 16px}
 					<input type="text" class="btn5" size="10" value="<%
 						If Trim(sys_City)<>"台中市" then Response.Write trim(request("IllegalAddressID"))
 					%>" name="IllegalAddressID" maxlength="9" onKeyUp="getillStreet();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Street.asp","WebPage_Street_People","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_Street.asp","WebPage_Street_People","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
 				</td>
 				<td bgcolor="#FFFFCC" align="right"><span class="style4">＊</span>違規地點</td>
 				<td colspan="3">
 					<%if sys_City="台南市" then %>
 						<input type="text" class="btn5" size="1" value="" name="IllegalZip" onBlur="getDriverZip(this,'IllegalAddress');" onkeydown="funTextControl(this);">
 						區號
-						<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick="QryIllegalZip();">
+						<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick="QryIllegalZip();">
 					<%end if%>
 					<%if sys_City="高雄市" or sys_City="台中市" then %>
 						區號
@@ -956,7 +956,7 @@ td {font-size: 16px}
 							If Trim(sys_City)<>"台中市" then Response.Write Trim(request("IllegalZip"))
 						%>">
 						
-						<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick="QryIllegalZip();">
+						<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick="QryIllegalZip();">
 						<span id="LayerIllZip" style="font-size:16px; background-color:#CCFFFF;"><%
 					if Trim(request("IllegalZip"))<>"" then
 						strZip1="select ZipName from Zip where ZipNo='"&Trim(request("IllegalZip"))&"'"
@@ -987,7 +987,7 @@ td {font-size: 16px}
 				<td bgcolor="#FFFFCC" align="right"><span class="style4">＊</span>違規法條一</td>
 				<td colspan="5">
 					<input type="text" class="btn5" size="10" value="<%=request("Rule1")%>" name="Rule1" onKeyUP="getRuleData1();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Law.asp?LawOrder=1&RuleVer=<%=theRuleVer%>","WebPage1","left=0,top=0,location=0,width=900,height=555,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_Law.asp?LawOrder=1&RuleVer=<%=theRuleVer%>","WebPage1","left=0,top=0,location=0,width=900,height=555,resizable=yes,scrollbars=yes")'>
 					<span id="Layer1" style="font-size:16px; background-color:#CCFFFF;"><%
 					if trim(request("Rule1"))<>"" then
 						strRule1="select IllegalRule from Law where ItemID='"&trim(request("Rule1"))&"' and Version='"&trim(theRuleVer)&"'"
@@ -1007,7 +1007,7 @@ td {font-size: 16px}
 				<td bgcolor="#FFFFCC" align="right">違規法條二</td>
 				<td colspan="5">
 					<input type="text" class="btn5" size="10" value="<%=request("Rule2")%>" name="Rule2" onKeyUP="getRuleData2();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Law.asp?LawOrder=2&RuleVer=<%=theRuleVer%>","WebPage1","left=0,top=0,location=0,width=900,height=555,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_Law.asp?LawOrder=2&RuleVer=<%=theRuleVer%>","WebPage1","left=0,top=0,location=0,width=900,height=555,resizable=yes,scrollbars=yes")'>
 					<span id="Layer2" style="font-size:16px; background-color:#CCFFFF;"><%
 					if trim(request("Rule2"))<>"" then
 						strRule2="select IllegalRule from Law where ItemID='"&trim(request("Rule2"))&"' and Version='"&trim(theRuleVer)&"'"
@@ -1043,7 +1043,7 @@ td {font-size: 16px}
 				<td bgcolor="#FFFFCC" align="right" nowrap><span class="style4">＊</span>應到案處所代碼</td>
 				<td colspan="1">
 					<input type="text" class="btn5" size="4" value="<%=request("MemberStation")%>" name="MemberStation" onKeyUP="getStation();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Unit.asp?SType=S","WebPage1","left=0,top=0,location=0,width=800,height=575,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_Unit.asp?SType=S","WebPage1","left=0,top=0,location=0,width=800,height=575,resizable=yes,scrollbars=yes")'>
 					<span id="Layer5" name="Layer5" style="font-size:16px; background-color:#CCFFFF;"><%
 						strStation="select UnitName from UnitInfo where UnitID='"&trim(request("MemberStation"))&"'"
 						set rsStation=conn.execute(strStation)
@@ -1066,7 +1066,7 @@ td {font-size: 16px}
 				</td>
 		  		<td>
 					<input type="text" class="btn5" size="6" value="<%=request("BillMem1")%>" name="BillMem1" onblur="chkBillMemID1();" onFocusIn="fun_chkInput(this);" onKeyUP="getBillMemID1();" onkeydown="funTextControl(this);">
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_MemID.asp?MemType=P&MemOrder=1","WebPage1","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_MemID.asp?MemType=P&MemOrder=1","WebPage1","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
 					<span id="Layer12" style="font-size:16px; background-color:#CCFFFF;"><%
 					if trim(request("BillMem1"))<>"" then
 						strMem="select a.ChName,a.CreditID,a.MemberID,a.LoginID,a.UnitID,b.UnitName from MemberData a,UnitInfo b where a.UnitID=b.UnitID and a.ChName like '%"&trim(request("BillMem1"))&"%' and a.AccountStateID=0 and a.RecordstateID=0"
@@ -1093,7 +1093,7 @@ td {font-size: 16px}
 				</td>
 				<td width="20%">
 					<input type="text" class="btn5" size="6" value="<%=request("BillMem2")%>" name="BillMem2" onblur="chkBillMemID2();" onFocusIn="fun_chkInput(this);" onKeyUP="getBillMemID2();" onkeydown="funTextControl(this);">
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_MemID.asp?MemType=P&MemOrder=2","WebPage1","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_MemID.asp?MemType=P&MemOrder=2","WebPage1","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
 					<span id="Layer13" style="font-size:16px; background-color:#CCFFFF;"><%
 					if trim(request("BillMem2"))<>"" then
 						strMem="select a.ChName,a.CreditID,a.MemberID,a.LoginID,a.UnitID,b.UnitName from MemberData a,UnitInfo b where a.UnitID=b.UnitID and a.ChName like '%"&trim(request("BillMem2"))&"%' and a.AccountStateID=0 and a.RecordstateID=0"
@@ -1117,7 +1117,7 @@ td {font-size: 16px}
 				</td>
 				<td width="20%">
 					<input type="text" class="btn5" size="6" value="<%=request("BillMem3")%>" name="BillMem3" onblur="chkBillMemID3();" onFocusIn="fun_chkInput(this);" onKeyUP="getBillMemID3();" onkeydown="funTextControl(this);">
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_MemID.asp?MemType=P&MemOrder=3","WebPage1","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_MemID.asp?MemType=P&MemOrder=3","WebPage1","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
 					<span id="Layer14" style="font-size:16px; background-color:#CCFFFF;"><%
 					if trim(request("BillMem3"))<>"" then
 						strMem="select a.ChName,a.CreditID,a.MemberID,a.LoginID,a.UnitID,b.UnitName from MemberData a,UnitInfo b where a.UnitID=b.UnitID and a.ChName like '%"&trim(request("BillMem3"))&"%' and a.AccountStateID=0 and a.RecordstateID=0"
@@ -1141,7 +1141,7 @@ td {font-size: 16px}
 				</td>
 				<td width="20%">
 					<input type="text" class="btn5" size="6" value="<%=request("BillMem4")%>" name="BillMem4" onblur="chkBillMemID4();" onFocusIn="fun_chkInput(this);" onKeyUP="getBillMemID4();" onkeydown="funTextControl(this);">
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_MemID.asp?MemType=P&MemOrder=4","WebPage1","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_MemID.asp?MemType=P&MemOrder=4","WebPage1","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
 					<span id="Layer17" style="font-size:16px; background-color:#CCFFFF;"><%
 					if trim(request("BillMem4"))<>"" then
 						strMem="select a.ChName,a.CreditID,a.MemberID,a.LoginID,a.UnitID,b.UnitName from MemberData a,UnitInfo b where a.UnitID=b.UnitID and a.ChName like '%"&trim(request("BillMem4"))&"%' and a.AccountStateID=0 and a.RecordstateID=0"
@@ -1193,7 +1193,7 @@ td {font-size: 16px}
 		  	<td bgcolor="#FFFFCC" align="right"><span class="style4">＊</span>舉發單位</td>
 				<td>
 					<input type="text" class="btn5" size="4" value="<%=request("BillUnitID")%>" name="BillUnitID" onKeyUP="getUnit();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Unit.asp?SType=U","WebPage2","left=0,top=0,location=0,width=800,height=575,resizable=yes,scrollbars=yes")'>
+					<img src="../Image/BillkeyInButton2.png" width="25" height="23" onclick='window.open("Query_Unit.asp?SType=U","WebPage2","left=0,top=0,location=0,width=800,height=575,resizable=yes,scrollbars=yes")'>
 					<span id="Layer6" style="font-size:16px; background-color:#CCFFFF;"><%
 						strStation="select UnitName from UnitInfo where UnitID='"&trim(request("BillUnitID"))&"'"
 						set rsStation=conn.execute(strStation)
@@ -1208,7 +1208,7 @@ td {font-size: 16px}
 				<td bgcolor="#FFFFCC"><div align="right">專案代碼</div></td>
 				<td colspan="3">
 					<input type="text" class="btn5" size="5" value="" name="ProjectID"  style=ime-mode:disabled onkeyup="ProjectF5()" onkeydown="funTextControl(this);">
-				<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onClick='window.open("Query_Project.asp","WebPage1","left=0,top=0,location=0,width=700,height=455,resizable=yes,scrollbars=yes")'>
+				<img src="../Image/BillkeyInButton2.png" width="25" height="23" onClick='window.open("Query_Project.asp","WebPage1","left=0,top=0,location=0,width=700,height=455,resizable=yes,scrollbars=yes")'>
 				<span id="Layer001" style="font-size:16px; background-color:#CCFFFF;"></span>
 					<br>
 					<%'if sys_City="台南市" or sys_City="台中市" or sys_City="花蓮縣" or sys_City="嘉義縣" or sys_City="高雄市" then %>
