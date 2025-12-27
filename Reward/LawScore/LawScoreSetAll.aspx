@@ -10,7 +10,7 @@
     <form id="form1" runat="server">
     <div>
         <table border="1" width="500" align="center" style="margin-top: 100px">
-            <tr style="background-color:#FFCC33">
+            <tr style="background-color:#1BF5FF">
                 <td align="left" colspan="2" style="height: 35px">
                     <span style="font-size: 14pt"><strong>
                     法條配分設定</strong></span>
@@ -28,7 +28,7 @@
              <tr>
                 <td style="width: 160px; height: 50px; background-color:#FFFFCC" align="center">法條類別</td>
                 <td style="height: 50px; width: 328px;">
-                    <asp:Panel ID="Panel1" runat="server" Height="80px" Width="125px" BorderStyle="Inset">
+                    <asp:Panel ID="Panel1" runat="server" Width="125px" BorderStyle="Inset">
                         <input type="checkbox" name="SecoreType" value="1" <%
                         if InStr(Trim(Request("SecoreType")), "1") <> 0 Then
                             response.write("checked")
@@ -81,7 +81,7 @@
                 <td style="height: 35px; width: 328px;">
                             <asp:TextBox ID="tScore" runat="server" Width="35px"></asp:TextBox>分</td>
              </tr>
-            <tr style="background-color:#FFCC33">
+            <tr style="background-color:#1BF5FF">
                 <td align="center" colspan="2" style="height: 35px">
                     <asp:Button ID="BtUpdate" runat="server" Text="確定" OnClick="LawScoreUpdate" Font-Size="12pt" Height="30px" Width="55px" />
                     <asp:Button ID="BtClose" runat="server" Text="離開" PostBackUrl="~/LawScore/LawScore.aspx" Font-Size="12pt" Height="30px" Width="55px" />

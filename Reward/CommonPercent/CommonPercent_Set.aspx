@@ -15,7 +15,7 @@
     <form id="form1" runat="server">
     <table border="1" align="center"> 
         <tr>
-            <td colspan="3" style="background-color: #FFCC66">
+            <td colspan="3" style="background-color: #1BF5FF">
                 <strong>共同人員獎勵金分配比率設定</strong></td>
         </tr>
         <tr>
@@ -47,7 +47,7 @@
         </tr>
 
         <tr>
-            <td colspan="2" style="height: 30px; background-color: #ccffcc;">
+            <td colspan="2" style="height: 30px; background-color: #E6F2EA;">
                 業務規劃機關之主官、副主官、承辦單位主管及相關人員
             </td>
             <td>
@@ -87,9 +87,9 @@
             </td>
         </tr>
         <tr>
-            <td style="width: 350px; background-color: #FFFF99">分配人員/單位</td>
-            <td style="width: 210px; background-color: #FFFF99">分配比例%</td>
-            <td style="width: 130px; background-color: #FFFF99">操作</td>
+            <td style="width: 350px; background-color: #EBE5FF">分配人員/單位</td>
+            <td style="width: 210px; background-color: #EBE5FF">分配比例%</td>
+            <td style="width: 130px; background-color: #EBE5FF">操作</td>
         </tr>
 <%
 
@@ -121,7 +121,7 @@
     
 %>
         <tr>
-            <td colspan="2" style="height: 30px; background-color: #ccffcc;">
+            <td colspan="2" style="height: 30px; background-color: #E6F2EA;">
                 勤務監督執行機關之主官、副主官承辦單位主管及相關人員
             </td>
             <td>
@@ -131,9 +131,9 @@
             </td>
         </tr>
         <tr>
-            <td style="width: 350px; background-color: #FFFF99">分配人員/單位</td>
-            <td style="width: 210px; background-color: #FFFF99">分配比例%</td>
-            <td style="width: 130px; background-color: #FFFF99">操作</td>
+            <td style="width: 350px; background-color: #EBE5FF">分配人員/單位</td>
+            <td style="width: 210px; background-color: #EBE5FF">分配比例%</td>
+            <td style="width: 130px; background-color: #EBE5FF">操作</td>
         </tr>
 <%
 
@@ -165,7 +165,7 @@
     
 %>
         <tr>
-            <td colspan="2" style="height: 30px; background-color: #ccffcc;">
+            <td colspan="2" style="height: 30px; background-color: #E6F2EA;">
                 勤務執行機構之主官、副主官承辦單位主管及相關人員
             </td>
             <td>
@@ -175,9 +175,9 @@
             </td>
         </tr>
         <tr>
-            <td style="width: 350px; background-color: #FFFF99">分配人員/單位</td>
-            <td style="width: 210px; background-color: #FFFF99">分配比例%</td>
-            <td style="width: 130px; background-color: #FFFF99">操作</td>
+            <td style="width: 350px; background-color: #EBE5FF">分配人員/單位</td>
+            <td style="width: 210px; background-color: #EBE5FF">分配比例%</td>
+            <td style="width: 130px; background-color: #EBE5FF">操作</td>
         </tr>
 <%
 
@@ -209,7 +209,7 @@
     
 %>
         <tr>
-            <td colspan="2" style="height: 30px; background-color: #ccffcc;">
+            <td colspan="2" style="height: 30px; background-color: #E6F2EA;">
                 負責交通安全工作之督導考核、資訊、後勤、人事、主計、秘書、出納等相關作業人員
             </td>
             <td>
@@ -219,9 +219,9 @@
             </td>
         </tr>
         <tr>
-            <td style="width: 350px; background-color: #FFFF99">分配人員/單位</td>
-            <td style="width: 210px; background-color: #FFFF99">分配比例%</td>
-            <td style="width: 130px; background-color: #FFFF99">操作</td>
+            <td style="width: 350px; background-color: #EBE5FF">分配人員/單位</td>
+            <td style="width: 210px; background-color: #EBE5FF">分配比例%</td>
+            <td style="width: 130px; background-color: #EBE5FF">操作</td>
         </tr>        
 <%
 

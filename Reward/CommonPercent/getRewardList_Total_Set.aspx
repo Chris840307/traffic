@@ -16,7 +16,7 @@
     <form id="form1" runat="server">
         <table align="center" border="1" style="position: relative; top: 20px">
             <tr>
-                <td style="width: 471px; background-color: #FFCC33" align="center" >
+                <td style="width: 471px; background-color: #1BF5FF" align="center" >
                     <strong>處理道路交通安全人員獎勵金發放一覽表</strong></td>
             </tr>
             <tr>
@@ -28,7 +28,7 @@
                     <input type="radio" name="DateType" value="RecordDate" />建檔日期
                 </td>
             </tr>
-            <tr style="background-color:#FFCC33; font-size: 12pt;">
+            <tr style="background-color:#1BF5FF; font-size: 12pt;">
                 <td style="height: 25px" align="center">
                     配分標準</td>
             </tr>
