@@ -363,11 +363,11 @@ Session("BillTime_Stop")=year(rs1("RecordDate"))&"/"&month(rs1("RecordDate"))&"/
 
 	<form name="myForm" method="post">  
 		<table width='1000' border='1' align="left" cellpadding="1">
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="6"><strong>拖吊資料修改</strong>&nbsp; &nbsp; 日期格式：951220 &nbsp;時間格式：2300(24小時制)&nbsp; &nbsp; <input type="checkbox" name="CaseInByMem" value="1" checked>逾違規日期超過三個月強制建檔</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>單號</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>單號</div></td>
 				<td colspan=5>
 					<input name="Billno1" type="text" value="<%
 				if trim(rs1("Billno"))<>"" and not isnull(rs1("Billno")) then
@@ -429,7 +429,7 @@ Session("BillTime_Stop")=year(rs1("RecordDate"))&"/"&month(rs1("RecordDate"))&"/
 <!--------------------------------------------------------------------------------------------------------------------------->
 
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規車號</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規車號</div></td>
 				<td><input type="text" size="8" maxlength="8" value="<%
 				if trim(rs1("CarNo"))<>"" and not isnull(rs1("CarNo")) then
 					response.write trim(rs1("CarNo"))
@@ -440,7 +440,7 @@ Session("BillTime_Stop")=year(rs1("RecordDate"))&"/"&month(rs1("RecordDate"))&"/
 				%>" name="CarNo" onBlur="getVIPCar();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 			   
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>簡式車種</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>簡式車種</div></td>
 				<td colspan="3">
 				<input type="text" maxlength="1" size="3" value="<%
 				if trim(rs1("CarSimpleID"))<>"" and not isnull(rs1("CarSimpleID")) then
@@ -454,7 +454,7 @@ Session("BillTime_Stop")=year(rs1("RecordDate"))&"/"&month(rs1("RecordDate"))&"/
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right">違規人證號</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">違規人證號</div></td>
 				<td>
 				<input type="text" size="10" value="<%
 				if trim(rs1("Driverid"))<>"" and not isnull(rs1("Driverid")) then
@@ -465,7 +465,7 @@ Session("BillTime_Stop")=year(rs1("RecordDate"))&"/"&month(rs1("RecordDate"))&"/
 				end if
 				%>" name="DriverPID" onBlur="FuncChkPID();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right">違規人出生日</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">違規人出生日</div></td>
 				<td <%
 				response.write "colspan=""3"""
 				%>><input type="text" size="10" maxlength="6" value="<%
@@ -478,7 +478,7 @@ Session("BillTime_Stop")=year(rs1("RecordDate"))&"/"&month(rs1("RecordDate"))&"/
 				%>" name="DriverBrith" onBlur="focusToDriverPID()" onkeydown="funTextControl(this);" style=ime-mode:disabled></td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規日期</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規日期</div></td>
 				<td>
 				<input type="text" size="10" value="<%
 				if trim(rs1("IllegalDate"))<>"" and not isnull(rs1("IllegalDate")) then
@@ -486,7 +486,7 @@ Session("BillTime_Stop")=year(rs1("RecordDate"))&"/"&month(rs1("RecordDate"))&"/
 				end if
 				%>" maxlength="6" name="IllegalDate" onfocus="this.select()" onBlur="getDealLineDate()" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規時間</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規時間</div></td>
 				<td <%if sys_City<>"雲林縣" then response.write "colspan=""3"""%>>
 				<input type="text" size="10" value="<%
 				if trim(rs1("IllegalDate"))<>"" and not isnull(rs1("IllegalDate")) then
@@ -510,7 +510,7 @@ Session("BillTime_Stop")=year(rs1("RecordDate"))&"/"&month(rs1("RecordDate"))&"/
 			</tr>
 
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right">違規地點代碼</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">違規地點代碼</div></td>
 				<td >
 					<input type="text" size="8" value="<%
 				if trim(rs1("IllegalAddressID"))<>"" and not isnull(rs1("IllegalAddressID")) then
@@ -522,7 +522,7 @@ Session("BillTime_Stop")=year(rs1("RecordDate"))&"/"&month(rs1("RecordDate"))&"/
 				%>" name="IllegalAddressID" onkeyup="getillStreet();" onkeydown="funTextControl(this);" onblur="funGetSpeedRule()" style=ime-mode:disabled>
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Street.asp","WebPage_Illaddr","left=0,top=0,location=0,width=700,height=455,resizable=yes,scrollbars=yes")'>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規地點</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規地點</div></td>
 				<td colspan="3">
 					<input type="text" size="40" value="<%
 				if trim(rs1("IllegalAddress"))<>"" and not isnull(rs1("IllegalAddress")) then
@@ -536,7 +536,7 @@ Session("BillTime_Stop")=year(rs1("RecordDate"))&"/"&month(rs1("RecordDate"))&"/
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規法條一</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規法條一</div></td>
 				<td>
 					<input type="text" maxlength="8" size="10" value="<%
 				if trim(rs1("Rule1"))<>"" and not isnull(rs1("Rule1")) then
@@ -546,7 +546,7 @@ Session("BillTime_Stop")=year(rs1("RecordDate"))&"/"&month(rs1("RecordDate"))&"/
 					OldBillData=OldBillData&",Rule1="
 				end if
 				%>" name="Rule1" onKeyUp="getRuleData1();" onchange="DelSpace1();" onblur="AutoKeyCarNo()" onkeydown="funTextControl(this);"  style=ime-mode:disabled>
-					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Law.asp?LawOrder=1&RuleVer=<%=trim(rs1("RuleVer"))%>","WebPage_Law","left=0,top=0,location=0,width=850,height=555,resizable=yes,scrollbars=yes")' alt="查詢法條"><td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規金額</div></td><td colspan=3>
+					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Law.asp?LawOrder=1&RuleVer=<%=trim(rs1("RuleVer"))%>","WebPage_Law","left=0,top=0,location=0,width=850,height=555,resizable=yes,scrollbars=yes")' alt="查詢法條"><td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規金額</div></td><td colspan=3>
 					<input type="text" name="ForFeit1" size="10" maxlength="8" value="<%
 						if trim(rs1("ForFeit1"))<>"" and not isnull(rs1("ForFeit1")) then
 							response.write trim(rs1("ForFeit1"))
@@ -579,7 +579,7 @@ Session("BillTime_Stop")=year(rs1("RecordDate"))&"/"&month(rs1("RecordDate"))&"/
 				</td>
 			</tr>
 		<tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>舉發人代碼1</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>舉發人代碼1</div></td>
 		  		<td>
 					<input type="text" size="5" value="<%
 				if trim(rs1("BillMemID1"))<>"" and not isnull(rs1("BillMemID1")) then
@@ -612,7 +612,7 @@ Session("BillTime_Stop")=year(rs1("RecordDate"))&"/"&month(rs1("RecordDate"))&"/
 				end if
 				%>" name="BillMemName1">
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>應到案日期</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>應到案日期</div></td>
 				<td>
 					<input type="text" size="10" value="<%
 				if trim(rs1("DealLineDate"))<>"" and not isnull(rs1("DealLineDate")) then
@@ -624,7 +624,7 @@ Session("BillTime_Stop")=year(rs1("RecordDate"))&"/"&month(rs1("RecordDate"))&"/
 				%>" maxlength="6" name="DealLineDate" onBlur="value=value.replace(/[^\d]/g,'')" onkeydown="funTextControl(this);"  style=ime-mode:disabled>
 				</td>
 
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>應到案處所</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>應到案處所</div></td>
 				<td>
 					<input type="text" size="5" value="<%
 				if trim(rs1("MemberStation"))<>"" and not isnull(rs1("MemberStation")) then
@@ -653,7 +653,7 @@ Session("BillTime_Stop")=year(rs1("RecordDate"))&"/"&month(rs1("RecordDate"))&"/
 			</tr>
 
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>舉發單位</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>舉發單位</div></td>
 				<td colspan=5>
 					<input type="text" size="5" value="<%
 				if trim(rs1("BillUnitID"))<>"" and not isnull(rs1("BillUnitID")) then
@@ -679,7 +679,7 @@ Session("BillTime_Stop")=year(rs1("RecordDate"))&"/"&month(rs1("RecordDate"))&"/
 					</span>
 				</td>
 			<tr>
-				<td bgcolor="#FFDD77" align="center" colspan="6">
+				<td bgcolor="#1BF5FF" align="center" colspan="6">
 					
 					<input type="button" value="修 改 <%
 					if sys_City="台東縣" then

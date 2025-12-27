@@ -21,10 +21,10 @@ Stype=trim(request("SType"))
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 	<form name="myForm" method="post" onsubmit="return select_street();">  
 		<table width='100%' border='1' align="left" cellpadding="1">
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="4">單位列表</td>
 			</tr>
-			<tr bgcolor="#EBFBE3">
+			<tr bgcolor="#FAFAF5">
 				<td width="15%" align="center">單位代碼</td>
 				<td width="25%" align="center">單位名稱</td>
 				<td width="15%" align="center">電話</td>
@@ -41,7 +41,7 @@ end if
 	While Not rsProject.Eof
 %>
 			<tr title="請點選.." onclick="Inert_Data('<%=trim(rsProject("UnitID"))%>','<%=trim(rsProject("UnitName"))%>');" <%lightbarstyle 1 %>>
-				<td bgcolor="#FFFFCC" align="center"><%=trim(rsProject("UnitID"))%>&nbsp;</td>
+				<td bgcolor="#EBE5FF" align="center"><%=trim(rsProject("UnitID"))%>&nbsp;</td>
 				<td><%=trim(rsProject("UnitName"))%>&nbsp;</td>
 				<td><%=trim(rsProject("TEL"))%>&nbsp;</td>
 				<td><%=trim(rsProject("Address"))%>&nbsp;</td>
@@ -52,7 +52,7 @@ end if
 	set rsProject=nothing
 %>
 			<tr>
-				<td bgcolor="#FFDD77" colspan="4" align="center">
+				<td bgcolor="#1BF5FF" colspan="4" align="center">
 					<input type="button" name="close" value="關閉視窗" onclick="window.close();">
 				</td>
 			</tr>

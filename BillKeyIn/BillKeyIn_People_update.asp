@@ -232,24 +232,24 @@ set rs1=conn.execute(strSql)
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" onkeydown="KeyDown()">
 	<form name="myForm" method="post">  
 		<table width='993' border='1' align="left" cellpadding="1">
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="6"><strong>裁罰資料修改作業</strong>&nbsp; &nbsp; 日期格式：951220 &nbsp;時間格式：2300(24小時制)</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right"><span class="style5">＊</span>單號</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style5">＊</span>單號</td>
 				<td><input name="Billno1" type="text" value="<%
 			if trim(rs1("Billno"))<>"" and not isnull(rs1("Billno")) then
 				response.write trim(rs1("Billno"))
 			end if
 				%>" onkeydown="funTextControl(this);" size="10" maxlength="9"></td>
-				<td bgcolor="#FFFFCC" align="right">違規人姓名</td>
+				<td bgcolor="#EBE5FF" align="right">違規人姓名</td>
 				<td><input type="text" size="10" value="<%
 			if trim(rs1("Driver"))<>"" and not isnull(rs1("Driver")) then
 				response.write trim(rs1("Driver"))
 			end if
 				%>" onkeydown="funTextControl(this);" name="DriverName">
 				</td>
-				<td bgcolor="#FFFFCC" align="right">違規人出生日期</td>
+				<td bgcolor="#EBE5FF" align="right">違規人出生日期</td>
 				<td><input type="text" size="10" maxlength="7" value="<%
 			if trim(rs1("DriverBirth"))<>"" and not isnull(rs1("DriverBirth")) then
 				response.write ginitdt(trim(rs1("DriverBirth")))
@@ -259,14 +259,14 @@ set rs1=conn.execute(strSql)
 
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right"><span class="style5">＊</span>違規人身份證號</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style5">＊</span>違規人身份證號</td>
 				<td><input type="text" size="10" value="<%
 			if trim(rs1("Driverid"))<>"" and not isnull(rs1("Driverid")) then
 				response.write trim(rs1("Driverid"))
 			end if
 				%>" name="DriverPID" onkeydown="funTextControl(this);" onkeyup="value=value.toUpperCase()" onBlur="FuncChkPID();">
 				</td>
-				<td bgcolor="#FFFFCC" align="right">違規人地址</td>
+				<td bgcolor="#EBE5FF" align="right">違規人地址</td>
 				<td colspan="3">
 				
 				<input type="text" class="btn5" size="3" value="<%=trim(rs1("DriverZip"))%>" name="DriverZip"  onBlur="getDriverZip(this,'DriverAddress');" onkeydown="funTextControl(this);">
@@ -281,7 +281,7 @@ set rs1=conn.execute(strSql)
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right"><span class="style5">＊</span>違規日期</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style5">＊</span>違規日期</td>
 				<td>
 				<input type="text" size="10" value="<%
 				if trim(rs1("IllegalDate"))<>"" and not isnull(rs1("IllegalDate")) then
@@ -289,7 +289,7 @@ set rs1=conn.execute(strSql)
 				end if
 				%>" maxlength="7" name="IllegalDate" onkeydown="funTextControl(this);" onkeyup="getDealLineDate();">
 				</td>
-				<td bgcolor="#FFFFCC" align="right"><span class="style5">＊</span>違規時間</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style5">＊</span>違規時間</td>
 				<td colspan="3">
 				<input type="text" size="10" value="<%
 				if trim(rs1("IllegalDate"))<>"" and not isnull(rs1("IllegalDate")) then
@@ -309,7 +309,7 @@ set rs1=conn.execute(strSql)
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right">違規地點代碼</td>
+				<td bgcolor="#EBE5FF" align="right">違規地點代碼</td>
 				<td >
 					
 					<input type="text" size="8" value="<%
@@ -319,7 +319,7 @@ set rs1=conn.execute(strSql)
 				%>" name="IllegalAddressID" onkeyup="getillStreet();" onkeydown="funTextControl(this);">
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Street.asp","WebPage_Street_People","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
 				</td>
-				<td bgcolor="#FFFFCC" align="right"><span class="style5">＊</span>違規地點</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style5">＊</span>違規地點</td>
 				<td colspan="3">
 					<%if sys_City="高雄市" then %>
 						區號
@@ -354,7 +354,7 @@ set rs1=conn.execute(strSql)
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right"><span class="style5">＊</span>違規法條一</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style5">＊</span>違規法條一</td>
 				<td colspan="5">
 					<input type="text" size="10" value="<%
 				if trim(rs1("Rule1"))<>"" and not isnull(rs1("Rule1")) then
@@ -381,7 +381,7 @@ set rs1=conn.execute(strSql)
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right">違規法條二</td>
+				<td bgcolor="#EBE5FF" align="right">違規法條二</td>
 				<td colspan="5">
 					<input type="text" size="10" value="<%
 				if trim(rs1("Rule2"))<>"" and not isnull(rs1("Rule2")) then
@@ -408,7 +408,7 @@ set rs1=conn.execute(strSql)
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right"><span class="style5">＊</span>應到案日期</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style5">＊</span>應到案日期</td>
 				<td>
 					<input type="text" size="10" value="<%
 				if trim(rs1("DealLineDate"))<>"" and not isnull(rs1("DealLineDate")) then
@@ -416,7 +416,7 @@ set rs1=conn.execute(strSql)
 				end if
 				%>" maxlength="7" name="DealLineDate" onkeydown="funTextControl(this);" onkeyup="value=value.replace(/[^\d]/g,'')">
 				</td>
-				<td bgcolor="#FFFFCC" align="right" nowrap><span class="style5">＊</span>應到案處所代碼</td>
+				<td bgcolor="#EBE5FF" align="right" nowrap><span class="style5">＊</span>應到案處所代碼</td>
 				<td>
 					<input type="text" size="4" value="<%
 				if trim(rs1("MemberStation"))<>"" and not isnull(rs1("MemberStation")) then
@@ -438,7 +438,7 @@ set rs1=conn.execute(strSql)
 				%></div>
 				</span>
 				</td>
-				<td bgcolor="#FFFFCC" align="right"><span class="style5">＊</span>舉發人
+				<td bgcolor="#EBE5FF" align="right"><span class="style5">＊</span>舉發人
 						<% if sys_City<>"高雄縣" or sys_City<>"高雄市" then 
 									response.write "姓名"
 							 else
@@ -483,7 +483,7 @@ set rs1=conn.execute(strSql)
 			</tr>
 			<tr>
 				
-				<td bgcolor="#FFFFCC" align="right" width="14%">舉發人
+				<td bgcolor="#EBE5FF" align="right" width="14%">舉發人
 						<% if sys_City<>"高雄縣" or sys_City<>"高雄市" then 
 									response.write "姓名"
 							 else
@@ -519,7 +519,7 @@ set rs1=conn.execute(strSql)
 				end if
 				%>" name="BillMemName2">
 				</td>
-				<td bgcolor="#FFFFCC" align="right" width="13%">舉發人
+				<td bgcolor="#EBE5FF" align="right" width="13%">舉發人
 						<% if sys_City<>"高雄縣" or sys_City<>"高雄市" then 
 									response.write "姓名"
 							 else
@@ -555,7 +555,7 @@ set rs1=conn.execute(strSql)
 				end if
 				%>" name="BillMemName3">
 				</td>
-				<td bgcolor="#FFFFCC" align="right" width="13%">舉發人
+				<td bgcolor="#EBE5FF" align="right" width="13%">舉發人
 						<% if sys_City<>"高雄縣" or sys_City<>"高雄市" then 
 									response.write "姓名"
 							 else
@@ -593,7 +593,7 @@ set rs1=conn.execute(strSql)
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right" height="33">代保管物</td>
+				<td bgcolor="#EBE5FF" align="right" height="33">代保管物</td>
 				<td nowrap>
 <%	strConfiscate=""
 	strFas="select ConfiscateID from PasserConfiscate where BillSN="&trim(request("BillSN"))
@@ -630,7 +630,7 @@ set rs1=conn.execute(strSql)
 
 %>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>簽收狀況</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>簽收狀況</div></td>
 				<td colspan="3">
 					<input type="text" size="5" value="A" maxlength="1" name="SignType" onBlur="funcSignType();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 					<font color="#ff000" size="2">
@@ -640,7 +640,7 @@ set rs1=conn.execute(strSql)
 			</tr>				
 			<tr height="6"><td></td></tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right"><span class="style5">＊</span>舉發單位代號</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style5">＊</span>舉發單位代號</td>
 				<td>
 					<input type="text" size="4" value="<%
 				if trim(rs1("BillUnitID"))<>"" and not isnull(rs1("BillUnitID")) then
@@ -662,7 +662,7 @@ set rs1=conn.execute(strSql)
 					%></div>
 					</span>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right">專案代碼</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">專案代碼</div></td>
 				<td>
 					<input type="text" size="5" value="<%=trim(rs1("ProjectID"))%>" name="ProjectID" onkeyup="ProjectF5()" onkeydown="funTextControl(this);">
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onClick='window.open("Query_Project.asp","WebPage_project","left=0,top=0,location=0,width=700,height=455,resizable=yes,scrollbars=yes")'>
@@ -681,7 +681,7 @@ set rs1=conn.execute(strSql)
 					%></div>
 					</span>
 				</td>
-				<!--<td bgcolor="#FFFFCC" align="right">是否講習</td>
+				<!--<td bgcolor="#EBE5FF" align="right">是否講習</td>
 				<td>
 					<input type="radio" value="1" name="IsLecture" <%
 			if trim(rs1("IsLecture"))<>"" and not isnull(rs1("IsLecture")) then
@@ -698,7 +698,7 @@ set rs1=conn.execute(strSql)
 			end if
 				%>>否
 				</td>
-				<td bgcolor="#FFFFCC" align="right">告發類別</td>
+				<td bgcolor="#EBE5FF" align="right">告發類別</td>
 				<td>
 				<input type="text" size="3" maxlength="1" value="<%
 			if trim(rs1("BillTypeID"))<>"" and not isnull(rs1("BillTypeID")) then
@@ -709,7 +709,7 @@ set rs1=conn.execute(strSql)
 				</td>-->
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right"> <span class="style5">＊</span>填單日期</td>
+				<td bgcolor="#EBE5FF" align="right"> <span class="style5">＊</span>填單日期</td>
 				<td>
 					<input type="text" size="10" value="<%
 				if trim(rs1("BillFillDate"))<>"" and not isnull(rs1("BillFillDate")) then
@@ -717,7 +717,7 @@ set rs1=conn.execute(strSql)
 				end if
 				%>" maxlength="7" name="BillFillDate" onkeydown="funTextControl(this);" onkeyup="value=value.replace(/[^\d]/g,'')">
 				</td>
-				<td bgcolor="#FFFFCC" align="right">備註</td>
+				<td bgcolor="#EBE5FF" align="right">備註</td>
 				<td colspan="3">
 					<input type="text" size="46" value="<%
 				if trim(rs1("Note"))<>"" and not isnull(rs1("Note")) then
@@ -727,7 +727,7 @@ set rs1=conn.execute(strSql)
 				</td>
 			</tr>
 			<tr>
-			  <td bgcolor="#FFDD77" align="center" colspan="6">
+			  <td bgcolor="#1BF5FF" align="center" colspan="6">
 					<font color="red"><B>建檔序號第<span id="Seqfile"><input type="text" value="<%=trim(rs1("DoubleCheckStatus"))%>" class="btn1" size="10" name="Sys_DoubleCheckStatus" onkeyup="value=value.replace(/[^\d]/g,'')"></span>號</B></font>
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" value="儲 存 F2" onclick="InsertBillVase();" <%
@@ -1273,7 +1273,7 @@ function focusToDriverPID(){
 		BFillDateTmp=myForm.DriverBrith.value;
 		BirthYear=parseInt(BFillDateTmp.substr(0,2));
 		if ((thisYear-BirthYear) < 10){
-			alert("違規人年齡低於十歲!!");
+			alert("違規人年齡低於十歲!!");
 		}
 	}
 }

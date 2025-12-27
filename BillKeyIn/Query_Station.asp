@@ -24,10 +24,10 @@
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 	<form name="myForm" method="post">  
 		<table width='100%' border='1' align="left" cellpadding="1">
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="4">到案監理所列表</td>
 			</tr>
-			<tr bgcolor="#EBFBE3">
+			<tr bgcolor="#FAFAF5">
 				<td width="8%" align="center">代碼</td>
 				<td width="25%" align="center">監理所名稱</td>
 				<td width="42%" align="center">監理所住址</td>
@@ -59,7 +59,7 @@
 					response.write "(豐原辦公室)"
 				End if
 			%>');" <%lightbarstyle 1 %>>
-				<td bgcolor="#FFFFCC" align="center"><%=trim(rsStation("DciStationID"))%></td>
+				<td bgcolor="#EBE5FF" align="center"><%=trim(rsStation("DciStationID"))%></td>
 				<td><%=trim(rsStation("DciStationName"))%><%
 				If trim(rsStation("DciStationID"))="41" And sys_City<>"高雄市" Then
 					response.write "(中和辦公室)"
@@ -82,7 +82,7 @@
 	set rsStation=nothing
 %>
 			<tr>
-				<td bgcolor="#FFDD77" colspan="4" align="center">
+				<td bgcolor="#1BF5FF" colspan="4" align="center">
 				<input type="button" name="close" value="關閉視窗" onclick="window.close();">
 				</td>
 			</tr>

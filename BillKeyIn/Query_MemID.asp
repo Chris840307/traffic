@@ -38,7 +38,7 @@ MemType=trim(request("MemType"))
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 	<form name="myForm" method="post">  
 		<table width='100%' border='1' align="left" cellpadding="1">
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="4">身分證字號查詢</td>
 			</tr>
 			<tr>
@@ -73,10 +73,10 @@ MemType=trim(request("MemType"))
 				<input type="hidden" name="kinds" value="">
 				</td>
 			<tr>
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="4">人員列表</td>
 			</tr>
-			<tr bgcolor="#EBFBE3">
+			<tr bgcolor="#FAFAF5">
 				<td width="15%" align="center">身分證字號</td>
 				<td width="35%" align="center">單位</td>
 				<td width="25%" align="center">姓名</td>
@@ -126,7 +126,7 @@ if trim(request("kinds"))="DB_Select" then
 				UTypeFlag=0
 			end if%>
 			<tr title="請點選.." onclick="Inert_Data('<%=trim(rsProject("MemberID"))%>','<%=trim(rsProject("ChName"))%>','<%=trim(rsProject("LoginID"))%>','<%=trim(rsProject("UnitID"))%>','<%=UName%>','<%=UTypeID%>','<%=UTypeFlag%>');" <%lightbarstyle 1 %>>
-				<td bgcolor="#FFFFCC" align="center"><%=trim(rsProject("LoginID"))%></td>
+				<td bgcolor="#EBE5FF" align="center"><%=trim(rsProject("LoginID"))%></td>
 				<td><%=UName%></td>
 				<td><%=trim(rsProject("ChName"))%></td>
 			</tr>

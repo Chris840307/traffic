@@ -27,7 +27,7 @@ theRuleVer=trim(request("RuleVer"))
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" onkeydown="KeyDown()">
 	<form name="myForm" method="post" onsubmit="return DB_Select();">  
 		<table width='100%' border='1' align="left" cellpadding="1">
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="7">法條查詢 　*可用上、下鍵選擇，enter鍵確定，ESC鍵可重新輸入法條</td>
 			</tr>
 			<tr>
@@ -49,14 +49,14 @@ theRuleVer=trim(request("RuleVer"))
 						例如: 輸入 汽車 可查詢所有法條內容中有 汽車 的違規法條</font>				
 				</td>
 			<tr>
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="7">法條列表&nbsp; &nbsp; &nbsp; &nbsp; 
 				<%if sys_City="高雄市" then%>
 				<span style="font-size: 16pt;line-height:36px;">除慢車行人案件外，本畫面罰金金額僅供參考，以監理站回傳金額為準。</span>
 				<%end if%>
 				</td>
 			</tr>
-			<tr bgcolor="#EBFBE3">
+			<tr bgcolor="#FAFAF5">
 				<td width="10%" align="center">法條代碼</td>
 				<td width="9%" align="center">簡式車種</td>
 				<td width="40%" align="center">法條內容</td>
@@ -183,7 +183,7 @@ if trim(request("kinds"))="DB_Select" then
 	While Not rsProject.Eof
 %>
 			<tr id="trLaw" title="請點選.." onclick="Inert_Data('<%=trim(rsProject("ItemID"))%>','<%=trim(rsProject("IllegalRule"))%>','<%=trim(rsProject("Level1"))%>');" <%lightbarstyle 1 %>>
-				<td id="ItemID" bgcolor="#FFFFCC" align="center"><%=trim(rsProject("ItemID"))%></td>
+				<td id="ItemID" bgcolor="#EBE5FF" align="center"><%=trim(rsProject("ItemID"))%></td>
 				<td><%
 				response.write trim(rsProject("CarSimpleID"))
 				if trim(rsProject("CarSimpleID"))="1" then
@@ -327,7 +327,7 @@ elseif trim(request("kinds"))="" and trim(request("ORuleID"))<>"" then
 	While Not rsProject.Eof
 %>
 			<tr id="trLaw" title="請點選.." onclick="Inert_Data('<%=trim(rsProject("ItemID"))%>','<%=trim(rsProject("IllegalRule"))%>','<%=trim(rsProject("Level1"))%>');" <%lightbarstyle 1 %>>
-				<td id="ItemID" bgcolor="#FFFFCC" align="center"><%=trim(rsProject("ItemID"))%></td>
+				<td id="ItemID" bgcolor="#EBE5FF" align="center"><%=trim(rsProject("ItemID"))%></td>
 				<td><%
 				response.write trim(rsProject("CarSimpleID"))
 				if trim(rsProject("CarSimpleID"))="1" then

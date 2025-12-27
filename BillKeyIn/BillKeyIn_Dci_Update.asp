@@ -561,12 +561,12 @@ if trim(request("theUpdVer"))<>"1" then
 	'攔停
 %>
 		<table width='985' border='1' align="center" cellpadding="1">
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="4"><strong>舉發單駕駛人資料修改</strong>&nbsp; &nbsp; 日期格式：951220 &nbsp;</td>
 			</tr>
 	<%if (session("ManagerPower"))="1" then%>
 			<tr>
-				<td bgcolor="#FFFFCC" width="15%">單號</td>
+				<td bgcolor="#EBE5FF" width="15%">單號</td>
 				</td>
 				<td>
 					<input type="text" size="10" name="Billno1" value="<%
@@ -579,7 +579,7 @@ if trim(request("theUpdVer"))<>"1" then
 
 					<input type="hidden" name="OldBillNo" value="<%response.write trim(rsBill("BillNo"))%>">
 				</td>
-				<td bgcolor="#FFFFCC" width="15%">車牌號碼</td>
+				<td bgcolor="#EBE5FF" width="15%">車牌號碼</td>
 				<td>
 					<input type="text" size="10" name="NewCarNo" value="<%
 					if trim(request("kinds"))="" then
@@ -593,7 +593,7 @@ if trim(request("theUpdVer"))<>"1" then
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" width="15%">駕駛人生日</td>
+				<td bgcolor="#EBE5FF" width="15%">駕駛人生日</td>
 				<td width="35%">
 					<input type="text" name="BillDriverBirth" size="10" maxlength="7" value="<%
 					if trim(request("kinds"))="" then
@@ -605,7 +605,7 @@ if trim(request("theUpdVer"))<>"1" then
 					end if
 					%>">
 				</td>
-				<td bgcolor="#FFFFCC" width="15%">駕駛人證號</td>
+				<td bgcolor="#EBE5FF" width="15%">駕駛人證號</td>
 				<td width="35%">
 					<input type="text" size="10" name="BillDriverID" value="<%
 					if trim(request("kinds"))="" then
@@ -652,7 +652,7 @@ if trim(request("theUpdVer"))<>"1" then
 
 	<%end if%>
 			<tr>
-				<td bgcolor="#FFFFCC"><font color="red">備註</font></td>
+				<td bgcolor="#EBE5FF"><font color="red">備註</font></td>
 				<td colspan="3">
 					<input type="text" name="Note" value="<%
 					if trim(request("kinds"))="" then
@@ -664,7 +664,7 @@ if trim(request("theUpdVer"))<>"1" then
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFDD77" align="center" colspan="4">
+				<td bgcolor="#1BF5FF" align="center" colspan="4">
 					<input type="button" value="儲 存" onclick="InsertBillVase();" class="btn1">
 					<!-- 違規人性別 -->
 					<input type="hidden" value="<%
@@ -683,12 +683,12 @@ if trim(request("theUpdVer"))<>"1" then
 	'逕舉
 %>
 		<table width='985' border='1' align="center" cellpadding="1">
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="4"><strong>舉發單資料修改</strong>&nbsp; &nbsp; 日期格式：951220 &nbsp;</td>
 			</tr>
 	<%if (session("ManagerPower"))="1" then%>
 			<tr>
-				<td bgcolor="#FFFFCC" width="15%">車牌號碼</td>
+				<td bgcolor="#EBE5FF" width="15%">車牌號碼</td>
 				<td colspan="3">
 					<input type="text" size="10" name="NewCarNo" value="<%
 					if trim(request("kinds"))="" then
@@ -705,7 +705,7 @@ if trim(request("theUpdVer"))<>"1" then
 
 					<input type="hidden" name="OldBillNo" value="<%response.write trim(rsBill("BillNo"))%>">
 				</td>
-				<!-- <td bgcolor="#FFFFCC" width="15%">駕駛人證號</td>
+				<!-- <td bgcolor="#EBE5FF" width="15%">駕駛人證號</td>
 				<td width="35%">
 					
 				</td> -->
@@ -727,14 +727,14 @@ if trim(request("theUpdVer"))<>"1" then
 					%>">
 
 					<input type="hidden" name="OldBillNo" value="<%response.write trim(rsBill("BillNo"))%>">
-				<!-- <td bgcolor="#FFFFCC" width="15%">駕駛人證號</td>
+				<!-- <td bgcolor="#EBE5FF" width="15%">駕駛人證號</td>
 				<td width="35%">
 					
 				</td> -->
 			</tr>
 	<%end if%>
 			<tr>
-				<td bgcolor="#FFFFCC"><font color="red">備註</font></td>
+				<td bgcolor="#EBE5FF"><font color="red">備註</font></td>
 				<td colspan="3">
 					<input type="text" name="Note" value="<%
 					if trim(request("kinds"))="" then
@@ -746,7 +746,7 @@ if trim(request("theUpdVer"))<>"1" then
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFDD77" align="center" colspan="4">
+				<td bgcolor="#1BF5FF" align="center" colspan="4">
 					<input type="button" value="儲 存" onclick="InsertBillVase();" class="btn1">
 					<!-- 違規人性別 -->
 					<input type="hidden" value="<%
@@ -787,7 +787,7 @@ if trim(request("theUpdVer"))<>"1" then
 			<td colspan="4"><strong>舉發單建檔地址修改</strong>&nbsp; &nbsp; 日期格式：951220 &nbsp;</td>
 		</tr>
 		<tr>
-			<td bgcolor="#FFFFCC" width="15%">車主姓名</td>
+			<td bgcolor="#EBE5FF" width="15%">車主姓名</td>
 			<td width="35%">
 				<input type="text" name="BillOwner" size="20" maxlength="50" value="<%
 					if trim(rsBill("Owner"))<>"" and not isnull(rsBill("Owner")) then
@@ -795,7 +795,7 @@ if trim(request("theUpdVer"))<>"1" then
 					end if
 				%>" style=ime-mode:active>
 			</td>
-			<td bgcolor="#FFFFCC" width="15%">車主身分證號</td>
+			<td bgcolor="#EBE5FF" width="15%">車主身分證號</td>
 			<td width="35%">
 				<input type="text" size="10" name="BillOwnerID" value="<%
 					response.write trim(rsBill("OwnerID"))
@@ -803,7 +803,7 @@ if trim(request("theUpdVer"))<>"1" then
 			</td>
 		</tr>
 		<tr>
-			<td bgcolor="#FFFFCC" width="15%">車主地址</td>
+			<td bgcolor="#EBE5FF" width="15%">車主地址</td>
 			<td colspan="3">
 				郵遞區號
 				<input type="text" name="BillOwnerZip" size="5" value="<%
@@ -886,7 +886,7 @@ if trim(request("theUpdVer"))<>"1" then
 	End If 
 %>
 		<tr>
-			<td bgcolor="#FFFFCC" width="15%">駕駛人姓名</td>
+			<td bgcolor="#EBE5FF" width="15%">駕駛人姓名</td>
 			<td width="35%">
 				<input type="text" name="BillDriver" size="20" maxlength="50" value="<%
 					if trim(rsBill("Driver"))<>"" and not isnull(rsBill("Driver")) then
@@ -894,7 +894,7 @@ if trim(request("theUpdVer"))<>"1" then
 					end if
 				%>" style=ime-mode:active >
 			</td>
-			<td bgcolor="#FFFFCC" width="15%">駕駛人身分證號</td>
+			<td bgcolor="#EBE5FF" width="15%">駕駛人身分證號</td>
 			<td width="35%">
 				<input type="text" size="10" name="BillDriverID2" value="<%
 					response.write trim(rsBill("DriverID"))
@@ -903,7 +903,7 @@ if trim(request("theUpdVer"))<>"1" then
 			</td>
 		</tr>
 		<tr>
-			<td bgcolor="#FFFFCC" width="15%">駕駛人地址</td>
+			<td bgcolor="#EBE5FF" width="15%">駕駛人地址</td>
 			<td colspan="3">
 				郵遞區號
 				<input type="text" name="BillDriverHomeZip" size="5" value="<%
@@ -1047,7 +1047,7 @@ if (session("ManagerPower"))="1" or trim(request("theUpdVer"))="1" Or sys_City="
 		Rule3=Trim(rsDciW("Rule3"))
 %>
 		<table width='985' border='1' align="center" cellpadding="1">
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="4"><strong>監理所回傳資料修改</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="button" name="b1" value="路名查詢" onclick='window.open("../AddressQry.asp","AddressQry","left=500,top=150,location=0,width=600,height=400,resizable=yes,scrollbars=yes,menubar=yes")' style="font-size: 10pt; width: 80px; height:26px;">
 				</a>
@@ -1055,7 +1055,7 @@ if (session("ManagerPower"))="1" or trim(request("theUpdVer"))="1" Or sys_City="
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" width="15%">車主姓名</td>
+				<td bgcolor="#EBE5FF" width="15%">車主姓名</td>
 				<td width="35%">
 					<input type="text" name="WOwner" size="20" maxlength="50" value="<%
 						if trim(rsDciW("Owner"))<>"" and not isnull(rsDciW("Owner")) then
@@ -1063,7 +1063,7 @@ if (session("ManagerPower"))="1" or trim(request("theUpdVer"))="1" Or sys_City="
 						end if
 					%>" style=ime-mode:active>
 				</td>
-				<td bgcolor="#FFFFCC" width="15%">車主身分證號</td>
+				<td bgcolor="#EBE5FF" width="15%">車主身分證號</td>
 				<td width="35%">
 					<input type="text" size="10" name="WOwnerID" value="<%
 						response.write trim(rsDciW("OwnerID"))
@@ -1071,7 +1071,7 @@ if (session("ManagerPower"))="1" or trim(request("theUpdVer"))="1" Or sys_City="
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" width="15%">車主地址</td>
+				<td bgcolor="#EBE5FF" width="15%">車主地址</td>
 				<td colspan="3">
 					郵遞區號
 					<input type="text" name="WOwnerZip" size="5" value="<%
@@ -1089,7 +1089,7 @@ if (session("ManagerPower"))="1" or trim(request("theUpdVer"))="1" Or sys_City="
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" width="15%">駕駛人姓名</td>
+				<td bgcolor="#EBE5FF" width="15%">駕駛人姓名</td>
 				<td width="35%">
 					<input type="text" name="WDriver" size="20" maxlength="50" value="<%
 					if trim(request("kinds"))="" then
@@ -1101,7 +1101,7 @@ if (session("ManagerPower"))="1" or trim(request("theUpdVer"))="1" Or sys_City="
 					end if
 					%>" style=ime-mode:active>
 				</td>
-				<td bgcolor="#FFFFCC" width="15%">駕駛人身分證號</td>
+				<td bgcolor="#EBE5FF" width="15%">駕駛人身分證號</td>
 				<td width="35%">
 					<input type="text" size="10" name="WDriverID" value="<%
 					if trim(request("kinds"))="" then
@@ -1113,7 +1113,7 @@ if (session("ManagerPower"))="1" or trim(request("theUpdVer"))="1" Or sys_City="
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" width="15%">駕駛人地址</td>
+				<td bgcolor="#EBE5FF" width="15%">駕駛人地址</td>
 				<td colspan="3">
 					郵遞區號
 					<input type="text" name="WDriverHomeZip" size="5" value="<%
@@ -1168,7 +1168,7 @@ if (session("ManagerPower"))="1" or trim(request("theUpdVer"))="1" Or sys_City="
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFDD77" align="center" colspan="4">
+				<td bgcolor="#1BF5FF" align="center" colspan="4">
 					<input type="button" value="儲存車主" onclick="UpdateDciW1();" <%
 
 					%> class="btn1">
@@ -1197,11 +1197,11 @@ if (session("ManagerPower"))="1" or trim(request("theUpdVer"))="1" then
 	if not rsHis.eof then
 %>
 		<table width='985' border='1' align="center" cellpadding="1">
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="4"><strong>送達紀錄修改</strong></td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC">郵寄日期</td>
+				<td bgcolor="#EBE5FF">郵寄日期</td>
 				<td>
 					<input type="text" name="MailDate" size="10" maxlength="7" value="<%
 						if trim(rsHis("MailDate"))<>"" and not isnull(rsHis("MailDate")) then
@@ -1209,7 +1209,7 @@ if (session("ManagerPower"))="1" or trim(request("theUpdVer"))="1" then
 						end if
 					%>">
 				</td>
-				<td bgcolor="#FFFFCC">郵寄序號</td>
+				<td bgcolor="#EBE5FF">郵寄序號</td>
 				<td>
 					<input type="text" size="10" name="MailNumber" value="<%
 					if trim(rsHis("MailNumber"))<>"" and not isnull(rsHis("MailNumber")) then
@@ -1219,7 +1219,7 @@ if (session("ManagerPower"))="1" or trim(request("theUpdVer"))="1" then
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" width="20%">寄存送達生效(完成)日</td>
+				<td bgcolor="#EBE5FF" width="20%">寄存送達生效(完成)日</td>
 				<td width="30%">
 					<input type="text" name="StoreAndSendMailDate" size="10" maxlength="7" value="<%
 						if trim(rsHis("StoreAndSendMailDate"))<>"" and not isnull(rsHis("StoreAndSendMailDate")) then
@@ -1227,7 +1227,7 @@ if (session("ManagerPower"))="1" or trim(request("theUpdVer"))="1" then
 						end if
 					%>">
 				</td>
-				<td bgcolor="#FFFFCC" width="20%">寄存送達掛號碼</td>
+				<td bgcolor="#EBE5FF" width="20%">寄存送達掛號碼</td>
 				<td width="30%">
 					<input type="text" size="10" name="StoreAndSendMailNumber" value="<%
 					if trim(rsHis("StoreAndSendMailNumber"))<>"" and not isnull(rsHis("StoreAndSendMailNumber")) then
@@ -1237,7 +1237,7 @@ if (session("ManagerPower"))="1" or trim(request("theUpdVer"))="1" then
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" width="20%">公示送達生效日</td>
+				<td bgcolor="#EBE5FF" width="20%">公示送達生效日</td>
 				<td colspan="3">
 					<input type="text" name="OpenGovDate" size="10" maxlength="7" value="<%
 						if trim(rsHis("OpenGovDate"))<>"" and not isnull(rsHis("OpenGovDate")) then
@@ -1247,7 +1247,7 @@ if (session("ManagerPower"))="1" or trim(request("theUpdVer"))="1" then
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFDD77" align="center" colspan="4">
+				<td bgcolor="#1BF5FF" align="center" colspan="4">
 					<input type="button" value="儲 存" onclick="UpdateMail();" <%
 
 					%> class="btn1">
@@ -1262,11 +1262,11 @@ If Trim(Session("Credit_ID"))="A000000000" or trim(request("theUpdVer"))="1" The
 %>
 	<br>
 	<table width='985' border='1' align="center" cellpadding="1">
-		<tr bgcolor="#FFCC33">
+		<tr bgcolor="#1BF5FF">
 			<td colspan="4"><strong>詳細車種修改</strong></td>
 		</tr>
 		<tr>
-			<td bgcolor="#FFFFCC" width="20%">詳細車種</td>
+			<td bgcolor="#EBE5FF" width="20%">詳細車種</td>
 			<td colspan="3">
 				<select name="DciCarType">
 <%
@@ -1289,18 +1289,18 @@ If Trim(Session("Credit_ID"))="A000000000" or trim(request("theUpdVer"))="1" The
 			</td>
 		</tr>
 		<tr>
-			<td bgcolor="#FFDD77" align="center" colspan="4">
+			<td bgcolor="#1BF5FF" align="center" colspan="4">
 				<input type="button" value="儲 存" onclick="UpdateCarType();" class="btn1">
 			</td>
 		</tr>
 	</table>
 	<br>
 	<table width='985' border='1' align="center" cellpadding="1">
-		<tr bgcolor="#FFCC33">
+		<tr bgcolor="#1BF5FF">
 			<td colspan="4"><strong>監理站修改</strong></td>
 		</tr>
 		<tr>
-			<td bgcolor="#FFFFCC" width="20%">監理站</td>
+			<td bgcolor="#EBE5FF" width="20%">監理站</td>
 			<td colspan="3">
 <%	MemberStationTmp=""
 	strS1="select CarNo,BillNo,BillTypeID,MemberStation from BillBase where SN="&trim(request("BillSN"))
@@ -1349,19 +1349,19 @@ If Trim(Session("Credit_ID"))="A000000000" or trim(request("theUpdVer"))="1" The
 			</td>
 		</tr>
 		<tr>
-			<td bgcolor="#FFDD77" align="center" colspan="4">
+			<td bgcolor="#1BF5FF" align="center" colspan="4">
 				<input type="button" value="儲 存" onclick="UpdateMemStation();" class="btn1">
 			</td>
 		</tr>
 	</table>
 	<br>
 	<table width='985' border='1' align="center" cellpadding="1">
-		<tr bgcolor="#FFCC33">
+		<tr bgcolor="#1BF5FF">
 			<td colspan="4"><strong>罰款金額修改</strong></td>
 		</tr>
 <%If Trim(Rule1)<>"" And Trim(Rule1)<>"0" then%>
 		<tr>
-			<td bgcolor="#FFFFCC" width="20%">法條一 </td>
+			<td bgcolor="#EBE5FF" width="20%">法條一 </td>
 			<td colspan="3">
 				( <%=Trim(Rule1)%> ) <input type="text" value="<%=Trim(ForFeit1)%>" name="sys_ForFeit1">
 			</td>
@@ -1369,7 +1369,7 @@ If Trim(Session("Credit_ID"))="A000000000" or trim(request("theUpdVer"))="1" The
 <%End If %>
 <%If Trim(Rule2)<>"" And Trim(Rule2)<>"0" then%>
 		<tr>
-			<td bgcolor="#FFFFCC" width="20%">法條二 </td>
+			<td bgcolor="#EBE5FF" width="20%">法條二 </td>
 			<td colspan="3">
 				( <%=Trim(Rule2)%> ) <input type="text" value="<%=Trim(ForFeit2)%>" name="sys_ForFeit2">
 			</td>
@@ -1377,14 +1377,14 @@ If Trim(Session("Credit_ID"))="A000000000" or trim(request("theUpdVer"))="1" The
 <%End If %>
 <%If Trim(Rule3)<>"" And Trim(Rule3)<>"0" then%>
 		<tr>
-			<td bgcolor="#FFFFCC" width="20%">法條三 </td>
+			<td bgcolor="#EBE5FF" width="20%">法條三 </td>
 			<td colspan="3">
 				( <%=Trim(Rule3)%> ) <input type="text" value="<%=Trim(ForFeit3)%>" name="sys_ForFeit3">
 			</td>
 		</tr>
 <%End If %>
 		<tr>
-			<td bgcolor="#FFDD77" align="center" colspan="4">
+			<td bgcolor="#1BF5FF" align="center" colspan="4">
 				<input type="button" value="儲 存" onclick="UpdateForFeit();" class="btn1">
 			</td>
 		</tr>

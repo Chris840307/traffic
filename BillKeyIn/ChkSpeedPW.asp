@@ -30,7 +30,7 @@
 
 
 			<tr>
-				<td bgcolor="#FFDD77" colspan="4" align="center">
+				<td bgcolor="#1BF5FF" colspan="4" align="center">
 				<input type="button" name="chk" value="確定" onclick="ChkPW();">
 				<input type="button" name="close" value="重新輸入車速" onclick="SpeedErr();">
 				</td>

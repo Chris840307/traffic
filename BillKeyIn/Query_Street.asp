@@ -24,7 +24,7 @@ rsCity.close
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" onkeydown="KeyDown()">
 	<form name="myForm" method="post" onsubmit="return select_street();">  
 		<table width='100%' border='1' align="left" cellpadding="1">
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="4">違規地點代碼查詢　*可用上、下鍵選擇，enter鍵確定，ESC鍵可重新輸入路段</td>
 			</tr>
 			<tr>
@@ -39,10 +39,10 @@ rsCity.close
 						例如: 輸入 九如 可查詢所有路段名稱中有 九如 的路段</font>
 				</td>
 			</tr>
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="4">違規地點代碼列表</td>
 			</tr>
-			<tr bgcolor="#EBFBE3">
+			<tr bgcolor="#FAFAF5">
 				<td width="25%" align="center">代碼</td>
 				<td width="75%" align="center">路段( 依照名稱排列) </td>
 			</tr>
@@ -81,7 +81,7 @@ if trim(request("kinds"))="DB_select" then
 	While Not rsProject.Eof
 %>
 			<tr id="trStreet" title="請點選.." onclick="Inert_Data('<%=trim(rsProject("StreetID"))%>','<%=trim(rsProject("Address"))%>');" <%lightbarstyle 1 %>>
-				<td id="tdStreetID" bgcolor="#FFFFCC" align="center"><%=trim(rsProject("StreetID"))%></td>
+				<td id="tdStreetID" bgcolor="#EBE5FF" align="center"><%=trim(rsProject("StreetID"))%></td>
 				<td id="tdAddress"><%=trim(rsProject("Address"))%></td>
 			</tr>
 <%		Response.flush
@@ -123,7 +123,7 @@ elseif trim(request("kinds"))="" and (trim(request("OStreet"))<>"" or trim(reque
 	While Not rsProject.Eof
 %>
 			<tr id="trStreet" title="請點選.." onclick="Inert_Data('<%=trim(rsProject("StreetID"))%>','<%=trim(rsProject("Address"))%>');" <%lightbarstyle 1 %>>
-				<td id="tdStreetID" bgcolor="#FFFFCC" align="center"><%=trim(rsProject("StreetID"))%></td>
+				<td id="tdStreetID" bgcolor="#EBE5FF" align="center"><%=trim(rsProject("StreetID"))%></td>
 				<td id="tdAddress"><%=trim(rsProject("Address"))%></td>
 			</tr>
 <%		Response.flush

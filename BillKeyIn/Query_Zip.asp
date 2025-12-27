@@ -20,7 +20,7 @@ theRuleVer=trim(request("RuleVer"))
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" onkeydown="KeyDown()">
 	<form name="myForm" method="post" onsubmit="return DB_Select();">  
 		<table width='100%' border='1' align="left" cellpadding="1">
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#EBE5FF">
 				<td colspan="7">郵遞區號查詢 　*可用上、下鍵選擇，enter鍵確定，ESC鍵可重新輸入法條</td>
 			</tr>
 			<tr>
@@ -33,10 +33,10 @@ theRuleVer=trim(request("RuleVer"))
 				<font size="2" color="clred">可用關鍵字查詢. 。
 				</td>
 			<tr>
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#EBE5FF">
 				<td colspan="7">郵遞區</td>
 			</tr>
-			<tr bgcolor="#EBFBE3">
+			<tr bgcolor="#FAFAF5">
 				<td width="10%" align="center">代碼</td>
 				<td width="9%" align="center">區</td>
 			</tr>
@@ -64,7 +64,7 @@ if trim(request("kinds"))="DB_Select" or (not ifnull(Request("ZipCity"))) or (no
 		onclick="Inert_Data('<%=trim(rsZip("ZipID"))%>','<%=trim(request("ObjName"))%>');"
 		<%End if		
 		%>  <%lightbarstyle 1 %>>
-			<td id="ItemID" bgcolor="#FFFFCC" align="center"><%=trim(rsZip("ZipID"))%></td>
+			<td id="ItemID" bgcolor="#EBE5FF" align="center"><%=trim(rsZip("ZipID"))%></td>
 			<td><%=trim(rsZip("ZipName"))%>&nbsp;</td>
 		</tr>
 <%		rsZip.MoveNext

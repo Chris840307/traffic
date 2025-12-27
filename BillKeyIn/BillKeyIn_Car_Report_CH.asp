@@ -866,7 +866,7 @@ End If
 	<form name="myForm" method="post">  
 
 		<table width='985' border='1' align="center" cellpadding="1">
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="6" height="45"><strong>逕舉資料建檔作業</strong>&nbsp; &nbsp; 日期格式：951220 &nbsp;時間格式：2300(24小時制)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
 				建檔日期：<%=ginitdt(now)%>
 			<%if sys_City="花蓮縣" and trim(Session("Credit_ID"))="A001001" then%>
@@ -929,7 +929,7 @@ End If
 				</td>
 			</tr>	
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right">單號</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">單號</div></td>
 				<td <%
 
 					response.write "colspan='5'"
@@ -971,7 +971,7 @@ End If
 			<%end if%>
 				</td>
 <%if sys_City="嘉義縣" or sys_City="台東縣" or sys_City="高雄縣" or sys_City="嘉義市" or sys_City="宜蘭縣" or sys_City="台南市" then%>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>填單日期</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>填單日期</div></td>
 				<td>
 				<input type="text" size="10" value="<%
 				if bBillType<>"1" then
@@ -986,18 +986,18 @@ End If
 				%>" maxlength="7" name="BillFillDate" onfocus="this.select()" onBlur="getDealLineDate()" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 				</td>
 <%elseif sys_City="雲林縣" then%>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規車號</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規車號</div></td>
 				<td >
 				<input type="text" size="10" name="CarNo" onBlur="getVIPCar();" onkeydown="funTextControl(this);" style=ime-mode:disabled maxlength="8">
 			    <div id="Layer7" style="position:absolute; width:140px; height:24px; z-index:0; layer-background-color: #FFFFFF; border: 1px none #000000; color: #FF0000; font-weight: bold;"></div>
 				</td>
 <%elseif sys_City="台中市" then%>
-				<td bgcolor="#FFFFCC" width="13%"><div align="right"><span class="style4">＊</span>告示單號</div></td>
+				<td bgcolor="#EBE5FF" width="13%"><div align="right"><span class="style4">＊</span>告示單號</div></td>
 				<td >
 					<input type="text" size="10" name="ReportNo" onkeydown="funTextControl(this);" style=ime-mode:disabled maxlength="11" onBlur="getAcceptData();">
 				</td>
 <%elseif sys_City="連江縣" then%>
-				<td bgcolor="#FFFFCC" width="13%"><div align="right"><span class="style4">＊</span>告示單號</div></td>
+				<td bgcolor="#EBE5FF" width="13%"><div align="right"><span class="style4">＊</span>告示單號</div></td>
 				<td >
 					<input type="text" size="10" name="ReportNo" onkeydown="funTextControl(this);" style=ime-mode:disabled maxlength="20" >
 				</td>
@@ -1006,12 +1006,12 @@ End If
 			</tr>
 			<tr>
 <%if sys_City<>"雲林縣" then%>
-			  <td bgcolor="#FFFFCC" width="13%"><div align="right"><span class="style4">＊</span>違規車號</div></td>
+			  <td bgcolor="#EBE5FF" width="13%"><div align="right"><span class="style4">＊</span>違規車號</div></td>
 				<td width="32%">
 				<input type="text" size="10" name="CarNo" onBlur="getVIPCar();" onkeydown="funTextControl(this);" style=ime-mode:disabled maxlength="8" value="<%=otherbCarNo%>">
 			    <div id="Layer7" style="position:absolute; width:140px; height:24px; z-index:0; background-color: #FFFFFF; layer-background-color: #FFFFFF; border: 1px none #000000; color: #FF0000; font-weight: bold;"></div>
 				</td>
-				<td bgcolor="#FFFFCC" width="13%"><div align="right"><span class="style4">＊</span>簡式車種</div></td>
+				<td bgcolor="#EBE5FF" width="13%"><div align="right"><span class="style4">＊</span>簡式車種</div></td>
 				<td colspan="3">
 				<input type="text" maxlength="1" size="4" value="<%=otherbCarSimpleID%>" name="CarSimpleID" onBlur="getRuleAll();" onkeydown="funTextControl(this);" <%
 				if sys_City="台中市" Then
@@ -1025,7 +1025,7 @@ End If
 				</div>
 				</td>
 <%else%>
-				<td bgcolor="#FFFFCC" width="13%"><div align="right"><span class="style4">＊</span>簡式車種</div></td>
+				<td bgcolor="#EBE5FF" width="13%"><div align="right"><span class="style4">＊</span>簡式車種</div></td>
 				<td width="32%">
 				<input type="text" maxlength="1" size="4" value="" name="CarSimpleID" onBlur="getRuleAll();" onkeydown="funTextControl(this);" onfocus="this.select();" style=ime-mode:disabled>
 				<div id="Layer170" style="position:absolute; width:245px; height:24px; z-index:0; layer-background-color: #11FFFF; border: 1px none #000000; color: #FF0000;">
@@ -1036,7 +1036,7 @@ End If
 				<span class="style8">550cc以上重機簡式<br>車種請選擇重機</span>
 				</div>
 				</td>
-				<td bgcolor="#FFFFCC" align="right">輔助車種</td>
+				<td bgcolor="#EBE5FF" align="right">輔助車種</td>
 				<td colspan="3">
                  <input type="text" maxlength="2" size="4" value="<%
 			if sys_City="宜蘭縣" then
@@ -1060,14 +1060,14 @@ End If
 
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規日期</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規日期</div></td>
 				<td>
 				<input type="text" size="10" maxlength="7" name="IllegalDate" onkeydown="funTextControl(this);" onblur="getDealLineDate_Stop()" value="<%=bIllegalDate%>" style=ime-mode:disabled <%
 			if sys_City="高雄市" Or sys_City=ApconfigureCityName then '打滿跳下格%>
 				onkeyup="FullToGoNextTag(6,'IllegalDate','IllegalTime')"
 			<%end if%>>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規時間</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規時間</div></td>
 				<td colspan="3">
 				<input type="text" size="4" maxlength="4" name="IllegalTime" value="<%=bIllegalTime%>" onkeydown="funTextControl(this);" style=ime-mode:disabled <%
 			if sys_City="高雄市" Or sys_City=ApconfigureCityName then '打滿跳下格%>
@@ -1083,11 +1083,11 @@ End If
 			</tr>
 <%if sys_City="雲林縣" or sys_City="宜蘭縣" or sys_City="台南市" or sys_City="嘉義市"  then%>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right">限速、限重</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">限速、限重</div></td>
 				<td>
 					<input type="text" size="10" name="RuleSpeed" onBlur="RuleSpeedforLaw()" onkeydown="funTextControl(this);" style=ime-mode:disabled  value="<%=bRuleSpeed%>">
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right">實際車速、車重</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">實際車速、車重</div></td>
 				<td colspan="3">
 					<input type="text" size="10" name="IllegalSpeed" onkeyup="IllegalSpeedforLaw()" onkeydown="funTextControl(this);" style=ime-mode:disabled >
 				</td>
@@ -1095,7 +1095,7 @@ End If
 <%end if%>
 <%if sys_City<>"嘉義市" then %>
 			<tr>
-				<td bgcolor="#FFFFCC" width="13%"><div align="right">違規地點代碼</div></td>
+				<td bgcolor="#EBE5FF" width="13%"><div align="right">違規地點代碼</div></td>
 				<td>
 					<input type="text" size="10" value="<%=bIllegalAddressID%>" name="IllegalAddressID" onKeyUp="getillStreet();" onblur="funGetSpeedRule()" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 					<input type="hidden" name="OldIllegalAddressID" value="<%=bIllegalAddressID%>">
@@ -1124,7 +1124,7 @@ End If
 					<font color="red">鎖定違規地</font>
 			<%End if%>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規地點</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規地點</div></td>
 				<td colspan="3">
 					<%if sys_City="台南市" then %>
 						<input type="text" class="btn5" size="3" value="<%=Trim(request("IllegalZip"))%>" name="IllegalZip" onBlur="getDriverZip(this,'IllegalAddress');" onkeydown="funTextControl(this);">
@@ -1184,18 +1184,18 @@ End If
 <%if sys_City="彰化縣" or sys_City="嘉義縣" or sys_City="台東縣" or sys_City="高雄縣" then%>
 
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right">限速、限重</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">限速、限重</div></td>
 				<td>
 					<input type="text" size="10" name="RuleSpeed" onBlur="RuleSpeedforLaw()" onkeydown="funTextControl(this);" style=ime-mode:disabled  value="<%=bRuleSpeed%>">
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right">實際車速、車重</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">實際車速、車重</div></td>
 				<td colspan="3">
 					<input type="text" size="10" name="IllegalSpeed" onkeyup="IllegalSpeedforLaw()" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 				</td>
 			</tr>
 <%end if%>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規法條一</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規法條一</div></td>
 				<td colspan="5">
 					<input type="text" maxlength="9" size="10" value="<%=bRule1%>" name="Rule1" onkeyup="getRuleData1();" onfocus="this.select()" onkeydown="funTextControl(this);" onchange="DelSpace1();" style=ime-mode:disabled>
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Law.asp?LawOrder=1&RuleVer=<%=theRuleVer%>&sBillTypeID=2","WebPage1","left=0,top=0,location=0,width=900,height=555,resizable=yes,scrollbars=yes")' alt="查詢法條">
@@ -1219,20 +1219,20 @@ End If
 			</tr>
 <%if sys_City="高雄市" Or sys_City=ApconfigureCityName then %>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right">限速、限重</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">限速、限重</div></td>
 				<td>
 					<input type="text" size="10" name="RuleSpeed" onBlur="RuleSpeedforLaw()" onkeydown="funTextControl(this);" style=ime-mode:disabled  value="<%
 						response.write bRuleSpeed
 					%>">
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right">實際車速、車重</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">實際車速、車重</div></td>
 				<td colspan="3">
 					<input type="text" size="10" name="IllegalSpeed" onkeyup="IllegalSpeedforLaw()" onkeydown="funTextControl(this);" style=ime-mode:disabled value="<%=otherbIllegalSpeed%>">
 				</td>
 			</tr>
 <%end if%>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right">違規法條二</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">違規法條二</div></td>
 				<td colspan="5">
 					<input type="text" maxlength="9" size="10" value="<%
 				if sys_City<>"南投縣" And sys_City<>"台中市" then
@@ -1263,18 +1263,18 @@ End If
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" id="TDLaw1" align="right"></td>
+				<td bgcolor="#EBE5FF" id="TDLaw1" align="right"></td>
 				<td colspan="5" id="TDLaw2"></td>
 			</tr>
 <%if sys_City="嘉義市" then %>
 			<tr>
-				<td bgcolor="#FFFFCC" width="13%"><div align="right">違規地點代碼</div></td>
+				<td bgcolor="#EBE5FF" width="13%"><div align="right">違規地點代碼</div></td>
 				<td>
 					<input type="text" size="10" value="<%=bIllegalAddressID%>" name="IllegalAddressID" onKeyUp="getillStreet();" onblur="funGetSpeedRule()" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 					<input type="hidden" name="OldIllegalAddressID" value="<%=bIllegalAddressID%>">
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Street.asp","WebPage3","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規地點</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規地點</div></td>
 				<td colspan="3">
 					<input type="text" size="29" value="<%=bIllegalAddress%>" name="IllegalAddress" style=ime-mode:active onkeyup="AutoGetIllStreet();" onblur="funGetSpeedRule()" onkeydown="funTextControl(this);">
 					<input type="checkbox" name="chkHighRoad" value="1" <%if trim(request("chkHighRoad"))="1" then response.write "checked"%> onclick="setIllegalRule()"><span class="style1">快速道路</span>
@@ -1284,13 +1284,13 @@ End If
 <%if sys_City<>"彰化縣" and sys_City<>"雲林縣" and sys_City<>"嘉義縣" and sys_City<>"宜蘭縣" and sys_City<>"台東縣" and sys_City<>"高雄縣" and sys_City<>"台南市" and sys_City<>"嘉義市" and sys_City<>"高雄市" And sys_City<>ApconfigureCityName then%>
 
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right">限速、限重</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">限速、限重</div></td>
 				<td>
 					<input type="text" size="10" name="RuleSpeed" onBlur="RuleSpeedforLaw()" onkeydown="funTextControl(this);" style=ime-mode:disabled  value="<%
 						response.write bRuleSpeed
 					%>">
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right">實際車速、車重</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">實際車速、車重</div></td>
 				<td colspan="3">
 					<input type="text" size="10" name="IllegalSpeed" onkeyup="IllegalSpeedforLaw()" value="<%=otherbIllegalSpeed%>" onkeydown="funTextControl(this);" style=ime-mode:disabled >
 				</td>
@@ -1298,16 +1298,16 @@ End If
 <%end if%>
 
 			<tr>
-				<td id="DLDate1" bgcolor="#FFFFCC" align="right"></td>
+				<td id="DLDate1" bgcolor="#EBE5FF" align="right"></td>
 				<td id="DLDate2">
 				<input type="hidden" size="6" value="" maxlength="7" name="DealLineDate" onBlur="DealLineDateReplace()" style=ime-mode:disabled>
 				</td>
-				<td id="DLDate3" bgcolor="#FFFFCC" align="right"></td>
+				<td id="DLDate3" bgcolor="#EBE5FF" align="right"></td>
 				<td id="DLDate4" colspan="3"></td>
 			</tr>
 
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>舉發人代碼1</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>舉發人代碼1</div></td>
 		  		<td>
 					<input type="text" size="10" name="BillMem1" value="<%=trim(bLoginID1)%>" onkeyup="getBillMemID1();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_MemID.asp?MemOrder=1","WebPage1","left=0,top=0,location=0,width=800,height=555,resizable=yes,scrollbars=yes")'>
@@ -1315,7 +1315,7 @@ End If
 					<input type="hidden" value="<%=trim(bBillMemID1)%>" name="BillMemID1">
 					<input type="hidden" value="<%=trim(bBillMem1)%>" name="BillMemName1">
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right">舉發人代碼2</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">舉發人代碼2</div></td>
 		  		<td colspan="3">
 					<input type="text" size="10" name="BillMem2" value="<%=trim(bLoginID2)%>" onkeyup="getBillMemID2();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_MemID.asp?MemOrder=2","WebPage1","left=0,top=0,location=0,width=800,height=555,resizable=yes,scrollbars=yes")'>
@@ -1326,7 +1326,7 @@ End If
 			</tr>
 			<tr>
 		<%If sys_City="台中市" then%>
-				<td bgcolor="#FFFFCC"><div align="right">舉發人姓名</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">舉發人姓名</div></td>
 		  		<td colspan="5">
 					<input type="text" name="BillMemNameQry" value="" size="15"  onkeyup="getBillMemData();" onkeydown="funTextControl(this);">
 					<div id="Layer50" style="position:absolute ; width:90px; height:30px; z-index:0; layer-background-color: #CCFFFF; border: 1px none #000000;"></div>
@@ -1349,7 +1349,7 @@ End If
 					<input type="hidden" value="<%=trim(bBillMem4)%>" name="BillMemName4">
 				</td>
 		<%else%>
-				<td bgcolor="#FFFFCC"><div align="right">舉發人代碼3</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">舉發人代碼3</div></td>
 		  		<td>
 					<input type="text" size="10" name="BillMem3" value="<%=trim(bLoginID3)%>" onkeyup="getBillMemID3();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_MemID.asp?MemOrder=3","WebPage1","left=0,top=0,location=0,width=800,height=555,resizable=yes,scrollbars=yes")'>
@@ -1357,7 +1357,7 @@ End If
 					<input type="hidden" value="<%=trim(bBillMemID3)%>" name="BillMemID3">
 					<input type="hidden" value="<%=trim(bBillMem3)%>" name="BillMemName3">
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right">舉發人代碼4</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">舉發人代碼4</div></td>
 		  		<td colspan="3">
 					<input type="text" size="10" name="BillMem4" value="<%=trim(bLoginID4)%>" onkeyup="getBillMemID4();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_MemID.asp?MemOrder=4","WebPage1","left=0,top=0,location=0,width=800,height=555,resizable=yes,scrollbars=yes")'>
@@ -1369,7 +1369,7 @@ End If
 		
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>舉發單位</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>舉發單位</div></td>
 				<td <%
 				if sys_City="嘉義縣" or sys_City="台東縣" or sys_City="高雄縣" or sys_City="雲林縣" or sys_City="台南市" Or sys_City="宜蘭縣" or sys_City="嘉義市" then
 					response.write "colspan='5'"
@@ -1400,7 +1400,7 @@ End If
 				
 				</td>
 <%if sys_City<>"嘉義縣" and sys_City<>"台東縣" and sys_City<>"高雄縣" and sys_City<>"嘉義市" and sys_City<>"雲林縣" and sys_City<>"宜蘭縣" and sys_City<>"台南市" then%>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>填單日期</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>填單日期</div></td>
 				<td colspan="3">
 				<input type="text" size="10" value="<%
 				if bBillType<>"1" then
@@ -1429,11 +1429,11 @@ End If
 			</tr>
 		<%If sys_City="宜蘭縣" or sys_City="嘉義市" or sys_City="花蓮縣" then%>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right">身分證號<br><span class="style10">非轉歸責案件勿填</span></div></td>
+				<td bgcolor="#EBE5FF"><div align="right">身分證號<br><span class="style10">非轉歸責案件勿填</span></div></td>
 		  		<td>
 					<input type="text" size="10" name="DriverPID" onBlur="this.value=this.value.toUpperCase();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right">應到案處所<br><span class="style10">非轉歸責案件勿填</span></div>
+				<td bgcolor="#EBE5FF"><div align="right">應到案處所<br><span class="style10">非轉歸責案件勿填</span></div>
 				
 				</td>
 		  		<td colspan="5">
@@ -1446,7 +1446,7 @@ End If
 			</tr>
 		<%End if%>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right">專案代碼</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">專案代碼</div></td>
 				<td>
 					<input type="text" size="10" value="" name="ProjectID" style=ime-mode:disabled onkeyup="ProjectF5()" onkeydown="funTextControl(this);">
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onClick='window.open("Query_Project.asp","WebPage1","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
@@ -1456,7 +1456,7 @@ End If
 					<div id="Layer001" style="position:absolute ; width:180px; height:30px; z-index:0;  layer-background-color: #CCFFFF; border: 1px none #000000;"></div>
 				</td>
 <%if sys_City="雲林縣" then%>	
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>填單日期</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>填單日期</div></td>
 				<td colspan="3">
 				<input type="text" size="10" value="<%
 				if bBillType<>"1" then
@@ -1471,7 +1471,7 @@ End If
 				%>" maxlength="7" name="BillFillDate" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 				</td>
 <%else%>
-				<td bgcolor="#FFFFCC" align="right">輔助車種</td>
+				<td bgcolor="#EBE5FF" align="right">輔助車種</td>
 				<td colspan="3">
                  <input type="text" maxlength="2" size="4" value="<%
 			if sys_City="宜蘭縣" then
@@ -1490,7 +1490,7 @@ End If
 <%end if%>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" width="13%"><div align='right'>採証工具</div></td>
+				<td bgcolor="#EBE5FF" width="13%"><div align='right'>採証工具</div></td>
 				<td>
 					<input maxlength="1" size="4" value="<%
 				if sys_City="嘉義縣" or sys_City="花蓮縣" or sys_City="高雄縣" then
@@ -1509,11 +1509,11 @@ End If
 				End If 
 					%> 8逕舉手開單</font>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right">備註</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">備註</div></td>
 				<td>
 					<input type="text" size="15" value="" name="Note" onkeydown="funTextControl(this);" style=ime-mode:active>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right">代保管物</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">代保管物</div></td>
 				<td>
 					1. <input type="text" size="2" value="" name="Fastener1" onkeyup="getFastener1();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Fastener.asp?FaOrder=1","FastPage","left=0,top=0,location=0,width=500,height=355,resizable=yes,scrollbars=yes")'>
@@ -1527,7 +1527,7 @@ End If
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFDD77" align="center" colspan="6">
+				<td bgcolor="#1BF5FF" align="center" colspan="6">
 					<input type="button" name="save1" value="儲 存 <%
 					if sys_City="台東縣" or sys_City="高雄縣" then
 						response.write "F9"

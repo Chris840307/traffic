@@ -65,7 +65,7 @@ end if
 <form name=myForm method="post">
 <table width="100%" border="0" bgcolor="#ffffff">
 	<tr>
-		<td height="27" bgcolor="#FFCC33" class="pagetitle"><strong>寄存送達證書 戶籍地址補正 </strong> <br><bR>
+		<td height="27" bgcolor="#1BF5FF" class="pagetitle"><strong>寄存送達證書 戶籍地址補正 </strong> <br><bR>
 		透過此功能可修正寄存送達郵記之正確地址。 自動抓取監理站民眾領牌登錄之戶籍地址部份則不適用此功能<br>
 		<br>
 		<font Size="3"><b>作業流程 :</b> <b>1</b>. 查詢 正確戶籍地址 <img src="space.gif" width="29" height="8"> <b> 2. </b> 篩選出該批欲作戶籍補正資料
@@ -92,7 +92,7 @@ end if
 		</td>
 	</tr>
 	<tr>
-		<td height="26" bgcolor="#FFCC33">二次郵寄紀錄列表 ( 輸入完成按Enter可自動跳到下一格 )</td>
+		<td height="26" bgcolor="#1BF5FF">二次郵寄紀錄列表 ( 輸入完成按Enter可自動跳到下一格 )</td>
 	</tr>
 	<tr>
 		<td bgcolor="#E0E0E0" valign="top">
@@ -104,7 +104,7 @@ end if
 		</td>
 	</tr>
 	<tr align="center">
-		<td height="35" bgcolor="#FFDD77">
+		<td height="35" bgcolor="#1BF5FF">
 		</td>
 	</tr>
 </table>

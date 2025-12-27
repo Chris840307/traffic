@@ -588,7 +588,7 @@ td {font-size: 16px}
 <!-- #include file="../Common/bannernoimagepasser.asp"-->
 	<form name="myForm" method="post">  
 		<table width='1000' border='1' align="left" cellpadding="1">
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="6" nowrap>
 					<strong>慢車行人攤販建檔作業</strong>&nbsp; &nbsp; 日期格式：951220 &nbsp;時間格式：2300(24小時制)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 建檔日期：<span id="CreatDate"><%=ginitdt(now)%></span>&nbsp;&nbsp;&nbsp;第<span id="Sumefile"><%=cdbl(DBsume)+1%></span>筆
 
@@ -606,13 +606,13 @@ td {font-size: 16px}
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right"><span class="style4">＊</span>單號</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style4">＊</span>單號</td>
 				<td >
 					<input name="Billno1" type="text" class="btn5" value="<%=theBillno%>" size="10" maxlength="9"  onblur="CheckPeopleBillNoExist();" onKeyUp="funAutoTextControl(this);" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 				
 				</td>
 				
-				<td bgcolor="#FFFFCC" align="right">
+				<td bgcolor="#EBE5FF" align="right">
 					車號
 				</td>
 				<td>
@@ -631,7 +631,7 @@ td {font-size: 16px}
 					%></span>
 				</td>
 				
-				<td bgcolor="#FFFFCC" align="right">
+				<td bgcolor="#EBE5FF" align="right">
 					保險證
 				</td>
 				<td>
@@ -643,16 +643,16 @@ td {font-size: 16px}
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right"><span class="style4">＊</span>違規人姓名</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style4">＊</span>違規人姓名</td>
 				<td><input type="text" class="btn5" size="10" value="" name="DriverName" onkeydown="funTextControl(this);" style=ime-mode:active></td>
 				</td>
-				<td bgcolor="#FFFFCC" align="right"><span class="style4">＊</span>違規人出生日期</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style4">＊</span>違規人出生日期</td>
 				<td colspan=3>
 				<input type="text" class="btn5" size="10" maxlength="7" value="" name="DriverBrith" onBlur="focusToDriverPID()" onkeydown="funTextControl(this);"  onKeyUp="funAutoTextControl(this);" style=ime-mode:disabled>
 				</td>				
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right" nowrap><span class="style4" >＊</span>違規人身份證號</td>
+				<td bgcolor="#EBE5FF" align="right" nowrap><span class="style4" >＊</span>違規人身份證號</td>
 				<td>
 					<table border="0">
 						<td width="150">
@@ -660,7 +660,7 @@ td {font-size: 16px}
 							<input name="chkPID" type="checkbox" value="y">
 							<span  style="font-size: 12px;">居留證/護照</span>
 						</td>
-						<td bgcolor="#FFFFCC" align="right" style="font-size: 12px;" nowrap>
+						<td bgcolor="#EBE5FF" align="right" style="font-size: 12px;" nowrap>
 							<span class="style4">＊</span>性別<br>1.男&nbsp;2.女
 						</td>
 						<td>
@@ -668,7 +668,7 @@ td {font-size: 16px}
 						</td>
 					</table>
 				</td>
-				<td bgcolor="#FFFFCC" align="right"><span class="style4">＊</span>違規人地址</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style4">＊</span>違規人地址</td>
 				<td colspan="3">
 				<input type="text" class="btn5" size="1" value="" name="DriverZip"  onBlur="getDriverZip(this,'DriverAddress');" onkeydown="funTextControl(this);">
 				區號
@@ -678,24 +678,24 @@ td {font-size: 16px}
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right"><span class="style4">＊</span>違規日期</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style4">＊</span>違規日期</td>
 				<td>
 				<input type="text" class="btn5" size="10" value="<%=request("IllegalDate")%>" maxlength="7" name="IllegalDate" onBlur="getDealLineDate();" onkeydown="funTextControl(this);"  onKeyUp="funAutoTextControl(this);" style=ime-mode:disabled>
 				</td>
-				<td bgcolor="#FFFFCC" align="right"><span class="style4">＊</span>違規時間</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style4">＊</span>違規時間</td>
 				<td colspan="3">
 				<input type="text" class="btn5" size="10" value="" maxlength="4" name="IllegalTime" onBlur="value=value.replace(/[^\d]/g,'')" onkeydown="funTextControl(this);"  onKeyUp="funAutoTextControl(this);" style=ime-mode:disabled>
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right">違規地點代碼</td>
+				<td bgcolor="#EBE5FF" align="right">違規地點代碼</td>
 				<td >
 					<input type="text" class="btn5" size="10" value="<%
 						If Trim(sys_City)<>"台中市" then Response.Write trim(request("IllegalAddressID"))
 					%>" name="IllegalAddressID" maxlength="9" onKeyUp="getillStreet();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Street.asp","WebPage_Street_People","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
 				</td>
-				<td bgcolor="#FFFFCC" align="right"><span class="style4">＊</span>違規地點</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style4">＊</span>違規地點</td>
 				<td colspan="3">
 					<%if sys_City="台南市" then %>
 						<input type="text" class="btn5" size="1" value="" name="IllegalZip" onBlur="getDriverZip(this,'IllegalAddress');" onkeydown="funTextControl(this);">
@@ -739,7 +739,7 @@ td {font-size: 16px}
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right"><span class="style4">＊</span>違規法條一</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style4">＊</span>違規法條一</td>
 				<td colspan="5">
 					<input type="text" class="btn5" size="10" value="<%=request("Rule1")%>" name="Rule1" onKeyUP="getRuleData1();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Law.asp?LawOrder=1&RuleVer=<%=theRuleVer%>","WebPage1","left=0,top=0,location=0,width=900,height=555,resizable=yes,scrollbars=yes")'>
@@ -759,7 +759,7 @@ td {font-size: 16px}
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right">違規法條二</td>
+				<td bgcolor="#EBE5FF" align="right">違規法條二</td>
 				<td colspan="5">
 					<input type="text" class="btn5" size="10" value="<%=request("Rule2")%>" name="Rule2" onKeyUP="getRuleData2();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Law.asp?LawOrder=2&RuleVer=<%=theRuleVer%>","WebPage1","left=0,top=0,location=0,width=900,height=555,resizable=yes,scrollbars=yes")'>
@@ -780,22 +780,22 @@ td {font-size: 16px}
 			</tr>
 			
 			<tr>
-				<td bgcolor="#FFFFCC" align="right">限速</td>
+				<td bgcolor="#EBE5FF" align="right">限速</td>
 				<td>
 					<input type="text" class="btn5" size="10" value="" maxlength="7" name="RuleSpeed" onBlur="SpeedChk();" onKeyUp="funAutoTextControl(this);" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 				</td>
-				<td bgcolor="#FFFFCC" align="right">實際車速</td>
+				<td bgcolor="#EBE5FF" align="right">實際車速</td>
 				<td>
 					<input type="text" class="btn5" size="10" value="" maxlength="7" name="IllegalSpeed" onBlur="SpeedChk();" onKeyUp="funAutoTextControl(this);" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 				</td>
 			</tr>
 			
 			<tr>
-				<td bgcolor="#FFFFCC" align="right"><span class="style4">＊</span>應到案日期</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style4">＊</span>應到案日期</td>
 				<td>
 					<input type="text" class="btn5" size="10" value="" maxlength="7" name="DealLineDate" onBlur="value=value.replace(/[^\d]/g,'')" onKeyUp="funAutoTextControl(this);" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 				</td>
-				<td bgcolor="#FFFFCC" align="right" nowrap><span class="style4">＊</span>應到案處所代碼</td>
+				<td bgcolor="#EBE5FF" align="right" nowrap><span class="style4">＊</span>應到案處所代碼</td>
 				<td colspan="1">
 					<input type="text" class="btn5" size="4" value="<%=request("MemberStation")%>" name="MemberStation" onKeyUP="getStation();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Unit.asp?SType=S","WebPage1","left=0,top=0,location=0,width=800,height=575,resizable=yes,scrollbars=yes")'>
@@ -810,7 +810,7 @@ td {font-size: 16px}
 					%>
 					</span>
 				</td>				
-				<td bgcolor="#FFFFCC" align="right"><span class="style4">＊</span>舉發人<%
+				<td bgcolor="#EBE5FF" align="right"><span class="style4">＊</span>舉發人<%
 						if sys_City<>"苗栗縣" and sys_City<>"高雄市" and sys_City<>"台中市" then 
 							response.write "姓名"
 
@@ -837,7 +837,7 @@ td {font-size: 16px}
 			</tr>			
 			<tr>
 				
-				<td bgcolor="#FFFFCC" align="right" width="14%">舉發人<%
+				<td bgcolor="#EBE5FF" align="right" width="14%">舉發人<%
 						if sys_City<>"苗栗縣" and sys_City<>"高雄市" and sys_City<>"台中市" then 
 							response.write "姓名"
 
@@ -861,7 +861,7 @@ td {font-size: 16px}
 					<input type="hidden" value="<%=request("BillMemID2")%>" name="BillMemID2">
 					<input type="hidden" value="<%=request("BillMemName2")%>" name="BillMemName2">
 				</td>
-				<td bgcolor="#FFFFCC" align="right" width="13%">舉發人<%
+				<td bgcolor="#EBE5FF" align="right" width="13%">舉發人<%
 						if sys_City<>"苗栗縣" and sys_City<>"高雄市" and sys_City<>"台中市" then 
 							response.write "姓名"
 
@@ -885,7 +885,7 @@ td {font-size: 16px}
 					<input type="hidden" value="<%=request("BillMemID3")%>" name="BillMemID3">
 					<input type="hidden" value="<%=request("BillMemName3")%>" name="BillMemName3">
 				</td>
-				<td bgcolor="#FFFFCC" align="right" width="13%">舉發人<%
+				<td bgcolor="#EBE5FF" align="right" width="13%">舉發人<%
 						if sys_City<>"苗栗縣" and sys_City<>"高雄市" and sys_City<>"台中市" then 
 							response.write "姓名"
 
@@ -912,7 +912,7 @@ td {font-size: 16px}
 			</tr>
 
 			<tr>
-				<td height="33" bgcolor="#FFFFCC" align="right">代保管物</td>
+				<td height="33" bgcolor="#EBE5FF" align="right">代保管物</td>
 				<td>
 <%
 	strItem="select * from Code where TypeID=2 and ID>=478 and ID<>479 order by ID"
@@ -932,7 +932,7 @@ td {font-size: 16px}
 
 %>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>簽收狀況</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>簽收狀況</div></td>
 				<td colspan="3">
 					<input type="text" class="btn5" size="5" value="A" maxlength="1" name="SignType" onBlur="funcSignType();" onKeyUp="funAutoTextControl(this);" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 					<font color="#ff000" size="2">
@@ -942,7 +942,7 @@ td {font-size: 16px}
 			</tr>				
 	<tr height="6"><td></td></tr>		
 			<tr>
-		  	<td bgcolor="#FFFFCC" align="right"><span class="style4">＊</span>舉發單位</td>
+		  	<td bgcolor="#EBE5FF" align="right"><span class="style4">＊</span>舉發單位</td>
 				<td>
 					<input type="text" class="btn5" size="4" value="<%=request("BillUnitID")%>" name="BillUnitID" onKeyUP="getUnit();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Unit.asp?SType=U","WebPage2","left=0,top=0,location=0,width=800,height=575,resizable=yes,scrollbars=yes")'>
@@ -957,7 +957,7 @@ td {font-size: 16px}
 					%>
 					</span>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right">專案代碼</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">專案代碼</div></td>
 				<td colspan="3">
 					<input type="text" class="btn5" size="5" value="" name="ProjectID" style=ime-mode:disabled onkeyup="ProjectF5()" onkeydown="funTextControl(this);">
 				<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onClick='window.open("Query_Project.asp","WebPage1","left=0,top=0,location=0,width=700,height=455,resizable=yes,scrollbars=yes")'>
@@ -1001,12 +1001,12 @@ td {font-size: 16px}
 					<%end if%>
 				</td>
 
-				<!--<td bgcolor="#FFFFCC" align="right">是否講習</td>
+				<!--<td bgcolor="#EBE5FF" align="right">是否講習</td>
 				<td>
 					<input type="radio" value="1" name="IsLecture">是
 					<input type="radio" value="0" name="IsLecture" checked>否
 				</td>
-				<td bgcolor="#FFFFCC" align="right">告發類別</td>
+				<td bgcolor="#EBE5FF" align="right">告發類別</td>
 				<td colspan="1">
 				<input type="text" size="4" maxlength="1" value="<%=theBilltype%>" name="BillType" onBlur="chkBillType()" style=ime-mode:disabled>
 				<font color="#ff000" size="2">1慢車/2行人/3道路障礙</font>&nbsp;&nbsp;
@@ -1014,20 +1014,20 @@ td {font-size: 16px}
 			</tr>	
 				
 			<tr>
-				<td bgcolor="#FFFFCC" align="right"><span class="style4">＊</span>填單日期</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style4">＊</span>填單日期</td>
 				<td colspan="5">
 					<input type="text" class="btn5" size="10" value="" maxlength="7" name="BillFillDate" onBlur="value=value.replace(/[^\d]/g,'')" onKeyUp="funAutoTextControl(this);" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right">備註</td>
+				<td bgcolor="#EBE5FF" align="right">備註</td>
 				<td colspan="5">
 					<input type="text" class="btn5" size="46" value="" name="Note" onkeydown="funTextControl(this);" style=ime-mode:active>
 				</td>	
 			</tr>	
 
 			<tr>
-			  <td bgcolor="#FFDD77" align="center" colspan="6">
+			  <td bgcolor="#1BF5FF" align="center" colspan="6">
 					<font color="red"><B>建檔序號第<span id="Seqfile"><input type="text" value="<%=FileSeq%>" class="btn1" size="10" name="Sys_DoubleCheckStatus" onkeyup="value=value.replace(/[^\d]/g,'')"></span>號</B></font>
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" value="儲 存 F2" onclick="InsertBillVase();" <%

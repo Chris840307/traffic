@@ -19,10 +19,10 @@ FaOrder=trim(request("FaOrder"))
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 	<form name="myForm" method="post">  
 		<table width='100%' border='1' align="left" cellpadding="1">
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="4">代保管物代碼列表</td>
 			</tr>
-			<tr bgcolor="#EBFBE3">
+			<tr bgcolor="#FAFAF5">
 				<td width="40%" align="center">代碼</td>
 				<td width="60%" align="center">代保管物名稱</td>
 			</tr>
@@ -33,7 +33,7 @@ FaOrder=trim(request("FaOrder"))
 	While Not rsStation.Eof
 %>
 			<tr title="請點選.." onclick="Inert_Data('<%=trim(rsStation("ID"))%>','<%=trim(rsStation("Content"))%>');" <%lightbarstyle 1 %>>
-				<td bgcolor="#FFFFCC" align="center"><%=trim(rsStation("ID"))%></td>
+				<td bgcolor="#EBE5FF" align="center"><%=trim(rsStation("ID"))%></td>
 				<td><%=trim(rsStation("Content"))%></td>
 			</tr>
 <%	rsStation.MoveNext
@@ -42,7 +42,7 @@ FaOrder=trim(request("FaOrder"))
 	set rsStation=nothing
 %>
 			<tr>
-				<td bgcolor="#FFDD77" colspan="4" align="center">
+				<td bgcolor="#1BF5FF" colspan="4" align="center">
 				<input type="button" name="close" value="關閉視窗" onclick="window.close();">
 				</td>
 			</tr>

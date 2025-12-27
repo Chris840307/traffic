@@ -360,11 +360,11 @@ set rs1=conn.execute(strSql)
 <%end if%>
 	<form name="myForm" method="post">  
 		<table width='985' border='1' align="left" cellpadding="1">
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="6"><strong>攔停資料修改</strong>&nbsp; &nbsp; 日期格式：951220 &nbsp;時間格式：2300(24小時制)&nbsp; &nbsp; <input type="checkbox" name="CaseInByMem" value="1" <%if trim(request("CaseInByMem"))="1" then response.write "checked"%>>逾違規日期超過三個月強制建檔</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>單號</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>單號</div></td>
 				<td>
 					<input name="Billno1" type="text" value="<%
 				if trim(rs1("Billno"))<>"" and not isnull(rs1("Billno")) then
@@ -380,7 +380,7 @@ set rs1=conn.execute(strSql)
 				end if
 				%>">
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right">保險證</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">保險證</div></td>
 				<td <%
 			if sys_City<>"台東縣" then
 				response.write "colspan='3'"
@@ -399,7 +399,7 @@ set rs1=conn.execute(strSql)
 					</div>
 				</td>
 			<%if sys_City="台東縣" then%>
-				<td bgcolor="#FFFFCC"><div align="right"><!-- <span class="style4">＊</span> -->違規人姓名</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><!-- <span class="style4">＊</span> -->違規人姓名</div></td>
 				<td><input type="text" size="13" value="<%
 				if trim(rs1("Driver"))<>"" and not isnull(rs1("Driver")) then
 					response.write trim(rs1("Driver"))
@@ -412,7 +412,7 @@ set rs1=conn.execute(strSql)
 			</tr>
 	<%if sys_City<>"高雄市" then%>
  			<tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規人證號</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規人證號</div></td>
 				<td ><input type="text" size="10" value="<%
 				if trim(rs1("Driverid"))<>"" and not isnull(rs1("Driverid")) then
 					response.write trim(rs1("Driverid"))
@@ -426,7 +426,7 @@ set rs1=conn.execute(strSql)
 		end if
 				%> onBlur="FuncChkPID();" onkeydown="funTextControl(this);">
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right">違規人出生日</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">違規人出生日</div></td>
 				<td <%
 		if sys_City<>"嘉義縣" and sys_City<>"宜蘭縣" and sys_City<>"台東縣" and sys_City<>"高雄縣" and sys_City<>"台南縣" and sys_City<>"台南市" and sys_City<>"嘉義市" then 
 				response.write "colspan=""3"""
@@ -442,7 +442,7 @@ set rs1=conn.execute(strSql)
 				%>" name="DriverBrith" onkeyup="focusToDriverPID()" onkeydown="funTextControl(this);">
 				</td>
 		<%if sys_City="嘉義縣" or sys_City="宜蘭縣" or sys_City="台東縣" or sys_City="高雄縣" or sys_City="台南縣" or sys_City="台南市" or sys_City="嘉義市" then%>
-				<td bgcolor="#FFFFCC" align="right"><span class="style4">＊</span>填單日期</td>
+				<td bgcolor="#EBE5FF" align="right"><span class="style4">＊</span>填單日期</td>
 				<td>
 					<input type="text" size="5" value="<%
 				if trim(rs1("BillFillDate"))<>"" and not isnull(rs1("BillFillDate")) then
@@ -457,7 +457,7 @@ set rs1=conn.execute(strSql)
 			</tr>
 	<%end if%>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規車號</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規車號</div></td>
 				<td><input type="text" size="8" maxlength="8" value="<%
 				if trim(rs1("CarNo"))<>"" and not isnull(rs1("CarNo")) then
 					response.write trim(rs1("CarNo"))
@@ -473,7 +473,7 @@ set rs1=conn.execute(strSql)
 				%>">
 			    <div id="Layer7" style="position:absolute; width:115px; height:24px; z-index:0; background-color: #FFFFFF; layer-background-color: #FFFFFF; border: 1px none #000000; color: #FF0000; font-weight: bold;"></div>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>簡式車種</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>簡式車種</div></td>
 				<td colspan="3">
 				<input type="text" maxlength="1" size="3" value="<%
 				if trim(rs1("CarSimpleID"))<>"" and not isnull(rs1("CarSimpleID")) then
@@ -488,7 +488,7 @@ set rs1=conn.execute(strSql)
 			</tr>
 	<%if sys_City="高雄市" then%>
  			<tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規人證號</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規人證號</div></td>
 				<td ><input type="text" size="10" value="<%
 				if trim(rs1("Driverid"))<>"" and not isnull(rs1("Driverid")) then
 					response.write trim(rs1("Driverid"))
@@ -498,7 +498,7 @@ set rs1=conn.execute(strSql)
 				end if
 				%>" name="DriverPID" onBlur="FuncChkPID();" onkeydown="funTextControl(this);">
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right">違規人出生日</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">違規人出生日</div></td>
 				<td <%
 		if sys_City<>"嘉義縣" and sys_City<>"宜蘭縣" and sys_City<>"台東縣" and sys_City<>"高雄縣" and sys_City<>"台南縣" and sys_City<>"台南市" and sys_City<>"嘉義市" then 
 				response.write "colspan=""3"""
@@ -517,7 +517,7 @@ set rs1=conn.execute(strSql)
 	<%end if%>
 	<%if sys_City="高雄市" then%>
 			<tr>
-			  <td bgcolor="#FFFFCC"><div align="right">代保管物1</div></td>
+			  <td bgcolor="#EBE5FF"><div align="right">代保管物1</div></td>
 			  <td><input type="text" size="5" value="<%
 				itemTemp=""
 				strItem="select * from BillFastenerDetail where BillSN="&trim(request("BillSN"))
@@ -557,7 +557,7 @@ set rs1=conn.execute(strSql)
                 <input type="hidden" value="<%
 					response.write FVal1
 					%>" name="Fastener1Val"></td>
-			  <td bgcolor="#FFFFCC"><div align="right">代保管物2</div></td>
+			  <td bgcolor="#EBE5FF"><div align="right">代保管物2</div></td>
 			  <td>
                 <input type="text" size="5" value="<%
 				if ubound(ItemVal)>=1 then
@@ -582,7 +582,7 @@ set rs1=conn.execute(strSql)
                 </div>
                 <input type="hidden" value="<%=FVal2%>" name="Fastener2Val">
               </td>
-			  <td bgcolor="#FFFFCC"><div align="right">代保管物3</div></td>
+			  <td bgcolor="#EBE5FF"><div align="right">代保管物3</div></td>
 			  <td>
                 <input type="text" size="5" value="<%
 				if ubound(ItemVal)>=2 then
@@ -611,7 +611,7 @@ set rs1=conn.execute(strSql)
 	<%end if%>
 			<tr>
 		<%if sys_City="雲林縣" then%>
-				<td bgcolor="#FFFFCC" align="right">輔助車種</td>
+				<td bgcolor="#EBE5FF" align="right">輔助車種</td>
 				<td>
 				<input type="text" maxlength="2" size="2" value="<%
 				if trim(rs1("CarAddID"))<>"" and not isnull(rs1("CarAddID")) then
@@ -626,7 +626,7 @@ set rs1=conn.execute(strSql)
 				</div>
 				</td>
 		<%end if%>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規日期</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規日期</div></td>
 				<td>
 				<input type="text" size="10" value="<%
 				if trim(rs1("IllegalDate"))<>"" and not isnull(rs1("IllegalDate")) then
@@ -634,7 +634,7 @@ set rs1=conn.execute(strSql)
 				end if
 				%>" maxlength="6" name="IllegalDate" onfocus="this.select()" onBlur="getDealLineDate()" onkeydown="funTextControl(this);">
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規時間</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規時間</div></td>
 				<td <%if sys_City<>"雲林縣" then response.write "colspan=""3"""%>>
 				<input type="text" size="10" value="<%
 				if trim(rs1("IllegalDate"))<>"" and not isnull(rs1("IllegalDate")) then
@@ -658,7 +658,7 @@ set rs1=conn.execute(strSql)
 			</tr>
 <%if sys_City="南投縣" then%>
 			<tr>
-			  <td bgcolor="#FFFFCC"><div align="right">代保管物1</div></td>
+			  <td bgcolor="#EBE5FF"><div align="right">代保管物1</div></td>
 			  <td><input type="text" size="5" value="<%
 				itemTemp=""
 				strItem="select * from BillFastenerDetail where BillSN="&trim(request("BillSN"))
@@ -698,7 +698,7 @@ set rs1=conn.execute(strSql)
                 <input type="hidden" value="<%
 					response.write FVal1
 					%>" name="Fastener1Val"></td>
-			  <td bgcolor="#FFFFCC"><div align="right">代保管物2</div></td>
+			  <td bgcolor="#EBE5FF"><div align="right">代保管物2</div></td>
 			  <td>
                 <input type="text" size="5" value="<%
 				if ubound(ItemVal)>=1 then
@@ -723,7 +723,7 @@ set rs1=conn.execute(strSql)
                 </div>
                 <input type="hidden" value="<%=FVal2%>" name="Fastener2Val">
               </td>
-			  <td bgcolor="#FFFFCC"><div align="right">代保管物3</div></td>
+			  <td bgcolor="#EBE5FF"><div align="right">代保管物3</div></td>
 			  <td>
                 <input type="text" size="5" value="<%
 				if ubound(ItemVal)>=2 then
@@ -752,7 +752,7 @@ set rs1=conn.execute(strSql)
 <%end if%>
 <%if sys_City="嘉義市" then%>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right">限速、限重</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">限速、限重</div></td>
 				<td>
 					<input type="text" size="10" value="<%
 				if trim(rs1("RuleSpeed"))<>"" and not isnull(rs1("RuleSpeed")) then
@@ -763,7 +763,7 @@ set rs1=conn.execute(strSql)
 				end if
 				%>" name="RuleSpeed" onkeyup="RuleSpeedforLaw()" onkeydown="funTextControl(this);">
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style6">實際車速、車重</span></div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style6">實際車速、車重</span></div></td>
 				<td colspan='3'>
 					<input type="text" size="10" value="<%
 				if trim(rs1("IllegalSpeed"))<>"" and not isnull(rs1("IllegalSpeed")) then
@@ -780,7 +780,7 @@ set rs1=conn.execute(strSql)
 <%end if%>
 <%if sys_City<>"嘉義市" then %>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right">違規地點代碼</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">違規地點代碼</div></td>
 				<td >
 					<input type="text" size="8" value="<%
 				if trim(rs1("IllegalAddressID"))<>"" and not isnull(rs1("IllegalAddressID")) then
@@ -792,7 +792,7 @@ set rs1=conn.execute(strSql)
 				%>" name="IllegalAddressID" onkeyup="getillStreet();" onkeydown="funTextControl(this);" onblur="funGetSpeedRule()">
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Street.asp","WebPage_Illaddr","left=0,top=0,location=0,width=700,height=455,resizable=yes,scrollbars=yes")'>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規地點</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規地點</div></td>
 				<td colspan="3">
 					<input type="text" size="40" value="<%
 				if trim(rs1("IllegalAddress"))<>"" and not isnull(rs1("IllegalAddress")) then
@@ -820,7 +820,7 @@ set rs1=conn.execute(strSql)
 <%end if%>
 <%if sys_City="彰化縣" or sys_City="雲林縣" or sys_City="嘉義縣" or sys_City="宜蘭縣" or sys_City="台東縣" or sys_City="高雄縣" or sys_City="台南縣" or sys_City="台南市" then%>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right">限速、限重</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">限速、限重</div></td>
 				<td>
 					<input type="text" size="10" value="<%
 				if trim(rs1("RuleSpeed"))<>"" and not isnull(rs1("RuleSpeed")) then
@@ -831,7 +831,7 @@ set rs1=conn.execute(strSql)
 				end if
 				%>" name="RuleSpeed" onkeyup="RuleSpeedforLaw()" onkeydown="funTextControl(this);">
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style6">實際車速、車重</span></div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style6">實際車速、車重</span></div></td>
 				<td colspan='3'>
 					<input type="text" size="10" value="<%
 				if trim(rs1("IllegalSpeed"))<>"" and not isnull(rs1("IllegalSpeed")) then
@@ -847,7 +847,7 @@ set rs1=conn.execute(strSql)
 			</tr>
 <%end if%>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規法條一</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規法條一</div></td>
 				<td colspan="5">
 					<input type="text" maxlength="8" size="10" value="<%
 				if trim(rs1("Rule1"))<>"" and not isnull(rs1("Rule1")) then
@@ -893,7 +893,7 @@ set rs1=conn.execute(strSql)
 				
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right">違規法條二</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">違規法條二</div></td>
 				<td colspan="5">
 					<input type="text" maxlength="8" size="10" value="<%
 				if trim(rs1("Rule2"))<>"" and not isnull(rs1("Rule2")) then
@@ -940,7 +940,7 @@ set rs1=conn.execute(strSql)
 			</tr>
 <%if trim(rs1("Rule3"))<>"" and not isnull(rs1("Rule3")) then%>
 			<tr>
-				<td bgcolor="#FFFFCC" id="TDLaw1" align="right"><div align="right">違規法條三</div></td>
+				<td bgcolor="#EBE5FF" id="TDLaw1" align="right"><div align="right">違規法條三</div></td>
 				<td colspan="5" id="TDLaw2">
 					<input type="text" maxlength="8" size="10" value="<%
 				if trim(rs1("Rule3"))<>"" and not isnull(rs1("Rule3")) then
@@ -987,13 +987,13 @@ set rs1=conn.execute(strSql)
 			</tr>
 <%else%>
 			<tr>
-				<td bgcolor="#FFFFCC" id="TDLaw1" align="right"></td>
+				<td bgcolor="#EBE5FF" id="TDLaw1" align="right"></td>
 				<td colspan="5" id="TDLaw2"></td>
 			</tr>
 <%end if%>
 <%if trim(rs1("Rule4"))<>"" and not isnull(rs1("Rule4")) then%>
 			<tr>
-				<td bgcolor="#FFFFCC" id="TDLaw3" align="right"><div align="right">違規法條四</div></td>
+				<td bgcolor="#EBE5FF" id="TDLaw3" align="right"><div align="right">違規法條四</div></td>
 				<td colspan="5" id="TDLaw4">
 					<input type="text" maxlength="8" size="10" value="<%
 				if trim(rs1("Rule4"))<>"" and not isnull(rs1("Rule4")) then
@@ -1036,13 +1036,13 @@ set rs1=conn.execute(strSql)
 			</tr>
 <%else%>
 			<tr>
-				<td bgcolor="#FFFFCC" id="TDLaw3" align="right"></td>
+				<td bgcolor="#EBE5FF" id="TDLaw3" align="right"></td>
 				<td colspan="5" id="TDLaw4"></td>
 			</tr>
 <%end if%>
 <%if sys_City="嘉義市" then %>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right">違規地點代碼</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">違規地點代碼</div></td>
 				<td >
 					<input type="text" size="8" value="<%
 				if trim(rs1("IllegalAddressID"))<>"" and not isnull(rs1("IllegalAddressID")) then
@@ -1054,7 +1054,7 @@ set rs1=conn.execute(strSql)
 				%>" name="IllegalAddressID" onkeyup="getillStreet();" onkeydown="funTextControl(this);" onblur="funGetSpeedRule()">
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Street.asp","WebPage_Illaddr","left=0,top=0,location=0,width=700,height=455,resizable=yes,scrollbars=yes")'>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規地點</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規地點</div></td>
 				<td colspan="3">
 					<input type="text" size="40" value="<%
 				if trim(rs1("IllegalAddress"))<>"" and not isnull(rs1("IllegalAddress")) then
@@ -1082,7 +1082,7 @@ set rs1=conn.execute(strSql)
 <%end if%>
 <%if sys_City<>"彰化縣" and sys_City<>"雲林縣" and sys_City<>"嘉義縣" and sys_City<>"宜蘭縣" and sys_City<>"台東縣" and sys_City<>"高雄縣" and sys_City<>"台南縣" and sys_City<>"台南市" and sys_City<>"嘉義市" then%>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right">限速、限重</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">限速、限重</div></td>
 				<td>
 					<input type="text" size="10" value="<%
 				if trim(rs1("RuleSpeed"))<>"" and not isnull(rs1("RuleSpeed")) then
@@ -1093,7 +1093,7 @@ set rs1=conn.execute(strSql)
 				end if
 				%>" name="RuleSpeed" onkeyup="RuleSpeedforLaw()" onkeydown="funTextControl(this);">
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style6">實際車速、車重</span></div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style6">實際車速、車重</span></div></td>
 				<td colspan='3'>
 					<input type="text" size="10" value="<%
 				if trim(rs1("IllegalSpeed"))<>"" and not isnull(rs1("IllegalSpeed")) then
@@ -1109,7 +1109,7 @@ set rs1=conn.execute(strSql)
 			</tr>
 <%end if%>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>應到案日期</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>應到案日期</div></td>
 				<td>
 					<input type="text" size="10" value="<%
 				if trim(rs1("DealLineDate"))<>"" and not isnull(rs1("DealLineDate")) then
@@ -1122,7 +1122,7 @@ set rs1=conn.execute(strSql)
 				</td>
 
 
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>應到案處所</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>應到案處所</div></td>
 				<td>
 					<input type="text" size="5" value="<%
 				if trim(rs1("MemberStation"))<>"" and not isnull(rs1("MemberStation")) then
@@ -1147,7 +1147,7 @@ set rs1=conn.execute(strSql)
 				%></div>
 					</span>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>舉發人代碼1</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>舉發人代碼1</div></td>
 		  		<td>
 					<input type="text" size="5" value="<%
 				if trim(rs1("BillMemID1"))<>"" and not isnull(rs1("BillMemID1")) then
@@ -1183,7 +1183,7 @@ set rs1=conn.execute(strSql)
 			</tr>
 			<tr>
 				
-				<td bgcolor="#FFFFCC" width="12%"><div align="right">舉發人代碼2</div></td>
+				<td bgcolor="#EBE5FF" width="12%"><div align="right">舉發人代碼2</div></td>
 				<td width="24%">
 					<input type="text" size="5" value="<%
 				if trim(rs1("BillMemID2"))<>"" and not isnull(rs1("BillMemID2")) then
@@ -1216,7 +1216,7 @@ set rs1=conn.execute(strSql)
 				end if
 				%>" name="BillMemName2">
 				</td>
-				<td bgcolor="#FFFFCC" width="12%"><div align="right">舉發人代碼3</div></td>
+				<td bgcolor="#EBE5FF" width="12%"><div align="right">舉發人代碼3</div></td>
 				<td width="22%">
 					<input type="text" size="5" value="<%
 				if trim(rs1("BillMemID3"))<>"" and not isnull(rs1("BillMemID3")) then
@@ -1249,7 +1249,7 @@ set rs1=conn.execute(strSql)
 				end if
 				%>" name="BillMemName3">
 				</td>
-				<td bgcolor="#FFFFCC" width="12%"><div align="right">舉發人代碼4</div></td>
+				<td bgcolor="#EBE5FF" width="12%"><div align="right">舉發人代碼4</div></td>
 				<td width="18%">
 					<input type="text" size="5" value="<%
 				if trim(rs1("BillMemID4"))<>"" and not isnull(rs1("BillMemID4")) then
@@ -1285,7 +1285,7 @@ set rs1=conn.execute(strSql)
 			</tr>
 <%if sys_City<>"南投縣" and sys_City<>"高雄市" then%>
 			<tr>
-			  <td bgcolor="#FFFFCC"><div align="right">代保管物1</div></td>
+			  <td bgcolor="#EBE5FF"><div align="right">代保管物1</div></td>
 			  <td><input type="text" size="5" value="<%
 				itemTemp=""
 				strItem="select * from BillFastenerDetail where BillSN="&trim(request("BillSN"))
@@ -1325,7 +1325,7 @@ set rs1=conn.execute(strSql)
                 <input type="hidden" value="<%
 					response.write FVal1
 					%>" name="Fastener1Val"></td>
-			  <td bgcolor="#FFFFCC"><div align="right">代保管物2</div></td>
+			  <td bgcolor="#EBE5FF"><div align="right">代保管物2</div></td>
 			  <td>
                 <input type="text" size="5" value="<%
 				if ubound(ItemVal)>=1 then
@@ -1350,7 +1350,7 @@ set rs1=conn.execute(strSql)
                 </div>
                 <input type="hidden" value="<%=FVal2%>" name="Fastener2Val">
               </td>
-			  <td bgcolor="#FFFFCC"><div align="right">代保管物3</div></td>
+			  <td bgcolor="#EBE5FF"><div align="right">代保管物3</div></td>
 			  <td>
                 <input type="text" size="5" value="<%
 				if ubound(ItemVal)>=2 then
@@ -1379,7 +1379,7 @@ set rs1=conn.execute(strSql)
 <%end if%>
 			<tr>
 
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>舉發單位</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>舉發單位</div></td>
 				<td>
 					<input type="text" size="5" value="<%
 				if trim(rs1("BillUnitID"))<>"" and not isnull(rs1("BillUnitID")) then
@@ -1404,7 +1404,7 @@ set rs1=conn.execute(strSql)
 					%></div>
 					</span>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>簽收狀況</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>簽收狀況</div></td>
 				<td <%
 		if sys_City="嘉義縣" or sys_City="宜蘭縣" or sys_City="台東縣" or sys_City="高雄縣" or sys_City="台南縣" or sys_City="台南市" or sys_City="嘉義市" then 
 				response.write "colspan=""3"""
@@ -1438,7 +1438,7 @@ set rs1=conn.execute(strSql)
 					</div>
 				</td>	
 			<%if sys_City<>"嘉義縣" and sys_City<>"宜蘭縣" and sys_City<>"台東縣" and sys_City<>"高雄縣" and sys_City<>"台南縣" and sys_City<>"台南市" and sys_City<>"嘉義市" then%>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>填單日期</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>填單日期</div></td>
 				<td>
 					<input type="text" size="5" value="<%
 				if trim(rs1("BillFillDate"))<>"" and not isnull(rs1("BillFillDate")) then
@@ -1450,7 +1450,7 @@ set rs1=conn.execute(strSql)
 			</tr>
 			<tr>
 		<%if sys_City<>"雲林縣" then%>
-				<td bgcolor="#FFFFCC" align="right">輔助車種</td>
+				<td bgcolor="#EBE5FF" align="right">輔助車種</td>
 				<td>
 				<input type="text" maxlength="2" size="2" value="<%
 				if trim(rs1("CarAddID"))<>"" and not isnull(rs1("CarAddID")) then
@@ -1465,7 +1465,7 @@ set rs1=conn.execute(strSql)
 				</div>
 				</td>
 		<%end if%>
-				<td bgcolor="#FFFFCC"><div align="right">是否郵寄</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">是否郵寄</div></td>
 				<td>
 					<input type="radio" name="IsMail" value="1" <%
 					if trim(rs1("EquipMentID"))<>"" and not isnull(rs1("EquipMentID")) then
@@ -1489,7 +1489,7 @@ set rs1=conn.execute(strSql)
 					end if
 					%>>否
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right">專案代碼</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">專案代碼</div></td>
 				<td <%if sys_City="雲林縣" then response.write "colspan=""3"""%>><input type="text" size="5" value="<%
 				if trim(rs1("ProjectID"))<>"" and not isnull(rs1("ProjectID")) then
 					response.write trim(rs1("ProjectID"))
@@ -1516,7 +1516,7 @@ set rs1=conn.execute(strSql)
 				
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right">備註</td>
+				<td bgcolor="#EBE5FF" align="right">備註</td>
 				<td>
 					<input type="text" size="20" value="<%
 				if trim(rs1("Note"))<>"" and not isnull(rs1("Note")) then
@@ -1527,7 +1527,7 @@ set rs1=conn.execute(strSql)
 				end if
 				%>" name="Note" onkeydown="funTextControl(this);">
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right">交通事故案號</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">交通事故案號</div></td>
 				<td>
 					<input type="text" size="16" name="TrafficAccidentNo" Value="<%
 				if trim(rs1("TrafficAccidentNo"))<>"" and not isnull(rs1("TrafficAccidentNo")) then
@@ -1538,7 +1538,7 @@ set rs1=conn.execute(strSql)
 				end if
 				%>" onkeydown="funTextControl(this);">
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right">交通事故種類</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">交通事故種類</div></td>
 				<td>
 					<input type="text" maxlength="1" size="5" name="TrafficAccidentType" Value="<%
 				if trim(rs1("TrafficAccidentType"))<>"" and not isnull(rs1("TrafficAccidentType")) then
@@ -1552,7 +1552,7 @@ set rs1=conn.execute(strSql)
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFDD77" align="center" colspan="6">
+				<td bgcolor="#1BF5FF" align="center" colspan="6">
 					<input type="button" value="儲 存 <%
 					if sys_City="台東縣" then
 						response.write "F9"

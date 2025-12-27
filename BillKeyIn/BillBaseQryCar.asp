@@ -175,7 +175,7 @@ end if
 <form name="myForm" method="post">
 <table width="100%" border="0">
 	<tr>
-		<td bgcolor="#FFCC33">舉發單車籍查詢</td>
+		<td bgcolor="#1BF5FF">舉發單車籍查詢</td>
 	</tr>
 	<tr>
 		<td bgcolor="#CCCCCC">
@@ -279,7 +279,7 @@ end if
 		</td>
 	</tr>
 	<tr>
-		<td bgcolor="#FFCC33" class="style3">
+		<td bgcolor="#1BF5FF" class="style3">
 			舉發單紀錄列表
 			<img src="space.gif" width="56" height="8">
 			每頁 
@@ -391,7 +391,7 @@ end if
 		</td>
 	</tr>
 	<tr>
-		<td height="35" bgcolor="#FFDD77" align="center">
+		<td height="35" bgcolor="#1BF5FF" align="center">
 			<a href="file:///.."></a>
 			<a href="file:///......"></a>
 			<input type="button" name="MoveUp" value="上一頁" onclick="funDbMove(-10);">

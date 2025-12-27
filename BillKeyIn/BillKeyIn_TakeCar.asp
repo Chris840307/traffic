@@ -319,11 +319,11 @@ set rsCnt1=nothing
 
 	<form name="myForm" method="post">  
 		<table width='1000' border='1' align="left" cellpadding="1">
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td colspan="6"><strong>拖吊資料建檔作業</strong>&nbsp; &nbsp; 日期格式：951220 &nbsp;時間格式：2300(24小時制)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 建檔日期：<%=ginitdt(now)%>&nbsp; &nbsp; <input type="checkbox" name="CaseInByMem" value="1">逾違規日期超過三個月強制建檔</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" ><div align="right"><span class="style4">＊</span>單號</div></td>
+				<td bgcolor="#EBE5FF" ><div align="right"><span class="style4">＊</span>單號</div></td>
 				<td colspan=5>
 				<input name="Billno1" type="text" value="<%=theBillno%>" size="3" maxlength="9" onkeyup="GetBillNo();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 				<input name="Billno2" type="text" value="" size="10" maxlength="9" onkeydown="funTextControl(this);" onkeyup="GetBillNo2();" style=ime-mode:disabled>
@@ -331,7 +331,7 @@ set rsCnt1=nothing
 			</tr>
 			
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規車號</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規車號</div></td>
 				<td>
 				<input type="text" size="10" name="CarNo" onBlur="getVIPCar();" onkeydown="funTextControl(this);" style=ime-mode:disabled maxlength="8">
 			    <div id="Layer7" style="position:absolute; width:100px; height:24px; z-index:0; border: 1px none #000000; color: #FF0000;"><span class="style8"></span>
@@ -340,7 +340,7 @@ set rsCnt1=nothing
 				</div>
 				
 				</td>
-				<td bgcolor="#FFFFCC" ><div align="right"><span class="style4">＊</span>簡式車種</div></td>
+				<td bgcolor="#EBE5FF" ><div align="right"><span class="style4">＊</span>簡式車種</div></td>
 				<td colspan="3">
 				<input type="text" maxlength="1" size="3" value="<%=trim(request("CarSimpleID"))%>" name="CarSimpleID" onBlur="getRuleAll();" onfocus="this.select();" onkeydown="funTextControl(this);" onkeyup="GetCarSimpleID();" style=ime-mode:disabled>
 				<div id="Layer111" style="position:absolute; width:275px; height:24px; z-index:0; background-color: #FFFFFF; layer-background-color: #11FFFF; border: 1px none #000000; color: #FF0000;">
@@ -357,7 +357,7 @@ set rsCnt1=nothing
 				</td>
 		    </tr>
 <tr>
-				<td bgcolor="#FFFFCC"><div align="right">違規人證號</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">違規人證號</div></td>
 				<td>
 				<input type="text" size="10" <%
 			response.write "maxlength='10'"
@@ -365,20 +365,20 @@ set rsCnt1=nothing
 				<div id="Layer1127" style="position:absolute; width:100px; height:24px; z-index:0; layer-background-color: #FFFFFF; border: 1px none #000000; color: #FF0000;">
 				</div>
 				</td>
-				<td bgcolor="#FFFFCC" align="right">違規人出生日</td>
+				<td bgcolor="#EBE5FF" align="right">違規人出生日</td>
 				<td <%
 				response.write "colspan=""3"""
 				%>><input type="text" size="10" maxlength="6" name="DriverBrith" onBlur="focusToDriverPID()" onkeydown="funTextControl(this);" style=ime-mode:disabled></td>
 			</tr>
 			<tr>
 
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規日期</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規日期</div></td>
 				<td>
 				<input type="text" size="10" maxlength="6" value="<%
 				response.write trim(request("IllegalDate"))
 				%>" name="IllegalDate" onfocus="this.select()" onBlur="getDealLineDate()" onkeydown="funTextControl(this);" onkeyup="GetIllegalDate();" style=ime-mode:disabled>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規時間</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規時間</div></td>
 				<td colspan="3">
 				<input type="text" size="10" maxlength="4" value="<%
 				response.write trim(request("IllegalTime"))
@@ -386,20 +386,20 @@ set rsCnt1=nothing
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right">違規地點代碼</div></td>
+				<td bgcolor="#EBE5FF"><div align="right">違規地點代碼</div></td>
 				<td>
 					<input type="text" size="10" value="<%=request("IllegalAddressID")%>" name="IllegalAddressID" onKeyUp="getillStreet();" onkeydown="funTextControl(this);" style=ime-mode:disabled onblur="getillStreet2();" onfocus="this.select()">
 					<input type="hidden" name="OldIllegalAddressID" value="<%=request("IllegalAddressID")%>">
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Street.asp","WebPage3","left=0,top=0,location=0,width=700,height=455,resizable=yes,scrollbars=yes")'>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規地點</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規地點</div></td>
 				<td colspan="3">
 					<input type="text" size="44" value="<%=trim(request("IllegalAddress"))%>" name="IllegalAddress" style=ime-mode:active onkeyup="AutoGetIllStreet();" onkeydown="funTextControl(this);" onblur="funGetSpeedRule()" onfocus="this.select()" >
 					<input type="hidden" name="chkHighRoad" value="1">
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" ><div align="right"><span class="style4">＊</span>違規法條一</div></td>
+				<td bgcolor="#EBE5FF" ><div align="right"><span class="style4">＊</span>違規法條一</div></td>
 				<td>
 					<input type="text" maxlength="8" size="10" value="<%
 				response.write trim(request("Rule1"))
@@ -407,7 +407,7 @@ set rsCnt1=nothing
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Law.asp?LawOrder=1&RuleVer=<%
 						response.write theRuleVer
 					%>","WebPage1","left=0,top=0,location=0,width=850,height=555,resizable=yes,scrollbars=yes")'alt="查詢法條">
-					</td><td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>違規金額</div></td><td colspan=3>
+					</td><td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>違規金額</div></td><td colspan=3>
 					<input type="text" name="ForFeit1" size="10" maxlength="8" value="<%
 						response.write request("ForFeit1")
 					%>"  onkeydown="funTextControl(this);" onBlur="value=value.replace(/[^\d]/g,'')" style=ime-mode:disabled>
@@ -427,7 +427,7 @@ set rsCnt1=nothing
 				</td>
 			</tr>
 <tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>舉發人代碼1</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>舉發人代碼1</div></td>
 		  		<td>
 					<input type="text" size="5" name="BillMem1" onkeyup="getBillMemID1();" onkeydown="funTextControl(this);" style=ime-mode:disabled value="<%
 					response.write trim(request("BillMem1"))
@@ -454,11 +454,11 @@ set rsCnt1=nothing
 					response.write trim(request("BillUnitTypeID1"))
 					%>" name="BillUnitTypeID1">
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>應到案日期</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>應到案日期</div></td>
 				<td>
 					<input type="text" size="10" maxlength="6" name="DealLineDate" value="<%=trim(request("DealLineDate"))%>" onBlur="value=value.replace(/[^\d]/g,'')" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 				</td>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>應到案處所</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>應到案處所</div></td>
 				<td>
 					<input type="text" size="5" value="32" name="MemberStation" onkeyup="getStation();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Station.asp","WebPage1","left=0,top=0,location=0,width=760,height=575,resizable=yes,scrollbars=yes")'>
@@ -478,7 +478,7 @@ set rsCnt1=nothing
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC"><div align="right"><span class="style4">＊</span>舉發單位</div></td>
+				<td bgcolor="#EBE5FF"><div align="right"><span class="style4">＊</span>舉發單位</div></td>
 				<td colspan=5>
 					<input type="text" size="5" name="BillUnitID" onkeyup="getUnit();" onkeydown="funTextControl(this);" style=ime-mode:disabled value="<%=trim(request("BillUnitID"))%>">
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Unit.asp?SType=U","WebPage2","left=0,top=0,location=0,width=700,height=575,resizable=yes,scrollbars=yes")'>
@@ -530,7 +530,7 @@ set rsCnt1=nothing
 					<input type="hidden" maxlength="1" size="5" name="TrafficAccidentType" Value="">
 <!----------------------------------------------------------------------------------------------------------------------->
 			<tr>
-				<td bgcolor="#FFDD77" align="center" colspan="6">
+				<td bgcolor="#1BF5FF" align="center" colspan="6">
 					<input type="button" value="儲 存 <%
 						response.write "F2"
 					%>" onclick="InsertBillVase();" <%

@@ -10,14 +10,14 @@
 <!--#include virtual="/traffic/Common/CssForCaseIn.txt"-->
 <!--#include virtual="/traffic/Common/db.ini"-->
 <!-- #include file="../Common/AllFunction.inc"-->
-<title>Á|µo³æ§å¦¸­×§ï</title>
+<title>ï¿½|ï¿½oï¿½ï¿½å¦¸ï¿½×§ï¿½</title>
 <script type="text/javascript" src="../js/date.js"></script>
 <script type="text/javascript" src="../js/form.js"></script>
 <%
-'ÀË¬d¬O§_¥i¶i¤J¥»¨t²Î
+'ï¿½Ë¬dï¿½Oï¿½_ï¿½iï¿½iï¿½Jï¿½ï¿½ï¿½tï¿½ï¿½
 'AuthorityCheck(223)
 '==========cookie==========
-'¶ñ³æ¤H¥N½X
+'ï¿½ï¿½ï¿½Hï¿½Nï¿½X
 theRecordMemberID=trim(Session("User_ID"))
 '=========fucntion=========
 function DateFormatChange(changeDate)
@@ -27,14 +27,14 @@ function DateFormatChange(changeDate)
 end function
 
 '==========================
-'­×§ï§iµo³æ
+'ï¿½×§ï¿½iï¿½oï¿½ï¿½
 strwhere=Session("PrintCarDataSQL")	
 'response.write strwhere
 if trim(request("kinds"))="DB_insert" then
 
 	strUpd=""
 
-	'¶ñ³æ¤é´Á
+	'ï¿½ï¿½ï¿½ï¿½ï¿½
 	if trim(request("BillFillDate"))<>"" then
 		theBillFillDate=DateFormatChange(trim(request("BillFillDate")))
 		if strUpd<>"" then
@@ -43,7 +43,7 @@ if trim(request("kinds"))="DB_insert" then
 			strUpd="BillFillDate="&theBillFillDate
 		end if
 	end if
-	'À³¨ì®×¤é´Á
+	'ï¿½ï¿½ï¿½ï¿½×¤ï¿½ï¿½
 	if trim(request("DealLineDate"))<>"" then
 		theDealLineDate=DateFormatChange(trim(request("DealLineDate")))
 		if strUpd<>"" then
@@ -52,7 +52,7 @@ if trim(request("kinds"))="DB_insert" then
 			strUpd="DealLineDate="&theBillFillDate
 		end if
 	end if
-	'­­³t
+	'ï¿½ï¿½ï¿½t
 	if trim(request("RuleSpeed"))<>"" then
 		if strUpd<>"" then
 			strUpd=strUpd&",RuleSpeed='"&trim(request("RuleSpeed"))&"'"
@@ -60,7 +60,7 @@ if trim(request("kinds"))="DB_insert" then
 			strUpd="RuleSpeed='"&trim(request("RuleSpeed"))&"'"
 		end if
 	end if
-	'¹H³W¦aÂI¥N½X
+	'ï¿½Hï¿½Wï¿½aï¿½Iï¿½Nï¿½X
 	if trim(request("IllegalAddressID"))<>"" then
 		if strUpd<>"" then
 			strUpd=strUpd&",IllegalAddressID='"&trim(request("IllegalAddressID"))&"'"
@@ -68,7 +68,7 @@ if trim(request("kinds"))="DB_insert" then
 			strUpd="IllegalAddressID='"&trim(request("IllegalAddressID"))&"'"
 		end if
 	end if
-	'¹H³W¦aÂI
+	'ï¿½Hï¿½Wï¿½aï¿½I
 	if trim(request("IllegalAddress"))<>"" then
 		if strUpd<>"" then
 			strUpd=strUpd&",IllegalAddress='"&trim(request("IllegalAddress"))&"'"
@@ -76,7 +76,7 @@ if trim(request("kinds"))="DB_insert" then
 			strUpd="IllegalAddress='"&trim(request("IllegalAddress"))&"'"
 		end if
 	end if
-	'Á|µo¤H
+	'ï¿½|ï¿½oï¿½H
 	if trim(request("BillMem1"))<>"" then
 		if strUpd<>"" then
 			strUpd=strUpd&",BillMemID1='"&trim(request("BillMemID1"))&"',BillMem1='"&trim(request("BillMemName1"))&"'" &_
@@ -90,7 +90,7 @@ if trim(request("kinds"))="DB_insert" then
 				",BillMemID4='"&trim(request("BillMemID4"))&"',BillMem4='"&trim(request("BillMemName4"))&"'"
 		end if
 	end if
-	'Á|µo³æ¦ì
+	'ï¿½|ï¿½oï¿½ï¿½ï¿½
 	if trim(request("BillUnitID"))<>"" then
 		if strUpd<>"" then
 			strUpd=strUpd&",BillUnitID='"&trim(request("BillUnitID"))&"'"
@@ -103,7 +103,7 @@ if trim(request("kinds"))="DB_insert" then
 	set rsLoop=conn.execute(strLoop)
 	If Not rsLoop.Bof Then rsLoop.MoveFirst 
 	While Not rsLoop.Eof
-		'¹H³W¤é´Á
+		'ï¿½Hï¿½Wï¿½ï¿½ï¿½
 		if trim(request("IllegalDate"))<>"" then
 			if strUpd<>"" then
 				theIllegalDate=funGetDate(gOutDT(request("IllegalDate") ) &" "&hour(rsLoop("IllegalDate"))&":"&minute(rsLoop("IllegalDate")),1)
@@ -122,7 +122,7 @@ if trim(request("kinds"))="DB_insert" then
 	set rsLoop=nothing
 %>
 <script language="JavaScript">
-	alert("¸ê®Æ­×§ï§¹¦¨");
+	alert("ï¿½ï¿½Æ­×§ï§¹ï¿½ï¿½");
 	opener.myForm.submit();
 	window.close();
 </script>
@@ -136,36 +136,36 @@ end if
 
 	<form name="myForm" method="post">
 		<table width='800' border='1' align="center" cellpadding="1">
-			<tr bgcolor="#FFCC33">
-				<td colspan="4" align="left">Á|µo³æ§å¦¸­×§ï</td>
+			<tr bgcolor="#1BF5FF">
+				<td colspan="4" align="left">ï¿½|ï¿½oï¿½ï¿½å¦¸ï¿½×§ï¿½</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right" width="15%">¹H³W¤é´Á</td>
+				<td bgcolor="#EBE5FF" align="right" width="15%">ï¿½Hï¿½Wï¿½ï¿½ï¿½</td>
 				<td align="left" width="25%">
 				<input type="text" size="10" maxlength="6" value="" name="IllegalDate" onfocus="this.select()" onkeydown="funTextControl(this);" style=ime-mode:disabled onblur="getDealLineDate()">
 				</td>
-				<td bgcolor="#FFFFCC" align="right" width="15%">¶ñ³æ¤é´Á</td>
+				<td bgcolor="#EBE5FF" align="right" width="15%">ï¿½ï¿½ï¿½ï¿½ï¿½</td>
 				<td align="left" width="45%">
 				<input type="text" size="10" value="" maxlength="6" name="BillFillDate" onBlur="getDealLineDate_Stop();" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right">À³¨ì®×¤é´Á</td>
+				<td bgcolor="#EBE5FF" align="right">ï¿½ï¿½ï¿½ï¿½×¤ï¿½ï¿½</td>
 				<td align="left">
 				<input type="text" size="10" maxlength="6" name="DealLineDate" value="" onBlur="value=value.replace(/[^\d]/g,'')" onkeydown="funTextControl(this);" style=ime-mode:disabled>
 				</td>
-				<td bgcolor="#FFFFCC" align="right">­­³t</td>
+				<td bgcolor="#EBE5FF" align="right">ï¿½ï¿½ï¿½t</td>
 				<td align="left">
 				<input type="text" size="10" name="RuleSpeed" onBlur="RuleSpeedforLaw()" onkeydown="funTextControl(this);" style=ime-mode:disabled  value="">
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right">¹H³W¦aÂI¥N½X</td>
+				<td bgcolor="#EBE5FF" align="right">ï¿½Hï¿½Wï¿½aï¿½Iï¿½Nï¿½X</td>
 				<td align="left">
 				<input type="text" size="10" value="" name="IllegalAddressID" onKeyUp="getillStreet();" onkeydown="funTextControl(this);" style=ime-mode:disabled onblur="getillStreet2();">
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Street.asp","WebPage3","left=0,top=0,location=0,width=700,height=455,resizable=yes,scrollbars=yes")'>
 				</td>
-				<td bgcolor="#FFFFCC" align="right">¹H³W¦aÂI</td>
+				<td bgcolor="#EBE5FF" align="right">ï¿½Hï¿½Wï¿½aï¿½I</td>
 				<td align="left">
 				<input type="text" size="34" value="" name="IllegalAddress" style=ime-mode:active onkeyup="AutoGetIllStreet();" onkeydown="funTextControl(this);">
 				</td>
@@ -177,7 +177,7 @@ end if
 				<td align="left"></td>
 			<tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right">Á|µo¤H¥N½X1</td>
+				<td bgcolor="#EBE5FF" align="right">ï¿½|ï¿½oï¿½Hï¿½Nï¿½X1</td>
 				<td align="left">
 				<input type="text" size="5" name="BillMem1" onkeyup="getBillMemID1();" onkeydown="funTextControl(this);" style=ime-mode:disabled value="">
 				<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_MemID.asp?MemOrder=1","WebPage1","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
@@ -185,7 +185,7 @@ end if
 					<input type="hidden" value="" name="BillMemID1">
 					<input type="hidden" value="" name="BillMemName1">
 				</td>
-				<td bgcolor="#FFFFCC" align="right">Á|µo¤H¥N½X2</td>
+				<td bgcolor="#EBE5FF" align="right">ï¿½|ï¿½oï¿½Hï¿½Nï¿½X2</td>
 				<td align="left">
 					<input type="text" size="5" name="BillMem2" onkeyup="getBillMemID2();" onkeydown="funTextControl(this);" style=ime-mode:disabled value="">
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_MemID.asp?MemOrder=2","WebPage1","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
@@ -195,7 +195,7 @@ end if
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right">Á|µo¤H¥N½X3</td>
+				<td bgcolor="#EBE5FF" align="right">ï¿½|ï¿½oï¿½Hï¿½Nï¿½X3</td>
 				<td align="left">
 					<input type="text" size="5" name="BillMem3" onkeyup="getBillMemID3();" onkeydown="funTextControl(this);" style=ime-mode:disabled value="">
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_MemID.asp?MemOrder=3","WebPage1","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
@@ -203,7 +203,7 @@ end if
 					<input type="hidden" value="" name="BillMemID3">
 					<input type="hidden" value="" name="BillMemName3">
 				</td>
-				<td bgcolor="#FFFFCC" align="right">Á|µo¤H¥N½X4</td>
+				<td bgcolor="#EBE5FF" align="right">ï¿½|ï¿½oï¿½Hï¿½Nï¿½X4</td>
 				<td align="left">
 					<input type="text" size="5" name="BillMem4" onkeyup="getBillMemID4();" onkeydown="funTextControl(this);" style=ime-mode:disabled value="">
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_MemID.asp?MemOrder=4","WebPage1","left=0,top=0,location=0,width=700,height=555,resizable=yes,scrollbars=yes")'>
@@ -219,7 +219,7 @@ end if
 				<td align="left"></td>
 			<tr>
 			<tr>
-				<td bgcolor="#FFFFCC" align="right">Á|µo³æ¦ì</td>
+				<td bgcolor="#EBE5FF" align="right">ï¿½|ï¿½oï¿½ï¿½ï¿½</td>
 				<td align="left" colspan="3">
 					<input type="text" size="5" name="BillUnitID" onkeyup="getUnit();" onkeydown="funTextControl(this);" style=ime-mode:disabled value="">
 					<img src="../Image/BillkeyInButton.jpg" width="25" height="23" onclick='window.open("Query_Unit.asp?SType=U","WebPage2","left=0,top=0,location=0,width=700,height=575,resizable=yes,scrollbars=yes")'>
@@ -229,14 +229,14 @@ end if
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFDD77" align="center" colspan="4">
-				<input type="button" name="btn1" value="¾ã§å­×§ï" onclick="InsertBillVase()">
-				<input type="button" name="btn2" value="Â÷¶}" onclick="window.close()">
+				<td bgcolor="#1BF5FF" align="center" colspan="4">
+				<input type="button" name="btn1" value="ï¿½ï¿½ï¿½×§ï¿½" onclick="InsertBillVase()">
+				<input type="button" name="btn2" value="ï¿½ï¿½ï¿½}" onclick="window.close()">
 				</td>
 			</tr>
 		</table>
 		<br>
-		<center><font size="5" color="red">¦¹§@·~·|§â¥Ø«e©Ò¿ï¾Üªº®×¥ó¸ê®Æ<b>¾ã§å­×§ï</b>¬°¤W­zÄæ¦ì¸ê®Æ </font></center>
+		<center><font size="5" color="red">ï¿½ï¿½ï¿½@ï¿½~ï¿½|ï¿½ï¿½Ø«eï¿½Ò¿ï¿½Üªï¿½ï¿½×¥ï¿½ï¿½ï¿½<b>ï¿½ï¿½ï¿½×§ï¿½</b>ï¿½ï¿½ï¿½Wï¿½zï¿½ï¿½ï¿½ï¿½ï¿½ </font></center>
 		<input type="hidden" value="" name="kinds">
 		
 	</form>
@@ -265,34 +265,34 @@ var TDProjectIDErrorLog=0;
 var TDVipCarErrorLog=0;
 var TodayDate=<%=ginitdt(date)%>;
 MoveTextVar("IllegalDate,BillFillDate||DealLineDate,RuleSpeed||IllegalAddressID,IllegalAddress||BillMem1,BillMem2||BillMem3,BillMem4||BillUnitID");
-//­×§ï§iµo³æ
+//ï¿½×§ï¿½iï¿½oï¿½ï¿½
 function InsertBillVase(){
 	var error=0;
 	var errorString="";
 	if (myForm.IllegalDate.value!=""){
 		if (!dateCheck( myForm.IllegalDate.value )){
 			error=error+1;
-			errorString=errorString+"\n"+error+"¡G¹H³W¤é´Á¿é¤J¿ù»~¡C";
+			errorString=errorString+"\n"+error+"ï¿½Gï¿½Hï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½~ï¿½C";
 		}
 	}
 	if (myForm.BillFillDate.value!=""){
 		if (!dateCheck( myForm.BillFillDate.value )){
 			error=error+1;
-			errorString=errorString+"\n"+error+"¡G¶ñ³æ¤é´Á¿é¤J¿ù»~¡C";
+			errorString=errorString+"\n"+error+"ï¿½Gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½~ï¿½C";
 		}
 	}
 	if (myForm.DealLineDate.value!=""){
 		if (!dateCheck( myForm.DealLineDate.value )){
 			error=error+1;
-			errorString=errorString+"\n"+error+"¡GÀ³¨ì®×¤é´Á¿é¤J¿ù»~¡C";
+			errorString=errorString+"\n"+error+"ï¿½Gï¿½ï¿½ï¿½ï¿½×¤ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½~ï¿½C";
 		}
 	}
 	if (myForm.IllegalDate.value=="" && myForm.BillFillDate.value=="" && myForm.DealLineDate.value=="" && myForm.RuleSpeed.value=="" && myForm.IllegalAddressID.value=="" && myForm.IllegalAddress.value=="" && myForm.BillMem1.value=="" && myForm.BillMem2.value=="" && myForm.BillMem3.value=="" && myForm.BillMem4.value=="" && myForm.BillUnitID.value==""){
 		error=error+1;
-		errorString=errorString+"\n"+error+"¡G½Ð¶ñ¤J¥ô¤@Äæ¦ì¡C";
+		errorString=errorString+"\n"+error+"ï¿½Gï¿½Ð¶ï¿½Jï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½C";
 	}
 	if (error==0){
-		if(confirm('¬O§_½T©w­n­×§ï¾ã§åÁ|µo³æ¦Cªí¤WªºÁ|µo³æ¸ê®Æ¡H')){
+		if(confirm('ï¿½Oï¿½_ï¿½Tï¿½wï¿½nï¿½×§ï¿½ï¿½ï¿½ï¿½|ï¿½oï¿½ï¿½Cï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½|ï¿½oï¿½ï¿½ï¿½Æ¡H')){
 			myForm.kinds.value="DB_insert";
 			myForm.submit();
 		}
@@ -303,7 +303,7 @@ function InsertBillVase(){
 
 function getDealLineDate(){
 	if(TodayDate < myForm.IllegalDate.value){
-		alert("¹H³W¤é´Á¤£±o¤j©ó¤µ¤Ñ!!");
+		alert("ï¿½Hï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½jï¿½ó¤µ¤ï¿½!!");
 		myForm.IllegalDate.select();
 	}
 	myForm.IllegalDate.value=myForm.IllegalDate.value.replace(/[^\d]/g,'');
@@ -315,9 +315,9 @@ function getDealLineDate_Stop(){
 function RuleSpeedforLaw(){
 	myForm.RuleSpeed.value=myForm.RuleSpeed.value.replace(/^[^\d]+|[^\d.]|,+$/g,'');
 }
-//¹H³W¦aÂI¥N½X(ajax)
+//ï¿½Hï¿½Wï¿½aï¿½Iï¿½Nï¿½X(ajax)
 function getillStreet(){
-<%if sys_City<>"°ò¶©¥«" and sys_City<>"¹ü¤Æ¿¤" then%>
+<%if sys_City<>"ï¿½ò¶©¥ï¿½" and sys_City<>"ï¿½ï¿½ï¿½Æ¿ï¿½" then%>
 		myForm.IllegalAddressID.value=myForm.IllegalAddressID.value.toUpperCase();
 <%end if%>
 	if (event.keyCode!=13){
@@ -332,7 +332,7 @@ function getillStreet(){
 		}
 	}
 }
-//¹H³W¦aÂI¥N½XOnBlur
+//ï¿½Hï¿½Wï¿½aï¿½Iï¿½Nï¿½XOnBlur
 function getillStreet2(){
 	if (myForm.IllegalAddress.value==""){
 		if (myForm.IllegalAddressID.value.length > 2){
@@ -341,14 +341,14 @@ function getillStreet2(){
 		}
 	}
 }
-function AutoGetIllStreet(){	//«öF5¥i¥Hª½±µÅã¥Ü¬ÛÃö¸ô¬q
+function AutoGetIllStreet(){	//ï¿½ï¿½F5ï¿½iï¿½Hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½q
 	if (event.keyCode==116){	
 		event.keyCode=0;
 		Ostreet=myForm.IllegalAddress.value;
 		window.open("Query_Street.asp?OStreet="+Ostreet,"WebPage_Street_People","left=0,top=0,location=0,width=800,height=660,resizable=yes,scrollbars=yes");
 	}
 }
-//Á|µo¤H¤@(ajax)
+//ï¿½|ï¿½oï¿½Hï¿½@(ajax)
 function getBillMemID1(){
 	if (event.keyCode==116){	
 		event.keyCode=0;
@@ -369,7 +369,7 @@ function getBillMemID1(){
 		TDMemErrorLog1=0;
 	}
 }
-//Á|µo¤H¤G(ajax)
+//ï¿½|ï¿½oï¿½Hï¿½G(ajax)
 function getBillMemID2(){
 	if (event.keyCode==116){	
 		event.keyCode=0;
@@ -390,7 +390,7 @@ function getBillMemID2(){
 		TDMemErrorLog2=0;
 	}
 }
-//Á|µo¤H¤T(ajax)
+//ï¿½|ï¿½oï¿½Hï¿½T(ajax)
 function getBillMemID3(){
 	if (event.keyCode==116){	
 		event.keyCode=0;
@@ -411,7 +411,7 @@ function getBillMemID3(){
 		TDMemErrorLog3=0;
 	}
 }
-//Á|µo¤H¥|(ajax)
+//ï¿½|ï¿½oï¿½Hï¿½|(ajax)
 function getBillMemID4(){
 	if (event.keyCode==116){	
 		event.keyCode=0;
@@ -432,7 +432,7 @@ function getBillMemID4(){
 		TDMemErrorLog4=0;
 	}
 }
-//Á|µo³æ¦ì(ajax)
+//ï¿½|ï¿½oï¿½ï¿½ï¿½(ajax)
 function getUnit(){
 	myForm.BillUnitID.value=myForm.BillUnitID.value.toUpperCase();
 	if (event.keyCode==116){	
@@ -449,24 +449,24 @@ function getUnit(){
 }
 
 function funTextControl(obj){
-	if (event.keyCode==13){ //Enter´«Äæ
+	if (event.keyCode==13){ //Enterï¿½ï¿½ï¿½ï¿½
 		event.keyCode=0;
 		event.returnValue=false;
 		CodeEnter(obj.name);
 	}	
-	/*if (event.keyCode==37){ //¥ª´«Äæ
+	/*if (event.keyCode==37){ //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		event.keyCode=0;
 		event.returnValue=false;
 		CodeMoveLeft(obj.name);
-	}*/else if (event.keyCode==38){ //¤W´«Äæ
+	}*/else if (event.keyCode==38){ //ï¿½Wï¿½ï¿½ï¿½ï¿½
 		event.keyCode=0;
 		event.returnValue=false;
 		CodeMoveLeft(obj.name);
-	}/*else if (event.keyCode==39){ //¥k´«Äæ
+	}/*else if (event.keyCode==39){ //ï¿½kï¿½ï¿½ï¿½ï¿½
 		event.keyCode=0;
 		event.returnValue=false;
 		CodeMoveRight(obj.name);
-	}*/else if (event.keyCode==40){ //¤U´«Äæ
+	}*/else if (event.keyCode==40){ //ï¿½Uï¿½ï¿½ï¿½ï¿½
 		event.keyCode=0;
 		event.returnValue=false;
 		CodeMoveRight(obj.name);
