@@ -4082,7 +4082,7 @@ function getDealLineDate_Stop(){
 
 	if(eval(TodayDate) < eval(myForm.IllegalDate.value)){
 		alert("違規日期不得大於今天!!");
-		myForm.IllegalDate.select();
+		//myForm.IllegalDate.select();
 	}
 <%if sys_City="屏東縣" or sys_City="澎湖縣" then%>
 	if (myForm.ReportChk.checked!=false){
