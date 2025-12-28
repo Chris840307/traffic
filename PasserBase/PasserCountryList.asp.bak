@@ -1,0 +1,478 @@
+<!--#include virtual="traffic/Common/Login_Check.asp"-->
+<!--#include virtual="traffic/Common/DB.ini"-->
+<!--#include virtual="traffic/Common/AllFunction.inc"-->
+<%
+On Error Resume Next
+fMnoth=month(now)
+if fMnoth<10 then fMnoth="0"&fMnoth
+fDay=day(now)
+if fDay<10 then	fDay="0"&fDay
+fname=year(now)&fMnoth&fDay&"_行政執行處移送電子清冊.xls"
+Response.AddHeader "Content-Disposition", "filename="&fname
+response.contenttype="application/x-msexcel; charset=MS950"
+
+strCity="select value from Apconfigure where id=31"
+set rsCity=conn.execute(strCity)
+sys_City=trim(rsCity("value"))
+rsCity.close
+
+strSQL="select WordNum from UnitInfo Where UnitID='"&Session("Unit_ID")&"'"
+set rs=conn.execute(strSQL)
+If not rs.eof Then
+	If Not ifnull(rs("WordNum")) Then BillPageUnit=trim(rs("WordNum"))
+end if
+rs.close
+
+	strwhere=""
+	if trim(request("Sys_SendBillSN"))<>"" then
+		Sys_SendBillSN=request("Sys_SendBillSN")
+		strwhere="and a.SN in("&Sys_SendBillSN&")"
+	else
+		strwhere=request("Sys_SQL")
+	end if
+	orderstr=request("orderstr")
+BillSN=Split(Sys_SendBillSN,",")
+'檢查是否可進入本系統
+	'smith 修正，原本join  passerarrivaldata 會因為依張舉發單紀錄兩個送達日期, 導致清冊出現兩筆相同資料.  所以這邊不join 送達紀錄 passerarrivaldata . 改到 迴圈中再做
+	BasSQL="select distinct a.SN from PasserBase a,PasserJude b,PasserSend c,PasserUrge d ,(select BillSN,PayDate from PasserPay) f where a.SN=b.BillSN(+) and a.BillNo=b.BillNo(+) and a.SN=c.BillSN(+) and a.BillNo=c.BillNo(+) and a.SN=d.BillSN(+) and a.BillNo=d.BillNo(+) and a.SN=f.BillSN(+) and a.RecorDStateID<>-1 "&strwhere
+
+	strSQLTemp="select b.SendNumber,a.SN,a.Driver,a.DriverBirth,a.DriverID,a.DriverZip,a.DriverAddress,a.DoubleCheckStatus,c.OpenGovNumber JudeNo,c.AgentName,c.AgentBirth,c.AgentID,c.JudeDate,b.AgentJob,c.AgentAddress,a.ForFeit1,d.PayDate,a.Rule1,a.DeallIneDate,a.IllegalDate,a.IllegalAddress,a.BillNo,b.OpenGovNumber as SendNo,b.SendDate,b.MakeSureDate,b.LimitDate,b.SafeToExit,b.SafeAction,b.SafeAssure,b.SafeDetain,b.SafeShutShop,b.ForFeit as SendFeit,' ' Administrative from PasserBase a,PasserSend b,PasserJude c,PasserPay d where a.RecordStateID=0 and a.BillStatus<>9 and a.SN=b.BillSN(+) and a.BillNo=b.BillNo(+) and a.SN=c.BillSN(+) and a.BillNo=c.BillNo(+) and a.SN=d.BillSN(+) and a.BillNo=d.BillNo(+) and Not(b.SendDate is null) and a.SN in("&BasSQL&") "&orderstr
+
+	If sys_City = "台中市" Then
+		strSQLTemp="select b.SendNumber,a.SN,a.Driver,a.DriverBirth,a.DriverID,a.DriverZip,decode(e.Administrative,null,'其它',e.Administrative) Administrative,a.DriverAddress,a.DoubleCheckStatus,c.OpenGovNumber JudeNo,c.AgentName,c.AgentBirth,c.AgentID,b.AgentJob,c.JudeDate,c.AgentAddress,a.ForFeit1,d.PayDate,a.Rule1,a.DeallIneDate,a.IllegalDate,a.IllegalAddress,a.BillNo,b.OpenGovNumber as SendNo,b.MakeSureDate,b.LimitDate,b.SendDate,b.SafeToExit,b.SafeAction,b.SafeAssure,b.SafeDetain,b.SafeShutShop,b.ForFeit as SendFeit from PasserBase a,PasserSend b,PasserJude c,PasserPay d,zip e where a.RecordStateID=0 and a.BillStatus<>9 and a.SN=b.BillSN(+) and a.BillNo=b.BillNo(+) and a.SN=c.BillSN(+) and a.BillNo=c.BillNo(+) and a.SN=d.BillSN(+) and a.BillNo=d.BillNo(+) and DriverZip=zipid(+) and Not(b.SendDate is null) and a.SN in("&BasSQL&") order by Administrative,Driver,Billno"
+	End if
+	set rs=conn.execute(strSQLTemp)
+	
+	
+%>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=big5">
+<style type="text/css">
+<!--
+.style1 {font-size: 12px; }
+.style2 {font-size: 12px;mso-style-parent:style0;mso-number-format:"\@";}
+-->
+</style>
+</head>
+<body>
+<%
+tmpAdministrative="A"
+
+while Not rs.eof
+	If tmpAdministrative <> trim(rs("Administrative")) Then
+		
+		If not ifnull(tmpAdministrative) and tmpAdministrative<>"A" Then Response.Write "<table border=0><tr><td></td></tr></table>"
+		
+		tmpAdministrative=trim(rs("Administrative"))
+		If not ifnull(tmpAdministrative) Then Response.Write "<table><tr><td>"&tmpAdministrative&"</td></tr></table>"%>
+
+		<table border=1>
+		 <tr>
+		  <td class="style1">案件類別</td>
+		  <td class="style1">移送案號</td>
+		  <td class="style1">義務人</td>
+		  <td class="style1">出生日期(義務人)</td>
+		  <td class="style1">身分證字號(義務人)</td>
+		  <td class="style1">職業(義務人)ex:士.農.工.商</td>
+		  <td class="style1">郵遞區號(義務人)</td>
+		  <td class="style1">戶籍地址(義務人)</td>
+		  <td class="style1">法定代理人或代表人</td>
+		  <td class="style1">出生日期(法定代理人或代表人)</td>
+		  <td class="style1">身分證字號(法定代理人或代表人)</td>
+		  <td class="style1">職業代碼(法定代理人或代表人)</td>
+		  <td class="style1">郵遞區號(法定代理人或代表人)</td>
+		  <td class="style1">戶籍地址(法定代理人或代表人)</td>
+		  <td class="style1">營利事業統編</td>
+		  <td class="style1">營業所</td>
+		  <td class="style1">案由代碼</td>
+		  <td class="style1">應納金額</td>
+		  <td class="style1">行政處分或裁定確定日</td>
+		  <td class="style1">義務發生之原因</td>
+		  <td class="style1">義務發生之日期</td>
+		  <td class="style1">義務發生之地點</td>
+		  <td class="style1">發文字號</td>
+		  <td class="style1">發文日期</td>
+		  <td class="style1">保全措施(已限制出境)</td>
+		  <td class="style1">保全措施(已禁止處分)</td>
+		  <td class="style1">保全措施(已提供擔保)</td>
+		  <td class="style1">保全措施(以假扣押)</td>
+		  <td class="style1">保全措施(已勒令停業)</td>
+		  <td class="style1">管理代號</td>
+		  <td class="style1">本稅(健保費可內含)</td>
+		  <td class="style1">罰鍰</td>
+		  <td class="style1">短估金或老農津貼</td>
+		  <td class="style1">教育經費或給付追回</td>
+		  <td class="style1">滯報金/怠報金</td>
+		  <td class="style1">核定補徵利息</td>
+		  <td class="style1">行政救濟利息</td>
+		  <td class="style1">滯納金</td>
+		  <td class="style1">滯納期滿利息</td>
+		  <td class="style1">其他費用或墊償費</td>
+		  <td class="style1">執行憑證再移送</td>
+		  <td class="style1">執行憑證編號</td>
+		  <td class="style1">執行憑證核發日期</td>
+		  <td class="style1">滯納金起算日</td>
+		  <td class="style1">利息起算日</td>
+		  <td class="style1">財產郵遞區號</td>
+		  <td class="style1">財產地址</td>
+		  <td class="style1">浮動滯納期滿利息</td>
+		  <td class="style1">通訊郵遞區號（義務人）</td>
+		  <td class="style1">通訊地址（義務人）</td>
+		  <td class="style1">戶籍地電話（義務人）</td>
+		  <td class="style1">通訊地電話（義務人）</td>
+		  <td class="style1">通訊郵遞區號（法定代理人）</td>
+		  <td class="style1">通訊地址（法定代理人）</td>
+		  <td class="style1">戶籍地電話（法定代理人）</td>
+		  <td class="style1">通訊地電話（法定代理人）</td>
+		  <td class="style1">關稅滯納金計算迄日</td>
+		  <td class="style1">關稅滯納金每日加徵金額勞保滯納金原應收金額</td>
+		  <td class="style1">貨物稅、營業稅及菸酒稅滯納金計算起日</td>
+		  <td class="style1">貨物稅、營業稅及菸酒稅滯納金計算迄日</td>
+		  <td class="style1">貨物稅、營業稅及菸酒稅滯納金每二日加徵金額</td>
+		  <td class="style1">貨物稅、營業稅及菸酒稅利息計算起日</td>
+		  <td class="style1">貨物稅、營業稅及菸酒稅利息每日加徵金額</td>
+		  <td class="style1">關稅利息每日加徵金額</td>
+		  <td class="style1">獨資合夥</td>
+		  <td class="style1">銷帳編號</td>
+		  <td class="style1">繳款類別</td>
+		  <td class="style1">繳納期間屆滿日</td>
+		  <td class="style1">徵收期間屆滿日</td>
+		  <td class="style1">性別</td>
+		 </tr><%
+	end if
+
+		ZipID="":Sex=""
+		ZipID=rs("DriverZip")
+		MakeSureDate=rs("MakeSureDate")
+		LimitDate=rs("LimitDate")
+		
+		'smith 修正，日期顯示七碼.     excel S欄位應該為裁決日+20天   
+		'smith 修正，日期顯示七碼.     excel BP 欄位應該為催繳日+15天
+
+
+		strSQL="select ArrivedDate from PasserSendArrived where passerSN = "& trim(rs("SN")) &" and arrivetype='0'"
+
+
+		set rszip=conn.execute(strSQL)
+		
+		If not ifnull(MakeSureDate) Then
+			MakeSureDate=split(gArrDT(MakeSureDate),"-")
+		elseIf Not rszip.eof Then 			
+			MakeSureDate=split(gArrDT(DateAdd("d",20,rszip("ArrivedDate"))),"-")
+		else
+			MakeSureDate=split(gArrDT(DateAdd("d",20,rs("JudeDate"))),"-")  '這是故意塞值. 讓後面可以判斷
+		end if 
+		'response.write MakeSureDate
+		'response.end
+		rszip.close	
+
+		strSQL="select ArrivedDate from PasserSendArrived where passerSN = "& rs("SN") &" and arrivetype='0' "
+		set rszip=conn.execute(strSQL)
+
+		If not ifnull(LimitDate) Then
+			LimitDate=split(gArrDT(LimitDate),"-")
+		elseIf Not rszip.eof Then 			
+			LimitDate=split(gArrDT(DateAdd("d",35,rszip("ArrivedDate"))),"-")		
+		else
+			LimitDate=split(gArrDT(DateAdd("d",35,rs("JudeDate"))),"-") '這是故意塞值. 讓後面可以判斷
+		end if 
+		rszip.close		
+		'------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		
+		If not IFnull(Trim(rs("DriverID"))) Then
+			If Mid(Trim(rs("DriverID")),2,1)="1" Then
+				Sex="男"
+			elseif Mid(Trim(rs("DriverID")),2,1)="2" Then
+				Sex="女"
+			End if
+		end if
+		Sys_ForFeit=rs("ForFeit1")
+		If ifsys_City <>"基隆市" then
+			strSQL="select Level4 from Law where ItemID="&rs("rule1")
+			set law=conn.execute(strSQL)
+			If not law.eof Then Sys_ForFeit=trim(law("Level4"))
+			law.close
+		end if
+
+		response.write "<tr>"
+		response.write "<td class=""style1"">A</td>"
+		response.write "<td class=""style1"">"&rs("SendNumber")&"</td>"
+		response.write "<td class=""style1"">"&rs("Driver")&"</td>"
+		response.write "<td class=""style2"">"&right("0"&gInitDT(rs("DriverBirth")),7)&"</td>"
+		response.write "<td class=""style1"">"&rs("DriverID")&"</td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1"">"&ZipID&"</td>"
+		response.write "<td class=""style1"">"&rs("DriverAddress")&"</td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1"">"&rs("AgentName")&"</td>"
+		response.write "<td class=""style2"">"&right("0"&gInitDT(rs("AgentBirth")),7)&"</td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style2"">0601</td>"
+		response.write "<td class=""style1"">"&Sys_ForFeit&"</td>"
+		response.write "<td class=""style2"">"
+			'smith 修正，日期顯示七碼.     excel S欄位應該為裁決日+20天   
+		if MakeSureDate(0)<>"00" then 
+		if len(right("0"&MakeSureDate(0)&MakeSureDate(1)&MakeSureDate(2),7))>=7  then 
+			if len(right("0"&MakeSureDate(0)&MakeSureDate(1)&MakeSureDate(2),7))<7 then
+				response.write ""
+			else
+				response.write right("0"&MakeSureDate(0)&MakeSureDate(1)&MakeSureDate(2),7)
+			end if
+		end if
+		end if
+	
+		response.write "</td>"
+		response.write "<td class=""style1"">違反道路交通管理處罰條例第"&rs("Rule1")&"條</td>"
+		response.write "<td class=""style2"">"&right("0"&gInitDT(rs("IllegalDate")),7)&"</td>"
+		response.write "<td class=""style1"">"&rs("IllegalAddress")&"</td>"
+		response.write "<td class=""style1"">"&BillPageUnit&"交裁字第"&rs("JudeNo")&"號</td>"
+		response.write "<td class=""style2"">"&right("0"&gInitDT(rs("SendDate")),7)&"</td>"
+		response.write "<td class=""style1""></td>"
+		if isnull(rs("SafeToExit")) then
+			response.write "<td class=""style1""></td>"
+		else
+			response.write "<td class=""style1"">1</td>"
+		end if
+		if isnull(rs("SafeAction")) then
+			response.write "<td class=""style1""></td>"
+		else
+			response.write "<td class=""style1"">1</td>"
+		end if
+		if isnull(rs("SafeDetain")) then
+			response.write "<td class=""style1""></td>"
+		else
+			response.write "<td class=""style1"">1</td>"
+		end if
+		if isnull(rs("SafeShutShop")) then
+			response.write "<td class=""style1""></td>"
+		else
+			response.write "<td class=""style1"">1</td>"
+		end if
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1"">"&Sys_ForFeit&"</td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1"">"&ZipID&"</td>"
+		response.write "<td class=""style1"">"&rs("DriverAddress")&"</td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style1""></td>"
+		response.write "<td class=""style2"">"
+		
+			'smith 修正，日期顯示七碼.     excel BP 欄位應該為催繳日+15天   
+		if LimitDate(0)<>"00" then 
+		if  len(right("0"&LimitDate(0)&LimitDate(1)&LimitDate(2),7))>=7 then 	
+			if len(right("0"&LimitDate(0)&LimitDate(1)&LimitDate(2),7))<7 then
+				response.write ""
+			else
+				response.write right("0"&LimitDate(0)&LimitDate(1)&LimitDate(2),7)
+			end if
+		end if
+		end if
+		response.write "</td>"
+		'宜蘭行政執行處說警局單位不需要徵收期間屆滿日
+		response.write "<td class=""style1"">"
+'			if LimitDate(0)<>"00" then 
+'			if  len(right("0"&LimitDate(0)&LimitDate(1)&LimitDate(2),7))>=7 then 	
+'				if len(right("0"&LimitDate(0)&LimitDate(1)&LimitDate(2),7))<7 then
+'					response.write ""
+'				else
+'					response.write right("0"&LimitDate(0)&LimitDate(1)&LimitDate(2),7)
+'				end if
+'			end if
+'			end if
+		Response.Write "</td>"
+		response.write "<td class=""style1"">"&Sex&"</td>"
+		response.write "</tr>"
+
+		rs.movenext
+
+		If not rs.eof Then		
+			If tmpAdministrative <> trim(rs("Administrative")) Then
+				response.write "<tr>"
+				response.write "<td class=""style1"">EOF</td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "<td class=""style1""></td>"
+				response.write "</tr>"
+			end if
+		end if
+	wend
+	rs.close
+	response.write "<tr>"
+	response.write "<td class=""style1"">EOF</td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "<td class=""style1""></td>"
+	response.write "</tr>"
+	conn.close
+ %>
+</table>
+</body>
+</html>

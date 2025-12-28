@@ -1,0 +1,338 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--#include virtual="traffic/Common/Login_Check.asp"-->
+<!--#include virtual="traffic/Common/DB.ini"-->
+<!--#include virtual="traffic/Common/AllFunction.inc"-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=big5">
+<title>送達紀錄</title>
+<!--#include virtual="traffic/Common/css.txt"-->
+</head>
+<%
+Sys_SenderMemID=0
+if trim(request("DB_State"))="Update" then
+	ArgueDate1=gOutDT(request("edit_ArrivedDate"))
+	If not ifnull(request("edit_SenderMemID")) Then Sys_SenderMemID=request("edit_SenderMemID")
+	strSQL="Update PassersEndArrived set ArrivedDate="&funGetDate(ArgueDate1,0)&",SenderMemID="&Sys_SenderMemID&",SendMailStation='"&trim(request("edit_SendMailStation"))&"',ArriveType="&trim(request("edit_ArriveType"))&",ReturnResonID='"&trim(request("edit_ReturnResonID"))&"',Note='"&trim(request("edit_Note"))&"' where SN="&request("SN")
+	conn.execute(strSQL)
+end if
+if trim(request("DB_State"))="Add" then
+	strSQL="select Max(SN) as cnt from PassersEndArrived"
+	set rscnt=conn.execute(strSQL)
+	PasserSN=1
+	if Not isnull(rscnt("cnt")) then
+		PasserSN=Cint(rscnt("cnt"))+1
+	end if
+	rscnt.close
+	ArgueDate1=gOutDT(request("ArrivedDate"))
+	If not ifnull(request("SenderMemID")) Then Sys_SenderMemID=request("SenderMemID")
+	strSQL="insert into PassersEndArrived(SN,PasserSN,ArrivedDate,SenderMemID,RecordmemberID,SendMailStation,ArriveType,ReturnResonID,Note) values("&PasserSN&","&request("BillSN")&","&funGetDate(ArgueDate1,0)&","&Sys_SenderMemID&","&Session("User_ID")&",'"&trim(request("Sys_SendMailStation"))&"',"&trim(request("Sys_ArriveType"))&",'"&trim(request("Sys_ReturnResonID"))&"','"&trim(request("Sys_Note"))&"')"
+	conn.execute(strSQL)
+end if
+if request("DB_State")="Del" then
+	strSQL="Delete from PassersEndArrived where SN="&request("SN")
+	conn.execute strSQL
+end if
+strSQL="Select a.*,b.Chname from PassersEndArrived a,MemberData b where a.SenderMemID=b.MemberID(+) and a.PasserSN="&request("BillSN")
+set rsload=conn.execute(strSQL)
+%>
+<BODY onkeydown="KeyDown()">
+<form name=myForm method="post">
+<table width="100%" border="0">
+	<tr>
+		<td bgcolor="#FFCC33">送達紀錄</td>
+	</tr>
+	<tr>
+		<td bgcolor="#CCCCCC">
+			<table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#FFFFFF">
+				<tr>
+					<td>
+						<table width="100%" border="0">
+							<tr>
+								<td>送達日期</td>
+								<td nowrap>
+									<input name="ArrivedDate" class="btn1" type="text" value="<%=trim(request("ArrivedDate"))%>" size="10" maxlength="10" onkeyup="value=value.replace(/[^\d]/g,'')">
+									<input type="button" name="datestr" value="..." onclick="OpenWindow('ArrivedDate');">
+								</td>
+								<td nowrap>
+									送達單位
+								</td>
+								<td>
+									<%=UnSelectUnitOption("UnitID","SenderMemID")%>
+								</td>
+								<td nowrap>
+									送達人員
+								</td>
+								<td>
+									<%=UnSelectMemberOption("UnitID","SenderMemID")%>
+								</td>
+							</tr>
+							<tr>
+								<td nowrap>
+									送達郵局名稱
+								</td>
+								<td>
+									<input name="Sys_SendMailStation" class="btn1" type="text" value="<%=trim(request("Sys_SendMailStation"))%>" size="10" maxlength="50">
+								</td>
+								<td>
+									送達類別
+								</td>
+								<td>
+									<select name="Sys_ArriveType" class="btn1">
+										<option Value="0"<%If trim(request("Sys_ArriveType"))="0" Then response.Write(" selected")%>>裁決</option>
+										<option Value="1"<%If trim(request("Sys_ArriveType"))="1" Then response.Write(" selected")%>>催告</option>
+										<option Value="2"<%If trim(request("Sys_ArriveType"))="2" Then response.Write(" selected")%>>郵寄</option>
+									</select>
+								</td>
+								<td>
+									送達狀況
+								</td>
+								<td>
+									<select name="Sys_ReturnResonID" class="btn1">
+										<option Value="0"<%If trim(request("Sys_ReturnResonID"))="0" Then response.Write(" selected")%>>收受</option>
+										<option Value="1"<%If trim(request("Sys_ReturnResonID"))="1" Then response.Write(" selected")%>>公示</option>
+										<option Value="2"<%If trim(request("Sys_ReturnResonID"))="2" Then response.Write(" selected")%>>寄存</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									退件原因
+								</td>
+								<td colspan=2>
+									<input name="Sys_Note" class="btn1" type="text" value="<%=trim(request("Sys_Note"))%>" size="30" maxlength="50">
+								</td>
+								<td colspan=4>
+									<input type="button" name="btnAdd" value="新增" onclick="funAdd();">
+									<input name="btnexit" type="button" value=" 關 閉 " onclick="funExit();">
+									<input name="btnexit" type="button" value=" 產生送達證書 " onclick="funBillDeliver();">
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td bgcolor="#FFCC33" class="style3">送達紀錄列表</td>
+	</tr>
+	<tr>
+		<td bgcolor="#E0E0E0">
+			<table width="100%" border="0" cellpadding="4" cellspacing="1">
+				<tr bgcolor="#EBFBE3" align="center">
+					<th>送達日期</th>
+					<th>送達人員</th>
+					<th>送達郵局名稱</th>
+					<th>送達類別</th>
+					<th>送達狀況</th>
+					<th>退件原因</th>
+					<th>操作</th>
+				</tr><%
+				str_ArriveType=split("裁決,催告",",")
+				Sys_ReturnResonID=split("收受,公示,寄存",",")
+				while Not rsload.eof
+					response.write "<tr align='center' bgcolor='#FFFFFF'"
+					lightbarstyle 0
+					response.write ">"
+					if trim(request("Edit_SN"))<>trim(rsload("SN")) then
+						response.write "<td>"
+						If not ifnull(rsload("Imagefilename")) Then						
+							Response.Write "<a href=""./Picture/PassersEndArrived_"&trim(rsload("SN"))&".jpg"" target=""_blank"">"
+						end if
+
+						Response.Write gInitDT(rsload("ArrivedDate"))
+
+						If not ifnull(rsload("Imagefilename")) Then	Response.Write "</a>"
+
+						Response.Write "</td>"
+
+						response.write "<td>"&rsload("Chname")&"</td>"
+						response.write "<td>"&rsload("SendMailStation")&"</td>"
+
+						response.write "<td>"
+						If Not IfNull(rsload("ArriveType")) Then response.Write(str_ArriveType(rsload("ArriveType")))
+						response.Write "</td>"
+
+						response.write "<td>"
+						If Not IfNull(rsload("ReturnResonID")) Then response.Write(Sys_ReturnResonID(rsload("ReturnResonID")))
+						response.Write "</td>"
+						response.write "<td>"&rsload("Note")&"</td>"
+
+						response.write "<td>"
+						response.write "<input type=""button"" name=""Update"" value=""修改"" onclick=""funEdit('"&rsload("SN")&"');"">"
+						response.write "<input type=""button"" name=""Del"" value=""刪除"" onclick=""funDel('"&rsload("SN")&"');"">"
+						response.write "<input type=""button"" name=""btnMap"" value=""送達證書影像檔上傳"" onclick=""funMap('"&rsload("SN")&"');"">"
+						response.write "</td>"
+					else
+						response.write "<tr align='center' bgcolor='#FFFFFF'"
+						lightbarstyle 0
+						response.write ">"
+						response.write "<td>"
+						response.write "<input name=""edit_ArrivedDate"" class=""btn1"" type=""text"" value="""&gInitDT(rsload("ArrivedDate"))&""" size=""10"" maxlength=""10"" onkeyup=""value=value.replace(/[^\d]/g,'')"">"
+						response.write "<input type=""button"" name=""datestr"" value=""..."" onclick=""OpenWindow('edit_ArrivedDate');"">"
+						response.write "</td>"
+
+						response.write "<td>"
+						response.write "<select name=""edit_SenderMemID"" class=""btn1"">"
+						'response.write "<option Value="""">請選擇</option>"
+						strSQL="select MemberID,Chname from MemberData"
+						set rs1=conn.execute(strSQL)
+						while Not rs1.eof
+							response.write "<option value="""&rs1("MemberID")&""""
+							if trim(rs1("MemberID"))=trim(rsload("SenderMemID")) then response.write " Selected"
+							response.write ">"&rs1("Chname")&"</option>"
+							rs1.movenext
+						wend
+						rs1.close
+						response.write "</select>"
+						response.write "</td>"
+
+						response.write "<td>"
+						response.write "<input name=""edit_SendMailStation"" class=""btn1"" type=""text"" value="""&rsload("SendMailStation")&""" size=""10"" maxlength=""50"">"
+						response.write "</td>"
+
+						response.write "<td>"
+						response.write "<select name=""edit_ArriveType"" class=""btn1"">"
+						response.Write "<option Value=""0"""
+						If trim(rsload("ArriveType"))="0" Then response.Write(" selected")
+						response.Write ">裁決</option>"
+
+						response.Write "<option Value=""1"""
+						If trim(rsload("ArriveType"))="1" Then response.Write(" selected")
+						response.Write ">催告</option>"
+
+						response.write "</select>"
+						response.write "</td>"
+
+						response.write "<td>"
+						response.write "<select name=""edit_ReturnResonID"" class=""btn1"">"
+						response.Write "<option Value=""0"""
+						If trim(rsload("ReturnResonID"))="0" Then response.Write(" selected")
+						response.Write ">收受</option>"
+
+						response.Write "<option Value=""1"""
+						If trim(rsload("ReturnResonID"))="1" Then response.Write(" selected")
+						response.Write ">公示</option>"
+
+						response.Write "<option Value=""2"""
+						If trim(rsload("ReturnResonID"))="2" Then response.Write(" selected")
+						response.Write ">寄存</option>"
+
+						response.write "</select>"
+						response.write "</td>"
+
+						response.write "<td>"
+						response.write "<input name=""edit_Note"" class=""btn1"" type=""text"" value="""&rsload("Note")&""" size=""10"" maxlength=""50"">"
+						response.write "</td>"
+
+						response.write "<td>"
+						response.write "<input type=""button"" name=""Update"" value=""確定"" onclick=""funUpdate('"&rsload("SN")&"');"">"
+						response.write "<input type=""button"" name=""Canal"" value=""取消"" onclick=""funEdit('');"">"
+						response.write "</td>"
+					end if
+					response.write "</tr>"
+					rsload.movenext
+				wend%>
+			</table>
+		</td>
+	</tr>
+</table>
+<input type="Hidden" name="DB_State" value="">
+<input type="Hidden" name="BillSN" value="<%=request("BillSN")%>">
+<input type="Hidden" name="Edit_SN" value="">
+<input type="Hidden" name="SN" value="">
+</form>
+</BODY>
+</HTML>
+<script type="text/javascript" src="../js/date.js"></script>
+<script language="javascript">
+<%response.write "UnitMan('UnitID','SenderMemID','"&request("SenderMemID")&"');"%>
+function KeyDown(){ 
+	if (event.keyCode==116){	//F5鎖死
+		event.keyCode=0;   
+		event.returnValue=false;   
+	}
+}
+function funAdd(){
+	var err=0;
+	if(myForm.ArrivedDate.value==""){
+		err=1;
+		alert("送達日必須輸入!!");
+	}else if(myForm.ArrivedDate.value!=""){
+		if(!dateCheck(myForm.ArrivedDate.value)){
+			err=1;
+			alert("送達日輸入不正確!!");
+		}
+	}
+	if(err==0){
+		if(myForm.Sys_ArriveType.value==""){
+			err=1;
+			alert("送達類別必須選取!!");
+		}
+	}
+	if(err==0){
+		myForm.DB_State.value='Add';
+		myForm.submit();
+	}
+}
+function funEdit(SN){
+	myForm.Edit_SN.value=SN;
+	myForm.submit();
+}
+function funDel(SN){
+	if(confirm('確定刪除此筆紀錄嗎？')){
+		myForm.SN.value=SN;
+		myForm.DB_State.value='Del';
+		myForm.submit();
+	}
+}
+function funMap(SN){
+	UrlStr="SendStyle.asp?SN="+SN;
+	newWin(UrlStr,"winMap",700,150,50,10,"yes","yes","yes","no");
+}
+function newWin(url,win,w,h,l,t,sBar,mBar,res,full){
+	var win=window.open(url,win,"width="+w+",height="+h+",left="+l+",top="+t+",scrollbars="+sBar+",menubar="+mBar+",resizable="+res+",fullscreen="+full+",status=yes,toolbar=yes");
+	win.focus();
+	return win;
+}
+function funBillDeliver(){
+	UrlStr="BillBase_Deliver_Word.asp";
+	myForm.action=UrlStr;
+	myForm.target="HuaLien";
+	myForm.submit();
+	myForm.action="";
+	myForm.target="";
+}
+function funUpdate(SN){
+	var err=0;
+	if(myForm.edit_ArrivedDate.value==""){
+		err=1;
+		alert("送達日必須輸入!!");
+	}else if(myForm.edit_ArrivedDate.value!=""){
+		if(!dateCheck(myForm.edit_ArrivedDate.value)){
+			err=1;
+			alert("送達日輸入不正確!!");
+		}
+	}
+	if(err==0){
+		if(myForm.edit_SenderMemID.value==""){
+			err=1;
+			alert("送達人員必須輸入!!");
+		}
+	}
+	if(err==0){
+		myForm.SN.value=SN;
+		myForm.DB_State.value='Update';
+		myForm.submit();
+	}
+}
+function funExit(){
+	opener.myForm.submit(); 
+	self.close();
+}
+</script>
+<%
+conn.close
+set conn=nothing
+%>

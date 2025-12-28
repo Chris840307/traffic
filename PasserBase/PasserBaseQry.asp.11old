@@ -1,0 +1,1748 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<!--#include virtual="traffic/Common/Login_Check.asp"-->
+<!--#include virtual="traffic/Common/DB.ini"-->
+<!--#include virtual="traffic/Common/AllFunction.inc"-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=big5">
+<title>慢車行人道路障礙裁罰</title>
+<!--#include virtual="traffic/Common/css.txt"-->
+<style type="text/css">
+.btn3{
+   font-size:12px;
+   font-family:新細明體;
+   background-color:#EEEEEE;
+   border-style:solid;
+}
+</style>
+
+</head>
+<%
+'檢查是否可進入本系統
+AuthorityCheck(224)
+DB_Orderby=split("Driver,IllegaLDate",",")
+DB_KindSelt=trim(request("DB_KindSelt"))
+DB_Selt=trim(request("DB_Selt"))
+DB_Display=request("DB_Display")
+
+strCity="select value from Apconfigure where id=31"
+set rsCity=conn.execute(strCity)
+sys_City=trim(rsCity("value"))
+rsCity.close
+
+strRul="select Value from Apconfigure where ID=3"
+set rsRul=conn.execute(strRul)
+RuleVer=trim(rsRul("Value"))
+rsRul.Close
+
+'==========================================================================================
+strSQL="select * from UnitInfo where rownum=1"
+set rs=conn.execute(strSQL)
+If Not rs.eof Then
+	For i=0 to rs.Fields.count-1
+		If trim(rs.Fields.item(i).Name)="PASSERSENDBANKNAME" Then Exit For
+	Next
+	If i>rs.Fields.count-1 Then
+		strSQL="Alter Table UnitInfo ADD (PASSERSENDBANKNAME VarChar2(80))"
+		conn.execute(strSQL)
+	End if
+	For i=0 to rs.Fields.count-1
+		If trim(rs.Fields.item(i).Name)="PASSERSENDBANKACCOUNT" Then Exit For
+	Next
+	If i>rs.Fields.count-1 Then
+		strSQL="Alter Table UnitInfo ADD (PASSERSENDBANKACCOUNT VarChar2(30))"
+		conn.execute(strSQL)
+	End if
+End if
+
+'==========================================================================================
+
+if DB_Selt="Selt" then
+	strwhere="":strDate=""
+	'日期
+	if trim(request("Sys_DoubleCheckStatus"))<>"" then
+		strwhere=strwhere&" and DoubleCheckStatus="&trim(request("Sys_DoubleCheckStatus"))
+	end if
+
+	if request("RecordDate1")<>"" and request("RecordDate2")<>""then
+		ArgueDate1=gOutDT(request("RecordDate1"))&" 0:0:0"
+		ArgueDate2=gOutDT(request("RecordDate2"))&" 23:59:59"
+		strwhere=strwhere&" and RecordDate between TO_DATE('"&ArgueDate1&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&ArgueDate2&"','YYYY/MM/DD/HH24/MI/SS')"
+	end if
+
+	if request("IllegalDate1")<>"" and request("IllegalDate2")<>""then
+		ArgueDate1=gOutDT(request("IllegalDate1"))&" 0:0:0"
+		ArgueDate2=gOutDT(request("IllegalDate2"))&" 23:59:59"
+		strwhere=strwhere&" and IllegalDate between TO_DATE('"&ArgueDate1&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&ArgueDate2&"','YYYY/MM/DD/HH24/MI/SS')"
+	end if
+
+	if request("UrgeDate1")<>"" and request("UrgeDate2")<>""then
+		ArgueDate1=gOutDT(request("UrgeDate1"))&" 0:0:0"
+		ArgueDate2=gOutDT(request("UrgeDate2"))&" 23:59:59"
+		strwhere=strwhere&" and Exists(select 'Y' from PasserUrge where UrgeDate between TO_DATE('"&ArgueDate1&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&ArgueDate2&"','YYYY/MM/DD/HH24/MI/SS') and billsn=passerbase.sn)"
+	end if
+
+	if request("PayDate1")<>"" and request("PayDate2")<>""then
+		ArgueDate1=gOutDT(request("PayDate1"))&" 0:0:0"
+		ArgueDate2=gOutDT(request("PayDate2"))&" 23:59:59"
+		strwhere=strwhere&" and Exists(select 'Y' from PasserPay where PayDate between TO_DATE('"&ArgueDate1&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&ArgueDate2&"','YYYY/MM/DD/HH24/MI/SS') and billsn=passerbase.sn)"
+	end if
+
+	if request("JudeDate1")<>"" and request("JudeDate2")<>""then
+		ArgueDate1=gOutDT(request("JudeDate1"))&" 0:0:0"
+		ArgueDate2=gOutDT(request("JudeDate2"))&" 23:59:59"
+		strwhere=strwhere&" and Exists(select 'Y' from PasserJude where JudeDate between TO_DATE('"&ArgueDate1&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&ArgueDate2&"','YYYY/MM/DD/HH24/MI/SS') and billsn=passerbase.sn)"
+	end if
+
+	if request("SendDate1")<>"" and request("SendDate2")<>""then
+		ArgueDate1=gOutDT(request("SendDate1"))&" 0:0:0"
+		ArgueDate2=gOutDT(request("SendDate2"))&" 23:59:59"
+		strwhere=strwhere&" and Exists(select 'Y' from PasserSend where SendDate between TO_DATE('"&ArgueDate1&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&ArgueDate2&"','YYYY/MM/DD/HH24/MI/SS') and billsn=passerbase.sn)"
+	end if
+
+	if request("DeallIneDate1")<>"" and request("DeallIneDate2")<>""then
+		ArgueDate1=gOutDT(request("DeallIneDate1"))&" 0:0:0"
+		ArgueDate2=gOutDT(request("DeallIneDate2"))&" 23:59:59"
+		strwhere=strwhere&" and DeallIneDate between TO_DATE('"&ArgueDate1&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&ArgueDate2&"','YYYY/MM/DD/HH24/MI/SS')"
+	end if
+
+	if request("Sys_SendDetailDate1")<>"" and request("Sys_SendDetailDate2")<>""then
+		ArgueDate1=gOutDT(request("Sys_SendDetailDate1"))&" 0:0:0"
+		ArgueDate2=gOutDT(request("Sys_SendDetailDate2"))&" 23:59:59"
+		strwhere=strwhere&" and Exists(select 'Y' from PasserSendDetail where SendDate between TO_DATE('"&ArgueDate1&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&ArgueDate2&"','YYYY/MM/DD/HH24/MI/SS') and billsn=passerbase.sn)"
+	end if
+
+	if request("MakeSureDate1")<>"" and request("MakeSureDate2")<>""then
+		ArgueDate1=gOutDT(request("MakeSureDate1"))&" 0:0:0"
+		ArgueDate2=gOutDT(request("MakeSureDate2"))&" 23:59:59"
+		strwhere=strwhere&" and Exists(select 'Y' from PasserSend where MakeSureDate between TO_DATE('"&ArgueDate1&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&ArgueDate2&"','YYYY/MM/DD/HH24/MI/SS') and billsn=passerbase.sn)"
+	end if
+
+	if trim(request("sys_CreditorTypeID"))<>"" then
+
+		strwhere=strwhere&" and Exists(select 'Y' from PasserSendDetail where Exists(select 'Y' from PasserCreditor where CreditorTypeID in('"&trim(request("sys_CreditorTypeID"))&"') and SendDetailSN=PasserSendDetail.SN) and BillSN=PasserBase.sn)"
+
+	end if
+
+	'單位
+	if trim(request("Sys_BillUnitID"))<>"" then
+		strwhere=strwhere&" and BillUnitID in ('"&request("Sys_BillUnitID")&"')"
+	end if
+	'舉發人
+	if request("Sys_BillMem")<>"" then
+		strwhere=strwhere&" and (BillMem1='"&request("Sys_BillMem")&"' or BillMem2='"&request("Sys_BillMem")&"' or BillMem3='"&request("Sys_BillMem")&"')"
+	end if
+	'建檔人
+	'	if request("Sys_RecordMemberID")<>"" then
+	'		strwhere=strwhere&" and RecordMemberID ="&request("Sys_RecordMemberID")
+	'	end if
+	'階段、繳費待確認
+	'單號
+	if request("Sys_BillNo")<>"" then
+		strwhere=strwhere&" and BillNo ='" & Ucase(request("Sys_BillNo")) &  "'"
+	end if
+	'違規人姓名
+	if request("Sys_Driver")<>"" then
+		strwhere=strwhere&" and Driver='"&request("Sys_Driver")&"'"
+	end if
+	'違規人身分証號
+	if request("Sys_DriverID")<>"" then
+		strwhere=strwhere&" and DriverID='"&Ucase(request("Sys_DriverID"))&"'"
+	end if
+
+	if request("Sys_BillMemID")<>"" then
+		strwhere=strwhere&" and BillMemID1=(select MemberID from MemberData where LoginID='"&trim(request("Sys_BillMemID"))&"')"
+	end if
+
+	if request("Sys_BILLSTATUS")<>"" then
+		if trim(request("Sys_BILLSTATUS"))="9" then
+			strwhere=strwhere&" and BILLSTATUS="&request("Sys_BILLSTATUS")
+		else
+			strwhere=strwhere&" and BILLSTATUS<>9"
+		end if
+	end if
+
+	if request("Sys_Rule")<>"" then
+		strwhere=strwhere&" and (Rule1 like '"&trim(request("Sys_Rule"))&"%' or Rule2 like '"&trim(request("Sys_Rule"))&"%' or Rule3 like '"&trim(request("Sys_Rule"))&"%' or Rule4 like '"&trim(request("Sys_Rule"))&"%')"
+	end if
+
+	if trim(request("Sys_BillKinds"))<>"" then
+'		if trim(request("Sys_BillKinds"))="1" then
+'			strwhere=strwhere&" and BILLSTATUS<>9 and (d.UrgeDate is null or d.UrgeDate=N'')"
+'		elseif trim(request("Sys_BillKinds"))="2" then
+'			strwhere=strwhere&" and BILLSTATUS<>9 and Not(d.UrgeDate is null) and (b.JudeDate is null or b.JudeDate=N'')"
+'		elseif trim(request("Sys_BillKinds"))="3" then
+'			strwhere=strwhere&" and BILLSTATUS<>9 and Not(b.JudeDate is null) and (c.SendDate is null or c.SendDate=N'')"
+'		end if
+		if trim(request("Sys_BillKinds"))="1" then
+			strwhere=strwhere&" and Not Exists(Select 'N' from PasserSend where Billsn=passerbase.sn)"
+		elseif trim(request("Sys_BillKinds"))="2" then
+			strwhere=strwhere&" and Exists(Select 'N' from PasserSend where Billsn=passerbase.sn)"
+		end if
+	end if
+
+	if trim(request("Sys_SendCase"))<>"" then
+		if trim(request("Sys_SendCase"))="1" then
+			strwhere=strwhere&" and Not Exists(Select 'N' from PassersEndArrived where PasserSN=passerbase.sn)"
+		elseif trim(request("Sys_SendCase"))="2" then
+			strwhere=strwhere&" and Exists(Select 'N' from PassersEndArrived where PasserSN=passerbase.sn)"
+		end if
+	end if
+
+	'if request("Sys_BillTypeID")<>"" then
+	'		strwhere=strwhere&" and BillTypeID="&request("Sys_BillTypeID")
+	'end if
+
+	if request("Sys_MemberStation")<>"" then
+		strwhere=strwhere&" and MemberStation in('"&request("Sys_MemberStation")&"')"
+	end if
+
+	if sys_City="基隆市" then
+		if DB_KindSelt="UrgeDateSelt" then
+			if trim(request("Sys_UrgeDate"))<>"" then
+				ArgueDate1=DateAdd("d",0-Cint(request("Sys_UrgeDate")),Date)&" 0:0:0"
+				'strwhere=" and IllegalDate > TO_DATE('"&ArgueDate1&"','YYYY/MM/DD/HH24/MI/SS') and (d.URGEDATE is null or d.URGEDATE=N'') and (b.JUDEDATE is null or b.JUDEDATE=N'') and (c.SENDDATE is null or c.SENDDATE=N'') and BILLSTATUS<>9"
+				strwhere=strwhere&" and DeallineDate < TO_DATE('"&ArgueDate1&"','YYYY/MM/DD/HH24/MI/SS') and Not Exists(select 'Y' from PasserUrge where billsn=passerbase.sn) and BILLSTATUS<>9"
+			else
+				'strwhere=" and (d.URGEDATE is null or d.URGEDATE=N'') and (b.JUDEDATE is null or b.JUDEDATE=N'') and (c.SENDDATE is null or c.SENDDATE=N'') and BILLSTATUS<>9"
+				strwhere=strwhere&" and Not Exists(select 'Y' from PasserUrge where billsn=passerbase.sn) and BILLSTATUS<>9"
+			end if
+		end if
+
+		if DB_KindSelt="JudeDateSelt" then
+			if trim(request("Sys_JudeDate"))<>"" then
+				ArgueDate1=DateAdd("d",0-Cint(request("Sys_JudeDate")),Date)&" 0:0:0"
+				'strwhere=" and IllegalDate > TO_DATE('"&ArgueDate1&"','YYYY/MM/DD/HH24/MI/SS') and (not(d.URGEDATE is null)) and (b.JUDEDATE is null or b.JUDEDATE=N'') and BILLSTATUS<>9"
+				strwhere=strwhere&" and Exists(select 'Y' from PasserUrge where UrgeDate < TO_DATE('"&ArgueDate1&"','YYYY/MM/DD/HH24/MI/SS') and billsn=passerbase.sn) and Not Exists(select 'Y' from PasserJude where billsn=passerbase.sn) and BILLSTATUS<>9"
+			else
+				'strwhere=" and (not(d.URGEDATE is null)) and (b.JUDEDATE is null or b.JUDEDATE=N'') and BILLSTATUS<>9"
+				strwhere=strwhere&" and Not Exists(select 'Y' from PasserJude where billsn=passerbase.sn) and BILLSTATUS<>9"
+			end if
+		end if
+
+		if DB_KindSelt="SendDateSelt" then
+			if trim(request("Sys_SendDate"))<>"" then
+				ArgueDate1=DateAdd("d",0-Cint(request("Sys_SendDate")),Date)&" 0:0:0"
+				'strwhere=" and IllegalDate > TO_DATE('"&ArgueDate1&"','YYYY/MM/DD/HH24/MI/SS') and (not(d.URGEDATE is null)) and (c.SENDDATE is null or c.SENDDATE=N'') and BILLSTATUS<>9"
+				strwhere=strwhere&" and Exists(select 'Y' from PasserJude where JUDEDATE < TO_DATE('"&ArgueDate1&"','YYYY/MM/DD/HH24/MI/SS') and BillSN=PasserBase.SN) and Not Exists(select 'Y' from PasserSend where billsn=passerbase.sn) and BILLSTATUS<>9"
+			else
+				'strwhere=" and (not(d.URGEDATE is null)) and (c.SENDDATE is null or c.SENDDATE=N'') and BILLSTATUS<>9"
+				strwhere=strwhere&" and Not Exists(select 'Y' from PasserSend where billsn=passerbase.sn) and BILLSTATUS<>9"
+			end if
+		end if
+	else
+		if DB_KindSelt="UrgeDateSelt" then
+			strwhere=strwhere&" and Not Exists(select 'Y' from PasserJude where billsn=passerbase.sn) and Not Exists(select 'Y' from PasserUrge where billsn=passerbase.sn) and BILLSTATUS<>9"
+		end if
+
+		if DB_KindSelt="JudeDateSelt" then
+			strwhere=strwhere&" and Exists(select 'Y' from PasserJude where billsn=passerbase.sn) and Not Exists(select 'Y' from PasserUrge where billsn=passerbase.sn) and Not Exists(select 'Y' from PasserSend where billsn=passerbase.sn) and BILLSTATUS<>9"
+		end if
+
+		if DB_KindSelt="SendDateSelt" then
+			strwhere=strwhere&" and Exists(select 'Y' from PasserJude where billsn=passerbase.sn) and Exists(select 'Y' from PasserUrge where billsn=passerbase.sn) and Not Exists(select 'Y' from PasserSend where billsn=passerbase.sn) and BILLSTATUS<>9"
+		end if
+	end if
+
+	if trim(request("Sys_Order"))<>"" then
+		orderstr=" order by "&request("Sys_Order")
+	end if
+end if
+
+if DB_Selt="SltUrgeDate" then
+	'if request("Sys_sltUrgeDate1")<>"" and request("Sys_sltUrgeDate2")<>""then
+	if request("Sys_sltUrgeDate1")<>"" then
+		ArgueDate1=gOutDT(request("Sys_sltUrgeDate1"))&" 0:0:0"
+		'ArgueDate2=gOutDT(request("Sys_sltUrgeDate2"))&" 23:59:59"
+		ArgueDate2=gOutDT(request("Sys_sltUrgeDate1"))&" 23:59:59"
+		strwhere=strwhere&" and Exists(select 'Y' from PasserUrge where UrgeDate between TO_DATE('"&ArgueDate1&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&ArgueDate2&"','YYYY/MM/DD/HH24/MI/SS') and billsn=passerbase.sn)"
+	end if
+end if
+
+if DB_Selt="SltJudeDate" then
+	'if request("Sys_sltJudeDate1")<>"" and request("Sys_sltJudeDate2")<>""then
+	if request("Sys_sltJudeDate1")<>"" then
+		ArgueDate1=gOutDT(request("Sys_sltJudeDate1"))&" 0:0:0"
+		'ArgueDate2=gOutDT(request("Sys_sltJudeDate2"))&" 23:59:59"
+		ArgueDate2=gOutDT(request("Sys_sltJudeDate1"))&" 23:59:59"
+		strwhere=strwhere&" and Exists(select 'Y' from PasserJude where JudeDate between TO_DATE('"&ArgueDate1&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&ArgueDate2&"','YYYY/MM/DD/HH24/MI/SS') and billsn=passerbase.sn)"
+	end if
+end if
+
+if DB_Selt="SltSendDate" then
+	'if request("Sys_sltSendDate1")<>"" and request("Sys_sltSendDate2")<>""then
+	if request("Sys_sltSendDate1")<>"" then
+		ArgueDate1=gOutDT(request("Sys_sltSendDate1"))&" 0:0:0"
+		'ArgueDate2=gOutDT(request("Sys_sltSendDate2"))&" 23:59:59"
+		ArgueDate2=gOutDT(request("Sys_sltSendDate1"))&" 23:59:59"
+		strwhere=strwhere&" and Exists(select 'Y' from PasserSend where SendDate between TO_DATE('"&ArgueDate1&"','YYYY/MM/DD/HH24/MI/SS') and TO_DATE('"&ArgueDate2&"','YYYY/MM/DD/HH24/MI/SS') and billsn=passerbase.sn)"
+	end if
+end if
+
+
+if DB_Selt="Selt" then
+	if trim(strwhere)="" then
+		DB_Selt="":DB_Display=""
+		Response.write "<script>"
+		Response.Write "alert('必須有查詢條件！');"
+		Response.write "</script>"
+	end if
+end if
+Sys_SendBillSN=trim(request("Sys_SendBillSN"))
+if DB_Display="show" then
+	'strSQLTemp="select a.SN,a.IllegalDate,a.BillNo,a.Driver,a.IllegalAddress,a.Rule1,a.RuleVer,a.FORFEIT1,a.FORFEIT2,a.FORFEIT3,a.FORFEIT4,a.BILLSTATUS,a.BillMem1,a.DoubleCheckStatus,b.JUDEDATE,c.SENDDATE,c.MakeSureDate,d.URGEDATE,e.ArrivedDate,f.PayDate from PasserBase a,(Select billsn,JudeDate from PasserJude) b,(Select billsn,SendDate,MakeSureDate from PasserSend) c,(Select billsn,UrgeDate from PasserUrge) d,(select PasserSN,Max(ArrivedDate) ArrivedDate from PassersEndArrived group by PasserSN) e,(select BillSN,MAX(PayDate) PayDate from PasserPay group by BillSN) f where a.RecordStateID=0 and a.SN=b.BillSN(+) and a.SN=c.BillSN(+) and a.SN=d.BillSN(+) and a.SN=e.PasserSN(+) and a.SN=f.BillSN(+) "&strwhere&orderstr
+
+	strSQLTemp="select SN,IllegalDate,BillNo,Driver,IllegalAddress,Rule1,RuleVer,FORFEIT1,FORFEIT2,FORFEIT3,FORFEIT4,BILLSTATUS,BillMem1,DoubleCheckStatus,(select JUDEDATE from PasserJude where billsn=passerbase.sn) JUDEDATE,(Select SendDate from PasserSend where billsn=passerbase.sn) SendDate,(Select MakeSureDate from PasserSend where billsn=passerbase.sn) MakeSureDate,(Select UrgeDate from PasserUrge where billsn=passerbase.sn) URGEDATE,(select Max(ArrivedDate) from PassersEndArrived where passerSN=passerbase.sn group by PasserSN) ArrivedDate,(select MAX(PayDate) from PasserPay where BillSN=passerbase.sn group by BillSN) PayDate from PasserBase where 1=1 "&strwhere&orderstr
+	'set rsfound=conn.execute(strSQL)
+
+	'strSQL="select a.SN,a.BillNo from PasserBase a,(Select billsn,JudeDate from PasserJude) b,(Select billsn,SendDate from PasserSend) c,(Select billsn,UrgeDate from PasserUrge) d,(select PasserSN,min(ArrivedDate) ArrivedDate from PassersEndArrived group by PasserSN) e,(select BillSN,MAX(PayDate) PayDate from PasserPay group by BillSN) f where a.RecordStateID=0 and a.SN=b.BillSN(+) and a.SN=c.BillSN(+) and a.SN=d.BillSN(+) and a.SN=e.PasserSN(+) and a.SN=f.BillSN(+) "&strwhere&orderstr
+
+	strSQL="select SN from PasserBase where 1=1 "&strwhere&orderstr
+
+	set rssn=conn.execute(strSQL)
+	BillSN="":DoubleCheckStatus=""
+	while Not rssn.eof
+		if trim(BillSN)<>"" then
+			BillSN=BillSN&","
+		end if
+		BillSN=BillSN&rssn("SN")
+		rssn.movenext
+	wend
+	rssn.close
+
+	'strCnt="select count(1) as cnt from PasserBase a,(Select billsn,JudeDate from PasserJude) b,(Select billsn,SendDate from PasserSend) c,(Select billsn,UrgeDate from PasserUrge) d,(select PasserSN,Max(ArrivedDate) ArrivedDate from PassersEndArrived group by PasserSN) e,(select BillSN,MAX(PayDate) PayDate from PasserPay group by BillSN) f where a.RecordStateID=0 and a.SN=b.BillSN(+) and a.SN=c.BillSN(+) and a.SN=d.BillSN(+) and a.SN=e.PasserSN(+) and a.SN=f.BillSN(+) "&strwhere
+
+	strCnt="select count(1) as cnt from PasserBase where 1=1 "&strwhere&orderstr
+
+	set Dbrs=conn.execute(strCnt)
+	DBsum=0
+	If Not Dbrs.eof Then
+		DBsum=cint(Dbrs("cnt"))
+	end if
+	Dbrs.close
+
+	if sys_City="宜蘭縣" then
+
+		'strSQL="select 'Y' from PasserBase a,(Select billsn,JudeDate from PasserJude) b,(Select billsn,SendDate from PasserSend) c,(Select billsn,UrgeDate from PasserUrge) d,(select PasserSN,min(ArrivedDate) ArrivedDate from PassersEndArrived group by PasserSN) e,(select BillSN,MAX(PayDate) PayDate from PasserPay group by BillSN) f where a.RecordStateID=0 and a.SN=b.BillSN(+) and a.SN=c.BillSN(+) and a.SN=d.BillSN(+) and a.SN=e.PasserSN(+) and a.SN=f.BillSN(+) "&strwhere
+
+		strSQL="select 'Y' from PasserBase where 1=1 "&strwhere&orderstr
+
+		upSQL="Update PasserBase set ForFeit1=(select max(Level2) from law where version="&RuleVer&" and ItemID=PasserBase.Rule1),ForFeit2=(select max(Level2) from law where version="&RuleVer&" and ItemID=PasserBase.Rule2) where Exists("&strSQL&"  and a.SN=PasserBase.Sn) and DeallineDate < to_Date('"&date&"','YYYY/MM/DD') and BillStatus=0 and RecordStateid=0 and Exists(select 'Y' from law where itemid=PasserBase.Rule1 and Level1=PasserBase.ForFeit1 and VerSion="&RuleVer&")"
+
+		conn.execute(upSQL)
+	end if
+	'response.write strSQLTemp
+	'response.end
+end if
+%>
+<body onLoad="funLoadSend();">
+<form name="myForm" method="post">
+<table width="100%" border="0">
+	<tr height="30">
+		<td height="30" bgcolor="#FFCC33"><font size="4"><b>慢車行人道路障礙舉發單紀錄</b> </font><img src="space.gif" width="32" height="10"><a href="passerbase.doc" target="_blank" ><font size="5"> 下載 裁罰系統使用說明.doc</font></a></img>
+		<%if sys_City="台中市" then%>
+			<B>
+			<a href="PasserCreditor.doc" target="_blank" ><font size="5" color="red"> 下載 債權憑證系統使用說明.doc</font></a></td>
+			</b>
+		<%end if%>
+	</tr>
+	<tr>
+		<td bgcolor="#CCCCCC">
+			<table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#FFFFFF">
+				<tr>
+					<td><table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+						<tr><td>
+						建檔序號
+						</td><td>
+						<input name="Sys_DoubleCheckStatus" class="btn1" type="text" value="<%=request("Sys_DoubleCheckStatus")%>" size="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+						</td><td>
+						舉發單位
+						</td><td>
+						<select name="Sys_BillUnitID" class="btn1"><%
+							strSQL="select UnitName from UnitInfo where UnitID='"&Session("Unit_ID")&"'"
+							set rsUnit=conn.execute(strSQL)
+							If Not rsUnit.eof Then strUnitName=trim(rsUnit("UnitName"))
+							rsUnit.close
+							strUnitID=""
+							if trim(Session("UnitLevelID"))="1" then
+								strSQL="select UnitID,UnitName from UnitInfo order by UnitID,UnitName"
+								strtmp=strtmp+"<option value="""">所有單位</option>"
+							elseif trim(Session("UnitLevelID"))="2" then
+								strSQL="select UnitID,UnitName,UnitLevelID from UnitInfo where UnitID='"&Session("Unit_ID")&"' or UnitTypeID=(select UnitTypeid from UnitInfo where UnitID='"&Session("Unit_ID")&"') or UnitLevelID=1 order by UnitTypeID,UnitName"
+
+								set rs1=conn.execute(strSQL)
+								while Not rs1.eof
+									if trim(strUnitID)="" and rs1("UnitLevelID")>1 then
+										strUnitID=trim(rs1("UnitID"))
+									elseif rs1("UnitLevelID")>1 then 
+										strUnitID=strUnitID&"','"&trim(rs1("UnitID"))
+									end if
+									rs1.movenext
+								wend
+								rs1.close
+								strtmp=strtmp+"<option value="""">所有單位</option>"
+								'strtmp=strtmp+"<option value="""&strUnitID&""">管轄單位</option>"
+							elseif trim(Session("UnitLevelID"))="3" then
+								strSQL="select UnitID,UnitName from UnitInfo where UnitID='"&Session("Unit_ID")&"' order by UnitTypeID,UnitName"
+							end if
+							set rs1=conn.execute(strSQL)
+							while Not rs1.eof
+								strtmp=strtmp+"<option value="""&rs1("UnitID")&""""
+								if trim(rs1("UnitID"))=trim(request("Sys_BillUnitID")) then
+									strtmp=strtmp+" selected"
+								end if
+								strtmp=strtmp+">"&rs1("UnitName")&"</option>"
+								rs1.movenext
+							wend
+							rs1.close
+							strtmp=strtmp+"</select>"
+							response.write strtmp%>
+						<%'SelectUnitOption("Sys_BillUnitID","")%>
+						
+						<!--<img src="space.gif" width="3" height="10">
+						舉發員警
+						<%=SelectMemberOption("Sys_BillUnitID","Sys_BillMem")%>
+						<img src="space.gif" width="3" height="10">-->
+						<!--
+						建檔人
+						<select name="Sys_RecordMemberID" class="btn1">
+							<option Value="">請選擇</option>
+							<%
+							strSQL="Select ChName ,MemberID from MemberData"
+							set rs1=conn.execute(strSQL)
+							while Not rs1.eof
+								response.write "<option value="""&rs1("MemberID")&""""
+								if DB_Selt="Selt" then
+									'if trim(rs1("MemberID"))=trim(request("Sys_RecordMemberID")) then response.write " selected"
+								else
+									if trim(rs1("MemberID"))=trim(session("User_ID")) then response.write " selected"
+								end if	
+								response.write ">"&rs1("ChName")&"</option>"
+								rs1.movenext
+							wend
+							rs1.close%>
+						</select>
+						-->
+						</td><td nowrap>
+						舉發人背章號碼
+						</td><td>
+						<input name="Sys_BillMemID" class="btn1" type="text" value="<%=request("Sys_BillMemID")%>" size="7" maxlength="8">
+						</td></tr><tr><td>
+						<strong><font color="red">舉發單號</font></strong>
+						</td><td>
+						<input name="Sys_BillNo" maxlength="9" size="8" class="btn1" type="text" value="<%=Ucase(request("Sys_BillNo"))%>" size="8" maxlength="20">
+						</td><td nowrap>
+						應到案處
+						</td><td>
+						<select name="Sys_MemberStation" class="btn1"><%
+							strSQL="select UnitName from UnitInfo where UnitID='"&Session("Unit_ID")&"'"
+							set rsUnit=conn.execute(strSQL)
+							If Not rsUnit.eof Then strUnitName=trim(rsUnit("UnitName"))
+							rsUnit.close
+							strUnitID="":strtmp=""
+							if trim(Session("UnitLevelID"))="1" then
+								strSQL="select UnitID,UnitName from UnitInfo order by UnitID,UnitName"
+								strtmp=strtmp+"<option value="""">所有單位</option>"
+							elseif trim(Session("UnitLevelID"))="2" then
+								strSQL="select UnitID,UnitName,UnitLevelID from UnitInfo where UnitID='"&Session("Unit_ID")&"' or UnitTypeID=(select UnitTypeid from UnitInfo where UnitID='"&Session("Unit_ID")&"') or UnitLevelID=1 order by UnitTypeID,UnitName"
+
+								set rs1=conn.execute(strSQL)
+								while Not rs1.eof
+									if trim(strUnitID)="" and rs1("UnitLevelID")>1 then
+										strUnitID=trim(rs1("UnitID"))
+									elseif rs1("UnitLevelID")>1 then 
+										strUnitID=strUnitID&"','"&trim(rs1("UnitID"))
+									end if
+									rs1.movenext
+								wend
+								rs1.close
+								strtmp=strtmp+"<option value="""&strUnitID&""">所有單位</option>"
+							elseif trim(Session("UnitLevelID"))="3" then
+								strSQL="select UnitID,UnitName from UnitInfo where UnitID='"&Session("Unit_ID")&"' order by UnitTypeID,UnitName"
+							end if
+							set rs1=conn.execute(strSQL)
+							while Not rs1.eof
+								strtmp=strtmp+"<option value="""&rs1("UnitID")&""""
+								if trim(rs1("UnitID"))=trim(request("Sys_MemberStation")) then
+									strtmp=strtmp+" selected"
+								end if
+								strtmp=strtmp+">"&rs1("UnitName")&"</option>"
+								rs1.movenext
+							wend
+							rs1.close
+							strtmp=strtmp+"</select>"
+							response.write strtmp%>
+						</td><td nowrap>
+						繳費狀況
+						</td><td>
+						<select Name="Sys_BILLSTATUS" class="btn1">
+							<option value="">全部</option>
+							<option value="0"<%if trim(request("Sys_BILLSTATUS"))="0" then response.write " selected"%>>未繳費</option>
+							<option value="9"<%if trim(request("Sys_BILLSTATUS"))="9" then response.write " selected"%>>已繳費(分期繳費)</option>
+						</select>
+						</td><td></tr><tr><td>
+						違規人名
+						</td><td>
+						<input name="Sys_Driver" class="btn1" type="text" value="<%=request("Sys_Driver")%>" size="7" maxlength="8">
+						</td><td>
+						身分證號
+						</td><td>
+						<input name="Sys_DriverID" class="btn1" type="text" value="<%=Ucase(request("Sys_DriverID"))%>" size="10" maxlength="12">
+						</td>
+						<!--送達狀況
+						<select Name="Sys_SendCase" class="btn1">
+							<option value="">請選擇</option>
+							<option value="1"<%if trim(request("Sys_SendCase"))="1" then response.write " selected"%>>末送達</option>
+							<option value="2"<%if trim(request("Sys_SendCase"))="2" then response.write " selected"%>>已送達</option>
+						</select>
+						<img src="space.gif" width="3" height="10">-->
+						<!--<br>
+						舉發類型
+						<select name="Sys_BillTypeID" class="btn1">
+							<option Value="">全部</option>
+							<option value="1"<%if trim(request("Sys_BillTypeID"))="1" then response.write " Selected"%>>慢車</option>
+							<option value="2"<%if trim(request("Sys_BillTypeID"))="2" then response.write " Selected"%>>行人</option>
+							<option value="3"<%if trim(request("Sys_BillTypeID"))="3" then response.write " Selected"%>>道路障礙</option>
+						</select>
+						</td>-->
+						<td>
+						列表排序
+						</td><td>
+						<select Name="Sys_Order" class="btn1">
+							<option value="DoubleCheckStatus,BillNo"<%if trim(request("Sys_Order"))="DoubleCheckStatus,BillNo" then response.write " selected"%>>建檔序號</option>
+							<option value="Driver,BillNo"<%if trim(request("Sys_Order"))="Driver,BillNo" then response.write " selected"%>>違規人</option>
+							<option value="IllegaLDate,BillNo"<%if trim(request("Sys_Order"))="IllegaLDate,BillNo" then response.write " selected"%>>違規日期</option>
+							<option value="Rule1,Driver,IllegaLDate,BillNo"<%if trim(request("Sys_Order"))="Rule1,Driver,IllegaLDate,BillNo" then response.write " selected"%>>法條,違規人,違規日期</option>
+							<option value="Driver,IllegaLDate,Rule1,BillNo"<%if trim(request("Sys_Order"))="Driver,IllegaLDate,Rule1,BillNo" then response.write " selected"%>>違規人,違規日期,法條</option>
+						</select>
+						</td></tr><tr>
+						<td>違規日期</td>
+						<td nowrap>
+							<input name="IllegalDate1" class="btn1" type="text" value="<%=request("IllegalDate1")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+							<input type="button" name="datestr" value="..." class="btn3" style="width:20px;height:20px;" onclick="OpenWindow('IllegalDate1');">
+						~
+							<input name="IllegalDate2" class="btn1" type="text" value="<%=request("IllegalDate2")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+							<input type="button" name="datestr" value="..." class="btn3" style="width:20px;height:20px;" onclick="OpenWindow('IllegalDate2');">
+						</td>
+						
+						
+							<td>催告日期</td>
+							<td nowrap>
+								<input name="UrgeDate1" class="btn1" type="text" value="<%=request("UrgeDate1")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+								<input type="button" name="datestr" value="..." class="btn3" style="width:20px;height:20px;" onclick="OpenWindow('UrgeDate1');">
+							~
+								<input name="UrgeDate2" class="btn1" type="text" value="<%=request("UrgeDate2")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+								<input type="button" name="datestr" value="..." class="btn3" style="width:20px;height:20px;" onclick="OpenWindow('UrgeDate2');">
+							</td>
+						
+						<td>付費日期</td>
+						<td nowrap>
+							<input name="PayDate1" class="btn1" type="text" value="<%=request("PayDate1")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+							<input type="button" name="datestr" value="..." class="btn3" style="width:20px;height:20px;" onclick="OpenWindow('PayDate1');">
+						~
+							<input name="PayDate2" class="btn1" type="text" value="<%=request("PayDate2")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+							<input type="button" name="datestr" value="..." class="btn3" style="width:20px;height:20px;" onclick="OpenWindow('PayDate2');">
+						</td></tr><tr>
+						<td>裁決日期</td>
+						<td nowrap>
+							<input name="JudeDate1" class="btn1" type="text" value="<%=request("JudeDate1")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+							<input type="button" name="datestr" value="..." class="btn3" style="width:20px;height:20px;" onclick="OpenWindow('JudeDate1');">
+						~
+							<input name="JudeDate2" class="btn1" type="text" value="<%=request("JudeDate2")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+							<input type="button" name="datestr" value="..." class="btn3" style="width:20px;height:20px;" onclick="OpenWindow('JudeDate2');">
+						</td>
+						<td>移送日期</td>
+						<td nowrap>
+							<input name="SendDate1" class="btn1" type="text" value="<%=request("SendDate1")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+							<input type="button" name="datestr" value="..." class="btn3" style="width:20px;height:20px;" onclick="OpenWindow('SendDate1');">
+						~
+							<input name="SendDate2" class="btn1" type="text" value="<%=request("SendDate2")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+							<input type="button" name="datestr" value="..." class="btn3" style="width:20px;height:20px;" onclick="OpenWindow('SendDate2');">
+						</td>
+						<td>應到案日期</td>
+						<td nowrap>
+							<input name="DeallIneDate1" class="btn1" type="text" value="<%=request("DeallIneDate1")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+							<input type="button" name="datestr" value="..." class="btn3" style="width:20px;height:20px;" onclick="OpenWindow('DeallIneDate1');">
+						~
+							<input name="DeallIneDate2" class="btn1" type="text" value="<%=request("DeallIneDate2")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+							<input type="button" name="datestr" value="..." class="btn3" style="width:20px;height:20px;" onclick="OpenWindow('DeallIneDate2');">
+						</td>
+						</tr>
+						<tr>
+							<td>建檔日期</td>
+							<td nowrap>
+								<input name="RecordDate1" class="btn1" type="text" value="<%=request("RecordDate1")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+								<input type="button" name="datestr" value="..." class="btn3" style="width:20px;height:20px;" onclick="OpenWindow('RecordDate1');">
+							~
+								<input name="RecordDate2" class="btn1" type="text" value="<%=request("RecordDate2")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+								<input type="button" name="datestr" value="..." class="btn3" style="width:20px;height:20px;" onclick="OpenWindow('RecordDate2');">
+							</td>
+							<td>法條代碼</td>
+							<td nowrap>
+								<input name="Sys_Rule" class="btn1" type="text" value="<%=request("Sys_Rule")%>" size="9">
+							</td><td>
+								<input type="submit" name="btnSelt" value="查詢" class="btn3" style="width:40px;height:20px;" onclick="funSelt();">
+								<input type="button" name="btnCls" value="清除" class="btn3" style="width:40px;height:20px;" onClick="location='PasserBaseQry.asp'">
+							</td>
+						</tr>
+						<%If sys_City = "台中市" then%>
+						<tr bgcolor="#CCFFCC">
+							<td>再次移送日</td>
+							<td nowrap>
+								<input name="Sys_SendDetailDate1" class="btn1" type="text" value="<%=request("Sys_SendDetailDate1")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+								<input type="button" name="datestr" value="..." class="btn3" style="width:20px;height:20px;" onclick="OpenWindow('Sys_SendDetailDate1');">
+							~
+								<input name="Sys_SendDetailDate2" class="btn1" type="text" value="<%=request("Sys_SendDetailDate2")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+								<input type="button" name="datestr" value="..." class="btn3" style="width:20px;height:20px;" onclick="OpenWindow('Sys_SendDetailDate2');">
+							</td>
+							<td>債權狀況</td>
+							<td>
+								<select name="sys_CreditorTypeID">
+
+									<option value="">全部</option>
+
+									<option value="0','1"<%if trim(Request("sys_CreditorTypeID"))="0','1" then response.write " Selected"%>>已申請債權</option>
+
+									<option value="0"<%if trim(Request("sys_CreditorTypeID"))="0" then response.write " Selected"%>>清償中</option>
+
+									<option value="1"<%if trim(Request("sys_CreditorTypeID"))="1" then response.write " Selected"%>>無個人財產</option>
+
+								</select>
+							</td>
+							<td>確定日期</td>
+							<td nowrap>
+								<input name="MakeSureDate1" class="btn1" type="text" value="<%=request("MakeSureDate1")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+								<input type="button" name="datestr" value="..." class="btn3" style="width:20px;height:20px;" onclick="OpenWindow('MakeSureDate1');">
+							~
+								<input name="MakeSureDate2" class="btn1" type="text" value="<%=request("MakeSureDate2")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+								<input type="button" name="datestr" value="..." class="btn3" style="width:20px;height:20px;" onclick="OpenWindow('MakeSureDate2');">
+							</td>
+						</tr>
+						<%end if%>
+						</table>
+						<!--<hr>
+						催告日期
+						<input name="Sys_sltUrgeDate1" class="btn1" type="text" value="<%=request("Sys_sltUrgeDate1")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+						<input type="button" name="datestr" value="..." onclick="OpenWindow('Sys_sltUrgeDate1');">
+						<!-- ~
+						<input name="Sys_sltUrgeDate2" class="btn1" type="text" value="<%=request("Sys_sltUrgeDate2")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+						<input type="button" name="datestr" value="..." onclick="OpenWindow('Sys_sltUrgeDate2');">-->
+						<!--<input type="button" name="btnSelt" value="查詢" onclick="funSltUrgeDate();" <%
+						'1:查詢 ,2:新增 ,3:修改 ,4:刪除
+						if CheckPermission(224,1)=false then
+							response.write "disabled"
+						end if
+						%>>
+						裁決日期
+						<input name="Sys_sltJudeDate1" class="btn1" type="text" value="<%=request("Sys_sltJudeDate1")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+						<input type="button" name="datestr" value="..." onclick="OpenWindow('Sys_sltJudeDate1');">
+						<!-- ~
+						<input name="Sys_sltJudeDate2" class="btn1" type="text" value="<%=request("Sys_sltJudeDate2")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+						<input type="button" name="datestr" value="..." onclick="OpenWindow('Sys_sltJudeDate2');">-->
+						<!--<input type="button" name="btnSelt" value="查詢" onclick="funSltJudeDate();" <%
+						'1:查詢 ,2:新增 ,3:修改 ,4:刪除
+						if CheckPermission(224,1)=false then
+							response.write "disabled"
+						end if
+						%>>
+						移送日期
+						<input name="Sys_sltSendDate1" class="btn1" type="text" value="<%=request("Sys_sltSendDate1")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+						<input type="button" name="datestr" value="..." onclick="OpenWindow('Sys_sltSendDate1');">
+						<!-- ~
+						<input name="Sys_sltSendDate2" class="btn1" type="text" value="<%=request("Sys_sltSendDate2")%>" size="5" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
+						<input type="button" name="datestr" value="..." onclick="OpenWindow('Sys_sltSendDate2');">-->
+						<!--<input type="button" name="btnSelt" value="查詢" onclick="funSltSendDate();" <%
+						'1:查詢 ,2:新增 ,3:修改 ,4:刪除
+						if CheckPermission(224,1)=false then
+							response.write "disabled"
+						end if
+						%>>-->
+						<HR>
+							未做裁決且未繳費
+							<input type="button" name="btnSelt" value="查詢" class="btn3" style="width:40px;height:20px;" onclick="funUrgeDateSelt();" <%
+							'1:查詢 ,2:新增 ,3:修改 ,4:刪除
+							if CheckPermission(224,1)=false then
+								response.write "disabled"
+							end if
+							%>>
+							裁決後
+							未繳費且未催告
+							<input type="button" name="btnSelt" value="查詢" class="btn3" style="width:40px;height:20px;" onclick="funJudeDateSelt();" <%
+							'1:查詢 ,2:新增 ,3:修改 ,4:刪除
+							if CheckPermission(224,1)=false then
+								response.write "disabled"
+							end if
+							%>>
+							裁決後
+							未繳費且未移送
+							<input type="button" name="btnSelt" value="查詢" class="btn3" style="width:40px;height:20px;" onclick="funSendDateSelt();" <%
+							'1:查詢 ,2:新增 ,3:修改 ,4:刪除
+							if CheckPermission(224,1)=false then
+								response.write "disabled"
+							end if
+							%>>
+							<input type="button" name="btnSelt" class="btn3" style="width:60px;height:20px;" value="資料回復" onclick="funRecallData();" <%
+							'1:查詢 ,2:新增 ,3:修改 ,4:刪除
+							if CheckPermission(224,3)=false then
+								response.write "disabled"
+							end if
+							%>>
+							<%if sys_City="基隆市" or sys_City="高雄市" or sys_City="台中市" then%>
+							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+							<input type="button" name="btnSelt" value="整批戶籍地址更正" onclick="funUpdAddress();" >
+							<%end if%>
+					</td>
+				</tr>
+			</table>
+		</td> 
+	</tr>
+	<tr>
+		<td bgcolor="#FFCC33" class="style3">
+			舉發單紀錄列表
+			<img src="space.gif" width="56" height="8">
+			每頁
+			<select name="sys_MoveCnt" onchange="repage();">
+				<option value="0"<%if trim(request("sys_MoveCnt"))="0" then response.write " Selected"%>>10</option>
+				<option value="10"<%if trim(request("sys_MoveCnt"))="10" then response.write " Selected"%>>20</option>
+				<option value="20"<%if trim(request("sys_MoveCnt"))="20" then response.write " Selected"%>>30</option>
+				<option value="30"<%if trim(request("sys_MoveCnt"))="30" then response.write " Selected"%>>40</option>
+				<option value="40"<%if trim(request("sys_MoveCnt"))="40" then response.write " Selected"%>>50</option>
+				<option value="50"<%if trim(request("sys_MoveCnt"))="50" then response.write " Selected"%>>60</option>
+				<option value="60"<%if trim(request("sys_MoveCnt"))="60" then response.write " Selected"%>>70</option>
+				<option value="70"<%if trim(request("sys_MoveCnt"))="70" then response.write " Selected"%>>80</option>
+				<option value="80"<%if trim(request("sys_MoveCnt"))="80" then response.write " Selected"%>>90</option>
+				<option value="90"<%if trim(request("sys_MoveCnt"))="90" then response.write " Selected"%>>100</option>
+			</select>
+			筆<img src="space.gif" width="15" height="8"><strong>( 查詢 <%=DBsum%> 筆紀錄 )</strong>
+			<font color="red"><B>操作項目若不勾選，即為全部處理。</B></font>
+		</td>
+	</tr>
+	<tr>
+		<td bgcolor="#E0E0E0">
+			<table width="100%" border="0" cellpadding="4" cellspacing="1">
+				<tr bgcolor="#EBFBE3" align="center">
+					<th class="font10" nowrap>操作<br>項目</th>
+					<th class="font10" nowrap>序號</th>
+					<th class="font10" nowrap>違規日</th>
+					<th class="font10" nowrap>舉發單號</th>
+					<th class="font10" nowrap>舉發人</th>
+					<th class="font10" nowrap>違規人</th>
+					<th class="font10" nowrap>法條</th>
+					<th class="font10" nowrap>裁決日</th>
+					<%if sys_City<>"基隆市" then%>
+						<th class="font10" nowrap>催告日</th>
+					<%end if%>
+					<th class="font10" nowrap>移送日</th>
+					<%if sys_City="台中市" then%>
+						<th class="font10" nowrap>債權日</th>
+					<%end if%>
+					<th class="font10" nowrap>送達日</th>
+					<%if sys_City="台中市" then%>
+						<th class="font10" nowrap>確定日</th>
+					<%end if%>
+					<th class="font10" nowrap>繳費日</th>
+					<th class="font10" nowrap>已繳<br>金額</th>
+					<th class="font10" nowrap>結案<br>狀態</th>
+					<th class="font10">操作 ( 單筆送達證書 請點選 送達 按鈕 )</th>
+				</tr>
+				<%
+			if DB_Display="show" then
+				set rsfound=conn.execute(strSQLTemp)
+				if Trim(request("DB_Move"))="" then
+					DBcnt=0
+				else
+					DBcnt=request("DB_Move")
+				end if
+				if Not rsfound.eof then rsfound.move DBcnt
+				for i=DBcnt+1 to DBcnt+10+request("sys_MoveCnt")
+					if rsfound.eof then exit for
+					response.write "<tr align='center' bgcolor='#FFFFFF'"
+					lightbarstyle 0
+					response.write ">"
+					response.write "<td class=""font10""><input class=""btn1"" type=""checkbox"" name=""chkSend"" value="""&trim(rsfound("Sn"))&""" onclick=funChkSend();></td>"
+					response.write "<td class=""font10"">"&trim(rsfound("DoubleCheckStatus"))&"</td>"
+					response.write "<td class=""font10"">"&gInitDT(trim(rsfound("IllegalDate")))&"</td>"
+					response.write "<td class=""font10"">"&trim(rsfound("BillNo"))&"</td>"
+					response.write "<td class=""font10"">"&trim(rsfound("BillMem1"))&"</td>"
+					'response.write "<td><a href='../BillKeyIn/BillKeyIn_People_Update.asp?BillSN="&trim(rsfound("SN"))&"' target='_blank'>"&trim(rsfound("BillNo"))&"</a></td>"
+
+					response.write "<td class=""font10"">"&trim(rsfound("Driver"))&"</td>"
+					'response.write "<td>"&trim(rsfound("IllegalAddress"))&"</td>"
+
+					if rsfound("Rule1")<>"" then chRule=rsfound("Rule1")
+					
+					'strSQL="Select * from Law where ItemID='"&rsfound("Rule1")&"' and VerSion='"&rsfound("RuleVer")&"'"
+					'set rslaw=conn.execute(strSQL)
+					'if not rslaw.eof then
+					'	if trim(rslaw("Level1"))<>"" then FORFEIT=trim(rslaw("Level1"))
+					'	if trim(rslaw("Level2"))<>"" then FORFEIT=FORFEIT&","&trim(rslaw("Level2"))
+					'	if trim(rslaw("Level3"))<>"" then FORFEIT=FORFEIT&","&trim(rslaw("Level3"))
+					'	if trim(rslaw("Level4"))<>"" then FORFEIT=FORFEIT&","&trim(rslaw("Level4"))
+					'end if
+					'rslaw.close
+					response.write "<td class=""font10"">"
+					response.write chRule
+					if trim(FORFEIT)<>"" then response.write "<font size=1>("&FORFEIT&")</font>"
+					response.write "</td>"
+					'response.write "<td>"&FORFEIT&"</td>"
+					'smith 20091005 基隆不用秀
+					response.write "<td class=""font10"">"&trim(gInitDT(rsfound("JUDEDATE")))&"</td>"
+
+					if sys_City<>"基隆市" then
+						response.write "<td class=""font10"">"&trim(gInitDT(rsfound("URGEDATE")))&"</td>"
+					End if 
+					
+					response.write "<td class=""font10"">"&trim(gInitDT(rsfound("SENDDATE")))&"</td>"
+
+					'-------------------LEO修改------標頭有改，但是列表沒改------------------------------
+					'response.write "<td class=""font10"">"&trim(gInitDT(rsfound("ArrivedDate")))&"</td>"
+
+					if sys_City="台中市" then
+						strSQL="select max(PetitionDate) PetitionDate from PasserCreditor where billsn="&trim(rsfound("sn"))
+						set rspet=conn.execute(strSQL)
+
+						response.write "<td class=""font10"">"&trim(gInitDT(rspet("PetitionDate")))&"</td>"
+						response.write "<td class=""font10"">"&trim(gInitDT(rsfound("ArrivedDate")))&"</td>"
+						response.write "<td class=""font10"">"&trim(gInitDT(rsfound("MakeSureDate")))&"</td>"
+
+						rspet.close
+					Else
+						response.write "<td class=""font10"">"&trim(gInitDT(rsfound("ArrivedDate")))&"</td>"
+					End if
+					'------------------------------------------------------------------------------------------
+					response.write "<td class=""font10"">"&trim(gInitDT(rsfound("PayDate")))&"</td>"
+
+					Sys_Payamount=0
+					strSQL="select sum(Payamount) as Sys_Payamount from PasserPay where BillSN="&rsfound("SN")&" and BillNo='"&rsfound("BillNo")&"'"
+					set rspay=conn.execute(strSQL)
+					if not rspay.eof then Sys_Payamount=rspay("Sys_Payamount")
+					rspay.close
+
+					response.write "<td class=""font10"">"&Sys_Payamount&"</td>"
+					response.write "<td class=""font10"">"
+					if trim(rsfound("BILLSTATUS"))="9" then
+						response.write "結案."
+					end if
+					response.write "</td>"
+%>					<td class="font10" nowrap align="left">
+						<%if sys_City="基隆市" then%>
+							<!-- smith 20091006 基隆不秀催告. 因為目前法規沒規定要做
+							<input type='button' value='催告' onclick='window.open("PasserUrgeDetail.asp?PBillSN=<%=trim(rsfound("SN"))%>","WebPage2","left=0,top=0,location=0,width=1000,height=600,resizable=yes,scrollbars=yes")'>
+							-->
+							<input type='button' value='裁決' class="btn3" style="width:30px;height:20px;" onclick='window.open("Passer_Jude.asp?PBillSN=<%=trim(rsfound("SN"))%>","WebPage1","left=0,top=0,location=0,width=950,height=700,status=yes,resizable=yes,scrollbars=yes")'>
+						
+						<%else%>
+							
+							<input type='button' value='裁決' class="btn3" style="width:30px;height:20px;" onclick='window.open("Passer_Jude.asp?PBillSN=<%=trim(rsfound("SN"))%>","WebPage1","left=0,top=0,location=0,width=950,height=700,status=yes,resizable=yes,scrollbars=yes")'>							
+							<input type='button' value='催告' class="btn3" style="width:30px;height:20px;" onclick='window.open("PasserUrgeDetail.asp?PBillSN=<%=trim(rsfound("SN"))%>","WebPage2","left=0,top=0,location=0,width=1000,height=600,resizable=yes,scrollbars=yes")'>
+							
+						<%end if%>
+						
+						<input type='button' value='移送' class="btn3" style="width:30px;height:20px;" onclick='window.open("PasserSendDetail.asp?PBillSN=<%=trim(rsfound("SN"))%>","WebPage3","left=0,top=0,location=0,width=1000,height=600,resizable=yes,scrollbars=yes")'<%
+'							if sys_City="台中市" then
+'								If not Ifnull(rsfound("SENDDATE")) Then
+'									If datediff("d",rsfound("SENDDATE"),now) > 30 Then Response.Write " disabled"
+'								End if
+'							end if
+						%>>
+					
+						<!--<input type='button' value='執行處回文' onclick='window.open("Passer_Send.asp","WebPage2","left=0,top=0,location=0,width=500,height=455,resizable=yes,scrollbars=yes")'>
+						
+						<br>-->
+						<input type='button' value='繳款' class="btn3" style="width:30px;height:20px;" onclick='window.open("Passer_Pay.asp?PBillSN=<%=trim(rsfound("SN"))%>","WebPage4","left=0,top=0,location=0,width=900,height=575,resizable=yes,scrollbars=yes")'>
+
+						<input type='button' value='送達' class="btn3" style="width:30px;height:20px;" onclick='window.open("PasserSendArrived.asp?BillSN=<%=trim(rsfound("SN"))%>","WebPage4","left=0,top=0,location=0,width=900,height=575,resizable=yes,scrollbars=yes")'>
+						<%if sys_City="台中市" then%>
+						<input type='button' value='債權' class="btn3" style="width:30px;height:20px;" onclick='window.open("PasserCreditor.asp?BillSN=<%=trim(rsfound("SN"))%>","WebPage4","left=0,top=0,location=0,width=900,height=575,resizable=yes,scrollbars=yes")'<%If Ifnull(rsfound("SENDDATE")) Then Response.Write " disabled"%>>
+						<%end if%>
+
+						<input type="button" name="Update" value="詳細" class="btn3" style="width:30px;height:20px;" onclick='window.open("../Query/ViewBillBaseData_people.asp?BillSn=<%=trim(rsfound("SN"))%>","WebPage1","left=0,top=0,location=0,width=850,height=700,status=yes,resizable=yes,scrollbars=yes")'>
+					</td>
+<%
+					response.write "</tr>"
+				rsfound.MoveNext
+				next
+				rsfound.close
+				set rsfound=nothing
+			end if
+				%>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td height="35" bgcolor="#FFDD77" align="center" nowrap>
+			<input type="button" name="MoveUp" value="上一頁" onclick="funDbMove(-10);" class="btn3" style="width:40px;height:20px;">
+			<span class="style2"><%=fix(Cint(DBcnt)/(10+request("sys_MoveCnt"))+1)&"/"&fix(Cint(DBsum)/(10+request("sys_MoveCnt"))+0.9)%></span>
+			<input type="button" name="MoveDown" value="下一頁" onclick="funDbMove(10);" class="btn3" style="width:40px;height:20px;">
+			<img src="space.gif" width="18" height="8">
+
+			<input type="button" name="btnExecel" value="轉換成Excel" class="btn3" style="width:80px;height:20px;" onclick="funchgExecel();">
+			<input type="button" name="btnExecel" value="郵局大宗函件" class="btn3" style="width:80px;height:20px;" onclick="funPasserMailMoney();">
+			<br>
+
+			<input type="button" name="btnExecel" value="批次裁決通知" class="btn3"
+			style="width:80px;height:20px;" onclick="funJudeBat();">
+
+			<% '基隆催告的都不用秀 smith 20091005
+			if sys_City<>"基隆市" then %>
+				<input type="button" name="btnExecel" value="批次催繳通知" class="btn3" style="width:80px;height:20px;" onclick="funUrgeBat();">
+			<% end if %>
+
+			<input type="button" name="btnExecel" value="批次移送通知" class="btn3" style="width:80px;height:20px;" onclick="funSendBat();">
+
+			<input type="button" name="btnExecel" value="行政執行移送電子清冊" class="btn3" style="width:140px;height:20px;" onclick="funCountryBat();">
+
+			<%if sys_City="台中市" or sys_City="台中縣" then%>
+			<br>
+			<input type="button" name="btnExecel" value="批次催繳套印" class="btn3" style="width:80px;height:20px;" onclick="funUrgeBat_chromat();">
+			
+			<input type="button" name="btnExecel" value="批次裁決套印" class="btn3" style="width:80px;height:20px;" onclick="funJudeBat_chromat();">
+
+			<input type="button" name="btnExecel" value="批次移送套印" class="btn3" style="width:80px;height:20px;" onclick="funSendBat_chromat();">
+			
+			<%end if%>
+
+			<%if sys_City="台中市" then%>
+				<input type="button" name="btnExecel" class="btn3" style="width:110px;height:20px;" value="批次債權移送套印" onclick="funSendBatTwo_chromat();">
+			<%end if%>
+		</td>
+	</tr>
+	
+	<tr>		
+		<td height="35" bgcolor="#FFFFFF" align="center" nowrap>
+			<!-- <font size="2">依據上方選擇案件資料產生相關清冊</font> -->
+			<span class="style3"><img src="space.gif" width="8" height="8"></span>
+
+			<input type="button" name="Submite32" value="建檔清冊" class="btn3" style="width:60px;height:20px;" onclick="funPrintPeopleList_Stop();">
+
+			<input type="button" name="btnExecel" value="舉發清冊" class="btn3" style="width:60px;height:20px;" onclick="funJudeExecel();">
+			<br>
+
+			<input type="button" name="btnExecel" value="裁決清冊" class="btn3" style="width:60px;height:20px;" onclick="funJudeListExecel()">
+
+			<input type="button" name="btnExecel" value="裁決公示送達清冊" class="btn3" style="width:110px;height:20px;" onclick="funGovArriveBat();">
+
+			<input type="button" name="btnExecel" value="裁決寄存送達清冊" class="btn3" style="width:110px;height:20px;" onclick="funSendArriveBat();">
+
+			<%if sys_City="台中市" then%>
+			<br>
+			<input type="button" name="btnExecel" class="btn3" style="width:100px;height:20px;" value="無個人財產清冊" onclick="funNoEffectsList();">
+
+			<input type="button" name="btnExecel" value="債權憑證清冊" class="btn3" style="width:100px;height:20px;" onclick="funCreditorList();">
+
+			
+			<input type="button" name="btnExecel" value="債權執行狀態清冊" class="btn3" style="width:100px;height:20px;" onclick="funCreditorStstusList();">
+
+			<input type="button" name="btnExecel" value="債權明細統計表" class="btn3" style="width:100px;height:20px;" onclick="funPasserSendCreditorList();">
+
+			<input type="button" name="btnExecel" value="債權再移送明細統計表" class="btn3" style="width:100px;height:20px;" onclick="funPasserSendCreditorTwoList();">
+			<%end if
+
+			'基隆催告的都不用秀 smith 20091005
+			if sys_City<>"基隆市" then %>
+				<br>
+				<input type="button" name="btnExecel" value="催告清冊" class="btn3" style="width:60px;height:20px;" onclick="funSendExecel()">
+
+				<input type="button" name="btnExecel" value="催告已到案清冊" class="btn3" style="width:90px;height:20px;" onclick="funSendCloseExecel();">
+
+				<input type="button" name="btnExecel" value="催告未到案清冊" class="btn3" style="width:90px;height:20px;" onclick="funUcloseExecel();">
+			<% end if %>
+
+			<br>
+			<input type="button" name="Submite32" value="移送案件明細表" class="btn3" style="width:90px;height:20px;" onclick="funPasserSend_Stop();">
+
+			<input type="button" name="Submite32" value="繳費明細表" class="btn3" style="width:70px;height:20px;" onclick="funPasserPay_Stop();">
+
+			<input type="button" name="btnExecel" value="收繳費統計表" class="btn3" style="width:80px;height:20px;" onclick="funUnitListExecel();">
+
+			<input type="button" name="Submite32" value="未繳費明細表" class="btn3" style="width:80px;height:20px;" onclick="funPasserNoPay_Stop();">
+			
+			<input type="button" name="btnExecel" value="未繳費統計表" class="btn3" style="width:80px;height:20px;" onclick="funNoPayUnitListExecel();">			
+			
+			<input type="button" name="Submite32" value="年度保留清冊" class="btn3" style="width:80px;height:20px;" onclick="funPasser_Reserve();">
+			<!--<input type="button" name="btnExecel" value="強制執行移送清冊" onclick="funUrgeJudeExecel();">-->
+
+		<!--
+		<br>
+			<input type="button" name="btnprintBill" value="列印違規通知單" onclick="funPrintStyle()">
+			<input type="button" name="btnprintBill" value="列印送達證書" onclick="funUrgeList()">
+			 , 違規通知單與送達證書為Legal格式
+		-->
+		<br>
+		<center><font size="2">清冊列印，皆為A4 直式格式</font></center>
+		</td>
+	</tr>
+
+</table>
+<input type="Hidden" name="DB_Selt" value="<%=trim(DB_Selt)%>">
+<input type="Hidden" name="DB_KindSelt" value="<%=trim(DB_KindSelt)%>">
+<input type="Hidden" name="DB_Display" value="<%=trim(DB_Display)%>">
+<input type="Hidden" name="DB_Move" value="<%=DBcnt%>">
+<input type="Hidden" name="DB_Cnt" value="<%=DBsum%>">
+<input type="Hidden" name="FromILLEGALDATE" value="<%=trim(request("ILLEGALDATE"))%>">
+<input type="Hidden" name="TOILLEGALDATE" value="<%=trim(request("ILLEGALDATE1"))%>">
+<input type="Hidden" name="Sys_SQL" value="<%=strwhere%>">
+<input type="Hidden" name="orderstr" value="<%=orderstr%>">
+<input type="Hidden" name="printStyle" value="">
+<input type="Hidden" name="Sys_PasserNotify" value="">
+<input type="Hidden" name="Sys_PasserSign" value="">
+<input type="Hidden" name="Sys_PasserJude" value="">
+<input type="Hidden" name="Sys_PasserJude_Label" value="">
+<input type="Hidden" name="Sys_PasserDeliver" value="">
+<input type="Hidden" name="Sys_PasserSend" value="">
+<input type="Hidden" name="Sys_PasserJudeSend" value="">
+<input type="Hidden" name="Sys_PasserUrge" value="">
+
+<input type="Hidden" name="MailMoneyValue" value="">
+<input type="Hidden" name="Session_JudeName" value="">
+<input type="Hidden" name="BillUrge" value="">
+<input type="Hidden" name="Sys_SendBillSN" value="<%=Sys_SendBillSN%>">
+</form>
+</body>
+</html>
+
+<script type="text/javascript" src="../js/date.js"></script>
+<script language="javascript">
+var PasserWin;
+var strBillSN=myForm.Sys_SendBillSN.value;
+var ck_Sn=strBillSN.split(',');
+<%'response.write "UnitMan('Sys_BillUnitID','Sys_BillMem','"&request("Sys_BillMem")&"');"%>
+function funSelt(){
+	myForm.DB_Move.value=0;
+	myForm.DB_Selt.value="Selt";
+	myForm.DB_Display.value='show';
+	myForm.Sys_SendBillSN.value='';
+	myForm.DB_KindSelt.value='';
+	myForm.submit();
+}
+function funLoadSend(){
+	if(document.getElementsByName("chkSend").length>0){
+		for(i=0;i<=ck_Sn.length-1;i++){
+			for(j=0;j<=myForm.chkSend.length-1;j++){
+				if(ck_Sn[i]==myForm.chkSend[j].value){
+					myForm.chkSend[j].checked=true;
+				}
+			}
+		}
+	}
+}
+function funChkSend(){
+	var tempSend='';
+	var chked=false;
+	for(j=0;j<=myForm.chkSend.length-1;j++){
+		if(myForm.chkSend[j].checked){
+			chked=false
+			for(i=0;i<=ck_Sn.length-1;i++){
+				if(myForm.chkSend[j].value==ck_Sn[i]){
+					chked=true;
+				}
+			}
+			if(!chked){
+				if(strBillSN!=''){
+					strBillSN=strBillSN+',';
+				}
+				strBillSN=strBillSN+myForm.chkSend[j].value;
+			}
+		}
+	}
+
+	myForm.Sys_SendBillSN.value=strBillSN;
+	ck_Sn=strBillSN.split(',');
+	for(i=0;i<=ck_Sn.length-1;i++){
+		chked=false
+		for(j=0;j<=myForm.chkSend.length-1;j++){
+			if(!myForm.chkSend[j].checked){
+				if(myForm.chkSend[j].value==ck_Sn[i]){
+					chked=true;
+				}
+			}
+		}
+		
+		if(!chked){
+			if(tempSend!=''){
+				tempSend=tempSend+',';
+			}
+			tempSend=tempSend+ck_Sn[i];
+		}
+	}
+	myForm.Sys_SendBillSN.value=tempSend;
+	strBillSN=myForm.Sys_SendBillSN.value;
+	ck_Sn=strBillSN.split(',');
+}
+
+function funPrintPeopleList_Stop(){
+	UrlStr="../Query/PrintPeopleDataList_Stop.asp";
+	myForm.action=UrlStr;
+	myForm.target="PrintPeople";
+	myForm.submit();
+	myForm.action="";
+	myForm.target="";
+}
+
+function funPasserPay_Stop(){
+	UrlStr="PasePayDataList_Stop.asp";
+	myForm.action=UrlStr;
+	myForm.target="PrintPeople";
+	myForm.submit();
+	myForm.action="";
+	myForm.target="";
+}
+function funPasserSend_Stop(){
+	UrlStr="PasserSendDetail_Execel.asp";
+	myForm.action=UrlStr;
+	myForm.target="PrintPeople";
+	myForm.submit();
+	myForm.action="";
+	myForm.target="";
+}
+
+function funPasserNoPay_Stop(){
+	UrlStr="PaseNoPayDataList_Stop.asp";
+	myForm.action=UrlStr;
+	myForm.target="PrintPeople";
+	myForm.submit();
+	myForm.action="";
+	myForm.target="";
+}
+
+
+function funSltUrgeDate(){
+	var error=0;
+	/*if(myForm.Sys_sltUrgeDate1.value!=""){
+		if(!dateCheck(myForm.Sys_sltUrgeDate1.value)){
+			error=1;
+			alert("催告日輸入不正確!!");
+		}
+	}else{
+		error=1;
+		alert("請填入催告日!!");
+	}
+	if (error==0){
+		if(myForm.Sys_sltUrgeDate2.value!=""){
+			if(!dateCheck(myForm.Sys_sltUrgeDate2.value)){
+				error=1;
+				alert("催告日輸入不正確!!");
+			}
+		}else{
+			error=1;
+			alert("請填入催告日!!");
+		}
+	}*/
+	if (error==0){
+		myForm.DB_Move.value=0;
+		myForm.DB_Selt.value="SltUrgeDate";
+		myForm.DB_Display.value='show';
+		myForm.submit();
+	}
+		
+}
+
+function funSltJudeDate(){
+	var error=0;
+	/*if(myForm.Sys_sltJudeDate1.value!=""){
+		if(!dateCheck(myForm.Sys_sltJudeDate1.value)){
+			error=1;
+			alert("裁決日輸入不正確!!");
+		}
+	}else{
+		error=1;
+		alert("請填入裁決日!!");
+	}
+	if (error==0){
+		if(myForm.Sys_sltJudeDate2.value!=""){
+			if(!dateCheck(myForm.Sys_sltJudeDate2.value)){
+				error=1;
+				alert("裁決日輸入不正確!!");
+			}
+		}else{
+			error=1;
+			alert("請填入裁決日!!");
+		}
+	}*/
+	if (error==0){
+		myForm.DB_Move.value=0;
+		myForm.DB_Selt.value="SltJudeDate";
+		myForm.DB_Display.value='show';
+		myForm.submit();
+	}
+		
+}
+
+function funSltSendDate(){
+	var error=0;
+	/*if(myForm.Sys_sltSendDate1.value!=""){
+		if(!dateCheck(myForm.Sys_sltSendDate1.value)){
+			error=1;
+			alert("移送日輸入不正確!!");
+		}
+	}else{
+		error=1;
+		alert("請填入移送日!!");
+	}
+	if (error==0){
+		if(myForm.Sys_sltSendDate2.value!=""){
+			if(!dateCheck(myForm.Sys_sltSendDate2.value)){
+				error=1;
+				alert("移送日輸入不正確!!");
+			}
+		}else{
+			error=1;
+			alert("請填入移送日!!");
+		}
+	}*/
+	if (error==0){
+		myForm.DB_Move.value=0;
+		myForm.DB_Selt.value="SltSendDate";
+		myForm.DB_Display.value='show';
+		myForm.submit();
+	}
+		
+}
+
+function funUrgeDateSelt(){
+	var error=0;
+	myForm.DB_Move.value=0;
+	myForm.DB_Selt.value="Selt";
+	myForm.DB_KindSelt.value="UrgeDateSelt";
+	myForm.DB_Display.value='show';
+	myForm.submit();
+}
+function funJudeDateSelt(){
+	var error=0;
+	myForm.DB_Move.value=0;
+	myForm.DB_Selt.value="Selt";
+	myForm.DB_KindSelt.value="JudeDateSelt";
+	myForm.DB_Display.value='show';
+	myForm.submit();
+}
+function funSendDateSelt(){
+	var error=0;
+	myForm.hd_BillSN.value='';
+	myForm.hd_BillNo.value='';
+	myForm.DB_Move.value=0;
+	myForm.DB_Selt.value="Selt";
+	myForm.DB_KindSelt.value="SendDateSelt";
+	myForm.DB_Display.value='show';
+	myForm.submit();
+}
+function funPrintStyle(){
+
+		UrlStr="PasserSendStyle.asp";
+		newWin(UrlStr,"inputWin",500,500,50,10,"yes","no","yes","no");
+		myForm.action="PasserSendStyle.asp";
+		myForm.target="inputWin";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+}
+
+function funsubmit(){
+	PasserWin.close();
+	if(myForm.printStyle.value=='0'){
+		UrlStr="BillPrints.asp";
+	}else{
+		UrlStr="BillPrints_a4.asp";
+	}
+	newWin(UrlStr,"JudeBat",920,600,50,10,"yes","yes","yes","no");
+	myForm.action=UrlStr;
+	myForm.target="JudeBat";
+	myForm.submit();
+	myForm.action="";
+	myForm.target="";
+	setTimeout('funchgprint()',2000);
+	
+}
+function funchgprint(){
+	PasserWin.DP();
+}
+
+function funUrgeList(){
+	UrlStr="BillPrints_legal.asp";
+	newWin(UrlStr,"UrgeBat",920,600,50,10,"yes","yes","yes","no");
+	myForm.action=UrlStr;
+	myForm.target="UrgeBat";
+	myForm.submit();
+	myForm.action="";
+	myForm.target="";
+	setTimeout('funchgprint()',2000);
+	
+}
+
+function repage(){
+	myForm.DB_Move.value=0;
+	myForm.submit();
+}
+
+function UnitMan(UnitName,UnitMem,tmpMemID){
+	if(document.all[UnitName].value!=''){
+		runServerScript("UnitAdd.asp?UnitID="+document.all[UnitName].value+"&UnitMem="+UnitMem+"&MemberID="+tmpMemID);
+	}else{
+		document.all[UnitMem].options[1]=new Option('請選取','');
+		document.all[UnitMem].length=1;
+	}
+}
+
+function funDbMove(MoveCnt){
+	if (eval(MoveCnt)>0){
+		if (eval(myForm.DB_Move.value) < eval(myForm.DB_Cnt.value)-10-eval(myForm.sys_MoveCnt.value)){
+			
+			myForm.hd_BillSN.value='';
+			myForm.hd_BillNo.value='';
+			myForm.DB_Move.value=eval(myForm.DB_Move.value)+MoveCnt+eval(myForm.sys_MoveCnt.value);
+			myForm.submit();
+		}
+	}else{
+		if (eval(myForm.DB_Move.value)>0){
+
+			myForm.hd_BillSN.value='';
+			myForm.hd_BillNo.value='';
+			myForm.DB_Move.value=eval(myForm.DB_Move.value)+MoveCnt-eval(myForm.sys_MoveCnt.value);
+			myForm.submit();
+		}
+	}
+}
+
+function newWin(url,win,w,h,l,t,sBar,mBar,res,full){
+	PasserWin=window.open(url,win,"width="+w+",height="+h+",left="+l+",top="+t+",scrollbars="+sBar+",menubar="+mBar+",resizable="+res+",fullscreen="+full+",status=yes,toolbar=yes");
+	PasserWin.focus();
+	return win;
+}
+function funchgExecel(){
+	if(myForm.DB_Display.value=="show"){
+		UrlStr="PasserBaseQry_Execel.asp";
+		myForm.action=UrlStr;
+		myForm.target="inputWin";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+	}else{
+		alert("請先進行查詢");
+	}
+}
+function funJudeExecel(){
+	if(myForm.DB_Display.value=="show"){
+		UrlStr="PasserBaseJudeList_Execel.asp";
+		myForm.action=UrlStr;
+		myForm.target="JudeBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+	}else{
+		alert("請先進行查詢");
+	}
+}
+function funSendExecel(){
+	if(myForm.DB_Display.value=="show"){
+		UrlStr="PasserBaseSendList_Execel.asp";
+		myForm.action=UrlStr;
+		myForm.target="JudeBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+	}else{
+		alert("請先進行查詢");
+	}
+}
+function funJudeListExecel(){
+	if(myForm.DB_Display.value=="show"){
+		UrlStr="JudeList_Execel.asp";
+		myForm.action=UrlStr;
+		myForm.target="JudeBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+	}else{
+		alert("請先進行查詢");
+	}
+}
+function funSendCloseExecel(){
+	if(myForm.DB_Display.value=="show"){
+		UrlStr="PasserBaseSendCloseList_Execel.asp";
+		myForm.action=UrlStr;
+		myForm.target="JudeBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+	}else{
+		alert("請先進行查詢");
+	}
+}
+function funPasserMailMoney(){
+	if(myForm.DB_Display.value=="show"){
+		newWin("PasserMailMoneyList_Select.asp","PasserMailMoneyList",400,200,50,10,"yes","yes","yes","no");
+	}else{
+		alert("請先進行查詢");
+	}
+}
+function funPasserReportList(){
+	UrlStr="PasserReportList.asp";
+	myForm.action=UrlStr;
+	myForm.target="PasserReportList";
+	myForm.submit();
+	myForm.action="";
+	myForm.target="";
+}
+function funUcloseExecel(){
+	if(myForm.DB_Display.value=="show"){
+		myForm.action="PasserBaseSendUCloseList_Execel.asp";
+		myForm.target="JudeBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+	}else{
+		alert("請先進行查詢");
+	}
+}
+function funPasser_Reserve(){
+	if(myForm.DB_Display.value=="show"){
+		myForm.action="PasserBaseReserveList.asp";
+		myForm.target="JudeBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+	}else{
+		alert("請先進行查詢");
+	}
+}
+function funUrgeJudeExecel(){
+	if(myForm.DB_Display.value=="show"){
+		UrlStr="PasserBaseUrgeJudeList_Execel.asp";
+		myForm.action=UrlStr;
+		myForm.target="JudeBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+	}else{
+		alert("請先進行查詢");
+	}
+}
+function funUnitListExecel(){
+	if(myForm.DB_Display.value=="show"){
+		UrlStr="PasserBaseUnitList_Execel.asp"
+		myForm.action=UrlStr;
+		myForm.target="JudeBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+	}else{
+		alert("請先進行查詢");
+	}
+}
+function funNoPayUnitListExecel(){
+	if(myForm.DB_Display.value=="show"){
+		UrlStr="PasserBaseNotPayUnitList_Execel.asp"
+		myForm.action=UrlStr;
+		myForm.target="JudeBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+	}else{
+		alert("請先進行查詢");
+	}
+}
+
+function funCountryBat(){
+	if(myForm.DB_Display.value=="show"){
+		UrlStr="PasserCountryList.asp";
+		myForm.action=UrlStr;
+		myForm.target="JudeBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+	}else{
+		alert("請先進行查詢");
+	}
+}
+function funCreditorStstusList(){
+	if(myForm.DB_Display.value=="show" && myForm.SendDate1.value!="" && myForm.SendDate2.value!=""){
+		
+		//UrlStr="PasserArriveList.asp";
+		UrlStr="PasserCreditorStstusList.asp"
+		myForm.action=UrlStr;
+		myForm.target="CreditorStstusList";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+	}else{
+		alert("沒有資料或移送日期必填!!");
+	}
+}
+function funPasserSendCreditorList(){
+		
+	//UrlStr="PasserArriveList.asp";
+	UrlStr="PasserSendCreditorList.asp"
+	myForm.action=UrlStr;
+	myForm.target="PasserSendCreditorList";
+	myForm.submit();
+	myForm.action="";
+	myForm.target="";
+}
+function funPasserSendCreditorTwoList(){
+		
+	//UrlStr="PasserArriveList.asp";
+	UrlStr="PasserSendCreditorTwoList.asp"
+	myForm.action=UrlStr;
+	myForm.target="PasserSendCreditorTwoList";
+	myForm.submit();
+	myForm.action="";
+	myForm.target="";
+}
+function funCreditorList(){
+	if(myForm.DB_Display.value=="show" && myForm.Sys_SendDetailDate1.value!="" && myForm.Sys_SendDetailDate2.value!=""){
+		//UrlStr="PasserArriveList.asp";
+		UrlStr="PasserCreditorNotPayList.asp"
+		myForm.action=UrlStr;
+		myForm.target="PasserCreditorNotPayList";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+	}else{
+		alert("沒有資料或再移送日期必填!!");
+	}
+}
+function funNoEffectsList(){
+	if(myForm.DB_Display.value=="show"){
+		//UrlStr="PasserArriveList.asp";
+		UrlStr="PasserNoEffectsList.asp"
+		myForm.action=UrlStr;
+		myForm.target="PasserArriveList";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+	}else{
+		alert("請先進行查詢");
+	}
+}
+function funGovArriveBat(){
+	if(myForm.DB_Display.value=="show"){
+		//UrlStr="PasserArriveList.asp";
+		UrlStr="funGovSendList_Exce.asp"
+		myForm.action=UrlStr;
+		myForm.target="PasserArriveList";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+	}else{
+		alert("請先進行查詢");
+	}
+}
+function funSendArriveBat(){
+	if(myForm.DB_Display.value=="show"){
+		//UrlStr="PasserArriveList.asp";
+		UrlStr="funSendSendList_Exce.asp"
+		myForm.action=UrlStr;
+		myForm.target="PasserArriveList";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+	}else{
+		alert("請先進行查詢");
+	}
+}
+function funJudeBat(){
+		//myForm.Sys_SendBillSN.value=myForm.Sys_SendBillSN.value;
+		//myForm.hd_BillSN.value=myForm.hd_BillSN.value;
+		//myForm.hd_BillNo.value=myForm.hd_BillNo.value;
+
+		myForm.action="PasserJudeBat.asp";
+		myForm.target="JudeBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+}
+function funJudeBat_chromat(){
+		//myForm.Sys_SendBillSN.value=myForm.Sys_SendBillSN.value;
+		//myForm.hd_BillSN.value=myForm.hd_BillSN.value;
+		//myForm.hd_BillNo.value=myForm.hd_BillNo.value;
+
+		myForm.action="PasserJudeBat_chromat.asp";
+		myForm.target="JudeBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+}
+function funSendBat(){
+		//myForm.Sys_SendBillSN.value=myForm.Sys_SendBillSN.value;
+		//myForm.hd_BillSN.value=myForm.hd_BillSN.value;
+		//myForm.hd_BillNo.value=myForm.hd_BillNo.value;
+
+		myForm.action="PasserSendDetailBat.asp";
+		myForm.target="SendBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+}
+
+function funSendBat_chromat(){
+		//myForm.Sys_SendBillSN.value=myForm.Sys_SendBillSN.value;
+		//myForm.hd_BillSN.value=myForm.hd_BillSN.value;
+		//myForm.hd_BillNo.value=myForm.hd_BillNo.value;
+
+		myForm.action="PasserSendDetailBat_chromat.asp";
+		myForm.target="SendBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+}
+
+function funSendBatTwo_chromat(){
+		//myForm.Sys_SendBillSN.value=myForm.Sys_SendBillSN.value;
+		//myForm.hd_BillSN.value=myForm.hd_BillSN.value;
+		//myForm.hd_BillNo.value=myForm.hd_BillNo.value;
+		
+		myForm.action="PasserSendDetailBatTwo_chromat.asp";
+		myForm.target="SendBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+}
+
+function funUrgeBat(){
+		//myForm.Sys_SendBillSN.value=myForm.Sys_SendBillSN.value;
+		//myForm.hd_BillSN.value=myForm.hd_BillSN.value;
+		//myForm.hd_BillNo.value=myForm.hd_BillNo.value;
+
+		myForm.action="PasserUrgeBat.asp";
+		myForm.target="JudeBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+}
+
+function funUrgeBat_chromat(){
+		//myForm.Sys_SendBillSN.value=myForm.Sys_SendBillSN.value;
+		//myForm.hd_BillSN.value=myForm.hd_BillSN.value;
+		//myForm.hd_BillNo.value=myForm.hd_BillNo.value;
+
+		myForm.action="PasserUrgeBat_chromat.asp";
+		myForm.target="JudeBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+}
+
+function funJudeList(){
+		//UrlStr="PasserJudeBatList.asp";
+		//newWin(UrlStr,"JudeBat",920,600,50,10,"yes","no","yes","no");
+		myForm.action="PasserJudeBatList.asp";
+		myForm.target="JudeBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+		myForm.Sys_PasserNotify.value="";
+		myForm.Sys_PasserSign.value="";
+    	myForm.Sys_PasserJude.value="";
+		myForm.Sys_PasserDeliver.value="";
+		myForm.Sys_PasserSend.value="";
+		myForm.Sys_PasserJudeSend.value="";
+		myForm.Sys_PasserUrge.value="";
+		//myForm.submit();
+}
+
+function funJudeList_chromat(){
+		//UrlStr="PasserJudeBatList.asp";
+		//newWin(UrlStr,"JudeBat",920,600,50,10,"yes","no","yes","no");
+		<%if sys_City="台中市" then
+			Response.Write "myForm.action=""PasserJudeBatList_chromat.asp"";"
+		elseif sys_City="台中縣" then
+			Response.Write "myForm.action=""PasserJudeBatListTaiChung_chromat.asp"";"
+		end if%>
+		myForm.target="JudeBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+		myForm.Sys_PasserNotify.value="";
+		myForm.Sys_PasserSign.value="";
+    	myForm.Sys_PasserJude.value="";
+		myForm.Sys_PasserDeliver.value="";
+		myForm.Sys_PasserSend.value="";
+		myForm.Sys_PasserJudeSend.value="";
+		myForm.Sys_PasserUrge.value="";
+		//myForm.submit();
+}
+
+function funSendList(){
+		//UrlStr="PasserJudeBatList.asp";
+		//newWin(UrlStr,"JudeBat",920,600,50,10,"yes","no","yes","no");
+		myForm.action="PasserSendBatList.asp";
+		myForm.target="SendBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+		myForm.Sys_PasserNotify.value="";
+		myForm.Sys_PasserSign.value="";
+    	myForm.Sys_PasserJude.value="";
+		myForm.Sys_PasserDeliver.value="";
+		myForm.Sys_PasserSend.value="";
+		myForm.Sys_PasserJudeSend.value="";
+		myForm.Sys_PasserUrge.value="";
+		//myForm.submit();
+}
+
+function funSendList_chromat(){
+		//UrlStr="PasserJudeBatList.asp";
+		//newWin(UrlStr,"JudeBat",920,600,50,10,"yes","no","yes","no");
+		<%if sys_City="台中市" then
+			Response.Write "myForm.action=""PasserSendBatList_chromat.asp"";"
+		elseif sys_City="台中縣" then
+			Response.Write "myForm.action=""PasserSendBatListTaiChung_chromat.asp"";"
+		end if%>
+		myForm.target="SendBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+		myForm.Sys_PasserNotify.value="";
+		myForm.Sys_PasserSign.value="";
+    	myForm.Sys_PasserJude.value="";
+		myForm.Sys_PasserDeliver.value="";
+		myForm.Sys_PasserSend.value="";
+		myForm.Sys_PasserJudeSend.value="";
+		myForm.Sys_PasserUrge.value="";
+		//myForm.submit();
+}
+
+function funSendListTwo_chromat(SendType){
+		myForm.Sys_PasserNotify.value=SendType;
+		myForm.action="PasserSendBatListTwo_chromat.asp";
+		myForm.target="SendBat";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+		myForm.Sys_PasserNotify.value="";
+		myForm.Sys_PasserSign.value="";
+    	myForm.Sys_PasserJude.value="";
+		myForm.Sys_PasserDeliver.value="";
+		myForm.Sys_PasserSend.value="";
+		myForm.Sys_PasserJudeSend.value="";
+		myForm.Sys_PasserUrge.value="";
+		//myForm.submit();
+}
+
+function funRecallData(){
+	if(myForm.DB_Display.value=="show"){
+		UrlStr="PasserRecallData.asp";
+		myForm.action=UrlStr;
+		myForm.target="ReCall";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+	}else{
+		alert("請先進行查詢");
+	}
+}
+
+function funUpdAddress(){
+		UrlStr="PasserUpdAddress.asp";
+		myForm.action=UrlStr;
+		myForm.target="PasserUpdAddress";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+
+}
+</script>
+<%
+conn.close
+set conn=nothing
+%>

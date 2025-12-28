@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!--#include virtual="traffic/Common/DB.ini"-->
+<!--#include virtual="traffic/Common/AllFunction.inc"-->
+<%
+fMnoth=month(now)
+if fMnoth<10 then
+fMnoth="0"&fMnoth
+end if
+fDay=day(now)
+if fDay<10 then
+fDay="0"&fDay
+end if
+fname=year(now)&fMnoth&fDay&"_催繳書.doc"
+Response.AddHeader "Content-Disposition", "filename="&fname
+response.contenttype="application/msword; charset=MS950"
+
+thenPasserCity=""
+strUInfo="select * from Apconfigure where ID=40"
+set rsUInfo=conn.execute(strUInfo)
+if not rsUInfo.eof then thenPasserCity=trim(rsUInfo("value"))
+rsUInfo.close
+
+strCity="select value from Apconfigure where id=31"
+set rsCity=conn.execute(strCity)
+sys_City=trim(rsCity("value"))
+rsCity.close
+
+strSql="select a.SN as BillSN,a.BillNo,a.RuleVer,a.IllegalDate,b.OpenGovNumber as JudeOGN,c.OpenGovNumber as UrgeOGN,c.UrgeDate,c.BigUnitBossName,c.SubUnitSecBossName,c.ContactTel,c.SendAddress,c.UrgeTypeID,c.ForFeit,a.Driver,a.DriverBirth,a.DriverID,a.DriverSex,a.DriverZip,a.DriverAddress,a.IllegalDate,a.IllegalAddress,a.DealLineDate,a.Rule1,a.Rule2,a.Rule3,a.Rule4,a.BillUnitID,d.Level1,d.Level4 from PasserBase a,PasserJude b,PasserUrge c,Law d where a.SN="&trim(request("PBillSN"))&" and a.SN=b.BillSN(+) and a.BillNo=b.BillNo(+) and a.SN=c.BillSN(+) and a.BillNo=c.BillNo(+) and a.Rule1=d.ItemID(+) and a.RuleVer=d.VerSion(+)"
+
+set rsfound=conn.execute(strSql)
+if Not rsfound.eof then
+	If not ifnull(Trim(rsfound("DriverID"))) Then
+		If Mid(Trim(rsfound("DriverID")),2,1)="1" Then
+			Sys_Sex="男"
+		elseif Mid(Trim(rsfound("DriverID")),2,1)="2" Then
+			Sys_Sex="女"
+		End if
+	End if
+end if
+
+Sys_IllegalDate=split(gArrDT(trim(rsfound("IllegalDate"))),"-")
+
+if trim(rsfound("UrgeDate"))<>"" then
+	UrgeDate=split(gArrDT(rsfound("UrgeDate")),"-")
+else
+	UrgeDate=split(gInitDT(date),"-")
+end if
+PrintDate=split(gArrDT(date),"-")
+'strUInfo="select * from UnitInfo where UnitID='"&trim(rsfound("BillUnitID"))&"'"
+'set rsUInfo=conn.execute(strUInfo)
+'if not rsUInfo.eof then
+'	theSubUnitSecBossName=trim(rsUInfo("SecondManagerName"))
+'	theBigUnitBossName=trim(rsUInfo("ManageMemberName"))
+'	theContactTel=trim(rsUInfo("Tel"))
+'	theBankAccount=trim(rsUInfo("BankAccount"))
+'	theBankName=trim(rsUInfo("BankName"))
+'	theUnitName=trim(rsUInfo("UnitName"))
+'end if
+
+strSQL="select UnitID,UnitTypeID,UnitLevelID from UnitInfo where UnitID='"&Session("Unit_ID")&"'"
+set rsUnit=conn.execute(strSQL)
+Sys_UnitID=trim(rsUnit("UnitID"))
+Sys_UnitTypeID=trim(rsUnit("UnitTypeID"))
+Sys_UnitLevelID=trim(rsUnit("UnitLevelID"))
+rsUnit.close
+
+If Sys_UnitLevelID=1 Then
+	strSQL="select * from UnitInfo where UnitID='"&Sys_UnitID&"'"
+else
+	strSQL="select * from UnitInfo where UnitID='"&Sys_UnitTypeID&"'"
+end if
+set unit=conn.Execute(strSQL)
+If Not unit.eof Then
+	theUnitID=trim(unit("UnitID"))
+	theUnitName=trim(unit("UnitName"))
+	theSubUnitSecBossName=trim(unit("SecondManagerName"))
+	theBigUnitBossName=trim(unit("ManageMemberName"))
+	theContactTel=trim(unit("Tel"))
+	theBankAccount=trim(unit("BankAccount"))
+	theBankName=trim(unit("BankName"))
+	theUnitAddress=trim(unit("Address"))
+end if
+unit.close
+
+if trim(rsfound("SubUnitSecBossName"))<>"" then
+	theSubUnitSecBossName=trim(rsfound("SubUnitSecBossName"))
+end if
+if trim(rsfound("BigUnitBossName"))<>"" then
+	theBigUnitBossName=trim(rsfound("BigUnitBossName"))
+end if
+if trim(rsfound("ContactTel"))<>"" then
+	theContactTel=trim(rsfound("ContactTel"))
+end if
+%>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=big5">
+<title>違反道路交通管理處罰條例催繳通知書</title>
+<style type="text/css">
+<!--
+.style1 {font-size: 36px}
+.style3 {font-size: 18px}
+-->
+</style>
+<!--#include virtual="traffic/Common/css.txt"-->
+</head>
+
+<body>
+<table width="645" height="100%" border="1" cellspacing=0 cellpadding=0>
+  <tr>
+    <td height="62" colspan="4"><div align="center" class="style1">違反道路交通管理處罰條例催繳通知書</div></td>
+  </tr>
+  <tr>
+    <td height="58"><div align="center" class="style3">事　　由</div></td>
+    <td colspan="3"><span class="style3">違反道路交通管理事件處罰案　催字第<%=rsfound("UrgeOGN")%>號</span></td>
+  </tr>
+  <tr>
+    <td height="55" align="center"><span class="style3">送達文件</span></td>
+    <td><span class="style3">催繳通知書</span></td>
+	<td height="55" align="center"><span class="style3">發文日期</span></td>
+    <td><span class="style3"><%="民國"&UrgeDate(0)&"年"&UrgeDate(1)&"月"&UrgeDate(2)&"日"%></span></td>
+  </tr>
+  <tr>
+    <td height="61" align="center"><span class="style3">受送達人<br>
+    姓　　名</span></td>
+    <td colspan="3"><span class="style3">被通知人：<%=rsfound("Driver")%>，性別：<%=Sys_Sex%>，身分證統一<%
+	If sys_City="台南市" Then
+		response.write "編號"
+	Else
+		response.write "號碼"
+	End If 
+	%>：<%=rsfound("DriverID")%></span></td>
+  </tr>
+  <tr>
+    <td height="64" align="center"><span class="style3">送達處所</span></td>
+    <td colspan="3"><span class="style3">戶籍地：<%=trim(rsfound("DriverZip"))&trim(rsfound("DriverAddress"))%></span></td>
+  </tr>
+ <tr valign="top">
+    <td height="224" colspan="4">
+		<table border=0 width="100%">
+			<tr><td height="81" valign="top"><span class="style21">一、</span></td>
+	<%If sys_City="嘉義縣" Then%>
+			<td valign="top"><span class="style3">台端年度<%=Sys_IllegalDate(0)%>年違反道路管理事件１件，應繳納新台幣<%=rsfound("ForFeit")%>　元正，已逾期未繳〈本分局<%=BillPageUnit%>交裁字第<%=rsfound("JudeOGN")%>號裁決書〉。</span></td></tr>
+	<%else%>
+			<td valign="top"><span class="style3">台端年度<%=Sys_IllegalDate(0)%>年至<%=PrintDate(0)%>年違反道路管理事件１件，應繳納新台幣&lt;&lt;金額　<%=rsfound("ForFeit")%>&gt;&gt;元正，已逾期未繳。<%=BillPageUnit%>裁字第<%=rsfound("JudeOGN")%>號</span></td></tr>
+	<%End If %>
+			
+			<tr><td height="110" valign="top"><span class="style3">二、</span></td>
+	<%If sys_City="台南市" Then%>
+			<td valign="top"><span class="style3">請於收受本通知書後，十五日內至本分局繳納或用匯票匯本分局，每一案仍維持原罰<%'=rsfound("Level1")%>。上開繳納罰款如未能依時限繳納，已違反行政執行法第四條，金錢給付義務逾期不履行者，每一違規案件，將對台端採最高罰（<%=rsfound("Level4")%>）並移送行政執行署所屬行政執行處，依法強制執行。</span></td></tr>
+	<%else%>
+			<td valign="top"><span class="style3">請於收受本通知書後，十五日內至本分局繳納或用匯票匯本分局，每一案仍維持原罰<%'=rsfound("Level1")%>。上開繳納罰款如未能依時限繳納，已違反行政執行法第四條，金錢給付義務逾期不履行者，每一違規案件，將對台端採最高罰（<%=rsfound("Level4")%>）並移送行政執行署所屬行政執行處，依法強制執行。</span></td></tr>
+	<%End If %>
+			<tr><td height="81" valign="top"><span class="style3">三、</span></td>
+			<td valign="top"><span class="style3">為顧及台端之權益及本於便民措施，特再通知。（<%=theContactTel%>）</span></td></tr>
+			<tr><td height="88" valign="top"><span class="style3">四、</span></td>
+			<td valign="top"><span class="style3">戶名：<%=theBankName%>。<br>帳號：<%=theBankAccount%>。</span></td></tr>
+	  </table>
+  </tr>
+  <tr>
+    <td height="121" align="center"><span class="style21">舉　發<br>
+    單　位</span></td>
+    <td><%=thenPasserCity&"<br>"&theUnitName%></td>
+    <td colspan="2" rowspan>承辦人：<%
+	If sys_City<>"澎湖縣" and sys_City<>"高雄縣"  and sys_City<>"嘉義市" Then
+		if trim(Sys_MemUnitFileName)<>"" then
+			response.write "<img src=""..\Member\Picture\"&Sys_MemUnitFileName&""" width=""90"" height=""30"">"
+		else
+			'南投竹山分局
+			'南投竹山分局  從這邊可以設定 操作者與承辦人不同人
+			if Session("Unit_ID") = "05FG" then 
+				response.write left("蘇永信　　　　　　　　",5)
+			elseIf sys_City<>"台南市" and Session("Unit_ID") <> "F000" Then
+				response.write left(request("Session_JudeName")&"　　　　　　　　",5)
+			else
+				response.write "　　　　　　　　"
+			end if
+		end if
+	else
+		response.write "　　　　　　　　"
+	end if
+
+	if Session("Unit_ID") = "05FG" then
+		response.write "分局長代行："
+	elseif sys_City = "高雄縣" or sys_City="嘉義市" then
+		response.write "組長："
+	elseIf sys_City<>"基隆市" and sys_City<>"高雄市" Then
+		response.write "單位主官："
+	end if
+
+	If sys_City<>"澎湖縣" and sys_City<>"嘉義市" Then
+		if trim(Sys_MemUnitFileName)<>"" then
+			response.write "<img src=""..\Member\Picture\"&Sys_MemUnitFileName&""" width=""90"" height=""30"">"
+		elseif Session("Unit_ID") <> "F000" then
+			response.write left(UBigUnitBossName&"　　　　　　　　　　",5)
+		end if
+	else
+		response.write left("　　　　　　　　　　",5)
+	end if
+	response.Write "<br><br>"
+	
+	If sys_City<>"嘉義市" and sys_City<>"澎湖縣" and sys_City<>"台東縣" Then
+		if Session("Unit_ID") <> "05FG" and Session("Unit_ID") <> "F000" then
+			If sys_City<>"宜蘭縣"  and sys_City<>"台南市" and sys_City<>"台南縣" and sys_City<>"花蓮縣" then
+				If sys_City<>"嘉義縣" and sys_City<>"高雄縣" and sys_City<>"高雄市" and sys_City<>"金門縣" then
+					response.write "局長："&left(theBigUnitBossName&"　　　　　　　　",5)
+				else
+					response.write "分局長："&left(theSubUnitSecBossName&"　　　　　　　　",5)
+				end if
+			end if
+		end if
+	elseif sys_City="台東縣" Then
+		response.write "組長："&left("　　　　　　　　",5)
+
+	elseif sys_City="嘉義市" then
+		response.write "分局長："&left("　　　　　　　　",5)
+	end if%>&nbsp;</span></td>
+  </tr>
+</table>
+</body>
+</html>

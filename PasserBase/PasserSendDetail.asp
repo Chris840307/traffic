@@ -1,0 +1,856 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<!--#include virtual="traffic/Common/DB.ini"-->
+<!--#include virtual="traffic/Common/AllFunction.inc"-->
+<!--#include virtual="traffic/Common/Login_Check.asp"-->
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=big5">
+<title>違反道路交通管理事件移送</title>
+<!--#include virtual="traffic/Common/css.txt"-->
+</head>
+<%
+strSQL="select UnitID,UnitTypeID,UnitLevelID from UnitInfo where UnitID='"&Session("Unit_ID")&"'"
+set rsUnit=conn.execute(strSQL)
+Sys_UnitID=trim(rsUnit("UnitID"))
+Sys_UnitTypeID=trim(rsUnit("UnitTypeID"))
+Sys_UnitLevelID=trim(rsUnit("UnitLevelID"))
+rsUnit.close
+
+strCity="select value from Apconfigure where id=31"
+set rsCity=conn.execute(strCity)
+sys_City=trim(rsCity("value"))
+rsCity.close
+
+sys_City=replace(sys_City,"台中縣","台中市")
+sys_City=replace(sys_City,"台南縣","台南市")
+
+showCreditor=false
+if sys_City="台中市" or sys_City = "彰化縣" or sys_City = "台南市" or sys_City = "高雄市" or sys_City = "高雄縣" or sys_City="宜蘭縣" or sys_City="基隆市" or sys_City="澎湖縣" or sys_City="屏東縣" then
+	showCreditor=true
+end If
+
+
+If Sys_UnitLevelID=1 Then
+	strSQL="select * from UnitInfo where UnitID='"&Sys_UnitID&"'"
+else
+	strSQL="select * from UnitInfo where UnitID='"&Sys_UnitTypeID&"'"
+end if
+set rsUnit=conn.Execute(strSQL)
+DB_UnitID=trim(rsUnit("UnitID"))
+DB_UnitName=trim(rsUnit("UnitName"))
+theContactTel=trim(rsUnit("Tel"))
+theSubUnitSecBossName=trim(rsUnit("SecondManagerName"))
+theBigUnitBossName=trim(rsUnit("ManageMemberName"))
+rsUnit.close
+
+strSQL="select * from UnitInfo where UnitLevelID=1 and UnitName like '%交%隊'"
+set rsUnit=conn.Execute(strSQL)
+theBankAccount=trim(rsUnit("BankAccount"))
+rsUnit.close
+
+if trim(request("DB_Add"))="Del" then
+	'strSQL="delete PasserSendDetail where sn="&Request("SendDetialSN")
+	'conn.execute(strSQL)
+	
+	'Response.write "<script>"
+	'Response.Write "alert('刪除完成！');"
+	'Response.write "</script>"
+
+end if
+
+if trim(request("DB_Add"))="ADD" then
+	if trim(request("Sys_ForFeit"))="" then
+		Sys_ForFeit=0
+	else
+		Sys_ForFeit=trim(request("Sys_ForFeit"))
+	end if
+	strSQL="insert into PasserSend(BillSN,BillNo,OpenGovNumber,SendNumber,SendDate,Agent,AgentBirthDate,AgentID,ForFeit,BigUnitBossName,SubUnitSecBossName,MakeSureDate,LimitDate,AttatchJude,AttatchUrge,AttatchFortune,AttatchGround,AttatchRegister,AttatchFileList,AttatchTable,ATTATPOSTAGE,SAFETOEXIT,SAFEACTION,SAFEASSURE,SAFEDETAIN,SAFESHUTSHOP,RecordStateID,RecordDate,RecordMemberID) values("&request("BillSN")&",'"&request("BillNo")&"','"&request("Sys_OpenGovNumber")&"','"&request("Sys_SendNumber")&"',"&funGetDate(gOutDT(request("Sys_SendDate")),0)&",'"&request("Sys_Agent")&"',"&funGetDate(gOutDT(request("Sys_AgentBirthDate")),0)&",'"&request("Sys_AgentID")&"',"&Sys_ForFeit&",'"&request("Sys_BigUnitBossName")&"','"&request("Sys_SubUnitSecBossName")&"',"&funGetDate(gOutDT(request("Sys_MakeSureDate")),0)&","&funGetDate(gOutDT(request("Sys_LimitDate")),0)&",'"&request("Sys_AttatchJude")&"','"&request("Sys_AttatchUrge")&"','"&request("Sys_AttatchFortune")&"','"&request("Sys_AttatchGround")&"','"&request("Sys_AttatchRegister")&"','"&request("Sys_AttatchFileList")&"','"&request("Sys_AttatchTable")&"','"&request("Sys_ATTATPOSTAGE")&"','"&request("Sys_SAFETOEXIT")&"','"&request("Sys_SAFEACTION")&"','"&request("Sys_SAFEASSURE")&"','"&request("Sys_SAFEDETAIN")&"','"&request("Sys_SAFESHUTSHOP")&"',0,"&funGetDate(now,1)&","&Session("User_ID")&")"
+	conn.execute(strSQL)
+
+	If showCreditor then
+		
+		strSQL="select count(1) cnt from PasserSendDetail where BillSN="&trim(request("BillSN"))
+
+		set rscnt=conn.execute(strSQL)
+
+		If cdbl(rscnt("cnt"))=0 Then
+			strSQL="select OpenGovNumber,SendNumber,SendDate from PasserSend where billsn="&trim(Request("BillSN"))
+			set rssend=conn.execute(strSQL)
+
+			If not rssend.eof Then
+
+				strSQL="insert into PasserSendDetail values((select nvl(max(sn),0)+1 from PasserSendDetail),"&trim(Request("BillSN"))&",'"&trim(rssend("OpenGovNumber"))&"','"&trim(rssend("SendNumber"))&"',"&funGetDate(rssend("SendDate"),0)&",sysdate,"&Session("User_ID")&")"
+
+				conn.execute(strSQL)
+			End if
+			rssend.close
+		End if
+		rscnt.close
+
+	end if
+
+	Response.write "<script>"
+	Response.Write "alert('儲存完成！');"
+	Response.write "</script>"
+elseif trim(request("DB_Add"))="Update" then
+
+	strSQL="Update PasserSend set OpenGovNumber='"&request("Sys_OpenGovNumber")&"',SendNumber='"&request("Sys_SendNumber")&"',SendDate="&funGetDate(gOutDT(request("Sys_SendDate")),0)&",Agent='"&request("Sys_Agent")&"',AgentBirthDate="&funGetDate(gOutDT(request("Sys_AgentBirthDate")),0)&",AgentID='"&request("Sys_AgentID")&"',ForFeit="&request("Sys_ForFeit")&",BigUnitBossName='"&request("Sys_BigUnitBossName")&"',SubUnitSecBossName='"&request("Sys_SubUnitSecBossName")&"',MakeSureDate="&funGetDate(gOutDT(request("Sys_MakeSureDate")),0)&",LimitDate="&funGetDate(gOutDT(request("Sys_LimitDate")),0)&",AttatchJude='"&request("Sys_AttatchJude")&"',AttatchUrge='"&request("Sys_AttatchUrge")&"',AttatchFortune='"&request("Sys_AttatchFortune")&"',AttatchGround='"&request("Sys_AttatchGround")&"',AttatchRegister='"&request("Sys_AttatchRegister")&"',AttatchFileList='"&request("Sys_AttatchFileList")&"',AttatchTable='"&request("Sys_AttatchTable")&"',ATTATPOSTAGE='"&request("Sys_ATTATPOSTAGE")&"',SAFETOEXIT='"&request("Sys_SAFETOEXIT")&"',SAFEACTION='"&request("Sys_SAFEACTION")&"',SAFEASSURE='"&request("Sys_SAFEASSURE")&"',SAFEDETAIN='"&request("Sys_SAFEDETAIN")&"',SAFESHUTSHOP='"&request("Sys_SAFESHUTSHOP")&"',RecordStateID=0,RecordDate="&funGetDate(now,1)&",RecordMemberID="&Session("User_ID")&" where BillSN="&request("BillSN")&" and BillNo='"&request("BillNo")&"'"
+	'response.write strSQL
+	conn.execute(strSQL)
+
+	Response.write "<script>"
+	Response.Write "alert('儲存完成！');"
+	Response.write "</script>"
+end if
+
+If not ifnull(request("Sys_AgentAddress")) Then
+	strSQL="Update PasserSend set AgentAddress='"&trim(request("Sys_AgentAddress"))&"' where BillSN="&trim(request("BillSN"))
+
+	conn.execute(strSQL)
+
+end If 
+
+If not ifnull(request("Sys_JudeAgentAddress")) Then
+	strSQL="Update PasserJude set AgentAddress='"&trim(request("Sys_JudeAgentAddress"))&"' where BillSN="&trim(request("BillSN"))
+
+	conn.execute(strSQL)
+
+end if
+
+strSql="select a.SN as BillSN,a.BillNo,a.Driver,a.DriverBirth,a.DriverID,a.DriverAddress,a.IllegalDate,a.IllegalAddress,a.DealLineDate,a.Rule1,a.Rule2,a.Rule3,a.Rule4,a.BillUnitID,a.ForFeit1,a.RuleVer,b.OpenGovNumber as JudeOGN,b.AgentName as JudeAgentName,b.AgentSex as JudeAgentSex,b.ForFeit ForFeit_J,b.AgentBirth as JudeAgentBirth,b.AgentID as JudeAgentID,b.AgentAddress as JudeAgentAddress,c.OpenGovNumber as UrgeOGN,c.UrgeTypeID,d.OpenGovNumber,d.BigUnitBossName,d.SubUnitSecBossName,d.SendNumber,d.SendDate,d.Agent,d.AgentBirthDate,d.AgentID,d.AgentAddress,d.ForFeit ForFeit_S,d.MakeSureDate,d.LimitDate,d.AttatchJude,d.AttatchUrge,d.AttatchFortune,d.AttatchGround,d.AttatchRegister,d.AttatchFileList,d.AttatchTable,d.ATTATPOSTAGE,d.SafeToExit,d.SAFEACTION,d.SAFEASSURE,d.SAFEDETAIN,d.SAFESHUTSHOP,e.ArrivedDate,f.ArrivedDate UrgeArrivedDate from PasserBase a,PasserJude b,PasserUrge c,PasserSend d,(select * from PasserSendArrived where ArriveType=0) e,(select PasserSN,ArrivedDate from PasserSendArrived where ArriveType=1) f where a.SN="&trim(request("PBillSN"))&" and a.SN=b.BillSN(+) and a.BillNo=b.BillNo(+) and a.SN=c.BillSN(+) and a.BillNo=c.BillNo(+) and a.SN=d.BillSN(+) and a.BillNo=d.BillNo(+) and a.SN=e.PasserSN(+) and a.SN=f.PasserSN(+)"
+
+set rsfound=conn.execute(strSql)
+
+sys_illegaldate=gInitDT(rsfound("IllegalDate"))
+
+strSQL="Select max(ArrivedDate) ArrivedDate from PassersEndArrived where PasserSN="&request("PBillSN")
+set rsload=conn.execute(strSQL)
+If not rsload.eof Then
+	If not ifnull(rsfound("ArrivedDate")) Then sys_illegaldate=gInitDT(rsfound("ArrivedDate"))
+End if 
+rsload.close
+
+
+MakeSureDate="":LimitDate=""
+If Not ifnull(rsfound("MakeSureDate")) Then
+	MakeSureDate=rsfound("MakeSureDate")
+	LimitDate=rsfound("LimitDate")
+	
+elseIf Not ifnull(rsfound("ArrivedDate")) Then
+	passerCnt=0
+	strSQL="select count(1) cnt from PasserJude where Billsn="&trim(request("PBillSN"))&" and JudeDate < TO_DATE('2012/09/01 00:00:00','YYYY/MM/DD/HH24/MI/SS')"
+	
+	set rsPassercnt=conn.execute(strSQL)
+	passerCnt=cdbl(rsPassercnt("cnt"))
+	rsPassercnt.close
+
+	MakeSureDate=DateAdd("d",30,rsfound("ArrivedDate"))
+	LimitDate=DateAdd("d",30,rsfound("ArrivedDate"))
+
+	If passerCnt>0 Then
+		MakeSureDate=DateAdd("d",20,rsfound("ArrivedDate"))
+		LimitDate=DateAdd("d",30,rsfound("ArrivedDate"))
+	End if
+
+	If not ifnull(rsfound("UrgeArrivedDate")) Then LimitDate=DateAdd("d",30,rsfound("UrgeArrivedDate"))
+
+	If sys_City="雲林縣" Then
+		LimitDate=DateAdd("d",40,rsfound("ArrivedDate"))
+	End if
+else
+	strSQL="select JudeDate from PasserJude where Billsn="&trim(request("PBillSN"))
+	set rsjude=conn.execute(strSQL)
+	MakeSureDate=DateAdd("d",30,rsjude("JudeDate"))
+	LimitDate=DateAdd("d",30,rsjude("JudeDate"))
+
+	If passerCnt>0 Then
+		MakeSureDate=DateAdd("d",20,rsjude("JudeDate"))
+		LimitDate=DateAdd("d",30,rsjude("JudeDate"))
+	End if
+
+	If sys_City="雲林縣" Then
+		LimitDate=DateAdd("d",40,rsjude("JudeDate"))
+	End if
+
+	rsjude.close
+End if
+
+strState="select * from PasserSend where BillSN="&trim(request("PBillSN"))
+set rsState=conn.execute(strState)
+BillEof=0
+if rsState.eof then 
+	BillEof=1
+else
+	If showCreditor then
+		
+		strSQL="select count(1) cnt from PasserSendDetail where BillSN="&trim(request("PBillSN"))
+
+		set rscnt=conn.execute(strSQL)
+
+		If cdbl(rscnt("cnt"))=0 Then
+			strSQL="select OpenGovNumber,SendNumber,SendDate,RecordMemberID from PasserSend where billsn="&trim(Request("PBillSN"))
+			set rssend=conn.execute(strSQL)
+
+			If not rssend.eof Then
+
+				strSQL="insert into PasserSendDetail values((select nvl(max(sn),0)+1 from PasserSendDetail),"&trim(Request("PBillSN"))&",'"&trim(rssend("OpenGovNumber"))&"','"&trim(rssend("SendNumber"))&"',"&funGetDate(rssend("SendDate"),0)&",sysdate,"&trim(rssend("RecordMemberID"))&")"
+
+				conn.execute(strSQL)
+			End if
+			rssend.close
+		End if
+		rscnt.close
+
+	end if
+end if
+rsState.close
+
+'if trim(request("Sys_BankAccount"))<>"" or trim(request("Sys_SubUnitSecBossName"))<>"" or trim(request("BigUnitBossName"))<>"" then
+'	strSQL="Update UnitInfo set SecondManagerName='"&trim(request("Sys_SubUnitSecBossName"))&"',ManageMemberName='"&trim(request("Sys_BigUnitBossName"))&"' where UnitID='"&DB_UnitID&"'"
+'	conn.execute(strSQL)
+'end if
+%>
+<body onkeydown="KeyDown()">
+<form name="myForm" method="post">
+<table width="100%" border="0">
+	<tr>
+		<td bgcolor="#FFCC33">違反道路交通管理事件移送</td>
+	</tr>
+	<tr>
+		<td bgcolor="#CCCCCC">
+			<table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#FFFFFF">
+				<tr>
+					<td align="right" nowrap bgcolor="#FFFF99">舉發單號</td>
+					<td><%=rsfound("BillNo")%></td>
+					<td align="right" nowrap bgcolor="#FFFF99">發文文號</td>
+					<td><input name="Sys_OpenGovNumber" class="btn1" type="text" size="12" maxlength="16" value="<%
+						if Not ifnull(rsfound("OpenGovNumber")) then
+							response.write rsfound("OpenGovNumber")
+						else
+							response.write rsfound("BillNo")
+						end if
+					%>"></td>
+					<td align="right" nowrap bgcolor="#FFFF99" nowrap>裁決字號</td>
+					<td><%=rsfound("JudeOGN")%></td>
+					<td align="right" nowrap bgcolor="#FFFF99">催繳字號</td>
+					<td><%=rsfound("UrgeOGN")%></td>
+				</tr>
+				<tr>
+					<td align="right" nowrap bgcolor="#FFFF99">舉發單位</td>
+					<td><%=DB_UnitName%></td>
+					<td align="right" nowrap bgcolor="#FFFF99">受處分人</td>
+					<td><%=rsfound("Driver")%></td>
+					<td align="right" nowrap bgcolor="#FFFF99">移送案號</td>
+					<td><input name="Sys_SendNumber" value="<%
+						if Not ifnull(rsfound("SendNumber")) then
+							response.write rsfound("SendNumber")
+						else
+							response.write rsfound("BillNo")
+						end if
+					%>" class="btn1" type="text" size="12" maxlength="30"></td>
+					<td align="right" nowrap bgcolor="#FFFF99">移送日期</td>
+					<td>
+						<input name="Sys_SendDate" value="<%
+							if trim(rsfound("SendDate"))<>"" then
+								response.write gInitDT(rsfound("SendDate"))
+							else
+								response.write gInitDT(date)
+							end if%>" class="btn1" type="text" size="4" maxlength="10" onkeyup="value=value.replace(/[^\d]/g,'')">
+						<input type="button" name="datestr" value="..." onclick="OpenWindow('Sys_SendDate');">
+					</td>
+				</tr>
+				<tr>
+					<td align="right" nowrap bgcolor="#FFFF99">出生日期</td>
+					<td><%=gInitDT(rsfound("DriverBirth"))%></td>
+					<td align="right" nowrap bgcolor="#C4FFB9">法定代理人姓名</td>
+					<td bgcolor="#EAFFE6"><input name="Sys_Agent" class="btn1" type="text" size="12" maxlength="12" value="<%if trim(rsfound("Agent"))<>"" then
+						response.write rsfound("Agent")
+					else
+						response.write rsfound("JudeAgentName")
+					end if%>"></td>
+					<td align="right" nowrap bgcolor="#C4FFB9">出生日期</td>
+					<td bgcolor="#EAFFE6">
+						<input name="Sys_AgentBirthDate" class="btn1" type="text" value="<%
+						if trim(rsfound("AgentBirthDate"))<>"" then
+							response.write gInitDT(rsfound("AgentBirthDate"))
+						else
+							response.write gInitDT(rsfound("JudeAgentBirth"))
+						end if%>" size="4" maxlength="10" onkeyup="value=value.replace(/[^\d]/g,'')">
+						<input type="button" name="datestr" value="..." onclick="OpenWindow('Sys_AgentBirthDate');">
+					</td>
+					<td align="right" nowrap bgcolor="#C4FFB9">性別</td>
+					<td bgcolor="#EAFFE6"><input name="Sys_JudeAgentSex" class="btn1" type="radio" value="1"<%if trim(rsfound("JudeAgentSex"))="1" then response.write "checked"%>>
+						男
+						<input name="Sys_JudeAgentSex" class="btn1" type="radio" value="0"<%if trim(rsfound("JudeAgentSex"))="0" then response.write "checked"%>>
+						女
+					</td>
+				</tr>
+				<tr>
+					<td align="right" nowrap bgcolor="#FFFF99">身分證號</td>
+					<td><%=rsfound("DriverID")%></td>
+					<td align="right" nowrap bgcolor="#C4FFB9">身分證號</td>
+					<td bgcolor="#EAFFE6"><input name="Sys_AgentID" class="btn1" type="text" size="12" maxlength="12" value="<%
+						if trim(rsfound("AgentID"))<>"" then
+							response.write rsfound("AgentID")
+						else
+							response.write rsfound("JudeAgentID")
+						end if%>"></td>
+					<td align="right" nowrap bgcolor="#FFFF99">行政執行分署</td>
+					<td colspan="3" bgcolor="#EAFFE6"><input name="Sys_AgentAddress" class="btn1" type="text" size="31" maxlength="30" value="<%
+						if trim(rsfound("AgentAddress"))<>"" then
+							response.write rsfound("AgentAddress")
+						end if%>"></td>
+				</tr>
+				<tr>
+					<td align="right" nowrap bgcolor="#FFFF99">住址</td>
+					<td><%=rsfound("DriverAddress")%></td>
+					<td align="right" nowrap bgcolor="#C4FFB9">法定代理人地址</td>
+					<td bgcolor="#EAFFE6" colspan=3>
+					<input name="Sys_JudeAgentAddress" class="btn1" type="text" size="40" value="<%if trim(rsfound("JudeAgentAddress"))<>"" then
+						response.write rsfound("JudeAgentAddress")
+					end if%>"></td>
+					<td nowrap bgcolor="#FFFF99" align="right">罰款金額</td>
+					<td>
+					<%
+						L1ForFeit=0
+						L2ForFeit=0
+						L3ForFeit=0
+						L4ForFeit=0
+						if trim(rsfound("Rule1"))<>"" and not isnull(rsfound("Rule1")) then
+							strRule1="select * from Law where ItemID='"&trim(rsfound("Rule1"))&"' and VerSion='"&trim(rsfound("RuleVer"))&"'"
+							set rsRule1=conn.execute(strRule1)
+							if not rsRule1.eof then
+								L1ForFeit=cint(trim(rsRule1("Level1")))
+								if trim(rsRule1("Level2")="" or isnull(rsRule1("Level2"))) then
+									L2ForFeit=cint(trim(rsRule1("Level1")))
+								else
+									L2ForFeit=cint(trim(rsRule1("Level2")))
+								end if
+								L3ForFeit=cint(trim(rsRule1("Level3")))
+								L4ForFeit=cint(trim(rsRule1("Level4")))
+							end if
+							rsRule1.close
+							set rsRule1=nothing
+						end if
+						if trim(rsfound("Rule2"))<>"" and not isnull(rsfound("Rule2")) then
+							strRule2="select * from Law where ItemID='"&trim(rsfound("Rule2"))&"' and VerSion='"&trim(rsfound("RuleVer"))&"'"
+							set rsRule2=conn.execute(strRule2)
+							if not rsRule2.eof then
+								L1ForFeit=L1ForFeit+cint(trim(rsRule2("Level1")))
+								if trim(rsRule2("Level2")="" or isnull(rsRule2("Level2"))) then
+									L2ForFeit=L2ForFeit+cint(trim(rsRule2("Level1")))
+								else
+									L2ForFeit=L2ForFeit+cint(trim(rsRule2("Level2")))
+								end if
+								L3ForFeit=L3ForFeit+cint(trim(rsRule2("Level3")))
+								L4ForFeit=L4ForFeit+cint(trim(rsRule2("Level4")))
+							end if
+							rsRule2.close
+							set rsRule2=nothing
+						end if	
+						if trim(rsfound("Rule3"))<>"" and not isnull(rsfound("Rule3")) then
+							strRule3="select * from Law where ItemID='"&trim(rsfound("Rule3"))&"' and VerSion='"&trim(rsfound("RuleVer"))&"'"
+							set rsRule3=conn.execute(strRule3)
+							if not rsRule3.eof then
+								L1ForFeit=L1ForFeit+cint(trim(rsRule3("Level1")))
+								if trim(rsRule3("Level2")="" or isnull(rsRule3("Level2"))) then
+									L2ForFeit=L2ForFeit+cint(trim(rsRule3("Level1")))
+								else
+									L2ForFeit=L2ForFeit+cint(trim(rsRule3("Level2")))
+								end if
+								L3ForFeit=L3ForFeit+cint(trim(rsRule3("Level3")))
+								L4ForFeit=L4ForFeit+cint(trim(rsRule3("Level4")))
+							end if
+							rsRule3.close
+							set rsRule3=nothing
+						end if
+						if trim(rsfound("Rule4"))<>"" and not isnull(rsfound("Rule4")) then
+							strRule4="select * from Law where ItemID='"&trim(rsfound("Rule4"))&"' and VerSion='"&trim(rsfound("RuleVer"))&"'"
+							set rsRule4=conn.execute(strRule4)
+							if not rsRule4.eof then
+								L1ForFeit=L1ForFeit+cint(trim(rsRule4("Level1")))
+								if trim(rsRule4("Level2")="" or isnull(rsRule4("Level2"))) then
+									L2ForFeit=L2ForFeit+cint(trim(rsRule4("Level1")))
+								else
+									L2ForFeit=L2ForFeit+cint(trim(rsRule4("Level2")))
+								end if
+								L3ForFeit=L3ForFeit+cint(trim(rsRule4("Level3")))
+								L4ForFeit=L4ForFeit+cint(trim(rsRule4("Level4")))
+							end if
+							rsRule4.close
+							set rsRule4=nothing
+						end if	
+							%>  
+						  <input name="Sys_ForFeit" class="btn1" class="btn1" type="text" size="12" maxlength="12" value="<%
+							if trim(rsfound("ForFeit_S"))<>"" then
+								response.write rsfound("ForFeit_S")
+
+							elseif trim(rsfound("ForFeit_J"))<>"" then
+								response.write rsfound("ForFeit_J")
+
+							else
+								response.write L4ForFeit
+							end if
+						  %>" onkeyup="value=value.replace(/[^\d]/g,'')">
+					</td>
+				</tr>
+				<tr>
+					<td align="right" nowrap bgcolor="#FFFF99">違規時間</td>
+					<td><%=gInitDT(rsfound("IllegalDate"))%></td>
+					<td align="right" nowrap bgcolor="#FFFF99">確定日期</td>
+					<td>
+						<input name="Sys_MakeSureDate" class="btn1" type="text" value="<%=gInitDT(MakeSureDate)%>" size="4" maxlength="10">
+						<input type="button" name="datestr" value="..." onclick="OpenWindow('Sys_MakeSureDate');">
+					</td>
+					<td align="right" nowrap bgcolor="#FFFF99">限繳日期</td>
+					<td colspan="3">
+						<input name="Sys_LimitDate" class="btn1" type="text" value="<%=gInitDT(LimitDate)%>" size="10" maxlength="10" onkeyup="value=value.replace(/[^\d]/g,'')">
+							<input type="button" name="datestr" value="..." onclick="OpenWindow('Sys_LimitDate');">
+					</td>
+				</tr>
+				<tr>
+					<td align="right" nowrap bgcolor="#FFFF99">違規地點</td>
+					<td><%=rsfound("IllegalAddress")%></td>
+					<td align="right" nowrap bgcolor="#FFFF99">承辦人</td>
+					<td><%=Session("Ch_Name")%></td>
+					<td nowrap bgcolor="#FFFF99" align="right">分局長</td>
+					<td><input name="Sys_SubUnitSecBossName" class="btn1" class="btn1" type="text" size="12" maxlength="12" value="<%
+							if trim(rsfound("SubUnitSecBossName"))<>"" then
+								theSubUnitSecBossName=trim(rsfound("SubUnitSecBossName"))
+							end if
+							if trim(rsfound("BigUnitBossName"))<>"" then
+								theBigUnitBossName=trim(rsfound("BigUnitBossName"))
+							end if
+							response.write trim(theSubUnitSecBossName)%>">
+					</td>
+					<td nowrap bgcolor="#FFFF99" nowrap align="right">局長</td>
+					<td><input name="Sys_BigUnitBossName" class="btn1" class="btn1" type="text" size="12" maxlength="12" value="<%=trim(theBigUnitBossName)%>"></td>
+					
+				</tr>
+				<tr>
+					<td align="right" nowrap bgcolor="#FFFF99">應到案日期</td>
+					<td><%=rsfound("DealLineDate")%></td>
+					<td align="right" nowrap bgcolor="#FFFF99">催繳情形</td>
+					<td colspan="5">
+						<%strchk="select count(*) as cnt from PasserUrge where BillSN="&rsfound("BillSN")&" and BillNo='"&rsfound("BillNo")&"'"
+						Jodestr="1"
+						set rschk=conn.execute(strchk)
+						if trim(rschk("cnt"))="0" then Jodestr=Cint(rschk("cnt"))
+						rschk.close
+						%>
+						<input name="radiobutton" class="btn1" type="radio" value="1"<%if trim(Jodestr)<>"0" then response.write " checked"%>>
+						業經催繳
+						<input name="radiobutton" class="btn1" type="radio" value="0"<%if trim(Jodestr)="0" then response.write " checked"%>>
+						未經催繳
+					</td>
+				</tr>
+				<tr>
+					<td rowspan="2" align="right" nowrap bgcolor="#FFFF99">違反法條</td>
+					<td rowspan="2">
+						<%
+						if trim(rsfound("Rule1"))<>"" and not isnull(rsfound("Rule1")) then
+							response.write trim(rsfound("Rule1"))&"，"
+							strRule1="select * from Law where ItemID='"&trim(rsfound("Rule1"))&"' and VerSion='"&trim(rsfound("RuleVer"))&"'"
+							set rsRule1=conn.execute(strRule1)
+							if not rsRule1.eof then
+								response.write cint(trim(rsRule1("Level1")))
+								if trim(rsRule1("Level2")="" or isnull(rsRule1("Level2"))) then
+									response.write "&nbsp; ,"&cint(trim(rsRule1("Level1")))
+								else
+									response.write "&nbsp; ,"&cint(trim(rsRule1("Level2")))
+								end if
+								response.write "&nbsp; ,"&cint(trim(rsRule1("Level3")))
+								response.write "&nbsp; ,"&cint(trim(rsRule1("Level4")))
+								response.write "<br>"&trim(rsRule1("IllegalRule"))
+							end if
+							rsRule1.close
+							set rsRule1=nothing
+						end if	
+						if trim(rsfound("Rule2"))<>"" and not isnull(rsfound("Rule2")) then
+							response.write "<br>"&trim(rsfound("Rule2"))&"，"
+							strRule1="select * from Law where ItemID='"&trim(rsfound("Rule2"))&"' and VerSion='"&trim(rsfound("RuleVer"))&"'"
+							set rsRule1=conn.execute(strRule1)
+							if not rsRule1.eof then
+								response.write cint(trim(rsRule1("Level1")))
+								if trim(rsRule1("Level2")="" or isnull(rsRule1("Level2"))) then
+									response.write "&nbsp; ,"&cint(trim(rsRule1("Level1")))
+								else
+									response.write "&nbsp; ,"&cint(trim(rsRule1("Level2")))
+								end if
+								response.write "&nbsp; ,"&cint(trim(rsRule1("Level3")))
+								response.write "&nbsp; ,"&cint(trim(rsRule1("Level4")))
+								response.write "<br>"&trim(rsRule1("IllegalRule"))
+							end if
+							rsRule1.close
+							set rsRule1=nothing
+						end if	
+						if trim(rsfound("Rule3"))<>"" and not isnull(rsfound("Rule3")) then
+							response.write "<br>"&trim(rsfound("Rule3"))&"，"
+							strRule1="select * from Law where ItemID='"&trim(rsfound("Rule3"))&"' and VerSion='"&trim(rsfound("RuleVer"))&"'"
+							set rsRule1=conn.execute(strRule1)
+							if not rsRule1.eof then
+								response.write cint(trim(rsRule1("Level1")))
+								if trim(rsRule1("Level2")="" or isnull(rsRule1("Level2"))) then
+									response.write "&nbsp; ,"&cint(trim(rsRule1("Level1")))
+								else
+									response.write "&nbsp; ,"&cint(trim(rsRule1("Level2")))
+								end if
+								response.write "&nbsp; ,"&cint(trim(rsRule1("Level3")))
+								response.write "&nbsp; ,"&cint(trim(rsRule1("Level4")))
+								response.write "<br>"&trim(rsRule1("IllegalRule"))
+							end if
+							rsRule1.close
+							set rsRule1=nothing
+						end if	
+						if trim(rsfound("Rule4"))<>"" and not isnull(rsfound("Rule4")) then
+							response.write "<br>"&trim(rsfound("Rule4"))&"，"
+							strRule1="select * from Law where ItemID='"&trim(rsfound("Rule4"))&"' and VerSion='"&trim(rsfound("RuleVer"))&"'"
+							set rsRule1=conn.execute(strRule1)
+							if not rsRule1.eof then
+								response.write cint(trim(rsRule1("Level1")))
+								if trim(rsRule1("Level2")="" or isnull(rsRule1("Level2"))) then
+									response.write "&nbsp; ,"&cint(trim(rsRule1("Level1")))
+								else
+									response.write "&nbsp; ,"&cint(trim(rsRule1("Level2")))
+								end if
+								response.write "&nbsp; ,"&cint(trim(rsRule1("Level3")))
+								response.write "&nbsp; ,"&cint(trim(rsRule1("Level4")))
+								response.write "<br>"&trim(rsRule1("IllegalRule"))
+							end if
+							rsRule1.close
+							set rsRule1=nothing
+						end if
+						%>
+					</td>
+					<td align="right" nowrap bgcolor="#FFFF99">催繳方式</td>
+					<td colspan="5">
+						<input name="Sys_UrgeTypeID" class="btn1" type="radio" value="0"<%if trim(rsfound("UrgeTypeID"))="0" then response.write " checked"%>>
+						電話
+						<input name="Sys_UrgeTypeID" class="btn1" type="radio" value="1"<%if trim(rsfound("UrgeTypeID"))="1" then response.write " checked"%>>
+						信函
+						<input name="Sys_UrgeTypeID" class="btn1" type="radio" value="2"<%if trim(rsfound("UrgeTypeID"))="2" then response.write " checked"%>>
+						雙掛號、裁決書或員警送達
+					</td>
+				</tr>
+				<tr>
+					<td align="right" nowrap bgcolor="#FFFF99">附件</td>
+					<td colspan="5">
+						<input class="btn1" type="checkbox" name="Sys_AttatchTable" value="1"<%
+							if trim(rsfound("AttatchTable"))<>"" then response.write " checked"%>>
+						附表<br>          
+						<input class="btn1" type="checkbox" name="Sys_AttatchJude" value="1"<%
+							if trim(rsfound("AttatchJude"))<>"" then response.write " checked"%>>
+						處分書裁決書或義務人依法令負有義務之證明文件及送達證明文件<br>
+						<input class="btn1" type="checkbox" name="Sys_AttatchUrge" value="1"<%
+							if trim(rsfound("AttatchUrge"))<>"" then response.write " checked"%>>
+						義務人經限期履行而逾期仍不履行之證明文件及送達證明文件<br>
+						<input class="btn1" type="checkbox" name="Sys_AttatchFortune" value="1"<%
+							if trim(rsfound("AttatchFortune"))<>"" then response.write " checked"%>>
+						義務人之財產目錄 
+						<input class="btn1" type="checkbox" name="Sys_AttatchGround" value="1"<%
+							if trim(rsfound("AttatchGround"))<>"" then response.write " checked"%>>
+						土地登記簿謄本<br>
+						<input class="btn1" type="checkbox" name="Sys_AttatchRegister" value="1"<%
+							if trim(rsfound("AttatchRegister"))<>"" then response.write " checked"%>>
+						義務人之戶籍資料
+						<input class="btn1" type="checkbox" name="Sys_AttatchFileList" value="1"<%
+							if trim(rsfound("AttatchFileList"))<>"" then response.write " checked"%>>
+						保全措施之資料<br>          
+						<input class="btn1" type="checkbox" name="Sys_ATTATPOSTAGE" value="1"<%
+							if trim(rsfound("ATTATPOSTAGE"))<>"" then response.write " checked"%>>
+						執行（債權）憑證
+					</td>
+				</tr>
+				<tr>
+					<td align="right" nowrap bgcolor="#FFFF99">代保管物品</td>
+					<td><%
+							FastenerTemp=""
+							strFastener="select Confiscate from PasserConfiscate where BillSN="&trim(request("PBillSN"))
+							set rsFastener=conn.execute(strFastener)
+							If Not rsFastener.Bof Then rsFastener.MoveFirst 
+							While Not rsFastener.Eof
+								if FastenerTemp="" then
+									FastenerTemp=trim(rsFastener("Confiscate"))
+								else
+									FastenerTemp=FastenerTemp&"，"&trim(rsFastener("Confiscate"))
+								end if
+								rsFastener.MoveNext
+							Wend
+							rsFastener.close
+							set rsFastener=nothing
+							response.write FastenerTemp
+						%>
+					</td>
+					<td align="right" nowrap bgcolor="#FFFF99">保全措施</td>
+					<td colspan="5">
+						<input class="btn1" type="checkbox" name="Sys_SAFETOEXIT" value="1"<%if trim(rsfound("SAFETOEXIT"))<>"" then response.write " checked"%>>
+						已限制出境 
+						<input class="btn1" type="checkbox" name="Sys_SAFEACTION" value="1"<%if trim(rsfound("SAFEACTION"))<>"" then response.write " checked"%>>
+						已禁止處分
+						<input class="btn1" type="checkbox" name="Sys_SAFEASSURE" value="1"<%if trim(rsfound("SAFEASSURE"))<>"" then response.write " checked"%>>
+						已提供擔保 
+						<input class="btn1" type="checkbox" name="Sys_SAFEDETAIN" value="1"<%if trim(rsfound("SAFEDETAIN"))<>"" then response.write " checked"%>>
+						已假扣押
+						<input class="btn1" type="checkbox" name="Sys_SAFESHUTSHOP" value="1"<%if trim(rsfound("SAFESHUTSHOP"))<>"" then response.write " checked"%>> 
+						已勒令停業
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr align="center">
+		<td bgcolor="#FFDD77">
+			<input name="btnadd" type="button" value=" 確 定 " onclick="funAdd();"> 
+			<input name="btnexit" type="button" value=" 關 閉 " onclick="funExt();">
+			<!--<input name="btnprint" type="submit" value="列印95年移送書(套印)" onclick='PrintReports();'>
+			<input name="btnprint" type="submit" value="列印96年移送書(套印)" onclick='PrintReports96();'>
+			<input name="btnprint" type="submit" value="列印95年移送書" onclick='PrintReports95();'>-->
+			<input name="btnprint" type="submit" value="列印移送書" onclick='PrintReports96not();'>			
+			<input name="btnprint1" type="submit" value="列印移送書Word" onclick='PrintReports96Word();'>
+			<!--<input type="button" name="Submit4232" value="列印拸送書(套印)設定說明" onclick="funPrintDetail()">-->
+		</td>
+	</tr>
+</table>
+<%If showCreditor then%>
+<hr>
+
+<table width="100%" height="100%" border="0" bgcolor="#E0E0E0">
+		<tr>
+			<td colspan="9" bgcolor="#FFCC33">歷次移送記錄</td>
+		</tr>
+		<tr bgcolor="#EBFBE3">
+			<td width="10%" nowrap>移送日期</td>
+			<td width="10%" nowrap>發文文號</td>
+			<td width="10%" nowrap>移送案號</td>
+			<td width="10%" nowrap>申請時間</td>
+			<td width="10%" nowrap>憑証編號</td>
+			<td width="10%" nowrap>執行案號</td>
+			<td width="10%" nowrap>執行狀態</td>
+			<td width="10%" nowrap>待執行金額</td>
+			<td width="10%" nowrap>操作</td>
+		</tr><%
+		strSql="select * from (select SN SendDetialSN,SendDate,OpenGovNumber SendGovNumber,SendNumber,RecordMemberID from PasserSendDetail where BillSN="&trim(request("PBillSN"))&") a,(select sn,SendDetailSN,OpenGovNumber CreditorGovNumber,CreditorNumber,PetitionDate,Decode(CreditorTypeID,1,'無個人財產','清償中') CreditorTypeName,RemainNT from PasserCreditor where BillSN="&trim(request("PBillSN"))&")b where a.SendDetialSN=b.SendDetailSN(+) order by SendDate DESC,PetitionDate DESC"
+		set rs=conn.execute(strSQL)
+		If not rs.eof Then
+			While Not rs.eof
+				response.write "<tr align='center' bgcolor='#FFFFFF'"
+				lightbarstyle 0
+				response.write ">"
+
+				response.write "<td class=""font10"">"&gInitDT(trim(rs("SendDate")))&"</td>"
+				response.write "<td class=""font10"">"&trim(rs("SendGovNumber"))&"</td>"
+				response.write "<td class=""font10"">"&trim(rs("SendNumber"))&"</td>"
+				response.write "<td class=""font10"">"&gInitDT(trim(rs("PetitionDate")))&"</td>"
+				response.write "<td class=""font10"">"&trim(rs("CreditorGovNumber"))&"</td>"
+				response.write "<td class=""font10"">"&trim(rs("CreditorNumber"))&"</td>"
+				response.write "<td class=""font10"">"&trim(rs("CreditorTypeName"))&"</td>"
+				response.write "<td class=""font10"">"&trim(rs("RemainNT"))&"</td>"
+				response.write "<td class=""font10"" nowrap>"
+				'response.write "<input type=""button"" class=""btn3"" style=""width:40px;height:20px;"" value=""刪除"" onclick=""funDel('"&trim(rs("SendDetialSN"))&"');"">&nbsp;"
+
+				if sys_City="彰化縣" or sys_City="基隆市" then
+					response.write "<input type=""button"" class=""btn3"" style=""width:40px;height:20px;"" value=""上傳"" onclick=""funMap('"&trim(request("PBillSN"))&"','"&trim(rs("SendDetialSN"))&"');"">&nbsp;"
+					
+					imgSQL="select ImageFileName from PasserImage"&_
+					" where BillSN="&trim(request("PBillSN"))&" and PkeySN="&trim(rs("SendDetialSN"))&_
+					" and ImgKindID='3' and ImgTypeID='1' order by ImageFileName"
+
+
+					cnt=0
+					set rsimg=conn.execute(imgSQL)
+					While Not rsimg.eof
+						
+						If not ifnull(rsimg("ImageFileName")) Then
+							cnt=cnt+1
+
+							Response.Write "<br><br><a href=""./PasserImage/"&trim(rsimg("Imagefilename"))&""" target=""_blank"">移送掃描檔"&cnt&"</a>"
+
+							Response.Write "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+							
+							If trim(Session("Credit_ID"))="A000000000" Then
+
+								Response.Write "<a href=""javascript:void(0)"" onclick=""PasserDelImg('./PasserImage/','"&trim(rsimg("Imagefilename"))&"');"">刪除</a>"
+							
+							End if 
+						End If 
+
+						rsimg.movenext
+					Wend
+					rsimg.close
+				end If 
+
+				Response.Write "</td>"
+				Response.Write "</tr>"
+				rs.movenext
+			Wend
+
+		End if
+		rs.close%>
+</table>
+<%end if%>
+<input type="Hidden" name="DB_Add" value="">
+<input type="Hidden" name="BillSN" value="<%=rsfound("BillSN")%>">
+<input type="Hidden" name="BillNo" value="<%=rsfound("BillNo")%>">
+<input type="Hidden" name="PBillSN" value="<%=request("PBillSN")%>">
+<input type="hidden" name="BillEof" value="<%=BillEof%>">
+<input type="hidden" name="SendDetialSN" value="">
+<input type="hidden" value="" name="strPath">
+<input type="hidden" value="" name="strFileName">
+
+</form>
+</body>
+</html>
+<script type="text/javascript" src="../js/date.js"></script>
+<script language="javascript">
+
+function PasserDelImg(strPath,strFileName){ 
+	var dt = new Date();
+
+	myForm.strPath.value=strPath;
+	myForm.strFileName.value=strFileName;
+
+	if(confirm("是否刪除掃描檔?")){
+		runServerScript("PasserBase_DelImage.asp?strPath="+myForm.strPath.value+"&strFileName="+myForm.strFileName.value+"&nowtime="+dt);
+	}
+	
+}
+
+
+function KeyDown(){ 
+	if (event.keyCode==116){	//F5鎖死
+		event.keyCode=0;   
+		event.returnValue=false;   
+	}
+}
+
+function funAdd(){
+	var sys_illegaldate='<%=sys_illegaldate%>';
+	var err=0;
+	var dt = new Date();
+
+	if(myForm.Sys_SendDate.value==""){
+		err=1;
+		alert("移送日必須輸入!!");
+	}else if(myForm.Sys_SendDate.value!=""){
+		if(!dateCheck(myForm.Sys_SendDate.value)){
+			err=1;
+			alert("移送日輸入不正確!!");
+		}
+	}
+
+	if(err==0){
+		if(eval(myForm.Sys_SendDate.value)<=eval(sys_illegaldate)){
+			err=1;
+			alert("移送日必須大於送達日!!");
+		}
+	}
+
+	if(err==0){
+		runServerScript("chkAddNew_send.asp?BillSN="+myForm.BillSN.value+"&BillNo="+myForm.BillNo.value+"&nowtime="+dt);
+	}
+}
+function funExt() {
+	if(confirm("是否關閉維護系統?")){
+		opener.myForm.submit();
+		self.close();
+	}
+}
+function newWin(url,win,w,h,l,t,sBar,mBar,res,full){
+	var win=window.open(url,win,"width="+w+",height="+h+",left="+l+",top="+t+",scrollbars="+sBar+",menubar="+mBar+",resizable="+res+",fullscreen="+full+",status=yes,toolbar=yes");
+	win.focus();
+	return win;
+}
+function PrintReports(){
+	if(myForm.BillEof.value=='0'){
+		UrlStr="PaseBillPrit.asp?PBillSN=<%=request("PBillSN")%>";
+		newWin(UrlStr,"inputWin",900,550,50,10,"yes","yes","yes","no");
+		//window.parent.frames("mainFrame").DP();
+	}else{
+		alert("請先進行存檔!!");
+	}
+}
+function PrintReports95(){
+	if(myForm.BillEof.value=='0'){
+		UrlStr="PaseBillPrit_not.asp?PBillSN=<%=request("PBillSN")%>";
+		newWin(UrlStr,"inputWin",900,550,50,10,"yes","yes","yes","no");
+		//window.parent.frames("mainFrame").DP();
+	}else{
+		alert("請先進行存檔!!");
+	}
+}
+function PrintReports96(){
+	if(myForm.BillEof.value=='0'){
+		UrlStr="PaseBillPrit96.asp?PBillSN=<%=request("PBillSN")%>";
+		newWin(UrlStr,"inputWin",900,550,50,10,"yes","yes","yes","no");
+		//window.parent.frames("mainFrame").DP();
+	}else{
+		alert("請先進行存檔!!");
+	}
+}
+function PrintReports96not(){
+	if(myForm.BillEof.value=='0'){
+		
+		
+		myForm.action="PasserSendBatList.asp";
+		myForm.target="PasserSendBatList";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+
+		//UrlStr="PaseBillPrit96_not.asp?PBillSN=<%=request("PBillSN")%>";
+		//newWin(UrlStr,"inputWin",900,550,50,10,"yes","yes","yes","no");
+		//window.parent.frames("mainFrame").DP();
+	}else{
+		alert("請先進行存檔!!");
+	}
+}
+
+function PrintReports96Word(){
+	if(myForm.BillEof.value=='0'){
+		
+		
+		myForm.action="PasserSendBatList._word.asp";
+		myForm.target="PasserSendBatList";
+		myForm.submit();
+		myForm.action="";
+		myForm.target="";
+
+		//UrlStr="PaseBillPrit96_not.asp?PBillSN=<%=request("PBillSN")%>";
+		//newWin(UrlStr,"inputWin",900,550,50,10,"yes","yes","yes","no");
+		//window.parent.frames("mainFrame").DP();
+	}else{
+		alert("請先進行存檔!!");
+	}
+}
+
+function funDel(SendDetialSN){
+	myForm.SendDetialSN.value=SendDetialSN;
+	myForm.DB_Add.value="Del";
+	myForm.submit();
+}
+
+function funMap(PBillSN,SendDetialSN){
+	
+	newWin("","SendImg",700,550,50,10,"yes","yes","yes","no");
+
+	myForm.SendDetialSN.value=SendDetialSN;
+	myForm.PBillSN.value=PBillSN;
+
+	myForm.action="PasserSend_upload.asp";
+	myForm.target="SendImg";
+	myForm.submit();
+	myForm.action="";
+	myForm.target="";
+
+}
+
+function funPrintDetail(){
+	UrlStr="PictureDetail.htm";
+	newWin(UrlStr,"inputWin",1000,500,50,10,"yes","yes","yes","no");
+}
+</script>
+<%rsfound.close
+conn.close%>

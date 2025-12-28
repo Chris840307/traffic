@@ -1,0 +1,733 @@
+<!--#include virtual="traffic/Common/Login_Check.asp"-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<script language="JavaScript">
+	window.focus();
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=big5">
+<title>違反道路交通管理事件裁決</title>
+<!--#include virtual="traffic/Common/css.txt"-->
+<!--#include virtual="traffic/Common/DB.ini"-->
+<!--#include virtual="traffic/Common/AllFunction.inc"-->
+<%
+'檢查是否可進入本系統
+AuthorityCheck(224)
+'response.write request("PBillSN")
+'cookie
+RMem=trim(Session("User_ID"))
+
+strCity="select value from Apconfigure where id=31"
+set rsCity=conn.execute(strCity)
+sys_City=trim(rsCity("value"))
+rsCity.close
+
+if trim(request("MemberStation"))<>"" then
+	Sys_MemberStation=trim(request("MemberStation"))
+end if
+
+strSQL="select UnitID,UnitTypeID,UnitLevelID from UnitInfo where UnitID='"&Session("Unit_ID")&"'"
+set rsUnit=conn.execute(strSQL)
+Sys_UnitID=trim(rsUnit("UnitID"))
+Sys_UnitTypeID=trim(rsUnit("UnitTypeID"))
+Sys_UnitLevelID=trim(rsUnit("UnitLevelID"))
+rsUnit.close
+
+If Sys_UnitLevelID=1 Then
+	strSQL="select * from UnitInfo where UnitID='"&Sys_UnitID&"'"
+else
+	strSQL="select * from UnitInfo where UnitID='"&Sys_UnitTypeID&"'"
+end if
+set rsUnit=conn.Execute(strSQL)
+DB_UnitID=trim(rsUnit("UnitID"))
+DB_UnitName=trim(rsUnit("UnitName"))
+theContactTel=trim(rsUnit("Tel"))
+theSubUnitSecBossName=trim(rsUnit("SecondManagerName"))
+theBigUnitBossName=trim(rsUnit("ManageMemberName"))
+theBankAccount=trim(rsUnit("BankAccount"))
+rsUnit.close
+
+if trim(request("Kinds"))="DB_Update" then
+	theJudeDate=gOutDT(request("JudeDate"))
+	if trim(request("AgentBirth"))<>"" then
+		theAgentBirth=gOutDT(request("AgentBirth"))
+	else
+		theAgentBirth=""
+	end if
+	strUpd="update PasserJude set OpenGovNumber='"&trim(request("OpenGovNumber"))&"',JudeDate="&funGetDate(theJudeDate,0)&_
+		",AgentName='"&trim(request("AgentName"))&"',AgentBirth=TO_DATE('"&theAgentBirth&"','YYYY/MM/DD')" &_
+		",AgentID='"&trim(request("AgentID"))&"',AgentSex='"&trim(request("AgentSex"))&"'" &_
+		",AgentAddress='"&trim(request("AgentAddress"))&"',SendAddress='"&trim(request("SendAddress"))&"'" &_
+		",BigUnitBossName='"&trim(request("BigUnitBossName"))&"',SubUnitSecBossName='"&trim(request("SubUnitSecBossName"))&"'" &_
+		",ContactTel='"&trim(request("ContactTel"))&"',ForFeit="&trim(request("ForFeit")) &_
+		",DutyUnit='"&trim(Sys_MemberStation)&"',PunishmentMainBody='"&trim(request("PunishmentMainBody"))&"'" &_
+		",SimpleReson='"&trim(request("SimpleReson"))&"',Note='"&trim(request("Note"))&"'" &_
+		",RecordDate=sysdate,RecordMemberID='"&RMem&"'" &_
+		" where BillSN="&trim(request("PBillSN"))
+	conn.execute strUpd
+	
+'	strSQL="Update UnitInfo set TEL='"&trim(request("ContactTel"))&"',ManageMemberName='"&trim(request("BigUnitBossName"))&"',SecondManagerName='"&trim(request("SubUnitSecBossName"))&"',BankAccount='"&trim(request("Sys_BankAccount"))&"' where UnitID='"&DB_UnitID&"'"
+'	conn.execute(strSQL)
+
+	If not ifnull(trim(request("ForFeit"))) Then
+		UpForiet="Update PasserBase set ForFeit1="&trim(request("ForFeit"))&" where sn="&trim(request("PBillSN"))
+
+		conn.execute UpForiet
+	End if
+
+	If not ifnull(trim(request("SendAddress"))) Then
+		UpForiet="Update PasserBase set DriverAddress='"&trim(request("SendAddress"))&"' where sn="&trim(request("PBillSN"))
+
+		conn.execute UpForiet
+	End if
+	
+
+	
+%>
+<script language="JavaScript">
+	alert("修改完成");
+</script>
+<%
+end if
+
+if trim(request("kinds"))="DB_insert" then
+	theJudeDate=gOutDT(request("JudeDate"))
+	if trim(request("AgentBirth"))<>"" then
+		theAgentBirth=gOutDT(request("AgentBirth"))
+	else
+		theAgentBirth=""
+	end if
+	strIns="insert into PasserJude(BillSN,BillNO,OpenGovNumber,JudeDate,JudeUnitID,ForFeit,PunishmentMainBody" &_
+		",SimpleReson,DutyUnit,BigUnitBossName,SubUnitSecBossName,ContactTel,RecordStateID,RecordDate,RecordMemberID,Note" &_
+		",AgentName,AgentBirth,AgentID,AgentSex,AgentAddress,SendAddress)" &_
+		" values("&trim(request("BillSN"))&",'"&trim(request("BillNO"))&"','"&trim(request("OpenGovNumber"))&"'" &_
+		",TO_DATE('"&theJudeDate&"','YYYY/MM/DD'),'',"&trim(request("ForFeit"))&",'"&trim(request("PunishmentMainBody"))&"'" &_
+		",'"&trim(request("SimpleReson"))&"','"&trim(Sys_MemberStation)&"','"&trim(request("BigUnitBossName"))&"'" &_
+		",'"&trim(request("SubUnitSecBossName"))&"','"&trim(request("ContactTel"))&"',0,sysdate,'"&RMem&"'" &_
+		",'"&trim(request("Note"))&"','"&trim(request("AgentName"))&"',TO_DATE('"&theAgentBirth&"','YYYY/MM/DD'),'"&trim(request("AgentID"))&"'" &_
+		",'"&trim(request("AgentSex"))&"','"&trim(request("AgentAddress"))&"','"&trim(request("SendAddress"))&"')" 
+	conn.execute strIns
+	UpForiet="Update PasserBase set ForFeit1="&trim(request("ForFeit"))&",DriverAddress='"&trim(request("SendAddress"))&"' where sn="&trim(request("BillSN"))
+	conn.execute UpForiet
+'JudeUnitID
+%>
+<script language="JavaScript">
+	alert("新增完成");
+</script>
+<%
+end if
+	BillState=""
+	strState="select * from PasserJude where BillSN="&trim(request("PBillSN"))
+	set rsState=conn.execute(strState)
+	if not rsState.eof then
+		BillState="Update"
+		UOpenGovNumber=trim(rsState("OpenGovNumber"))
+		UJudeDate=trim(rsState("JudeDate"))
+		UAgentName=trim(rsState("AgentName"))
+		UAgentBirth=trim(rsState("AgentBirth"))
+		UAgentID=trim(rsState("AgentID"))
+		UAgentSex=trim(rsState("AgentSex"))
+		UAgentAddress=trim(rsState("AgentAddress"))
+		UBigUnitBossName=trim(rsState("BigUnitBossName"))
+		USubUnitSecBossName=trim(rsState("SubUnitSecBossName"))
+		UContactTel=trim(rsState("ContactTel"))
+		UForFeit=trim(rsState("ForFeit"))
+		UDutyUnit=trim(rsState("DutyUnit"))
+		USendAddress=trim(rsState("SendAddress"))
+		UPunishmentMainBody=trim(rsState("PunishmentMainBody"))
+		USimpleReson=trim(rsState("SimpleReson"))
+		UNote=trim(rsState("Note"))
+	else
+		BillState="new"
+	end if
+
+	Sys_ArrivedDate="--"
+	strSQL="select ArrivedDate from PassersEndArrived where PasserSN="&trim(request("PBillSN"))&" and rownum=1"
+	set rs=conn.execute(strSQL)
+	If not rs.eof Then
+		Sys_ArrivedDate=gArrDT(DateAdd("d",20,rs("ArrivedDate")))
+	end if
+	Sys_ArrivedDate=split(Sys_ArrivedDate,"-")
+	rs.close
+	
+	BillEof=0
+	if rsState.eof then BillEof=1
+	rsState.close
+	set rsState=nothing
+
+	strSql="select * from PasserBase where SN="&trim(request("PBillSN"))
+	set rsSql=conn.execute(strSql)
+	
+	thenPasserCity="":thenUnitName=""
+	thenUnitName=trim(rsSql("BillUnitID"))
+	strUInfo="select * from Apconfigure where ID=35"
+	set rsUInfo=conn.execute(strUInfo)
+	if not rsUInfo.eof then
+		for j=1 to len(trim(rsUInfo("value")))
+			thenPasserCity=trim(rsUInfo("value"))
+		next
+	end if
+	rsUInfo.close
+
+	strSQL="select * from UnitInfo where UnitID='"&trim(rsSql("BillUnitID"))&"'"
+	set rsunit=conn.execute(strSQL)
+	BillUnitName=rsunit("UnitName")
+	rsunit.close
+
+	Sys_BillNum=trim(rsSql("BillNo"))
+	If sys_City="台南縣" or sys_City="雲林縣" Then Sys_BillNum=(year(now)-1911)&right("000000"&trim(rsSql("DoubleCheckStatus")),4)
+%>
+</head>
+<TITLE> 違反道路交通管理事件裁決 </TITLE>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" onkeydown="KeyDown()">
+<form name=myForm method="post">
+<table width="100%" height="100%" border="0">
+  <tr>
+    <td height="27" bgcolor="#FFCC33"><span class="style5">違反道路交通管理事件裁決</span></td>
+  </tr>
+  <tr>
+    <td height="26" bgcolor="#CCCCCC"><table width="100%" height="100%"  border="0" cellpadding="5" cellspacing="1" bgcolor="#FFFFFF">
+      <tr>
+        <td width="13%" nowrap bgcolor="#FFFF99"><div align="right"><span class="style3">舉發單號</span></div></td>
+        <td width="19%"><%
+		if trim(rsSql("BILLNO"))<>"" and not isnull(rsSql("BILLNO")) then
+			response.write trim(rsSql("BILLNO"))
+		end if
+		%>
+		<input type="hidden" name="BillNO" value="<%
+		if trim(rsSql("BILLNO"))<>"" and not isnull(rsSql("BILLNO")) then
+			response.write trim(rsSql("BILLNO"))
+		end if
+		%>">
+		<input type="hidden" name="BillSN" value="<%
+			response.write trim(request("PBillSN"))
+		%>">
+		<input type="hidden" name="PBillSN" value="<%
+			response.write trim(request("PBillSN"))
+		%>">
+		</td>
+        <td nowrap bgcolor="#FFFF99"><div align="right">文號</div></td>
+        <td colspan="3">
+          <input name="OpenGovNumber" class="btn1" type="text" size="12" maxlength="12" value="<%
+		  if BillState="Update" then
+			response.write UOpenGovNumber
+		  else
+			response.write Sys_BillNum
+		  end if
+		  %>">
+        </td>
+      </tr>
+      <tr>
+		<td nowrap bgcolor="#FFFF99"><div align="right">舉發單位</div></td>
+        <td width="19%"><%=BillUnitName%></td>
+        <td width="9%" nowrap bgcolor="#FFFF99"><div align="right">裁決日期</div></td>
+        <td width="59%" colspan="3"><span class="style3">
+          <input name="JudeDate" class="btn1" type="text" value="<%
+		  if BillState="Update" then
+			response.write gInitDT(UJudeDate)
+		  else
+			response.write gInitDT(date)
+		  end if		
+		  %>" size="4" maxlength="8">
+		  <input type="button" name="datestr" value="..." onclick="OpenWindow('JudeDate');">
+        </span></td>
+      </tr>
+      <tr>
+		 <td nowrap bgcolor="#FFFF99"><div align="right">受處分人</div></td>
+        <td width="19%"><%
+		if trim(rsSql("DRIVER"))<>"" and not isnull(rsSql("DRIVER")) then
+			response.write trim(rsSql("DRIVER"))
+		end if
+		%></td>
+		<!--<td width="9%" nowrap bgcolor="#C4FFB9"><div align="right" class="style3">法定代理人姓名</div></td>
+        <td width="9%" bgcolor="#EAFFE6">
+			<input class="btn1" type="text" name="AgentName" size="12" value="<%
+		  if BillState="Update" then
+			if UAgentName<>"" and not isnull(UAgentName) then
+				response.write UAgentName
+			end if
+		  end if
+			%>">
+		</td>
+		<td width="5%" nowrap bgcolor="#C4FFB9"><div align="right" class="style3">出生日期</div></td>
+        <td width="9%" bgcolor="#EAFFE6">
+		  <input name="AgentBirth" class="btn1" type="text" value="<%
+		  if BillState="Update" then
+			if UAgentBirth<>"" and not isnull(UAgentBirth) then
+				response.write gInitDT(UAgentBirth)
+			end if
+		  end if
+		  %>" size="4" maxlength="10">
+		  <input type="button" name="datestr" value="..." onclick="OpenWindow('AgentBirth');">
+		 </td>-->
+		<td nowrap bgcolor="#FFFF99"><div align="right" class="style3">分局長</div></td>
+        <td><%response.write theSubUnitSecBossName%>
+		</td>
+		<td nowrap bgcolor="#FFFF99"><div align="right" class="style3">局長</div></td>
+        <td>
+			<%response.write theBigUnitBossName%>
+		</td>
+	  </tr>
+	  <tr>
+		<td nowrap bgcolor="#FFFF99"><div align="right">出生日期</div></td>
+        <td><%
+		if trim(rsSql("DriverBirth"))<>"" and not isnull(rsSql("DriverBirth")) then
+			birth=split(gArrDT(trim(rsSql("DriverBirth"))),"-")
+			response.write birth(0)&"年"&birth(1)&"月"&birth(2)&"日"
+		end if
+		  %>
+		  <input type="hidden" value="<%=UAgentSex%>" name="AgentSex">
+		  </td>
+		<!--<td width="9%" nowrap bgcolor="#C4FFB9"><div align="right" class="style3">性別</div></td>
+        <td width="9%" bgcolor="#EAFFE6">
+			<input class="btn1" type="radio" name="AgentSex" value="1" <%
+			if BillState="Update" then
+				if UAgentSex<>"" and not isnull(UAgentSex) and UAgentSex="1" then
+					response.write "checked"
+				end if
+			end if
+			%>>男
+			<input class="btn1" type="radio" name="AgentSex" value="0" <%
+			if BillState="Update" then
+				if UAgentSex<>"" and not isnull(UAgentSex) and UAgentSex="0" then
+					response.write "checked"
+				end if
+			end if
+			%>>女
+		</td>
+		<td nowrap bgcolor="#C4FFB9"><div align="right" class="style3">身分證號</div></td>
+        <td width="9%" bgcolor="#EAFFE6">
+			<input class="btn1" type="text" name="AgentID" size="12" value="<%
+			if BillState="Update" then
+				if UAgentID<>"" and not isnull(UAgentID) then
+					response.write UAgentID
+				end if
+			end if
+			%>">
+		</td>-->
+		<td nowrap bgcolor="#FFFF99"><div align="right" class="style3">聯絡電話</div></td>
+		<td>
+			<input class="btn1" type="text" name="ContactTel" size="12" value="<%
+		if BillState="new" then
+			response.write theContactTel
+		else
+			if UContactTel<>"" and not isnull(UContactTel) then
+				response.write UContactTel
+			end if
+		end if
+			%>">
+		</td>
+		<td nowrap bgcolor="#FFFF99"><div align="right" class="style3">劃撥帳號</div></td>
+		<td>
+			<%if trim(theBankAccount)<>"" then
+				response.write theBankAccount
+			'else
+				'response.write "<input name=""Sys_BankAccount"" class=""btn1"" type=""text"" size=""25"" maxlength=""26"">"
+			end if%>
+		</td>
+	  </tr>
+	  <tr>
+		<td nowrap bgcolor="#FFFF99"><div align="right"><span class="style3">身分證號</span></div></td>
+        <td width="19%"><%
+		if trim(rsSql("DriverID"))<>"" and not isnull(rsSql("DriverID")) then
+			response.write trim(rsSql("DriverID"))
+		end if	
+		%></td>
+		<!--<td width="9%" nowrap bgcolor="#C4FFB9"><div align="right" class="style3">住址</div></td>
+        <td width="9%" colspan="3" bgcolor="#EAFFE6">
+			<input class="btn1" type="text" name="AgentAddress" size="35" value="<%
+			if BillState="Update" then
+				if UAgentAddress<>"" and not isnull(UAgentAddress) then
+					response.write UAgentAddress
+				end if
+			else
+				if trim(rsSql("DriverAddress"))<>"" and not isnull(rsSql("DriverAddress")) then
+					response.write trim(rsSql("DriverAddress"))
+				end if
+			end if
+		%>">
+		</td>-->
+		<td nowrap bgcolor="#FFFF99"><div align="right" class="style3"><br>罰款金額</div></td>
+        <td colspan="3">
+<%
+		L1ForFeit=0
+		L2ForFeit=0
+		L3ForFeit=0
+		L4ForFeit=0
+		if trim(rsSql("Rule1"))<>"" then
+			strRule1="select * from Law where ItemID='"&trim(rsSql("Rule1"))&"' and VERSION='"&trim(rsSql("RuleVer"))&"'"
+			set rsRule1=conn.execute(strRule1)
+			if not rsRule1.eof then
+				L1ForFeit=cint(trim(rsRule1("Level1")))
+				if trim(rsRule1("Level2")="" or isnull(rsRule1("Level2"))) then
+					L2ForFeit=cint(trim(rsRule1("Level1")))
+				else
+					L2ForFeit=cint(trim(rsRule1("Level2")))
+				end if
+				L3ForFeit=cint(trim(rsRule1("Level3")))
+				L4ForFeit=cint(trim(rsRule1("Level4")))
+			end if
+			rsRule1.close
+			set rsRule1=nothing
+		end if
+			%>  
+			<font color='gray' size='2'>局長.分局長.聯絡電話等單位基本資料，可於單位管理設定。</font><br>
+          <input name="ForFeit" class="btn1" type="text" size="12" maxlength="12" value="<%
+			If sys_City = "基隆市" Then
+				response.write L1ForFeit
+			elseif datediff("d",trim(rsSql("DealLineDate")),now)=<0 then
+				response.write L1ForFeit
+			elseif datediff("d",trim(rsSql("DealLineDate")),now)>0 and datediff("d",trim(rsSql("DealLineDate")),now)<=15 then
+				response.write L2ForFeit
+			elseif datediff("d",trim(rsSql("DealLineDate")),now)>15 and datediff("d",trim(rsSql("DealLineDate")),now)<=30 then
+				response.write L3ForFeit
+			elseif datediff("d",trim(rsSql("DealLineDate")),now)>30 then
+				response.write L4ForFeit
+			end if
+		  %>" onkeyup="value=value.replace(/[^\d]/g,'')">
+		</td>
+	  </tr>
+	  <tr>
+		 <td nowrap bgcolor="#FFFF99"><div align="right"><span class="style3">住址</span></div></td>
+        <td width="19%"><%
+		if trim(rsSql("DriverAddress"))<>"" and not isnull(rsSql("DriverAddress")) then
+			response.write trim(rsSql("DriverAddress"))
+		end if	
+		%></td>
+		<td nowrap bgcolor="#FFFF99"><div align="right"><span class="style3">應到案處所</span></div></td>
+        <td colspan="3">
+          <input name="MemberStation_txt" class="btn1" type="text" value="<%
+		if BillState="new" then
+		  strMStation="select UnitName,Address from UnitInfo where UnitID='"&trim(rsSql("MemberStation"))&"'"
+		  set rsMStation=conn.execute(strMStation)
+		  if not rsMStation.eof then
+			response.write thenPasserCity&trim(rsMStation("UnitName"))
+			MemberStationID=trim(rsSql("MemberStation"))
+		  end if
+		  rsMStation.close
+		  set rsMStation=nothing
+		else
+			if UDutyUnit<>"" and not isnull(UDutyUnit) then
+				strMStation="select UnitName,Address from UnitInfo where UnitID='"&trim(UDutyUnit)&"'"
+			    set rsMStation=conn.execute(strMStation)
+			    if not rsMStation.eof then
+				    response.write trim(rsMStation("UnitName"))
+					MemberStationID=trim(UDutyUnit)
+			    end if
+			    rsMStation.close
+			    set rsMStation=nothing
+			end if
+		end if
+		  %>" size="31" maxlength="30">
+		  <input type="hidden" name="MemberStation" value="<%=MemberStationID%>">
+        </td>
+      </tr>
+	  <tr>
+		<td width="9%" nowrap bgcolor="#FFFF99"><div align="right" class="style3">承辦人</div></td>
+        <td width="9%"><%
+		if trim(rsSql("BillFiller"))<>"" and not isnull(rsSql("BillFiller")) then
+			response.write trim(rsSql("BillFiller"))
+		end if	
+		%></td>
+		<td nowrap bgcolor="#FFFF99"><div align="right" class="style3">違規人寄送地址</div></td>
+        <td colspan="3"><span class="style3">
+          <input name="SendAddress" class="btn1" type="text" size="46" maxlength="50" value="<%
+		if BillState="new" then
+			if trim(rsSql("DriverAddress"))<>"" and not isnull(rsSql("DriverAddress")) then
+				response.write trim(rsSql("DriverAddress"))
+			end if			
+		else
+			if USendAddress<>"" and not isnull(USendAddress) then
+				response.write USendAddress
+			end if
+		end if
+		  %>">
+        </span></td>
+	  </tr>
+      <tr>
+		 <td nowrap bgcolor="#FFFF99"><div align="right"><span class="style3">違規時間</span></div></td>
+        <td width="19%"><%
+		if trim(rsSql("IllegalDate"))<>"" and not isnull(rsSql("IllegalDate")) then
+			response.write gInitDT(trim(rsSql("IllegalDate")))&" "&hour(trim(rsSql("IllegalDate")))&" : "&minute(trim(rsSql("IllegalDate")))
+		end if	
+		%></td>
+        <td width="9%" rowspan="2" nowrap bgcolor="#FFFF99"><div align="right"><span class="style3">處罰主文</span></div>          <div align="right"></div></td>
+        <td colspan="5" rowspan="2">
+          <textarea name="PunishmentMainBody" class="btn1" cols="41" rows="6"><%
+		if not ifnull(UPunishmentMainBody) then
+			response.write UPunishmentMainBody
+		else
+			if trim(rsSql("Rule1"))<>"" and not isnull(rsSql("Rule1")) then
+				strRule1="select * from Law where ItemID='"&trim(rsSql("Rule1"))&"' and VERSION='"&trim(rsSql("RuleVer"))&"'"
+				set rsRule1=conn.execute(strRule1)
+				if not rsRule1.eof then
+					'response.write trim(rsRule1("IllegalRule"))
+					if datediff("d",trim(rsSql("DealLineDate")),now)=<0 then
+						Sys_ForFeit1=trim(rsRule1("Level1"))
+					elseif datediff("d",trim(rsSql("DealLineDate")),now)>0 and datediff("d",trim(rsSql("DealLineDate")),now)<=15 then
+						Sys_ForFeit1=trim(rsRule1("Level2"))
+					elseif datediff("d",trim(rsSql("DealLineDate")),now)>15 and datediff("d",trim(rsSql("DealLineDate")),now)<=30 then
+						Sys_ForFeit1=trim(rsRule1("Level3"))
+					elseif datediff("d",trim(rsSql("DealLineDate")),now)>30 then
+						Sys_ForFeit1=trim(rsRule1("Level4"))
+					end if
+					response.write "一、罰鍰新臺幣"&to_Money(Sys_ForFeit1)&"元整."
+					response.Write chr(13)&"<br>二、限於接到裁決書之翌日起30日內限期繳納，逾期未繳納者，依行政執行法<br>　　移送管轄地方行政執行分署強制執行。"
+				end if
+				rsRule1.close
+				set rsRule1=nothing
+			end if
+		end if
+		  %></textarea>
+        </td>
+
+      </tr>
+      <tr>
+		 <td nowrap bgcolor="#FFFF99"><div align="right"><span class="style3">違規地點</span></div></td>
+        <td width="19%"><%
+		if trim(rsSql("IllegalAddress"))<>"" and not isnull(rsSql("IllegalAddress")) then
+			response.write trim(rsSql("IllegalAddress"))
+		end if			  
+		  %></td>
+      </tr>
+      <tr>
+		 <td nowrap bgcolor="#FFFF99"><div align="right"><span class="style3">應到案日期</span></div></td>
+        <td width="19%"><%
+		if trim(rsSql("DealLineDate"))<>"" and not isnull(rsSql("DealLineDate")) then
+			response.write gInitDT(trim(rsSql("DealLineDate")))
+		end if			  
+		  %></td>
+        <td width="9%" rowspan="4" nowrap bgcolor="#FFFF99" rowspan="2"><div align="right">簡要理由</div></td>
+        <td width="19%" colspan="3" rowspan="4">
+          <textarea name="SimpleReson" class="btn1" cols="41" rows="8"><%
+		if BillState="Update" then
+			if USimpleReson<>"" and not isnull(USimpleReson) then
+				response.write USimpleReson
+			end if
+		else
+			response.write "受處分人於上開時間、地點，因違反道路交通管理事件被"&replace(BillUnitName,DB_UnitName,"")&"所查獲移送本分局處理，因未依通知日期到案者依『道路交通管理處罰條例』裁決如處罰主文。"
+		end if
+		  %></textarea>
+        </td>
+      </tr>
+      <tr>
+		 <td nowrap bgcolor="#FFFF99"><div align="right">違反法條</div></td>
+        <td><%
+		if trim(rsSql("Rule1"))<>"" and not isnull(rsSql("Rule1")) then
+			response.write trim(rsSql("Rule1"))&"，"
+			strRule1="select * from Law where ItemID='"&trim(rsSql("Rule1"))&"' and VERSION='"&trim(rsSql("RuleVer"))&"'"
+			set rsRule1=conn.execute(strRule1)
+			if not rsRule1.eof then
+				response.write cint(trim(rsRule1("Level1")))
+				if trim(rsRule1("Level2")="" or isnull(rsRule1("Level2"))) then
+					response.write "&nbsp; ,"&cint(trim(rsRule1("Level1")))
+				else
+					response.write "&nbsp; ,"&cint(trim(rsRule1("Level2")))
+				end if
+				response.write "&nbsp; ,"&cint(trim(rsRule1("Level3")))
+				response.write "&nbsp; ,"&cint(trim(rsRule1("Level4")))
+				response.write "<br>"&trim(rsRule1("IllegalRule"))
+			end if
+			rsRule1.close
+			set rsRule1=nothing
+		end if	
+		if trim(rsSql("Rule2"))<>"" and not isnull(rsSql("Rule2")) then
+			response.write "<br>"&trim(rsSql("Rule2"))&"，"
+			strRule1="select * from Law where ItemID='"&trim(rsSql("Rule2"))&"' and VERSION='"&trim(rsSql("RuleVer"))&"'"
+			set rsRule1=conn.execute(strRule1)
+			if not rsRule1.eof then
+				response.write cint(trim(rsRule1("Level1")))
+				if trim(rsRule1("Level2")="" or isnull(rsRule1("Level2"))) then
+					response.write "&nbsp; ,"&cint(trim(rsRule1("Level1")))
+				else
+					response.write "&nbsp; ,"&cint(trim(rsRule1("Level2")))
+				end if
+				response.write "&nbsp; ,"&cint(trim(rsRule1("Level3")))
+				response.write "&nbsp; ,"&cint(trim(rsRule1("Level4")))
+				response.write "<br>"&trim(rsRule1("IllegalRule"))
+			end if
+			rsRule1.close
+			set rsRule1=nothing
+		end if	
+		if trim(rsSql("Rule3"))<>"" and not isnull(rsSql("Rule3")) then
+			response.write "<br>"&trim(rsSql("Rule3"))&"，"
+			strRule1="select * from Law where ItemID='"&trim(rsSql("Rule3"))&"' and VERSION='"&trim(rsSql("RuleVer"))&"'"
+			set rsRule1=conn.execute(strRule1)
+			if not rsRule1.eof then
+				response.write cint(trim(rsRule1("Level1")))
+				if trim(rsRule1("Level2")="" or isnull(rsRule1("Level2"))) then
+					response.write "&nbsp; ,"&cint(trim(rsRule1("Level1")))
+				else
+					response.write "&nbsp; ,"&cint(trim(rsRule1("Level2")))
+				end if
+				response.write "&nbsp; ,"&cint(trim(rsRule1("Level3")))
+				response.write "&nbsp; ,"&cint(trim(rsRule1("Level4")))
+				response.write "<br>"&trim(rsRule1("IllegalRule"))
+			end if
+			rsRule1.close
+			set rsRule1=nothing
+		end if	
+		if trim(rsSql("Rule4"))<>"" and not isnull(rsSql("Rule4")) then
+			response.write "<br>"&trim(rsSql("Rule4"))&"，"
+			strRule1="select * from Law where ItemID='"&trim(rsSql("Rule4"))&"' and VERSION='"&trim(rsSql("RuleVer"))&"'"
+			set rsRule1=conn.execute(strRule1)
+			if not rsRule1.eof then
+				response.write cint(trim(rsRule1("Level1")))
+				if trim(rsRule1("Level2")="" or isnull(rsRule1("Level2"))) then
+					response.write "&nbsp; ,"&cint(trim(rsRule1("Level1")))
+				else
+					response.write "&nbsp; ,"&cint(trim(rsRule1("Level2")))
+				end if
+				response.write "&nbsp; ,"&cint(trim(rsRule1("Level3")))
+				response.write "&nbsp; ,"&cint(trim(rsRule1("Level4")))
+				response.write "<br>"&trim(rsRule1("IllegalRule"))
+			end if
+			rsRule1.close
+			set rsRule1=nothing
+		end if	
+		%></td>
+      </tr>
+      <tr>
+		<td nowrap bgcolor="#FFFF99"><div align="right">代保管物品</div></td>
+        <td><%
+		FastenerTemp=""
+		strFastener="select Confiscate from PasserConfiscate where BillSN="&trim(request("PBillSN"))
+		set rsFastener=conn.execute(strFastener)
+		If Not rsFastener.Bof Then rsFastener.MoveFirst 
+		While Not rsFastener.Eof
+			if FastenerTemp="" then
+				FastenerTemp=trim(rsFastener("Confiscate"))
+			else
+				FastenerTemp=FastenerTemp&"，"&trim(rsFastener("Confiscate"))
+			end if
+			rsFastener.MoveNext
+		Wend
+		rsFastener.close
+		set rsFastener=nothing
+		response.write FastenerTemp
+		  %></td>
+      </tr>
+	  <tr>
+		<td nowrap bgcolor="#FFFF99"><div align="right">備註</div></td>
+        <td rowspan="2">
+          <textarea name="Note" cols="30" class="btn1" rows="5"><%
+		if BillState="Update" then
+			if UNote<>"" and not isnull(UNote) then
+				response.write UNote
+			end if
+		end if
+		  %></textarea>
+        </td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="35" bgcolor="#FFDD77"><p align="center" class="style1">
+        <input name="Submit43322" type="button" class="style3" value=" 確 定 " onclick="DB_Insert();">
+		<input name="btnprint" type="button" value="列印裁決書"  onclick='PrintReports();'>
+		<input name="btnprint" type="button" value="列印裁決書(保防版)"  onclick='PrintReports_Label();'>
+        <img src="space.gif" width="20" height="5">
+		<input name="btnexit" type="button" value=" 關 閉 " onclick="funExt();">
+        <img src="space.gif" width="20" height="5">        
+        
+        </p>
+		<input type="hidden" value="" name="kinds">
+		<input type="hidden" value="<%=BillEof%>" name="BillEof">
+		</td>
+  </tr>
+  <tr>
+    <td><p>&nbsp;</p></td></tr>
+</table>
+<%
+rsSql.close
+set rsSql=nothing
+%>
+</form>
+</body>
+<script type="text/javascript" src="../js/date.js"></script>
+<script language="JavaScript">
+var Sys_City="<%=sys_City%>";
+function KeyDown(){ 
+	if (event.keyCode==116){	//F5鎖死
+		event.keyCode=0;   
+		event.returnValue=false;   
+	}
+}
+function DB_Insert(){	
+	error=0;
+	var errorString="";
+	if (myForm.OpenGovNumber.value==""){
+		error=error+1;
+		errorString=error+"：請輸入文號。";
+	}
+	if(myForm.JudeDate.value!=""){
+		if(!dateCheck(myForm.JudeDate.value)){
+			error=error+1;
+			errorString=errorString+"\n"+error+"：裁罰日期輸入錯誤。";
+		}
+	}else{
+		error=error+1;
+		errorString=errorString+"\n"+error+"：裁罰日期未輸入。";
+	}
+	if (myForm.ForFeit.value==""){
+		error=error+1;
+		errorString=errorString+"\n"+error+"：請輸入罰款金額。";
+	}
+	/*if(myForm.AgentBirth.value!=""){
+		if(!dateCheck(myForm.AgentBirth.value)){
+			error=error+1;
+			errorString=errorString+"\n"+error+"：法定代理人出生日期輸入錯誤。";
+		}
+	}*/
+	if (myForm.MemberStation.value==""){
+		error=error+1;
+		errorString=errorString+"\n"+error+"：請輸入應到案處所。";
+	}
+
+	if (error==0){
+	<%if BillState="new" then%>
+		myForm.kinds.value="DB_insert";
+	<%else%>
+		myForm.kinds.value="DB_Update";
+	<%end if%>
+		myForm.submit();
+	}else{
+		alert(errorString);
+	}
+}
+function newWin(url,win,w,h,l,t,sBar,mBar,res,full){
+	var win=window.open(url,win,"width="+w+",height="+h+",left="+l+",top="+t+",scrollbars="+sBar+",menubar="+mBar+",resizable="+res+",fullscreen="+full+",status=yes,toolbar=yes");
+	win.focus();
+	return win;
+}
+function PrintReports(){
+	if(myForm.BillEof.value=='0'){
+		if(Sys_City=='花蓮縣'){
+			UrlStr="PasserJudePrint_HuaLien.asp?PBillSN=<%=request("PBillSN")%>";
+		}else{
+			UrlStr="PasserJudePrint.asp?PBillSN=<%=request("PBillSN")%>";
+		}
+		newWin(UrlStr,"inputWin",900,550,50,10,"yes","yes","yes","no");
+		//window.parent.frames("mainFrame").DP();
+	}else{
+		alert("請先進行存檔!!");
+	}
+}
+function PrintReports_Label(){
+	if(myForm.BillEof.value=='0'){
+		UrlStr="PasserJudePrint_Label.asp?PBillSN=<%=request("PBillSN")%>";
+		newWin(UrlStr,"inputWin",900,550,50,10,"yes","yes","yes","no");
+		//window.parent.frames("mainFrame").DP();
+	}else{
+		alert("請先進行存檔!!");
+	}
+}
+function funExt() {
+	if(confirm("是否關閉維護系統?")){
+		opener.myForm.submit();
+		self.close();
+	}
+}
+</script>
+</html>

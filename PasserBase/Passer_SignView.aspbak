@@ -1,0 +1,141 @@
+<%
+
+strSql="select Value from Apconfigure where ID=31"
+set rslawt=conn.execute(strSql)
+        City=trim(rslawt("Value") & "")
+Set rslawt=Nothing
+
+strSql="select Value from Apconfigure where ID=35"
+set rslawt=conn.execute(strSql)
+        Sys_theUnit=trim(rslawt("Value") & "")
+Set rslawt=Nothing
+
+strSql="select Value from Apconfigure where ID=52"
+set rslawt=conn.execute(strSql)
+        Sys_BookUnit=trim(rslawt("Value") & "")
+Set rslawt=Nothing
+
+UnitNo=Session("Unit_ID")
+
+strUnit="select UnitName from UnitInfo where UnitID='"&UnitNo&"'"
+set rsUnit=conn.execute(strUnit)
+UnitName=rsUnit("UnitName")
+rsUnit.close
+set rsUnit=nothing
+
+strState="select a.billunitid,a.Driver,a.DealLineDate,a.rule1,Substr(a.rule1,1,2) as Rule1_1,Substr(a.rule1,3,1) as Rule1_2,Substr(a.rule1,4,2) as Rule1_3,to_char(a.IllegalDate,'HH24') as tHH,to_char(a.IllegalDate,'MI') as tMI,b.Level1,b.Level2,a.IllegalDate,a.IllegalAddress,c.OpenGovNumber from Passerbase a,law b,PasserJude c where a.rule1=b.itemid and b.version=2 and a.Sn=c.BillSn and SN="&BillSN(i)
+set rsState=conn.execute(strState)
+
+if not rsState.eof Then
+	UOpenGovNumber=trim(rsState("OpenGovNumber"))
+	Sys_Driver=trim(rsState("Driver"))
+	Sys_rule1=trim(rsState("Rule1"))
+	Sys_rule1_1=trim(rsState("Rule1_1"))
+	Sys_rule1_2=trim(rsState("Rule1_2"))
+	Sys_rule1_3=trim(rsState("Rule1_3"))
+    If DateDiff("d",CDate(date),trim(rsState("DealLineDate")))>-1 Then 
+	  Sys_ForFeit1=trim(rsState("Level1"))
+    Else
+      Sys_ForFeit1=trim(rsState("Level2"))
+    End if
+    Sys_tHH=trim(rsState("tHH"))
+    Sys_tMI=trim(rsState("tMI"))
+	Sys_IllegalAddress=trim(rsState("IllegalAddress"))
+    Sys_Date=split(gArrDT(trim(rsState("IllegalDate"))),"-")
+
+end if
+rsState.close
+set rsState=Nothing
+
+PrintDate=split(gArrDT(date),"-")
+
+
+%>
+<BR><BR>
+<table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="599" id="AutoNumber1" height="85%">
+  <tr>
+    <td width="686" height="31" colspan="4" valign="middle">
+    <p align="center"><font size="5" face="標楷體"><%=Sys_theUnit%><%=UnitName%>違反道路交通管理事件簽辦單</font></td>
+  </tr>
+  <tr>
+    <td width="686" height="31" colspan="4" valign="middle">
+    <p align="center"><font size="5" face="標楷體">違　　　反　　　事　　　實</font></td>
+  </tr>
+  <tr>
+    <td width="686" height="535" colspan="4"><font face="標楷體" size="4">本案　　<%=Sys_Driver%>　　於　<%=Sys_Date(0)%>　年　<%=Sys_Date(1)%>　月　<%=Sys_Date(2)%>　日　<%=Sys_tHH%>　時　<%=Sys_tMI%>　分<br>
+    在　<%=replace(Sys_IllegalAddress,"台","臺")%> </font>
+    <p><font face="標楷體">
+    <br><font size="4">　　<%If Sys_rule1="8210101" Then response.write "&#9632;" Else response.write "□"%> 一、在道路堆積、置放、設置或拋丟以妨礙交通之物者。
+    <br>　　<%If Sys_rule1="8210201" Then response.write "&#9632;" Else response.write "□"%> 二、在道路兩旁附近燃燒物品，發生濃煙，足以妨礙行車視線者。
+    <br>　　<%If Sys_rule1="8210301" Then response.write "&#9632;" Else response.write "□"%> 三、利用道路工作場所者。
+    <br>　　<%If Sys_rule1="8210401" Then response.write "&#9632;" Else response.write "□"%> 四、利用道路放置拖車、貨櫃或動力機械者。
+    <br>　　<%If Sys_rule1="8210501" Then response.write "&#9632;" Else response.write "□"%> 五、興修房屋使用道路未經許可，或經許可超出限制者。
+    <br>　　<%If Sys_rule1="8210601" Then response.write "&#9632;" Else response.write "□"%> 六、經主管機關許可挖掘道路而不樹立警告標誌，或於事後未將障礙物
+    <br>　　　　 　清除者。
+    <br>　　<%If Sys_rule1="8210701" Then response.write "&#9632;" Else response.write "□"%> 七、擅自設置或變更道路交通標誌、標線、號誌或其類似之標識者。
+    <br>　　<%If Sys_rule1="8210801" Then response.write "&#9632;" Else response.write "□"%> 八、未經許可在道路設置石碑、廣告牌、綵坊或其他類似物者。
+    <br>　　<%If Sys_rule1="8210901" Then response.write "&#9632;" Else response.write "□"%> 九、未經許可在道路舉行賽會或擺設筵席、演戲、拍攝電影或其他類似
+    <br>　　　　　 行為者。
+    <br>　　<%If Sys_rule1="8310101" Then response.write "&#9632;" Else response.write "□"%> 十、在車道或交通島上散發廣告物 宣傳單 或其他相類之物。
+    <br>　　<%If Sys_rule1="8211001" Then response.write "&#9632;" Else response.write "□"%> 十一、未經許可在道路擺設攤位者。
+    <br>　　<%If Sys_rule1="8310201" Then response.write "&#9632;" Else response.write "□"%> 十二、在車道上、車站內、高速公路服務區休息站，任意販賣物品妨礙
+    <br>　　　　 　　交通者。
+    <br>　　<%If Sys_rule1="8410101" Or Sys_rule1="8400001" Then response.write "&#9632;" Else response.write "□"%> 十三、疏縱或牽繫禽、畜在道路奔走，妨害交通者。
+    <br>　　<%If Sys_rule1="7410101" Then response.write "&#9632;" Else response.write "□"%> 十四、慢車駕駛人不服從執行交通勤務警察指揮或不依標誌、標線、號
+    <br>　　　　　 　誌之指示者。
+    <br>　　<%If Sys_rule1="7410301" Then response.write "&#9632;" Else response.write "□"%> 十五、行人不依規定擅自穿越車道者。
+    <br>　　<%If Sys_rule1="81101011" Or Sys_rule1="81101021" Then response.write "&#9632;" Else response.write "□"%> 十六、於鐵路、公路車站或其他交通頻繁處所，違規攬客或妨礙交通秩
+    <br>　　□ 十七、其他：
+	</font></font><br>
+    <font face="標楷體" size="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 序者。
+    <br>　　
+    <br>　　
+    <br>　　</font><br><br></td>
+  </tr>
+  <tr>
+  <td colspan="4" width="686" height="44" >
+ <table border="0" cellspacing="0" width="640" cellpadding="0" bordercolor="#111111" style="border-collapse: collapse" height="62"> 
+    <td width="81" height="21" align="center" style="border-bottom-style: solid; border-bottom-width: 1; border-right-style:solid; border-right-width:1">
+      <font size="4" face="標楷體">適用法條</font><font size="4"> </font>
+    </td>
+    <td width="549" height="21" colspan="3" style="border-bottom-style: solid; border-bottom-width: 1;">
+    <font face="標楷體" size="4">爰依道路交通管理處罰條例第　<%=Sys_rule1_1%> 條第　<%=Sys_rule1_2%>　項第 <%=Sys_rule1_3%>　款規定裁決如後</font></td>
+  </tr>
+  <tr>
+    <td width="81" height="22" align="center" style="border-bottom-style: solid; border-bottom-width: 1; border-right-style:solid; border-right-width:1">
+    <font face="標楷體" size="4">擬處意見</font></td>
+    <td width="549" height="22" colspan="3" style="border-bottom-style: solid; border-bottom-width: 1; ">
+    <font face="標楷體" size="4">擬處罰鍰新臺幣<%=Sys_ForFeit1%> 元，　□攤架、□招版沒入、可否　請核示</font></td>
+  </tr>
+  <tr>
+    <td width="81" height="19" align="center" style=" border-right-style:solid; border-right-width:1">
+    <font face="標楷體" size="4">裁決書號</font></td>
+    <td width="212" height="19" style="border-right-style:solid; border-right-width:1">
+
+    <font face="標楷體" size="3">
+<%if City="澎湖縣" and UnitNo="D01" then 
+response.write "馬警"
+else
+response.write Sys_BookUnit
+end if
+%>
+交裁字第<%=UOpenGovNumber%>號</font></td>
+    <td width="151" height="19" style="border-right-style:solid; border-right-width:1">
+    <font face="標楷體" size="4">　綱　　目　　節</font></td>
+    <td width="178" height="19" ><font face="標楷體" size="4">　<%=PrintDate(0)%>年<%=PrintDate(1)%>月<%=PrintDate(2)%>日</font></td>
+</table>    
+</td>
+  </tr>
+  <tr>
+    <td width="160" height="19" align="center"><font face="標楷體" size="4">承　　辦　　人</font></td>
+    <td width="160" height="19" align="center"><font face="標楷體" size="4">組　　　　　長</font></td>
+    <td width="160" height="19" align="center"><font face="標楷體" size="4">副　分　局　長</font></td>
+    <td width="160" height="19" align="center"><font face="標楷體" size="4">批　　　　示</font></td>
+  </tr>
+  <tr>
+    <td width="160" height="69" align="center">　</td>
+    <td width="160" height="69" align="center">　</td>
+    <td width="160" height="69" align="center">　</td>
+    <td width="160" height="69" align="center">　</td>
+  </tr>
+</table>
