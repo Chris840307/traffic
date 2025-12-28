@@ -217,15 +217,15 @@ rsState.close
 <form name="myForm" method="post">
 <table width="100%" border="0">
 	<tr>
-		<td bgcolor="#FFCC33">違反道路交通管理事件移送</td>
+		<td bgcolor="#1BF5FF">違反道路交通管理事件移送</td>
 	</tr>
 	<tr>
 		<td bgcolor="#CCCCCC">
 			<table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#FFFFFF">
 				<tr>
-					<td align="right" nowrap bgcolor="#FFFF99">舉發單號</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">舉發單號</td>
 					<td><%=rsfound("BillNo")%></td>
-					<td align="right" nowrap bgcolor="#FFFF99">發文文號</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">發文文號</td>
 					<td><input name="Sys_OpenGovNumber" class="btn1" type="text" size="12" maxlength="16" value="<%
 						if Not ifnull(rsfound("OpenGovNumber")) then
 							response.write rsfound("OpenGovNumber")
@@ -233,17 +233,17 @@ rsState.close
 							response.write rsfound("BillNo")
 						end if
 					%>"></td>
-					<td align="right" nowrap bgcolor="#FFFF99" nowrap>裁決字號</td>
+					<td align="right" nowrap bgcolor="#EBE5FF" nowrap>裁決字號</td>
 					<td><%=rsfound("JudeOGN")%></td>
-					<td align="right" nowrap bgcolor="#FFFF99">催繳字號</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">催繳字號</td>
 					<td><%=rsfound("UrgeOGN")%></td>
 				</tr>
 				<tr>
-					<td align="right" nowrap bgcolor="#FFFF99">舉發單位</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">舉發單位</td>
 					<td><%=DB_UnitName%></td>
-					<td align="right" nowrap bgcolor="#FFFF99">受處分人</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">受處分人</td>
 					<td><%=rsfound("Driver")%></td>
-					<td align="right" nowrap bgcolor="#FFFF99">移送案號</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">移送案號</td>
 					<td><input name="Sys_SendNumber" value="<%
 						if Not ifnull(rsfound("SendNumber")) then
 							response.write rsfound("SendNumber")
@@ -251,7 +251,7 @@ rsState.close
 							response.write rsfound("BillNo")
 						end if
 					%>" class="btn1" type="text" size="12" maxlength="30"></td>
-					<td align="right" nowrap bgcolor="#FFFF99">移送日期</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">移送日期</td>
 					<td>
 						<input name="Sys_SendDate" value="<%
 							if trim(rsfound("SendDate"))<>"" then
@@ -263,7 +263,7 @@ rsState.close
 					</td>
 				</tr>
 				<tr>
-					<td align="right" nowrap bgcolor="#FFFF99">出生日期</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">出生日期</td>
 					<td><%=gInitDT(rsfound("DriverBirth"))%></td>
 					<td align="right" nowrap bgcolor="#C4FFB9">法定代理人姓名</td>
 					<td bgcolor="#EAFFE6"><input name="Sys_Agent" class="btn1" type="text" size="12" maxlength="12" value="<%if trim(rsfound("Agent"))<>"" then
@@ -289,7 +289,7 @@ rsState.close
 					</td>
 				</tr>
 				<tr>
-					<td align="right" nowrap bgcolor="#FFFF99">身分證號</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">身分證號</td>
 					<td><%=rsfound("DriverID")%></td>
 					<td align="right" nowrap bgcolor="#C4FFB9">身分證號</td>
 					<td bgcolor="#EAFFE6"><input name="Sys_AgentID" class="btn1" type="text" size="12" maxlength="12" value="<%
@@ -298,21 +298,21 @@ rsState.close
 						else
 							response.write rsfound("JudeAgentID")
 						end if%>"></td>
-					<td align="right" nowrap bgcolor="#FFFF99">行政執行分署</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">行政執行分署</td>
 					<td colspan="3" bgcolor="#EAFFE6"><input name="Sys_AgentAddress" class="btn1" type="text" size="31" maxlength="30" value="<%
 						if trim(rsfound("AgentAddress"))<>"" then
 							response.write rsfound("AgentAddress")
 						end if%>"></td>
 				</tr>
 				<tr>
-					<td align="right" nowrap bgcolor="#FFFF99">住址</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">住址</td>
 					<td><%=rsfound("DriverAddress")%></td>
 					<td align="right" nowrap bgcolor="#C4FFB9">法定代理人地址</td>
 					<td bgcolor="#EAFFE6" colspan=3>
 					<input name="Sys_JudeAgentAddress" class="btn1" type="text" size="40" value="<%if trim(rsfound("JudeAgentAddress"))<>"" then
 						response.write rsfound("JudeAgentAddress")
 					end if%>"></td>
-					<td nowrap bgcolor="#FFFF99" align="right">罰款金額</td>
+					<td nowrap bgcolor="#EBE5FF" align="right">罰款金額</td>
 					<td>
 					<%
 						L1ForFeit=0
@@ -398,25 +398,25 @@ rsState.close
 					</td>
 				</tr>
 				<tr>
-					<td align="right" nowrap bgcolor="#FFFF99">違規時間</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">違規時間</td>
 					<td><%=gInitDT(rsfound("IllegalDate"))%></td>
-					<td align="right" nowrap bgcolor="#FFFF99">確定日期</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">確定日期</td>
 					<td>
 						<input name="Sys_MakeSureDate" class="btn1" type="text" value="<%=gInitDT(MakeSureDate)%>" size="4" maxlength="10">
 						<input type="button" name="datestr" value="..." onclick="OpenWindow('Sys_MakeSureDate');">
 					</td>
-					<td align="right" nowrap bgcolor="#FFFF99">限繳日期</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">限繳日期</td>
 					<td colspan="3">
 						<input name="Sys_LimitDate" class="btn1" type="text" value="<%=gInitDT(LimitDate)%>" size="10" maxlength="10" onkeyup="value=value.replace(/[^\d]/g,'')">
 							<input type="button" name="datestr" value="..." onclick="OpenWindow('Sys_LimitDate');">
 					</td>
 				</tr>
 				<tr>
-					<td align="right" nowrap bgcolor="#FFFF99">違規地點</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">違規地點</td>
 					<td><%=rsfound("IllegalAddress")%></td>
-					<td align="right" nowrap bgcolor="#FFFF99">承辦人</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">承辦人</td>
 					<td><%=Session("Ch_Name")%></td>
-					<td nowrap bgcolor="#FFFF99" align="right">分局長</td>
+					<td nowrap bgcolor="#EBE5FF" align="right">分局長</td>
 					<td><input name="Sys_SubUnitSecBossName" class="btn1" class="btn1" type="text" size="12" maxlength="12" value="<%
 							if trim(rsfound("SubUnitSecBossName"))<>"" then
 								theSubUnitSecBossName=trim(rsfound("SubUnitSecBossName"))
@@ -426,14 +426,14 @@ rsState.close
 							end if
 							response.write trim(theSubUnitSecBossName)%>">
 					</td>
-					<td nowrap bgcolor="#FFFF99" nowrap align="right">局長</td>
+					<td nowrap bgcolor="#EBE5FF" nowrap align="right">局長</td>
 					<td><input name="Sys_BigUnitBossName" class="btn1" class="btn1" type="text" size="12" maxlength="12" value="<%=trim(theBigUnitBossName)%>"></td>
 					
 				</tr>
 				<tr>
-					<td align="right" nowrap bgcolor="#FFFF99">應到案日期</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">應到案日期</td>
 					<td><%=rsfound("DealLineDate")%></td>
-					<td align="right" nowrap bgcolor="#FFFF99">催繳情形</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">催繳情形</td>
 					<td colspan="5">
 						<%strchk="select count(*) as cnt from PasserUrge where BillSN="&rsfound("BillSN")&" and BillNo='"&rsfound("BillNo")&"'"
 						Jodestr="1"
@@ -448,7 +448,7 @@ rsState.close
 					</td>
 				</tr>
 				<tr>
-					<td rowspan="2" align="right" nowrap bgcolor="#FFFF99">違反法條</td>
+					<td rowspan="2" align="right" nowrap bgcolor="#EBE5FF">違反法條</td>
 					<td rowspan="2">
 						<%
 						if trim(rsfound("Rule1"))<>"" and not isnull(rsfound("Rule1")) then
@@ -525,7 +525,7 @@ rsState.close
 						end if
 						%>
 					</td>
-					<td align="right" nowrap bgcolor="#FFFF99">催繳方式</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">催繳方式</td>
 					<td colspan="5">
 						<input name="Sys_UrgeTypeID" class="btn1" type="radio" value="0"<%if trim(rsfound("UrgeTypeID"))="0" then response.write " checked"%>>
 						電話
@@ -536,7 +536,7 @@ rsState.close
 					</td>
 				</tr>
 				<tr>
-					<td align="right" nowrap bgcolor="#FFFF99">附件</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">附件</td>
 					<td colspan="5">
 						<input class="btn1" type="checkbox" name="Sys_AttatchTable" value="1"<%
 							if trim(rsfound("AttatchTable"))<>"" then response.write " checked"%>>
@@ -565,7 +565,7 @@ rsState.close
 					</td>
 				</tr>
 				<tr>
-					<td align="right" nowrap bgcolor="#FFFF99">代保管物品</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">代保管物品</td>
 					<td><%
 							FastenerTemp=""
 							strFastener="select Confiscate from PasserConfiscate where BillSN="&trim(request("PBillSN"))
@@ -584,7 +584,7 @@ rsState.close
 							response.write FastenerTemp
 						%>
 					</td>
-					<td align="right" nowrap bgcolor="#FFFF99">保全措施</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">保全措施</td>
 					<td colspan="5">
 						<input class="btn1" type="checkbox" name="Sys_SAFETOEXIT" value="1"<%if trim(rsfound("SAFETOEXIT"))<>"" then response.write " checked"%>>
 						已限制出境 
@@ -602,7 +602,7 @@ rsState.close
 		</td>
 	</tr>
 	<tr align="center">
-		<td bgcolor="#FFDD77">
+		<td bgcolor="#1BF5FF">
 			<input name="btnadd" type="button" value=" 確 定 " onclick="funAdd();"> 
 			<input name="btnexit" type="button" value=" 關 閉 " onclick="funExt();">
 			<!--<input name="btnprint" type="submit" value="列印95年移送書(套印)" onclick='PrintReports();'>
@@ -619,9 +619,9 @@ rsState.close
 
 <table width="100%" height="100%" border="0" bgcolor="#E0E0E0">
 		<tr>
-			<td colspan="9" bgcolor="#FFCC33">歷次移送記錄</td>
+			<td colspan="9" bgcolor="#1BF5FF">歷次移送記錄</td>
 		</tr>
-		<tr bgcolor="#EBFBE3">
+		<tr bgcolor="#FAFAF5">
 			<td width="10%" nowrap>移送日期</td>
 			<td width="10%" nowrap>發文文號</td>
 			<td width="10%" nowrap>移送案號</td>

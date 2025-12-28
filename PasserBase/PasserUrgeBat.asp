@@ -100,7 +100,7 @@ rs.close
 <form name=myForm method="post">
 <table width="100%" border="0" bgcolor="#ffffff">
 	<tr>
-		<td height="27" bgcolor="#FFCC33" class="pagetitle">¶Ê§i§å¦¸®M¦L</td>
+		<td height="27" bgcolor="#1BF5FF" class="pagetitle">¶Ê§i§å¦¸®M¦L</td>
 	</tr>
 	<tr>
 		<td height="26" bgcolor="#CCCCCC">
@@ -183,7 +183,7 @@ rs.close
 		</td>
 	</tr>
 	<tr align="center">
-		<td height="20" bgcolor="#FFDD77">
+		<td height="20" bgcolor="#1BF5FF">
 		</td>
 	</tr>
 </table>

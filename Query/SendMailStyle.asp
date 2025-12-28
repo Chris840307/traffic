@@ -61,7 +61,7 @@ function window_onload(){
 <form name=myForm method="post">
 <table width="100%" border="0">
 	<tr>
-		<td bgcolor="#FFCC33"><font size=4>查詢未退還清冊</font></td>
+		<td bgcolor="#1BF5FF"><font size=4>查詢未退還清冊</font></td>
 	</tr>
 	<tr>
 		<td bgcolor="#CCCCCC">
@@ -133,7 +133,7 @@ function window_onload(){
 		</td>
 	</tr>
 	<tr align="center">
-		<td bgcolor="#FFDD77">
+		<td bgcolor="#1BF5FF">
 			<input name="btnadd" type="button" value="產生清冊 " onclick="funAdd();"> 
 		
 		<%

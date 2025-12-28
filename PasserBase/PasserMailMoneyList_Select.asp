@@ -30,7 +30,7 @@ tmpSQL=request("SQLstr")
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 	<form name="myForm" method="post" onsubmit="return select_street();">  
 		<table width='100%' border='1' align="left" cellpadding="1">
-			<tr bgcolor="#FFCC33">
+			<tr bgcolor="#1BF5FF">
 				<td>¿ï¾Ü¶l¸ê</td>
 			</tr>
 			<tr>
@@ -66,7 +66,7 @@ tmpSQL=request("SQLstr")
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#EBFBE3" align="center">
+				<td bgcolor="#FAFAF5" align="center">
 					<input type="button" value="¦C  ¦L" onclick="funMailListCity();">
 				</td>
 			</tr>

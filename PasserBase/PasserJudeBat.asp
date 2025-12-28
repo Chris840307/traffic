@@ -193,7 +193,7 @@ rs.close
 <form name=myForm method="post">
 <table width="100%" border="0" bgcolor="#ffffff">
 	<tr>
-		<td height="27" bgcolor="#FFCC33" class="pagetitle">裁決批次套印</td>
+		<td height="27" bgcolor="#1BF5FF" class="pagetitle">裁決批次套印</td>
 	</tr>
 	<tr>
 		<td height="26" bgcolor="#CCCCCC">
@@ -312,7 +312,7 @@ rs.close
 		</td>
 	</tr>
 	<tr>
-		<td height="26" bgcolor="#FFCC33">裁決列表</td>
+		<td height="26" bgcolor="#1BF5FF">裁決列表</td>
 	</tr>
 	<tr>
 		<td bgcolor="#E0E0E0" valign="top">
@@ -413,7 +413,7 @@ rs.close
 '								end if
 '							end if
 '						end if
-'						response.write "一、罰鍰新台灣"&ForFeit&"元整。<br>『限文到十五日內繳納』。<br>二、沒入物："&fastring
+'						response.write "一、罰鍰新台灣"&ForFeit&"元整。<br>『限文到十五日內繳納』。<br>二、沒入物："&fastring
 					If not ifnull(rsPunishmentMainBody) Then
 						Response.Write rsPunishmentMainBody
 
@@ -583,7 +583,7 @@ rs.close
 		</td>
 	</tr>
 	<tr align="center">
-		<td height="20" bgcolor="#FFDD77">
+		<td height="20" bgcolor="#1BF5FF">
 		</td>
 	</tr>
 </table>

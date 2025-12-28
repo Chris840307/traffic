@@ -218,12 +218,12 @@ end if
 <form name=myForm method="post">
 <table width="100%" height="100%" border="0">
   <tr>
-    <td height="27" bgcolor="#FFCC33"><span class="style5">違反道路交通管理事件裁決</span></td>
+    <td height="27" bgcolor="#1BF5FF"><span class="style5">違反道路交通管理事件裁決</span></td>
   </tr>
   <tr>
     <td height="26" bgcolor="#CCCCCC"><table width="100%" height="100%"  border="0" cellpadding="5" cellspacing="1" bgcolor="#FFFFFF">
       <tr>
-        <td width="13%" nowrap bgcolor="#FFFF99"><div align="right"><span class="style3">舉發單號</span></div></td>
+        <td width="13%" nowrap bgcolor="#EBE5FF"><div align="right"><span class="style3">舉發單號</span></div></td>
         <td width="19%"><%
 		if trim(rsSql("BILLNO"))<>"" and not isnull(rsSql("BILLNO")) then
 			response.write trim(rsSql("BILLNO"))
@@ -241,7 +241,7 @@ end if
 			response.write trim(request("PBillSN"))
 		%>">
 		</td>
-        <td nowrap bgcolor="#FFFF99"><div align="right">文號</div></td>
+        <td nowrap bgcolor="#EBE5FF"><div align="right">文號</div></td>
         <td colspan="3">
           <input name="OpenGovNumber" class="btn1" type="text" size="12" maxlength="12" value="<%
 		  if BillState="Update" then
@@ -253,9 +253,9 @@ end if
         </td>
       </tr>
       <tr>
-		<td nowrap bgcolor="#FFFF99"><div align="right">舉發單位</div></td>
+		<td nowrap bgcolor="#EBE5FF"><div align="right">舉發單位</div></td>
         <td width="19%"><%=BillUnitName%></td>
-        <td width="9%" nowrap bgcolor="#FFFF99"><div align="right">裁決日期</div></td>
+        <td width="9%" nowrap bgcolor="#EBE5FF"><div align="right">裁決日期</div></td>
         <td width="59%" colspan="3"><span class="style3">
           <input name="JudeDate" class="btn1" type="text" value="<%
 		  if BillState="Update" then
@@ -268,14 +268,14 @@ end if
         </span></td>
       </tr>
       <tr>
-		 <td nowrap bgcolor="#FFFF99"><div align="right">受處分人</div></td>
+		 <td nowrap bgcolor="#EBE5FF"><div align="right">受處分人</div></td>
         <td width="19%"><%
 		if trim(rsSql("DRIVER"))<>"" and not isnull(rsSql("DRIVER")) then
 			response.write trim(rsSql("DRIVER"))
 		end if
 		%></td>
-		<td width="9%" nowrap bgcolor="#C4FFB9"><div align="right" class="style3">法定代理人姓名</div></td>
-        <td width="9%" bgcolor="#EAFFE6">
+		<td width="9%" nowrap bgcolor="#C4FFB5"><div align="right" class="style3">法定代理人姓名</div></td>
+        <td width="9%" bgcolor="#FAFAF5">
 			<input class="btn1" type="text" name="AgentName" size="12" value="<%
 		  if BillState="Update" then
 			if UAgentName<>"" and not isnull(UAgentName) then
@@ -284,8 +284,8 @@ end if
 		  end if
 			%>">
 		</td>
-		<td width="5%" nowrap bgcolor="#C4FFB9"><div align="right" class="style3">出生日期</div></td>
-        <td width="9%" bgcolor="#EAFFE6">
+		<td width="5%" nowrap bgcolor="#C4FFB5"><div align="right" class="style3">出生日期</div></td>
+        <td width="9%" bgcolor="#FAFAF5">
 		  <input name="AgentBirth" class="btn1" type="text" value="<%
 		  if BillState="Update" then
 			if UAgentBirth<>"" and not isnull(UAgentBirth) then
@@ -295,16 +295,16 @@ end if
 		  %>" size="4" maxlength="10">
 		  <input type="button" name="datestr" value="..." onclick="OpenWindow('AgentBirth');">
 		 </td>
-		<td nowrap bgcolor="#FFFF99"><div align="right" class="style3">分局長</div></td>
+		<td nowrap bgcolor="#EBE5FF"><div align="right" class="style3">分局長</div></td>
         <td><%response.write theSubUnitSecBossName%>
 		</td>
-		<td nowrap bgcolor="#FFFF99"><div align="right" class="style3">局長</div></td>
+		<td nowrap bgcolor="#EBE5FF"><div align="right" class="style3">局長</div></td>
         <td>
 			<%response.write theBigUnitBossName%>
 		</td>
 	  </tr>
 	  <tr>
-		<td nowrap bgcolor="#FFFF99"><div align="right">出生日期</div></td>
+		<td nowrap bgcolor="#EBE5FF"><div align="right">出生日期</div></td>
         <td><%
 		if trim(rsSql("DriverBirth"))<>"" and not isnull(rsSql("DriverBirth")) then
 			birth=split(gArrDT(trim(rsSql("DriverBirth"))),"-")
@@ -340,7 +340,7 @@ end if
 			end if
 			%>">
 		</td>-->
-		<td nowrap bgcolor="#FFFF99"><div align="right" class="style3">聯絡電話</div></td>
+		<td nowrap bgcolor="#EBE5FF"><div align="right" class="style3">聯絡電話</div></td>
 		<td>
 			<input class="btn1" type="text" name="ContactTel" size="12" value="<%
 		if BillState="new" then
@@ -352,7 +352,7 @@ end if
 		end if
 			%>">
 		</td>
-		<td nowrap bgcolor="#FFFF99"><div align="right" class="style3">劃撥帳號</div></td>
+		<td nowrap bgcolor="#EBE5FF"><div align="right" class="style3">劃撥帳號</div></td>
 		<td>
 			<%if trim(theBankAccount)<>"" then
 				response.write theBankAccount
@@ -362,7 +362,7 @@ end if
 		</td>
 	  </tr>
 	  <tr>
-		<td nowrap bgcolor="#FFFF99"><div align="right"><span class="style3">身分證號</span></div></td>
+		<td nowrap bgcolor="#EBE5FF"><div align="right"><span class="style3">身分證號</span></div></td>
         <td width="19%"><%
 		if trim(rsSql("DriverID"))<>"" and not isnull(rsSql("DriverID")) then
 			response.write trim(rsSql("DriverID"))
@@ -382,7 +382,7 @@ end if
 			end if
 		%>">
 		</td>-->
-		<td nowrap bgcolor="#FFFF99"><div align="right" class="style3"><br>罰款金額</div></td>
+		<td nowrap bgcolor="#EBE5FF"><div align="right" class="style3"><br>罰款金額</div></td>
         <td colspan="3">
 <%
 
@@ -463,13 +463,13 @@ end if
 		</td>
 	  </tr>
 	  <tr>
-		 <td nowrap bgcolor="#FFFF99"><div align="right"><span class="style3">住址</span></div></td>
+		 <td nowrap bgcolor="#EBE5FF"><div align="right"><span class="style3">住址</span></div></td>
         <td width="19%"><%
 		if trim(rsSql("DriverAddress"))<>"" and not isnull(rsSql("DriverAddress")) then
 			response.write trim(rsSql("DriverAddress"))
 		end if	
 		%></td>
-		<td nowrap bgcolor="#FFFF99"><div align="right"><span class="style3">應到案處所</span></div></td>
+		<td nowrap bgcolor="#EBE5FF"><div align="right"><span class="style3">應到案處所</span></div></td>
         <td colspan="3">
           <input name="MemberStation_txt" class="btn1" type="text" value="<%
 		if BillState="new" then
@@ -498,13 +498,13 @@ end if
         </td>
       </tr>
 	  <tr>
-		<td width="9%" nowrap bgcolor="#FFFF99"><div align="right" class="style3">承辦人</div></td>
+		<td width="9%" nowrap bgcolor="#EBE5FF"><div align="right" class="style3">承辦人</div></td>
         <td width="9%"><%
 		if trim(rsSql("BillFiller"))<>"" and not isnull(rsSql("BillFiller")) then
 			response.write trim(rsSql("BillFiller"))
 		end if	
 		%></td>
-		<td nowrap bgcolor="#FFFF99"><div align="right" class="style3">違規人寄送地址</div></td>
+		<td nowrap bgcolor="#EBE5FF"><div align="right" class="style3">違規人寄送地址</div></td>
         <td colspan="3"><span class="style3">
           <input name="SendAddress" class="btn1" type="text" size="46" maxlength="50" value="<%
 		if BillState="new" then
@@ -520,13 +520,13 @@ end if
         </span></td>
 	  </tr>
       <tr>
-		 <td nowrap bgcolor="#FFFF99"><div align="right"><span class="style3">違規時間</span></div></td>
+		 <td nowrap bgcolor="#EBE5FF"><div align="right"><span class="style3">違規時間</span></div></td>
         <td width="19%"><%
 		if trim(rsSql("IllegalDate"))<>"" and not isnull(rsSql("IllegalDate")) then
 			response.write gInitDT(trim(rsSql("IllegalDate")))&" "&hour(trim(rsSql("IllegalDate")))&" : "&minute(trim(rsSql("IllegalDate")))
 		end if	
 		%></td>
-        <td width="9%" rowspan="2" nowrap bgcolor="#FFFF99"><div align="right"><span class="style3">處罰主文</span></div>          <div align="right"></div></td>
+        <td width="9%" rowspan="2" nowrap bgcolor="#EBE5FF"><div align="right"><span class="style3">處罰主文</span></div>          <div align="right"></div></td>
         <td colspan="5" rowspan="2">
           <textarea name="PunishmentMainBody" class="btn1" cols="41" rows="6"><%
 		if not ifnull(UPunishmentMainBody) then
@@ -619,7 +619,7 @@ end if
 
       </tr>
       <tr>
-		 <td nowrap bgcolor="#FFFF99"><div align="right"><span class="style3">違規地點</span></div></td>
+		 <td nowrap bgcolor="#EBE5FF"><div align="right"><span class="style3">違規地點</span></div></td>
         <td width="19%"><%
 		if trim(rsSql("IllegalAddress"))<>"" and not isnull(rsSql("IllegalAddress")) then
 			response.write trim(rsSql("IllegalAddress"))
@@ -627,13 +627,13 @@ end if
 		  %></td>
       </tr>
       <tr>
-		 <td nowrap bgcolor="#FFFF99"><div align="right"><span class="style3">應到案日期</span></div></td>
+		 <td nowrap bgcolor="#EBE5FF"><div align="right"><span class="style3">應到案日期</span></div></td>
         <td width="19%"><%
 		if trim(rsSql("DealLineDate"))<>"" and not isnull(rsSql("DealLineDate")) then
 			response.write gInitDT(trim(rsSql("DealLineDate")))
 		end if			  
 		  %></td>
-        <td width="9%" rowspan="3" nowrap bgcolor="#FFFF99" rowspan="2"><div align="right">簡要理由</div></td>
+        <td width="9%" rowspan="3" nowrap bgcolor="#EBE5FF" rowspan="2"><div align="right">簡要理由</div></td>
         <td width="19%" colspan="3" rowspan="3">
           <textarea name="SimpleReson" class="btn1" cols="41" rows="8"><%
 		if BillState="Update" then
@@ -648,7 +648,7 @@ end if
         </td>
       </tr>
       <tr>
-		 <td nowrap bgcolor="#FFFF99"><div align="right">違反法條</div></td>
+		 <td nowrap bgcolor="#EBE5FF"><div align="right">違反法條</div></td>
         <td><%
 		if trim(rsSql("Rule1"))<>"" and not isnull(rsSql("Rule1")) then
 			response.write trim(rsSql("Rule1"))&"，"
@@ -725,7 +725,7 @@ end if
 		%></td>
       </tr>
       <tr>
-		<td nowrap bgcolor="#FFFF99"><div align="right">代保管物品</div></td>
+		<td nowrap bgcolor="#EBE5FF"><div align="right">代保管物品</div></td>
         <td><%
 		FastenerTemp=""
 		strFastener="select Confiscate from PasserConfiscate where BillSN="&trim(request("PBillSN"))
@@ -745,7 +745,7 @@ end if
 		  %></td>
       </tr>
 	  <tr>
-		<td nowrap bgcolor="#FFFF99"><div align="right">備註</div></td>
+		<td nowrap bgcolor="#EBE5FF"><div align="right">備註</div></td>
         <td rowspan="2">
           <textarea name="Note" cols="30" class="btn1" rows="5"><%
 		if BillState="Update" then
@@ -756,7 +756,7 @@ end if
 		  %></textarea>
         </td>
 		<%if sys_City="彰化縣" or sys_City="基隆市" then%>
-			<td width="9%" nowrap bgcolor="#FFFF99"><div align="right">裁決掃描檔</div></td>
+			<td width="9%" nowrap bgcolor="#EBE5FF"><div align="right">裁決掃描檔</div></td>
 			<td width="19%">
 				<%
 					response.write "<input type=""button"" class=""btn3"" style=""width:100px;height:20px;"" value=""上傳掃描檔"" onclick=""funMap('"&trim(request("PBillSN"))&"');"">&nbsp;"
@@ -791,7 +791,7 @@ end if
     </table></td>
   </tr>
   <tr>
-    <td height="35" bgcolor="#FFDD77"><p align="center" class="style1">
+    <td height="35" bgcolor="#1BF5FF"><p align="center" class="style1">
         <input name="Submit43322" type="button" class="style3" value=" 確 定 " onclick="DB_Insert();">
 		<input name="btnprint" type="button" value="列印裁決書"  onclick='PrintReports();'>
 		<input name="btnprint" type="button" value="列印裁決書(保防版)"  onclick='PrintReports_Label();'>

@@ -29,7 +29,7 @@ tmpSQL=strSQL
 <form name=myForm method="post">
 <table width="100%" border="0">
 	<tr>
-		<td bgcolor="#FFCC33">匯入檔案歷程紀錄列表<img src="space.gif" width="15" height="8"><strong>( 查詢 <%=DBsum%> 筆紀錄 )</strong></td>
+		<td bgcolor="#1BF5FF">匯入檔案歷程紀錄列表<img src="space.gif" width="15" height="8"><strong>( 查詢 <%=DBsum%> 筆紀錄 )</strong></td>
 	</tr>
 	<tr>
 		<td bgcolor="#E0E0E0">
@@ -60,7 +60,7 @@ tmpSQL=strSQL
 		</td>
 	</tr>
 	<tr>
-		<td bgcolor="#FFDD77" align="center">
+		<td bgcolor="#1BF5FF" align="center">
 			<input type="button" name="MoveUp" value="上一頁" onclick="funDbMove(-10);">
 			<span class="style2"> <%=Cint(DBcnt)/10+1&"/"&fix(Cint(DBsum)/10+0.9)%></span>
 			<input type="button" name="MoveDown" value="下一頁" onclick="funDbMove(10);">

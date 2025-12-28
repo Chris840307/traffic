@@ -202,7 +202,7 @@ end if
 <form name=myForm method="post">
 <table width="100%" height="100%" border="0">
   <tr>
-    <td height="27" bgcolor="#FFCC33"><span class="style5">繳款登錄</span></td>
+    <td height="27" bgcolor="#1BF5FF"><span class="style5">繳款登錄</span></td>
   </tr>
   <tr>
     <td height="26"><table width="100%" height="100%"  border="0" cellpadding="5" cellspacing="1" bgcolor="#FFFFFF">
@@ -558,7 +558,7 @@ end if
 		</td>
       </tr>
   <tr>
-    <td height="35" bgcolor="#FFDD77" colspan="4"><p align="center" class="style1">
+    <td height="35" bgcolor="#1BF5FF" colspan="4"><p align="center" class="style1">
         <img src="space.gif" width="14" height="8">
         <input name="subPayCLose" type="button" class="style3" value="儲存" onclick="db_insert();">
 		<img src="space.gif" width="20" height="5"> 
@@ -572,12 +572,12 @@ end if
         </p></td>
   </tr>
   <tr>
-	<td colspan="4" bgcolor="#FFFFCC">
+	<td colspan="4" bgcolor="#EBE5FF">
 	<table width="100%" height="100%" border="0" bgcolor="#E0E0E0">
 		<tr>
-			<td colspan="9" bgcolor="#FFCC33">歷次繳費記錄</td>
+			<td colspan="9" bgcolor="#1BF5FF">歷次繳費記錄</td>
 		</tr>
-		<tr bgcolor="#EBFBE3">
+		<tr bgcolor="#FAFAF5">
 			<td width="10%" nowrap>繳費日期</td>
 			<td width="10%" nowrap>繳費方式</td>
 			<td width="10%" nowrap>繳費金額</td>

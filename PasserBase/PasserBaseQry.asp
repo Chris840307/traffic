@@ -779,7 +779,7 @@ If showCreditor Then
 			while Not rssn.eof
 				PasserCanCel=cdbl(rssn("cnt"))
 
-				if trim(PasserCanCel)>0 then errmsg=errmsg&rssn("MebUnitName")&"共有" & PasserCanCel & "筆已逾十年註銷案件。\n"
+				if trim(PasserCanCel)>0 then errmsg=errmsg&rssn("MebUnitName")&"共有" & PasserCanCel & "筆已逾十年註銷案件。\n"
 
 				rssn.movenext
 			wend
@@ -802,7 +802,7 @@ End if
 <form name="myForm" method="post">
 <table width="100%" border="0">
 	<tr height="30">
-		<td height="30" bgcolor="#1BF5FF"><font size="4"><b>慢車行人道路障礙舉發單紀錄</b> </font><img src="space.gif" width="32" height="10"><a href="passerbase.doc" target="_blank" ><font size="5"> 下載 裁罰系統使用說明.doc</font></a></img>
+		<td height="30" bgcolor="#1BF5FF"><font size="4"><b>慢車行人道路障礙舉發單紀錄</b> </font><img src="space.gif" width="32" height="10"><a href="passerbase2.docx" target="_blank" ><font size="5"> 下載 裁罰系統使用說明.doc</font></a></img>
 		<%if showCreditor then%>
 			<B>
 			<a href="PasserCreditor.doc" target="_blank" ><font size="5" color="red"> 下載 債權憑證系統使用說明.doc</font></a><br>

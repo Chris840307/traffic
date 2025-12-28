@@ -310,7 +310,7 @@ rsload.close
 <form name=myForm method="post">
 <table width="100%" border="0">
 	<tr>
-		<td bgcolor="#FFCC33">違反道路交通管理事件移送</td>
+		<td bgcolor="#1BF5FF">違反道路交通管理事件移送</td>
 	</tr>
 	<tr>
 		<td bgcolor="#CCCCCC">
@@ -406,7 +406,7 @@ rsload.close
 		</td>
 	</tr>
 	<tr align="center">
-		<td bgcolor="#FFDD77">
+		<td bgcolor="#1BF5FF">
 			<input name="btnadd" type="button" value=" 確 定 " onclick="funAdd();"> 
 			<input name="btnexit" type="button" value=" 關 閉 " onclick="funExt();">
 		</td>

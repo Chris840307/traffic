@@ -74,7 +74,7 @@
 	strSQL="select MANAGEMEMBERNAME,SECONDMANAGERNAME from Unitinfo where UnitID in(select Unittypeid from Unitinfo where Unitid='"&trim(rs1("BillUnitID"))&"')"
 %>
 	<table width='100%' border='1' cellpadding="2">
-		<tr bgcolor="#FFCC33">
+		<tr bgcolor="#1BF5FF">
 			<td colspan="6"><strong>舉發單資料</strong>
 				<a href="#<%=trim(rs1("SN"))%>1">
 				
@@ -92,7 +92,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td bgcolor="#FFFF99" width="13%" align="right"><strong>單號</strong></td>
+			<td bgcolor="#EBE5FF" width="13%" align="right"><strong>單號</strong></td>
 			<td align="left" width="20%"><%
 			'單號
 			if trim(rs1("BillNo"))<>"" and not isnull(rs1("BillNo")) then
@@ -101,7 +101,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td bgcolor="#FFFF99" width="13%" align="right"><strong>舉發類別</strong></td>
+			<td bgcolor="#EBE5FF" width="13%" align="right"><strong>舉發類別</strong></td>
 			<td align="left" ><%
 			'舉發類別
 			if trim(rs1("BillTypeID"))<>"" and not isnull(rs1("BillTypeID")) then
@@ -116,7 +116,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td bgcolor="#FFFF99" width="13%" align="right"><strong>違規人性別</strong></td>
+			<td bgcolor="#EBE5FF" width="13%" align="right"><strong>違規人性別</strong></td>
 			<td align="left"><%
 			'違規人性別
 			if trim(rs1("DriverSex"))<>"" and not isnull(rs1("DriverSex")) then
@@ -131,7 +131,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td bgcolor="#FFFF99" width="13%" align="right"><strong>違規人姓名</strong></td>
+			<td bgcolor="#EBE5FF" width="13%" align="right"><strong>違規人姓名</strong></td>
 			<td align="left" width="20%"><%
 			'違規人姓名
 			if trim(rs1("Driver"))<>"" and not isnull(rs1("Driver")) then
@@ -140,7 +140,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td bgcolor="#FFFF99" align="right"><strong>違規人身份證</strong></td>
+			<td bgcolor="#EBE5FF" align="right"><strong>違規人身份證</strong></td>
 			<td align="left" width="20%"><%
 			'違規人身分証
 			if trim(rs1("DriverID"))<>"" and not isnull(rs1("DriverID")) then
@@ -149,7 +149,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td bgcolor="#FFFF99" align="right"><strong>違規人生日</strong></td>
+			<td bgcolor="#EBE5FF" align="right"><strong>違規人生日</strong></td>
 			<td align="left" width="20%"><%
 			'違規人生日
 			if trim(rs1("DriverBirth"))<>"" and not isnull(rs1("DriverBirth")) then
@@ -160,7 +160,7 @@
 			%></td>
 		</tr>
 		<tr>			
-			<td align="right" bgcolor="#FFFF99"><strong>違規人地址</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>違規人地址</strong></td>
 			<td align="left" colspan="3"><%
 			'違規人地址
 			if trim(rs1("DriverZip"))<>"" and not isnull(rs1("DriverZip")) then
@@ -172,7 +172,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>違規日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>違規日期</strong></td>
 			<td align="left"><%
 			'違規日期
 			if trim(rs1("IllegalDate"))<>"" and not isnull(rs1("IllegalDate")) then
@@ -185,7 +185,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>違規地點</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>違規地點</strong></td>
 			<td align="left" colspan="5"><%
 			'違規地點
 			if trim(rs1("IllegalAddressID"))<>"" and not isnull(rs1("IllegalAddressID")) then
@@ -199,7 +199,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>違規法條</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>違規法條</strong></td>
 			<td align="left" colspan="5"><%
 			'違規法條
 			if trim(rs1("Rule1"))<>"" and not isnull(rs1("Rule1")) then
@@ -246,7 +246,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>車號</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>車號</strong></td>
 			<td align="left"><%
 			'車號
 			if trim(rs1("CarNO"))<>"" and not isnull(rs1("CarNO")) then
@@ -255,7 +255,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>簡式車種</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>簡式車種</strong></td>
 			<td align="left"><%
 			'簡式車種
 			if trim(rs1("CarSimpleID"))<>"" and not isnull(rs1("CarSimpleID")) then
@@ -266,7 +266,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>保險證</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>保險證</strong></td>
 			<td align="left"><%
 			'保險證
 			'第三責任險(0:有出示/1:未出示/2:肇事且未出示/3:逾期或未保險/4:肇事且逾期或未保險) *欄停才顯示
@@ -288,7 +288,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>限速</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>限速</strong></td>
 			<td align="left"><%
 			'限速
 			if trim(rs1("RuleSpeed"))<>"" and not isnull(rs1("RuleSpeed")) then
@@ -297,7 +297,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>車速</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>車速</strong></td>
 			<td align="left" colspan="3"><%
 			'車速
 			if trim(rs1("IllegalSpeed"))<>"" and not isnull(rs1("IllegalSpeed")) then
@@ -310,7 +310,7 @@
 			
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>填單日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>填單日期</strong></td>
 			<td align="left"><%
 			'填單日期
 			if trim(rs1("BillFillDate"))<>"" and not isnull(rs1("BillFillDate")) then
@@ -319,7 +319,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>應到案日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>應到案日期</strong></td>
 			<td align="left"><%
 			'應到案日期
 			if trim(rs1("DealLineDate"))<>"" and not isnull(rs1("DealLineDate")) then
@@ -328,7 +328,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>應到案處所</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>應到案處所</strong></td>
 			<td align="left"><%
 			'應到案處所
 			if trim(rs1("MemberStation"))<>"" and not isnull(rs1("MemberStation")) then
@@ -345,7 +345,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>舉發單位</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>舉發單位</strong></td>
 			<td align="left"><%
 			'舉發單位
 			if trim(rs1("BillUnitID"))<>"" and not isnull(rs1("BillUnitID")) then
@@ -360,7 +360,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>舉發人</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>舉發人</strong></td>
 			<td align="left"><%
 			'舉發人
 			if trim(rs1("BillMem1"))<>"" and not isnull(rs1("BillMem1")) then
@@ -378,7 +378,7 @@
 				response.write "、"&trim(rs1("BillMem4"))
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>代保管物</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>代保管物</strong></td>
 			<td align="left"><%
 			'代保管物
 			FastenerDetail=""
@@ -403,7 +403,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>專案</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>專案</strong></td>
 			<td align="left"><%
 			'專案
 			if trim(rs1("ProjectID"))<>"" and not isnull(rs1("ProjectID")) then
@@ -418,7 +418,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>備註</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>備註</strong></td>
 			<td align="left" colspan="3"><%
 			'備註
 			if trim(rs1("Note"))<>"" and not isnull(rs1("Note")) then
@@ -430,7 +430,7 @@
 		</tr>
 		<tr>
 
-			<td align="right" bgcolor="#FFFF99"><strong>填單人</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>填單人</strong></td>
 			<td align="left"><%
 			'填單人
 			if trim(rs1("BillFiller"))<>"" and not isnull(rs1("BillFiller")) then
@@ -439,7 +439,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>建檔人</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>建檔人</strong></td>
 			<td align="left"><%
 			'建檔人
 			if trim(rs1("RecordMemberID"))<>"" and not isnull(rs1("RecordMemberID")) then
@@ -454,7 +454,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>建檔日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>建檔日期</strong></td>
 			<td align="left"><%
 			'建檔日期
 			if trim(rs1("RecordDate"))<>"" and not isnull(rs1("RecordDate")) then
@@ -467,7 +467,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>是否應聽講習</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>是否應聽講習</strong></td>
 			<td align="left"><%
 			'是否講習
 			if trim(rs1("ISLECTURE"))<>"" and not isnull(rs1("ISLECTURE")) then
@@ -480,7 +480,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>法條版本</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>法條版本</strong></td>
 			<td align="left"><%
 			'法條版本
 			if trim(rs1("RuleVer"))<>"" and not isnull(rs1("RuleVer")) then
@@ -489,7 +489,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>刪除原因</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>刪除原因</strong></td>
 			<td align="left"><%
 			'刪除原因
 			strDelRea="select b.Content from PasserDeleteReason a,DciCode b where a.PasserSn="&trim(rs1("SN"))&" and b.TypeID=3 and a.DelReason=b.ID"
@@ -504,7 +504,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>刪除人</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>刪除人</strong></td>
 			<td align="left" colspan="5"><%
 			'刪除人
 			if trim(rs1("DelMemberID"))<>"" and not isnull(rs1("DelMemberID")) then
@@ -521,7 +521,7 @@
 			%></td>
 		</tr>
 <%'If trim(Session("Credit_ID"))="A000000000" then%>
-		<tr bgcolor="#33FFCC">
+		<tr bgcolor="#FAFAF5">
 			<td align="center" colspan="6"><strong>違規影像</strong></td>
 		</tr>
 		<tr>	
@@ -557,7 +557,7 @@
 			</td>
 		</tr>
 <%'end if%>
-		<tr bgcolor="#33FFCC">
+		<tr bgcolor="#FAFAF5">
 			<td align="center" colspan="6"><strong>相關文件掃描檔</strong></td>
 		</tr>
 		<tr>	
@@ -608,7 +608,7 @@
 	if not rsJude.eof then
 %>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>單號</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>單號</strong></td>
 			<td align="left"><%
 			'單號
 			if trim(rsJude("BILLNO"))<>"" and not isnull(rsJude("BILLNO")) then
@@ -617,7 +617,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>發文字號</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>發文字號</strong></td>
 			<td align="left" colspan="3"><%
 			'發文字號
 			if trim(rsJude("OPENGOVNUMBER"))<>"" and not isnull(rsJude("OPENGOVNUMBER")) then
@@ -628,7 +628,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>裁決日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>裁決日期</strong></td>
 			<td align="left"><%
 			'裁決日期
 			if trim(rsJude("JUDEDATE"))<>"" and not isnull(rsJude("JUDEDATE")) then
@@ -637,7 +637,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>應到案處所</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>應到案處所</strong></td>
 			<td align="left"><%
 			'應到案處所
 			if trim(rsJude("DUTYUNIT"))<>"" and not isnull(rsJude("DUTYUNIT")) then
@@ -646,7 +646,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>罰款金額</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>罰款金額</strong></td>
 			<td align="left"><%
 			'罰款金額
 			if trim(rsJude("FORFEIT"))<>"" and not isnull(rsJude("FORFEIT")) then
@@ -657,7 +657,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>處罰主文</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>處罰主文</strong></td>
 			<td align="left" colspan="5"><%
 			'處罰主文
 			if trim(rsJude("PUNISHMENTMAINBODY"))<>"" and not isnull(rsJude("PUNISHMENTMAINBODY")) then
@@ -668,7 +668,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td bgcolor="#FFFF99" align="right"><strong>簡要理由</strong></td>
+			<td bgcolor="#EBE5FF" align="right"><strong>簡要理由</strong></td>
 			<td align="left" colspan="5"><%
 			'簡要理由
 			if trim(rsJude("SIMPLERESON"))<>"" and not isnull(rsJude("SIMPLERESON")) then
@@ -679,7 +679,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>局長</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>局長</strong></td>
 			<td align="left"><%
 			'局長
 			if trim(rsJude("BIGUNITBOSSNAME"))<>"" and not isnull(rsJude("BIGUNITBOSSNAME")) then
@@ -688,7 +688,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>分局長</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>分局長</strong></td>
 			<td align="left"><%
 			'分局長
 			if trim(rsJude("SUBUNITSECBOSSNAME"))<>"" and not isnull(rsJude("SUBUNITSECBOSSNAME")) then
@@ -697,7 +697,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>聯絡電話</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>聯絡電話</strong></td>
 			<td align="left"><%
 			'聯絡電話
 			if trim(rsJude("CONTACTTEL"))<>"" and not isnull(rsJude("CONTACTTEL")) then
@@ -708,7 +708,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>法定代理人姓名</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>法定代理人姓名</strong></td>
 			<td align="left"><%
 			'法定代理人姓名
 			if trim(rsJude("AGENTNAME"))<>"" and not isnull(rsJude("AGENTNAME")) then
@@ -717,7 +717,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>法定代理人生日</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>法定代理人生日</strong></td>
 			<td align="left"><%
 			'法定代理人生日
 			if trim(rsJude("AGENTBIRTH"))<>"" and not isnull(rsJude("AGENTBIRTH")) then
@@ -726,7 +726,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>法定代理人身分證字號</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>法定代理人身分證字號</strong></td>
 			<td align="left"><%
 			'法定代理人身分證字號
 			if trim(rsJude("AGENTID"))<>"" and not isnull(rsJude("AGENTID")) then
@@ -737,7 +737,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>法定代理人性別</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>法定代理人性別</strong></td>
 			<td align="left"><%
 			'法定代理人性別
 			if trim(rsJude("AGENTSEX"))<>"" and not isnull(rsJude("AGENTSEX")) then
@@ -750,7 +750,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>法定代理人住址</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>法定代理人住址</strong></td>
 			<td align="left" colspan="3"><%
 			'法定代理人住址
 			if trim(rsJude("AGENTADDRESS"))<>"" and not isnull(rsJude("AGENTADDRESS")) then
@@ -761,7 +761,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>紀錄狀態</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>紀錄狀態</strong></td>
 			<td align="left"><%
 			'紀錄狀態
 			if trim(rsJude("RECORDSTATEID"))<>"" and not isnull(rsJude("RECORDSTATEID")) then
@@ -774,7 +774,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>紀錄時間</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>紀錄時間</strong></td>
 			<td align="left"><%
 			'紀錄時間
 			if trim(rsJude("RECORDDATE"))<>"" and not isnull(rsJude("RECORDDATE")) then
@@ -783,7 +783,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>紀錄人員</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>紀錄人員</strong></td>
 			<td align="left"><%
 			'紀錄人員
 			if trim(rsJude("RECORDMEMBERID"))<>"" and not isnull(rsJude("RECORDMEMBERID")) then
@@ -800,7 +800,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>送信地址</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>送信地址</strong></td>
 			<td align="left" colspan="3"><%
 			'送信地址
 			if trim(rsJude("SENDADDRESS"))<>"" and not isnull(rsJude("SENDADDRESS")) then
@@ -809,7 +809,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>刪除人員</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>刪除人員</strong></td>
 			<td align="left"><%
 			'刪除人員
 			if trim(rsJude("DELMEMBERID"))<>"" and not isnull(rsJude("DELMEMBERID")) then
@@ -826,7 +826,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>備註</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>備註</strong></td>
 			<td align="left" colspan="5"><%
 			'備註
 			if trim(rsJude("NOTE"))<>"" and not isnull(rsJude("NOTE")) then
@@ -857,7 +857,7 @@
 	if not rsSend.eof then
 %>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>單號</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>單號</strong></td>
 			<td align="left"><%
 			'單號
 			if trim(rsSend("BILLNO"))<>"" and not isnull(rsSend("BILLNO")) then
@@ -866,7 +866,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>發文文號</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>發文文號</strong></td>
 			<td align="left"><%
 			'發文文號
 			if trim(rsSend("OPENGOVNUMBER"))<>"" and not isnull(rsSend("OPENGOVNUMBER")) then
@@ -875,7 +875,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>移送字號</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>移送字號</strong></td>
 			<td align="left"><%
 			'移送字號
 			if trim(rsSend("SENDNUMBER"))<>"" and not isnull(rsSend("SENDNUMBER")) then
@@ -886,7 +886,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>移送日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>移送日期</strong></td>
 			<td align="left"><%
 			'移送日期
 			if trim(rsSend("SENDDATE"))<>"" and not isnull(rsSend("SENDDATE")) then
@@ -895,7 +895,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>法定代理人</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>法定代理人</strong></td>
 			<td align="left"><%
 			'法定代理人
 			if trim(rsSend("AGENT"))<>"" and not isnull(rsSend("AGENT")) then
@@ -904,7 +904,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>法定代理人生日</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>法定代理人生日</strong></td>
 			<td align="left"><%
 			'法定代理人生日
 			if trim(rsSend("AGENTBIRTHDATE"))<>"" and not isnull(rsSend("AGENTBIRTHDATE")) then
@@ -915,7 +915,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>法定代理人證號</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>法定代理人證號</strong></td>
 			<td align="left"><%
 			'法定代理人證號
 			if trim(rsSend("AGENTID"))<>"" and not isnull(rsSend("AGENTID")) then
@@ -924,7 +924,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>法定代理人住址</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>法定代理人住址</strong></td>
 			<td align="left" colspan="3"><%
 			'法定代理人住址
 			if trim(rsSend("AGENTADDRESS"))<>"" and not isnull(rsSend("AGENTADDRESS")) then
@@ -936,7 +936,7 @@
 
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>罰款金額</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>罰款金額</strong></td>
 			<td align="left"><%
 			'罰款金額
 			if trim(Sys_Forfeit)<>"" then
@@ -945,7 +945,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>局長</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>局長</strong></td>
 			<td align="left"><%
 			'局長
 			if trim(rsSend("BIGUNITBOSSNAME"))<>"" and not isnull(rsSend("BIGUNITBOSSNAME")) then
@@ -954,7 +954,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>分局長</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>分局長</strong></td>
 			<td align="left"><%
 			'分局長
 			if trim(rsSend("SUBUNITSECBOSSNAME"))<>"" and not isnull(rsSend("SUBUNITSECBOSSNAME")) then
@@ -965,7 +965,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>確定日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>確定日期</strong></td>
 			<td align="left"><%
 			'確定日期
 			if trim(rsSend("MAKESUREDATE"))<>"" and not isnull(rsSend("MAKESUREDATE")) then
@@ -974,7 +974,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>限繳日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>限繳日期</strong></td>
 			<td align="left"><%
 			'現繳日期
 			if trim(rsSend("LIMITDATE"))<>"" and not isnull(rsSend("LIMITDATE")) then
@@ -983,7 +983,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>執行處回文日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>執行處回文日期</strong></td>
 			<td align="left"><%
 			'執行處回文日期
 			if trim(rsSend("EXECUTERETURNDATE"))<>"" and not isnull(rsSend("EXECUTERETURNDATE")) then
@@ -994,7 +994,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>執行處回文文號</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>執行處回文文號</strong></td>
 			<td align="left"><%
 			'執行處回文文號
 			if trim(rsSend("EXECUTERETURNNUMBER"))<>"" and not isnull(rsSend("EXECUTERETURNNUMBER")) then
@@ -1003,7 +1003,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>執行處回文登記</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>執行處回文登記</strong></td>
 			<td align="left"><%
 			'執行處回文登記
 			if trim(rsSend("EXECUTERETURNNOTE"))<>"" and not isnull(rsSend("EXECUTERETURNNOTE")) then
@@ -1012,7 +1012,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>紀錄狀態</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>紀錄狀態</strong></td>
 			<td align="left"><%
 			'紀錄狀態
 			if trim(rsSend("RECORDSTATEID"))<>"" and not isnull(rsSend("RECORDSTATEID")) then
@@ -1027,7 +1027,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>紀錄時間</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>紀錄時間</strong></td>
 			<td align="left"><%
 			'紀錄時間
 			if trim(rsSend("RECORDDATE"))<>"" and not isnull(rsSend("RECORDDATE")) then
@@ -1038,7 +1038,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>紀錄人員</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>紀錄人員</strong></td>
 			<td align="left"><%
 			'紀錄人員
 			if trim(rsSend("RECORDMEMBERID"))<>"" and not isnull(rsSend("RECORDMEMBERID")) then
@@ -1053,7 +1053,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>刪除人員</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>刪除人員</strong></td>
 			<td align="left"><%
 			'刪除人員
 			if trim(rsSend("DELMEMBERID"))<>"" and not isnull(rsSend("DELMEMBERID")) then
@@ -1070,7 +1070,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>保全措施</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>保全措施</strong></td>
 			<td align="left" colspan="5"><%
 			'保全措施
 			SafeWay=""
@@ -1123,7 +1123,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>附件</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>附件</strong></td>
 			<td align="left" colspan="5"><%
 			'附件
 			SubObject=""
@@ -1205,7 +1205,7 @@
 
 		if sys_City="台中市" or sys_City = "彰化縣" or sys_City = "台南市" or sys_City = "高雄市" or sys_City = "高雄縣" or sys_City="宜蘭縣" or sys_City="基隆市" or sys_City="屏東縣" then
 			Response.Write "<tr>"
-				Response.Write "<td align=""center"" bgcolor=""#FFFF99"" colspan=""6"">"
+				Response.Write "<td align=""center"" bgcolor=""#EBE5FF"" colspan=""6"">"
 				Response.Write "<strong>移送歷程與債權記錄</strong>"
 				Response.Write "</td>"
 			Response.Write "</tr>"
@@ -1215,21 +1215,21 @@
 			set rs=conn.execute(strSQL)
 			While Not rs.eof
 				Response.Write "<tr>"
-					Response.Write "<td align=""right"" bgcolor=""#FFFF99"">"
+					Response.Write "<td align=""right"" bgcolor=""#EBE5FF"">"
 					Response.Write "<strong>移送日期</strong>"
 					Response.Write "</td>"
 					Response.Write "<td>"
 					Response.Write gInitDT(trim(rs("SendDate")))
 					Response.Write "</td>"
 
-					Response.Write "<td align=""right"" bgcolor=""#FFFF99"">"
+					Response.Write "<td align=""right"" bgcolor=""#EBE5FF"">"
 					Response.Write "<strong>發文文號</strong>"
 					Response.Write "</td>"
 					Response.Write "<td>"
 					Response.Write trim(rs("SendGovNumber"))
 					Response.Write "</td>"
 
-					Response.Write "<td align=""right"" bgcolor=""#FFFF99"">"
+					Response.Write "<td align=""right"" bgcolor=""#EBE5FF"">"
 					Response.Write "<strong>移送案號</strong>"
 					Response.Write "</td>"
 					Response.Write "<td>"
@@ -1237,21 +1237,21 @@
 					Response.Write "</td>"
 				Response.Write "</tr>"
 				Response.Write "<tr>"
-					Response.Write "<td align=""right"" bgcolor=""#FFFF99"">"
+					Response.Write "<td align=""right"" bgcolor=""#EBE5FF"">"
 					Response.Write "<strong>申請時間</strong>"
 					Response.Write "</td>"
 					Response.Write "<td>"
 					Response.Write gInitDT(trim(rs("PetitionDate")))
 					Response.Write "</td>"
 
-					Response.Write "<td align=""right"" bgcolor=""#FFFF99"">"
+					Response.Write "<td align=""right"" bgcolor=""#EBE5FF"">"
 					Response.Write "<strong>憑証編號</strong>"
 					Response.Write "</td>"
 					Response.Write "<td>"
 					Response.Write trim(rs("CreditorGovNumber"))
 					Response.Write "</td>"
 
-					Response.Write "<td align=""right"" bgcolor=""#FFFF99"">"
+					Response.Write "<td align=""right"" bgcolor=""#EBE5FF"">"
 					Response.Write "<strong>執行案號</strong>"
 					Response.Write "</td>"
 					Response.Write "<td>"
@@ -1259,14 +1259,14 @@
 					Response.Write "</td>"
 				Response.Write "</tr>"
 				Response.Write "<tr>"
-					Response.Write "<td align=""right"" bgcolor=""#FFFF99"">"
+					Response.Write "<td align=""right"" bgcolor=""#EBE5FF"">"
 					Response.Write "<strong>執行狀態</strong>"
 					Response.Write "</td>"
 					Response.Write "<td>"
 					Response.Write trim(rs("CreditorTypeName"))
 					Response.Write "</td>"
 
-					Response.Write "<td align=""right"" bgcolor=""#FFFF99"">"
+					Response.Write "<td align=""right"" bgcolor=""#EBE5FF"">"
 					Response.Write "<strong>待執行金額</strong>"
 					Response.Write "</td>"
 					Response.Write "<td>"
@@ -1298,7 +1298,7 @@
 	if not rsUrge.eof then
 %>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>舉發單號</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>舉發單號</strong></td>
 			<td align="left"><%
 			'舉發單號
 			if trim(rsUrge("BILLNO"))<>"" and not isnull(rsUrge("BILLNO")) then
@@ -1307,7 +1307,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>發文字號</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>發文字號</strong></td>
 			<td align="left" colspan="3"><%
 			'發文字號
 			if trim(rsUrge("OPENGOVNUMBER"))<>"" and not isnull(rsUrge("OPENGOVNUMBER")) then
@@ -1318,7 +1318,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>催告日期</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>催告日期</strong></td>
 			<td align="left"><%
 			'催告日期
 			if trim(rsUrge("URGEDATE"))<>"" and not isnull(rsUrge("URGEDATE")) then
@@ -1327,7 +1327,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>催繳方式</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>催繳方式</strong></td>
 			<td align="left"><%
 			'催繳方式
 			if trim(rsUrge("URGETYPEID"))<>"" and not isnull(rsUrge("URGETYPEID")) then
@@ -1342,7 +1342,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>罰款金額</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>罰款金額</strong></td>
 			<td align="left"><%
 			'罰款金額
 			if trim(rsUrge("FORFEIT"))<>"" and not isnull(rsUrge("FORFEIT")) then
@@ -1353,7 +1353,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>寄送地址</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>寄送地址</strong></td>
 			<td align="left" colspan="3"><%
 			'寄送地址
 			if trim(rsUrge("SENDADDRESS"))<>"" and not isnull(rsUrge("SENDADDRESS")) then
@@ -1362,7 +1362,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>局長</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>局長</strong></td>
 			<td align="left"><%
 			'局長
 			if trim(rsUrge("BIGUNITBOSSNAME"))<>"" and not isnull(rsUrge("BIGUNITBOSSNAME")) then
@@ -1373,7 +1373,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>分局長</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>分局長</strong></td>
 			<td align="left"><%
 			'分局長
 			if trim(rsUrge("SUBUNITSECBOSSNAME"))<>"" and not isnull(rsUrge("SUBUNITSECBOSSNAME")) then
@@ -1382,7 +1382,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>聯絡電話</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>聯絡電話</strong></td>
 			<td align="left"><%
 			'聯絡電話
 			if trim(rsUrge("CONTACTTEL"))<>"" and not isnull(rsUrge("CONTACTTEL")) then
@@ -1391,7 +1391,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>紀錄狀態</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>紀錄狀態</strong></td>
 			<td align="left"><%
 			'紀錄狀態
 			if trim(rsUrge("RECORDSTATEID"))<>"" and not isnull(rsUrge("RECORDSTATEID")) then
@@ -1406,7 +1406,7 @@
 			%></td>
 		</tr>
 		<tr>
-			<td align="right" bgcolor="#FFFF99"><strong>紀錄時間</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>紀錄時間</strong></td>
 			<td align="left"><%
 			'紀錄時間
 			if trim(rsUrge("RECORDDATE"))<>"" and not isnull(rsUrge("RECORDDATE")) then
@@ -1417,7 +1417,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>紀錄人員</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>紀錄人員</strong></td>
 			<td align="left"><%
 			'紀錄人員
 			if trim(rsUrge("RECORDMEMBERID"))<>"" and not isnull(rsUrge("RECORDMEMBERID")) then
@@ -1432,7 +1432,7 @@
 				response.write "&nbsp;"
 			end if
 			%></td>
-			<td align="right" bgcolor="#FFFF99"><strong>刪除人員</strong></td>
+			<td align="right" bgcolor="#EBE5FF"><strong>刪除人員</strong></td>
 			<td align="left"><%
 			'刪除人員
 			if trim(rsUrge("DELMEMBERID"))<>"" and not isnull(rsUrge("DELMEMBERID")) then
@@ -1470,7 +1470,7 @@
 	While Not rsPay.Eof
 		if i=0 then
 			i=i+1
-			TRcolor="#FFFF99"
+			TRcolor="#EBE5FF"
 		else
 			i=i-1
 			TRcolor="#AAF2A2"
@@ -1677,7 +1677,7 @@
 	While Not rsArrived.Eof
 		if i=0 then
 			i=i+1
-			TRcolor="#FFFF99"
+			TRcolor="#EBE5FF"
 		else
 			i=i-1
 			TRcolor="#AAF2A2"

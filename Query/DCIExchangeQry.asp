@@ -1110,50 +1110,50 @@ end if
 <!--
 * ¤W¶ÇºÊ²z¯¸¤£¶·µ¥¨ì«e¤@§å¦^¶Ç¡A¦P¤@®É¬q¤º¥i¤W¶Ç¦h§åÀÉ®×¡C <br>
 * Á|µo³æ¤J®×¦p¸g¨®Äy¬d¸ß¡A«h»Ý­nµ¥¨®Äy¬d¸ßµ²ªG¦^¶Ç¤~¥i¦A¦¸¤J®×¡A<br>
-ƒÜ	¨t²Î¤]´£¨Ñ¸õ¹L¨®Äy¬d¸ß¡Aª½±µ¤J®×¤§¥\¯à¡C¦ý¦¹¥\¯à«hµLªk´£¨Ñ¼tµP¥\¯à¡C
+¨t²Î¤]´£¨Ñ¸õ¹L¨®Äy¬d¸ß¡Aª½±µ¤J®×¤§¥\¯à¡C¦ý¦¹¥\¯à«hµLªk´£¨Ñ¼tµP¥\¯à¡C
 -->
 <br>
-<b>* ¤J®×¦^¶Ç<font color="red">¥¿±`</font>®×¥ó±ý­×¥¿ :ƒÜÂI¿ï " §R°£ " «ö¶s¡C½T»{§R°£¦¨¥\«á¦A¦¸«ØÀÉ¤J®×¡C</b>
+<b>* ¤J®×¦^¶Ç<font color="red">¥¿±`</font>®×¥ó±ý­×¥¿ :¿ï " §R°£ " «ö¶s¡C½T»{§R°£¦¨¥\«á¦A¦¸«ØÀÉ¤J®×¡C</b>
 <br>
-<b>* ¤J®×¦^¶Ç<font color="red">²§±`</font>®×¥ó±ý­×¥¿ :ƒÜÂI¿ï " ­×§ï " «ö¶s§¹¦¨¸ê®Æ­×¥¿«á¡A¦AÂI¿ï  "¸Ó§å²§±`¸ê®Æ¦A¦¸¤W¶Ç" «ö¶s ¡A­«·s¤W¶Ç <br><br> </b>
+<b>* ¤J®×¦^¶Ç<font color="red">²§±`</font>®×¥ó±ý­×¥¿ :¿ï " ­×§ï " «ö¶s§¹¦¨¸ê®Æ­×¥¿«á¡A¦AÂI¿ï  "¸Ó§å²§±`¸ê®Æ¦A¦¸¤W¶Ç" «ö¶s ¡A­«·s¤W¶Ç <br><br> </b>
 
 <b><font style="color: #FF0000;font-size: 20px;">²§±`®×¥ó³B²z¤è¦¡¡G</font></b><br>
 <b><font style="font-size: 20px;">¡°¤J®×</font><br></b>
-ƒÜ	<b><font style="font-size: 20px;">¥¼·s¼W</font><br></b>
+<b><font style="font-size: 20px;">¥¼·s¼W</font><br></b>
 ==>¦p¸Ó§å¸ê®Æ¦hµ§¬Ò¦^¶Ç ¥¼·s¼W ¤§²§±`°T®§¡A³q±`¬°ºÊ²z¯¸½u¸ô©Î¸ê®Æ®w²§±`¡A<br>==>½Ð°õ¦æ¸Ó§å²§±`¸ê®Æ¦A¦¸¤W¶Ç<br>
 
-ƒÜ	<b><font style="font-size: 20px;">®É¶¡¤£©ú½T</font><br></b>
+<b><font style="font-size: 20px;">®É¶¡¤£©ú½T</font><br></b>
 ==>½ÐÀË¹H³W¤é,À³¨ì®×¤é¬O§_¿é¤J¦³°ÝÃD¡A­×¥¿«á°õ¦æ¸Ó§å²§±`¸ê®Æ¦A¦¸¤W¶Ç<br>
-ƒÜ	<b><font style="font-size: 20px;">±ø´Ú¿ù»~</font><br></b>
+<b><font style="font-size: 20px;">±ø´Ú¿ù»~</font><br></b>
 ==>½ÐÀË¬d±ø´Ú¬O§_¥¿½T¡B¬O§_¤Þ¥Î¨ìÂÂªk±ø¡A­×¥¿«á¦A¦¸¤W¶Ç<br>
-ƒÜ	<b><font style="font-size: 20px;">ÃÒ¸¹­«¸¹­ç°h</font></b><br>
+<b><font style="font-size: 20px;">ÃÒ¸¹­«¸¹­ç°h</font></b><br>
 ==>½Ð¸É¤J¥Í¤é«á¦A¦¸¤W¶Ç<br>
- ƒÜ	<b><font style="font-size: 20px;">¥¢ÅÑµù¾P (¦ý¬d¸ß¸pºÝ¨t²Î«áµo²{¨®½ø¹ê»Ú¤w¸g´M¦^)</font><br></b>
+ <b><font style="font-size: 20px;">¥¢ÅÑµù¾P (¦ý¬d¸ß¸pºÝ¨t²Î«áµo²{¨®½ø¹ê»Ú¤w¸g´M¦^)</font><br></b>
 ==>¦¹Ãþ¸ê®Æ¾É¦]Äµ¬F¸p»PºÊ²z¯¸¸ê®Æ§ó·s¤£¤@­P©Ò¤Þ°_¡A¶·¤â°Ê²¾°eºÊ²z¯¸¡A<br>
 ==>¨t²Î·|¬ö¿ýµLªk¤J®×­ì¦]¡AÀH®É³Æ¬d¡C<br>
-ƒÜ	<b><font style="font-size: 20px;">¥¼ª¾,§ä¤£¨ì</font><br></b>
+<b><font style="font-size: 20px;">¥¼ª¾,§ä¤£¨ì</font><br></b>
 ==>½Ð½T»{¨®¸¹¡B¨®ºØ¬O§_¥¿½T¡A¦p¬°Äd°±®×¥óÁÙ»Ý½T»{¨­¥÷ÃÒ¸¹¬O§_¥¿½T¡A­×¥¿«á°õ¦æ¸Ó§å²§±`¸ê®Æ¦A¦¸¤W¶Ç<br>
-ƒÜ	<b><font style="font-size: 20px;">Äd°±¨®¾r±ø´Ú¤@°_</font><br></b>
+<b><font style="font-size: 20px;">Äd°±¨®¾r±ø´Ú¤@°_</font><br></b>
 ==>ºÊ²z¯¸³W©wÁ|µo³æ¤£¥i±N³B¨®¥Dªk±ø¤Î³B¾r¾pªk±ø¶}¦b¦P¤@±i<br>
-ƒÜ	<b><font style="font-size: 20px;">³B©Ò¤£©ú</font><br></b>
+<b><font style="font-size: 20px;">³B©Ò¤£©ú</font><br></b>
 ==>¦p¬°°s¾r®×¥ó¡AºÊ²z¯¸³W©wÀ³¨ì®×³B©Ò»Ý¿é¤J¦æ¬°¦a©ÒÄÝºÊ²z¯¸<br>
-ƒÜ	<b><font style="font-size: 20px;">Ãºµù¾P«á®×¡B¨®¥D¤w¦º¤`¡B³ø¼o¨®½øµ¥¨®¾rÄy²§±`</font><br></b>
+<b><font style="font-size: 20px;">Ãºµù¾P«á®×¡B¨®¥D¤w¦º¤`¡B³ø¼o¨®½øµ¥¨®¾rÄy²§±`</font><br></b>
 ==>¨®¾rÄy²§±`®×¥ó¡AºÊ²z¯¸¨t²Î·|­ç°h¡AµLªk¥Ñ°õªk¨t²Î¤J®×¡A»Ý¤H¤u²¾¥æ¥ÑºÊ²z¯¸¥N¬°¤J®×<br>
 <br>
 <br>
 <b><font style="font-size: 20px;">¡°³æ°h¡B°e¹Fµù°O</font><br></b>
- ƒÜ	<b><font style="font-size: 20px;">§ä¤£¨ì¦¹µ§¸ê®Æ¡@©Î¡@µL¦¹¨®¸¹/µL¦¹ÃÒ¸¹</font><br></b>
+ <b><font style="font-size: 20px;">§ä¤£¨ì¦¹µ§¸ê®Æ¡@©Î¡@µL¦¹¨®¸¹/µL¦¹ÃÒ¸¹</font><br></b>
 ==>½Ð¦VºÊ²z¯¸½T»{³æ¸¹©M¨®¸¹¬O§_³£¥¿½T<br>
 ==>¦p¬°±j¨î¤J®×®×¥ó¡A¶·½T»{¬O§_¦³²¾°eµ¹ºÊ²z¯¸°µ«ØÀÉ¤J®×<br>
-ƒÜ	<b><font style="font-size: 20px;">¤w¶}µô¨M®Ñ</font><br></b>
+<b><font style="font-size: 20px;">¤w¶}µô¨M®Ñ</font><br></b>
 ==>®×¥óª¬ºA³QºÊ²z¯¸Âê©w¡A½Ð¬¢¸ß¸Ó®×¥ó©ÒÄÝºÊ²z¾÷Ãö<br>
 <br>
 <br>
 <b><font style="font-size: 20px;">¡°§R°£</font><br></b>
- ƒÜ	<b><font style="font-size: 20px;">§ä¤£¨ì¦¹µ§¸ê®Æ</font><br></b>
+ <b><font style="font-size: 20px;">§ä¤£¨ì¦¹µ§¸ê®Æ</font><br></b>
 ==>½Ð¦VºÊ²z¯¸½T»{³æ¸¹©M¨®¸¹¬O§_³£¥¿½T<br>
 ==>¦p¬°±j¨î¤J®×®×¥ó¡A¶·½T»{¬O§_¦³²¾°eµ¹ºÊ²z¯¸°µ«ØÀÉ¤J®×<br>
- ƒÜ	<b><font style="font-size: 20px;">¤wµ²®×µLªk°µ§R°£</font><br></b>
+ <b><font style="font-size: 20px;">¤wµ²®×µLªk°µ§R°£</font><br></b>
 ==>ºÊ²z¯¸¤w±N¦¹µ§Á|µo³æµ²®×¡AµLªk³z¹L½u¤W¨t²Î§R°£¦¹µ§®×¥ó¡A½Ð¬¢¸ßºÊ²z¯¸<br>
 
 

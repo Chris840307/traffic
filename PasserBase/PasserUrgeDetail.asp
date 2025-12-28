@@ -106,15 +106,15 @@ If sys_City="台南縣" Then Sys_BillNum=(year(now)-1911)&right("000000"&trim(rsfou
 <form name=myForm method="post">
 <table width="100%" border="0">
 	<tr>
-		<td height="20" bgcolor="#FFCC33">違反道路交通管理事件催繳</td>
+		<td height="20" bgcolor="#1BF5FF">違反道路交通管理事件催繳</td>
 	</tr>
 	<tr>
 		<td bgcolor="#CCCCCC">
 			<table width="100%" height="100%"  border="0" cellpadding="5" cellspacing="1" bgcolor="#FFFFFF">
 				<tr>
-					<td bgcolor="#FFFF99" align="right">舉發單號</td>
+					<td bgcolor="#EBE5FF" align="right">舉發單號</td>
 					<td><%=rsfound("BillNo")%></td>
-					<td align="right" nowrap bgcolor="#FFFF99">催繳文號</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">催繳文號</td>
 					<td colspan="5">
 						<input name="Sys_OpenGovNumber" class="btn1" type="text" size="12" maxlength="12" value="<%
 							if Not ifnull(rsfound("UrgeOGN")) then
@@ -126,22 +126,22 @@ If sys_City="台南縣" Then Sys_BillNum=(year(now)-1911)&right("000000"&trim(rsfou
 					</td>
 				</tr>
 				<tr>
-					<td align="right" nowrap bgcolor="#FFFF99">舉發單位</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">舉發單位</td>
 					<td><%=DB_UnitName%></td>
-					<td align="right" nowrap bgcolor="#FFFF99">受處分人</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">受處分人</td>
 					<td><%=rsfound("Driver")%></td>
-					<td align="right" nowrap bgcolor="#FFFF99">催繳日期</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">催繳日期</td>
 					<td colspan="3">
 						<input name="Sys_UrgeDate" class="btn1" type="text" size="4" maxlength="8" value="<%=UrgeDate%>" onkeyup="value=value.replace(/[^\d]/g,'')">
 						<input type="button" name="datestr" value="..." onclick="OpenWindow('Sys_UrgeDate');">
 					</td>
 				</tr>
 				<tr>
-					<td align="right" nowrap bgcolor="#FFFF99">出生日期</td>
+					<td align="right" nowrap bgcolor="#EBE5FF">出生日期</td>
 					<td><%=gInitDT(rsfound("DriverBirth"))%></td>
-					<td align="right" nowrap bgcolor="#FFFF99">承辦人</div></td>
+					<td align="right" nowrap bgcolor="#EBE5FF">承辦人</div></td>
 					<td><%=Session("Ch_Name")%></td>
-					<td bgcolor="#FFFF99" align="right">分局長</td>
+					<td bgcolor="#EBE5FF" align="right">分局長</td>
 					<td><input name="Sys_SubUnitSecBossName" class="btn1" type="text" size="12" maxlength="12" value="<%
 							if trim(rsfound("SubUnitSecBossName"))<>"" then
 								theSubUnitSecBossName=trim(rsfound("SubUnitSecBossName"))
@@ -156,17 +156,17 @@ If sys_City="台南縣" Then Sys_BillNum=(year(now)-1911)&right("000000"&trim(rsfou
 							session("Sys_UnitChName")=trim(theSubUnitSecBossName)
 							%>">
 					</td>
-					<td bgcolor="#FFFF99" nowrap align="right">局長</td>
+					<td bgcolor="#EBE5FF" nowrap align="right">局長</td>
 					<td><input name="Sys_BigUnitBossName" class="btn1" type="text" size="12" maxlength="12" value="<%=trim(theBigUnitBossName)%>"></td>
 				</tr>
 				<tr>
-					<td bgcolor="#FFFF99" nowrap align="right">身分證號</td>
+					<td bgcolor="#EBE5FF" nowrap align="right">身分證號</td>
 					<td><%=rsfound("DriverID")%></td>
-					<td bgcolor="#FFFF99" nowrap align="right">聯絡電話</td>
+					<td bgcolor="#EBE5FF" nowrap align="right">聯絡電話</td>
 					<td>
 						<input name="Sys_ContactTel" class="btn1" type="text" size="12" maxlength="12" value="<%=trim(theContactTel)%>">
 					</td>
-					<td bgcolor="#FFFF99" nowrap>劃撥帳號</td>
+					<td bgcolor="#EBE5FF" nowrap>劃撥帳號</td>
 					<td colspan="3">
 						<%if Not ifnull(theBankAccount) then
 							response.write theBankAccount
@@ -176,9 +176,9 @@ If sys_City="台南縣" Then Sys_BillNum=(year(now)-1911)&right("000000"&trim(rsfou
 					</td>
 				</tr>
 				<tr>
-					<td bgcolor="#FFFF99" nowrap align="right">住址</td>
+					<td bgcolor="#EBE5FF" nowrap align="right">住址</td>
 					<td><%=rsfound("DriverAddress")%></td>
-					<td bgcolor="#FFFF99" nowrap align="right">催繳方式</td>
+					<td bgcolor="#EBE5FF" nowrap align="right">催繳方式</td>
 					<td colspan="3">
 						<input name="Sys_UrgeTypeID" class="btn1" type="radio" value="0"<%if trim(rsfound("UrgeTypeID"))="0" then response.write " checked"%>>
 						電話
@@ -189,9 +189,9 @@ If sys_City="台南縣" Then Sys_BillNum=(year(now)-1911)&right("000000"&trim(rsfou
 					</td>
 				</tr>
 				<tr>
-					<td bgcolor="#FFFF99" nowrap align="right">違規時間</td>
+					<td bgcolor="#EBE5FF" nowrap align="right">違規時間</td>
 					<td><%=gInitDT(rsfound("IllegalDate"))%></td>
-					<td bgcolor="#FFFF99" nowrap align="right">罰款金額</td>
+					<td bgcolor="#EBE5FF" nowrap align="right">罰款金額</td>
 					<td colspan="5">
 						  <input name="Sys_ForFeit" class="btn1" type="text" size="12" maxlength="12" value="<%
 						  if trim(rsfound("ForFeit"))<>"" then
@@ -203,9 +203,9 @@ If sys_City="台南縣" Then Sys_BillNum=(year(now)-1911)&right("000000"&trim(rsfou
 					</td>
 				</tr>
 				<tr>
-					<td bgcolor="#FFFF99" nowrap align="right">違規地點</td>
+					<td bgcolor="#EBE5FF" nowrap align="right">違規地點</td>
 					<td><%=rsfound("IllegalAddress")%></td>
-					<td bgcolor="#FFFF99" nowrap align="right">違規人寄送地址</td>
+					<td bgcolor="#EBE5FF" nowrap align="right">違規人寄送地址</td>
 					<td colspan="3"><input name="Sys_SendAddress" class="btn1" type="text" value="<%	if trim(rsfound("SendAddress"))<>"" then
 						response.write rsfound("SendAddress")
 					else
@@ -213,13 +213,13 @@ If sys_City="台南縣" Then Sys_BillNum=(year(now)-1911)&right("000000"&trim(rsfou
 					end if%>" size="48" maxlength="50"></td>
 				</tr>
 				<tr>
-					<td bgcolor="#FFFF99" nowrap align="right">應到案日期</td>
+					<td bgcolor="#EBE5FF" nowrap align="right">應到案日期</td>
 					<td><%=gInitDT(rsfound("DealLineDate"))%></td>
-					<td bgcolor="#FFFF99">&nbsp;</td>
+					<td bgcolor="#EBE5FF">&nbsp;</td>
 					<td colspan="5">&nbsp;</td>
 				</tr>
 				<tr>
-					<td bgcolor="#FFFF99" nowrap align="right">違反法條</td>
+					<td bgcolor="#EBE5FF" nowrap align="right">違反法條</td>
 					<td><%
 						if trim(rsfound("Rule1"))<>"" and not isnull(rsfound("Rule1")) then
 							response.write trim(rsfound("Rule1"))&"，"
@@ -295,11 +295,11 @@ If sys_City="台南縣" Then Sys_BillNum=(year(now)-1911)&right("000000"&trim(rsfou
 						end if
 						%>
 					</td>
-					<td nowrap bgcolor="#FFFF99">&nbsp;</td>
+					<td nowrap bgcolor="#EBE5FF">&nbsp;</td>
 					<td colspan="5">&nbsp;</td>
 				</tr>
 				<tr>
-					<td nowrap bgcolor="#FFFF99" align="right">代保管物品</td>
+					<td nowrap bgcolor="#EBE5FF" align="right">代保管物品</td>
 					<td><%	FastenerTemp=""
 							strFastener="select Confiscate from PasserConfiscate where BillSN="&trim(request("PBillSN"))
 							set rsFastener=conn.execute(strFastener)
@@ -317,14 +317,14 @@ If sys_City="台南縣" Then Sys_BillNum=(year(now)-1911)&right("000000"&trim(rsfou
 							response.write FastenerTemp
 						%>
 					</td>
-					<td bgcolor="#FFFF99" align="right"></td>
+					<td bgcolor="#EBE5FF" align="right"></td>
 					<td colspan="5"></td>
 				</tr>
 			</table>
 		</td>
 	</tr>
 	<tr align="center">
-		<td bgcolor="#FFDD77">
+		<td bgcolor="#1BF5FF">
 			<input name="btnadd" type="button" value=" 確 定 " onclick="funAdd();"> 
 			<%if sys_City<>"基隆市" then%>
 				<input name="btnprint" type="button" value="列印催繳書"  onclick='PrintReports();'>

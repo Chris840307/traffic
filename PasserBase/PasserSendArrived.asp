@@ -56,7 +56,7 @@ set rsload=conn.execute(strSQL)
 <form name=myForm method="post">
 <table width="100%" border="0">
 	<tr>
-		<td bgcolor="#FFCC33">送達紀錄　　　<font color="red"><b>違規日期：<%=sys_illegaldate%>
+		<td bgcolor="#1BF5FF">送達紀錄　　　<font color="red"><b>違規日期：<%=sys_illegaldate%>
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		單號：<%=sys_billno%></b></font></td>
 	</tr>
@@ -157,12 +157,12 @@ set rsload=conn.execute(strSQL)
 		</td>
 	</tr>
 	<tr>
-		<td bgcolor="#FFCC33" class="style3">送達紀錄列表</td>
+		<td bgcolor="#1BF5FF" class="style3">送達紀錄列表</td>
 	</tr>
 	<tr>
 		<td bgcolor="#E0E0E0">
 			<table width="100%" border="0" cellpadding="4" cellspacing="1">
-				<tr bgcolor="#EBFBE3" align="center">
+				<tr bgcolor="#FAFAF5" align="center">
 					<th>送達日期</th>
 					<th>送達人員</th>
 					<th>郵寄日期</th>
