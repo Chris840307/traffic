@@ -147,7 +147,7 @@ End if
 %>     
   <tr>
     <td bgcolor="#E0E0E0"><table width="100%" height="100%" border="0" cellpadding="4" cellspacing="1">
-      <tr bgcolor="#EBFBE3">
+      <tr bgcolor="#FAFAF5">
 		<th width="15%" height="15" nowrap>單位名稱</th>
         <th width="10%" height="15" nowrap>路段代碼</th>
         <th width="26%" height="15" nowrap>路段</th>

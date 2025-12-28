@@ -169,7 +169,7 @@ if not rs.EOF then
   <tr>
      <td height="80" bgcolor="#E0E0E0">
      	   <table width="100%" height="100%" border="0" cellpadding="4" cellspacing="1">
-              <tr bgcolor="#EBFBE3">
+              <tr bgcolor="#FAFAF5">
                 <th width="20%" height="15" nowrap><span class="style3 style3 style3">群組名稱</span></th>
                 <th width="40%" height="15" nowrap><span class="style3 style3 style3">系統名稱</span></th>
                 <!--

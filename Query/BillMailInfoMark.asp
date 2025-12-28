@@ -206,19 +206,19 @@ end if
 <form name="myForm" method="post">
 <table width="100%" border="0">
 	<tr>
-		<td bgcolor="#FFCC33"><font size=4>郵寄日期/大宗條碼資料註記</font></td>
+		<td bgcolor="#1BF5FF"><font size=4>郵寄日期/大宗條碼資料註記</font></td>
 	</tr>
 	<tr>
 		<td bgcolor="#CCCCCC">
 			<table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#FFFFFF">
 				<tr>
-					<td align="right" nowrap bgcolor="#FFFF99"><font size=4>作業批號</font></td>
+					<td align="right" nowrap bgcolor="#EBE5FF"><font size=4>作業批號</font></td>
 					<td>
 						<input name="Sys_BatchNumber" class="btn1" value="<%=UCase(request("Sys_BatchNumber"))%>" type="text" size="15" maxlength="20">
 					</td>
 				</tr>
 				<tr>
-					<td align="right" nowrap bgcolor="#FFFF99"><font size=4>舉發單號</font></td>
+					<td align="right" nowrap bgcolor="#EBE5FF"><font size=4>舉發單號</font></td>
 					<td><%response.write trim(request("Sys_BillNo1"))
 						if trim(request("Sys_BillNo2"))<>"" then response.write "～"&trim(request("Sys_BillNo2"))%>
 						<input name="Sys_BillNo1" class="btn1" value="<%=trim(request("Sys_BillNo1"))%>" type="hidden" size="15" maxlength="20">
@@ -226,7 +226,7 @@ end if
 					</td>
 				</tr>
 				<tr>
-					<td align="right" nowrap bgcolor="#FFFF99"><font size=4><strong>逕舉案件</strong> 郵寄日期</font></td>
+					<td align="right" nowrap bgcolor="#EBE5FF"><font size=4><strong>逕舉案件</strong> 郵寄日期</font></td>
 					<td colspan="3">
 						<input name="Sys_MailDate" class="btn1" value="<%
 							if trim(request("Sys_MailDate"))<>"" then
@@ -239,11 +239,11 @@ end if
 					</td>
 				</tr>
 				<tr>
-					<td align="right" nowrap bgcolor="#FFFF99"><font size=4>貼條啟始號碼</font></td>
+					<td align="right" nowrap bgcolor="#EBE5FF"><font size=4>貼條啟始號碼</font></td>
 					<td>大宗碼：<input name="Sys_mailNumber1" class="btn1" value="<%=request("Sys_mailNumber1")%>" type="text" size="15" maxlength="20">　單位代碼及局碼：<input name="Sys_mailNumber2" class="btn1" value="<%=request("Sys_mailNumber2")%>" type="text" size="20" maxlength="30"><br><font color="red"><strong>*折封機逕舉舉發單不需填</strong></font></td>
 				</tr>
 				<tr>
-					<td align="right" nowrap bgcolor="#FFFF99"><font size=4>是否自動帶入單號</font></td>
+					<td align="right" nowrap bgcolor="#EBE5FF"><font size=4>是否自動帶入單號</font></td>
 					<td>
 						<input type="checkbox" name="ChkAutoBillNo" value="1" onclick="AutoBillNo();">
 						自動帶入單號
@@ -253,7 +253,7 @@ end if
 		</td>
 	</tr>
 	<tr align="center">
-		<td bgcolor="#FFDD77">
+		<td bgcolor="#1BF5FF">
 			<input name="btnadd" type="button" value=" 確 定 " onclick="funAdd();"> 
 			<input name="btnexit" type="button" value=" 關 閉 " onclick="funExt();">
 			<%
@@ -280,7 +280,7 @@ end if
 <form name="AddForm" method="post">
 <table width="100%" border="0" bgcolor="#ffffff">
 	<tr>
-		<td height="27" bgcolor="#FFCC33" class="pagetitle"><strong>可依據需求設定或修正各舉發單大宗貼條碼 </strong><font size=2>(由下方輸入單號與貼條碼後點選確定按鈕即可，郵寄日期也可由上方欄位輸入)</font></td>
+		<td height="27" bgcolor="#1BF5FF" class="pagetitle"><strong>可依據需求設定或修正各舉發單大宗貼條碼 </strong><font size=2>(由下方輸入單號與貼條碼後點選確定按鈕即可，郵寄日期也可由上方欄位輸入)</font></td>
 	</tr>
 	<tr>
 		<td bgcolor="#E0E0E0" valign="top">
@@ -292,7 +292,7 @@ end if
 		</td>
 	</tr>
 	<tr align="center">
-		<td height="35" bgcolor="#FFDD77">
+		<td height="35" bgcolor="#1BF5FF">
 		</td>
 	</tr>
 </table>

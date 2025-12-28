@@ -31,13 +31,13 @@ Dbrs.close
 <form name=myForm method="post">
 <table width="100%" border="0">
 <tr>
-	<td bgcolor="#FFCC33" height="33">稽核特殊車種車速列表<img src="space.gif" width="15" height="8"><strong>( 查詢 <%=DBsum%> 筆紀錄 )</strong></td>
+	<td bgcolor="#1BF5FF" height="33">稽核特殊車種車速列表<img src="space.gif" width="15" height="8"><strong>( 查詢 <%=DBsum%> 筆紀錄 )</strong></td>
 </tr>
 <tr>
 	<td bgcolor="#E0E0E0">
 		<Div style="overflow:auto;width:100%;height:360px;background:#FFFFFF">
 			<table width="100%" bgcolor="#E0E0E0" border="0" cellpadding="4" cellspacing="1">
-				<tr bgcolor="#EBFBE3" align="center">
+				<tr bgcolor="#FAFAF5" align="center">
 					<td>序號</td>
 					<td>車種</td>					
 					<td>目前設定車速</td>
@@ -68,7 +68,7 @@ Dbrs.close
 	</td>
 </tr>
 <tr>
-	<td height="30" colspan="10" bgcolor="#FFDD77" align="center">
+	<td height="30" colspan="10" bgcolor="#1BF5FF" align="center">
 		<a href="file:///.."></a>
 		<input type="button" name="MoveFirst" value="第一頁" onclick="funDbMove(0);">
 		<input type="button" name="MoveUp" value="上一頁" onclick="funDbMove(-10);">

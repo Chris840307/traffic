@@ -344,7 +344,7 @@ var tmpStr="";
 <FORM NAME="Project" ACTION="ProjectDetail.asp?tag=<%=iTag%>&Save=Y" METHOD="POST" onSubmit="return datacheck();">
 <table width="100%" height="100%" border="0">
   <tr>
-    <td height="27" bgcolor="#FFCC33"><span class="style3">專案資料檔維護&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a href="Project.jpg" target="_blank" class="style2">專案新增簡易說明</a>	</td>
+    <td height="27" bgcolor="#1BF5FF"><span class="style3">專案資料檔維護&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a href="Project.jpg" target="_blank" class="style2">專案新增簡易說明</a>	</td>
   </tr>
   <tr>
     <td height="26" bgcolor="#CCCCCC">
@@ -355,27 +355,27 @@ var tmpStr="";
       	
       		end if
       	%>
-        <td width="11%" bgcolor="#FFFFCC" height="21"><div align="right" class="style3">專案代碼</div></td>
+        <td width="11%" bgcolor="#EBE5FF" height="21"><div align="right" class="style3">專案代碼</div></td>
         <td width="89%" height="21"><span class="style3">
           <input name="ProjectID" type="text" value="<%=iProjectID%>" size="20" maxlength="25" <%=idisabled%>  class="btn1">
           <input name="mdyProjectID" type="hidden" value="<%=iProjectID%>" size="20"   class="btn1">          
           </span></td>
       </tr>
       <tr>
-        <td bgcolor="#FFFFCC" height="21"><div align="right"><span class="style3">專案名稱</span></div></td>
+        <td bgcolor="#EBE5FF" height="21"><div align="right"><span class="style3">專案名稱</span></div></td>
         <td height="21"><span class="style3">
           <input name="name" type="text" value="<%=iName%>" size="20" maxlength="25"  class="btn1"> 
         </span></td>
       </tr>
       <tr>
-        <td bgcolor="#FFFFCC" height="25"><div align="right"><span class="style3">專案施行期間</span></div></td>
+        <td bgcolor="#EBE5FF" height="25"><div align="right"><span class="style3">專案施行期間</span></div></td>
         <td height="25"><span class="style3">
 <input type='text' size='10' id='StartDate' class="btn1" name='StartDate' value="<%=gInitDT(iStartDate)%>" readonly onclick="OpenWindow('StartDate')"><input type=button value="..." name='btnDateS'  onclick="OpenWindow('StartDate')">      ~
 <input type='text' size='10' id='EndDate'  class="btn1"name='EndDate' value="<%=gInitDT(iEndDate)%>" readonly onclick="OpenWindow('EndDate')"><input type=button value="..." name='btnDateE'  onclick="OpenWindow('EndDate')">
         </span></td>
       </tr>
       <tr>
-        <td bgcolor="#FFFFCC" height="16">
+        <td bgcolor="#EBE5FF" height="16">
         <p align="right">適用車別</td>
         <td height="16">
           <input type="button" name="btnAdd" value="加入" onClick="openQryLaw2(this.value);">
@@ -411,7 +411,7 @@ var tmpStr="";
           </select></td>
       </tr>
       <tr>
-        <td bgcolor="#FFFFCC" height="109">
+        <td bgcolor="#EBE5FF" height="109">
         <p align="right"><span class="style3">法條</span></td>
         <td height="109">
           <input type="button" name="btnAdd" value="加入" onClick="openQryLaw(this.value);">
@@ -435,7 +435,7 @@ var tmpStr="";
           </select></td>
       </tr>
       <tr>
-        <td bgcolor="#FFFFCC" height="20">
+        <td bgcolor="#EBE5FF" height="20">
         <p align="right"><span class="style3">舉發單別</span></td>
         <td height="20">
 
@@ -466,7 +466,7 @@ var tmpStr="";
 		<p>「拖吊」、「慢車行人」舉發單別選「全部」</td>
       </tr>
       <tr>
-        <td bgcolor="#FFFFCC" height="21"><div align="right"><span class="style3">狀態</span></div></td>
+        <td bgcolor="#EBE5FF" height="21"><div align="right"><span class="style3">狀態</span></div></td>
         <td height="21"><span class="style3">
           <select name="RecordStateID">
           	<%if trim(iRecordStateID&" ")="-1" then %>
@@ -484,7 +484,7 @@ var tmpStr="";
     </table></td>
   </tr>
   <tr>
-    <td height="35" bgcolor="#FFDD77"><p align="center" class="style1"><a href="file:///C|/Documents%20and%20Settings/Smith/&#26700;&#38754;/&#31995;&#32113;&#35498;&#26126;/&#38936;&#21934;&#31649;&#29702;&#31995;&#32113;/sssss">
+    <td height="35" bgcolor="#1BF5FF"><p align="center" class="style1"><a href="file:///C|/Documents%20and%20Settings/Smith/&#26700;&#38754;/&#31995;&#32113;&#35498;&#26126;/&#38936;&#21934;&#31649;&#29702;&#31995;&#32113;/sssss">
     </a>
         <input type="submit" name="Submit423" value="確 定" >
         <input type="hidden" name="lawItem" value="">

@@ -48,7 +48,7 @@ else
 		<td bgcolor="#CCCCCC">
 			<table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
 				<tr bgcolor="#ffffff">
-					<td bgcolor="#FFFF99"><font color="red">* </font>員警代號<br><font size="2">建檔時舉發員警代號</font> </td>
+					<td bgcolor="#EBE5FF"><font color="red">* </font>員警代號<br><font size="2">建檔時舉發員警代號</font> </td>
 					<td>
 						<%if trim(left(rs("LoginID"),1))="Z" then%>
 							無臂章號碼
@@ -58,7 +58,7 @@ else
 						<%end if%>
 						<input type="Hidden" name="chk_LoginID" value="<%=rs("LoginID")%>">
 					</td>
-					<td bgcolor="#FFFF99"><font color="red">* </font>系統登入密碼</td>
+					<td bgcolor="#EBE5FF"><font color="red">* </font>系統登入密碼</td>
 					<td>	
 					
 					<input name="Sys_PassWord" class="btn1" type="password" value="<%=rs("PassWord")%>" size="12" maxlength="12"					
@@ -72,9 +72,9 @@ else
 					</td>
 				</tr>
 				<tr  bgcolor="#ffffff">
-					<td bgcolor="#FFFF99"><font color="red">* </font>使用者姓名</td>
+					<td bgcolor="#EBE5FF"><font color="red">* </font>使用者姓名</td>
 					<td><%=rs("ChName")%></td>
-					<td bgcolor="#FFFF99"><font color="red">* </font>系統登入帳號</td>
+					<td bgcolor="#EBE5FF"><font color="red">* </font>系統登入帳號</td>
 					<td>
 					
 					
@@ -89,7 +89,7 @@ else
 					</td>
 				</tr>
 				<tr  bgcolor="#ffffff">
-					<td bgcolor="#FFFF99">隸屬單位</td>
+					<td bgcolor="#EBE5FF">隸屬單位</td>
 					<td><%
 						strSQL="select UnitName,UnitID from UnitInfo where UnitID='"&trim(rs("UnitID"))&"'"
 						set rs1=conn.execute(strSQL)
@@ -97,7 +97,7 @@ else
 						rs1.close
 						%>
 					</td>
-					<td bgcolor="#FFFF99">使用者職級</td>
+					<td bgcolor="#EBE5FF">使用者職級</td>
 					<td>
 						<select name="Sys_JobID" class="btn1">
 							<option value="0">請選擇</option><%
@@ -116,7 +116,7 @@ else
 					</td>
 				</tr>
 				<tr  bgcolor="#ffffff">
-					<td bgcolor="#FFFF99">身分別</td>
+					<td bgcolor="#EBE5FF">身分別</td>
 					<td>
 						<select name="Sys_RoleID" class="btn1">
 							<option value="0">請選擇</option><%
@@ -133,7 +133,7 @@ else
 							rs1.close%>
 						</select>
 					</td>
-					<td bgcolor="#FFFF99">權限群組</td>
+					<td bgcolor="#EBE5FF">權限群組</td>
 					<td>
 						<select name="Sys_GroupRoleID" class="btn1">
 							<option value="0">請選擇</option><%
@@ -154,58 +154,58 @@ else
 					</td>
 				</tr>
 				<tr bgcolor="#ffffff">
-					<td bgcolor="#FFFF99">任用日期</td>
+					<td bgcolor="#EBE5FF">任用日期</td>
 					<td>
 						<input name="StartJobDate" class="btn1" type="text" value="<%=StartJobDate%>" size="4" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
 						<input type="button" name="datestr" value="..." onclick="OpenWindow('StartJobDate');">
 					</td>
-					<td bgcolor="#FFFF99">主管權限</td>
+					<td bgcolor="#EBE5FF">主管權限</td>
 					<td>
 						<input type="checkbox" name="Sys_ManagerPower" value="1"<%if trim(rs("ManagerPower"))="1" then response.write " checked"%>>具備主管權限可以檢視同一單位其他人員資料 
 					</td>
 				</tr>
 				<tr bgcolor="#ffffff">
-					<td bgcolor="#FFFF99">離職日期</td>
+					<td bgcolor="#EBE5FF">離職日期</td>
 					<td colspan="3">
 						<input name="LeaveJobDate" class="btn1" type="text" value="<%=LeaveJobDate%>" size="4" maxlength="8" onkeyup="value=value.replace(/[^\d]/g,'')">
 						<input type="button" name="datestr" value="..." onclick="OpenWindow('LeaveJobDate');">
 					</td>
 				</tr>
 				<tr  bgcolor="#ffffff">
-					<td bgcolor="#FFFF99">聯絡電話</td>
+					<td bgcolor="#EBE5FF">聯絡電話</td>
 					<td>
 						<input name="Sys_Telephone" class="btn1" type="text" value="<%=rs("Telephone")%>" size="12" maxlength="12">
 					</td>				
-					<td bgcolor="#FFFF99">使用者Email</td>
+					<td bgcolor="#EBE5FF">使用者Email</td>
 					<td colspan="3">
 						<input name="Sys_Email" class="btn1" type="text" value="<%=rs("Email")%>" size="20" maxlength="30">
 					</td>
 				</tr>
 				<tr  bgcolor="#ffffff">
-					<td bgcolor="#FFFF99">薪資</td>
+					<td bgcolor="#EBE5FF">薪資</td>
 					<td>
 						<input name="Sys_Money" class="btn1" type="text" value="<%=rs("Money")%>" size="12" maxlength="12">
 					</td>
 
 
-					<td bgcolor="#FFFF99">銀行/郵局 局號</td>
+					<td bgcolor="#EBE5FF">銀行/郵局 局號</td>
 						<td>
 							<input name="Sys_BankName" class="btn1" type="text" value="<%=rs("BankName")%>" size="35" maxlength="35">
 						</td>
 					</tr>
 				
 					<tr  bgcolor="#ffffff">
-						<td bgcolor="#FFFF99">銀行/郵局 編號</td>
+						<td bgcolor="#EBE5FF">銀行/郵局 編號</td>
 						<td>
 							<input name="Sys_BankID" class="btn1" type="text" value="<%=rs("BankID")%>" size="20" maxlength="20">
 						</td>				
-						<td bgcolor="#FFFF99">銀行/郵局 個人帳號</td>
+						<td bgcolor="#EBE5FF">銀行/郵局 個人帳號</td>
 						<td>
 							<input name="Sys_BankAccount" class="btn1" type="text" value="<%=rs("BankAccount")%>" size="25" maxlength="30">
 						</td>
 					</tr>
 				<tr bgcolor="#ffffff">
-					<td bgcolor="#FFFF99">帳號狀態</td>
+					<td bgcolor="#EBE5FF">帳號狀態</td>
 					<td colspan="3">
 						<select name="Sys_ACCOUNTSTATEID" class="btn1">
 							<option value="0"<%if trim(rs("ACCOUNTSTATEID"))="0" then response.write " Selected"%>>啟用</option>

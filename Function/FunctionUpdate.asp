@@ -73,12 +73,12 @@ end if
 
 <table width="100%" height="100%" border="0">
   <tr>
-    <td height="27" bgcolor="#FFCC33"><span class="pagetitle style3">權限設定系統-修改</span></td>
+    <td height="27" bgcolor="#1BF5FF"><span class="pagetitle style3">權限設定系統-修改</span></td>
   </tr>
   <tr>
     <td height="26" bgcolor="#CCCCCC"><table width="100%"  border="0" cellpadding="5" cellspacing="1" bgcolor="#FFFFFF">
       <tr>
-        <td width="15%" height="33" bgcolor="#FFFFCC"><div align="right" class="style3">群組</div></td>
+        <td width="15%" height="33" bgcolor="#EBE5FF"><div align="right" class="style3">群組</div></td>
    
         <td width="85%">
           <select name="GroupID" id="GroupID" >
@@ -98,7 +98,7 @@ end if
         </td>
       </tr>
       <tr>
-        <td bgcolor="#FFFFCC"><div align="right" class="style3 style3 style3">
+        <td bgcolor="#EBE5FF"><div align="right" class="style3 style3 style3">
             <div align="right" class="style3">
               <div align="right">系統</div>
             </div>
@@ -127,7 +127,7 @@ end if
       </td>
       </tr>
       <tr>
-        <td bgcolor="#FFFFCC"><div align="right" class="style3 style3 style3">
+        <td bgcolor="#EBE5FF"><div align="right" class="style3 style3 style3">
             <div align="right">新增</div>
         </div></td>
         <td>
@@ -137,7 +137,7 @@ end if
     否 </td>
       </tr>
       <tr>
-        <td bgcolor="#FFFFCC">
+        <td bgcolor="#EBE5FF">
           <div align="right" class="style3 style3">
             <div align="right">修改</div>
         </div></td>
@@ -149,7 +149,7 @@ end if
         </td>
       </tr>
       <tr>
-        <td bgcolor="#FFFFCC"><div align="right" class="style3">刪除</div></td>
+        <td bgcolor="#EBE5FF"><div align="right" class="style3">刪除</div></td>
         <td>
           <input name="delete" type="radio" value="1" <% if trim(RsUpd1("deleteFlag"))=1 then response.write  " checked" %> disabled>
     可
@@ -157,7 +157,7 @@ end if
     否 </td>
       </tr>
       <tr>
-        <td bgcolor="#FFFFCC"><div align="right" class="style3">查詢</div></td>
+        <td bgcolor="#EBE5FF"><div align="right" class="style3">查詢</div></td>
         <td>
           <input name="select" type="radio" value="1" <% if trim(RsUpd1("selectFlag"))=1 then response.write  " checked" %> disabled>
     可
@@ -165,13 +165,13 @@ end if
     否 </td>
       </tr>
       <tr>
-        <td bgcolor="#FFFFCC"><div align="right" class="style3 style3">修改人員</div></td>
+        <td bgcolor="#EBE5FF"><div align="right" class="style3 style3">修改人員</div></td>
         <td><%=Session("Ch_Name")%></td>
       </tr>
     </table></td>
   </tr>
   <tr>
-    <td height="35" bgcolor="#FFDD77"><p align="center" class="style1">
+    <td height="35" bgcolor="#1BF5FF"><p align="center" class="style1">
         <input type="submit" name="Submit423" value="確 定">
         <span class="style3"><img src="space.gif" width="9" height="8"></span>        <input type="button" name="Submit4232" onClick="javascript:window.close();" value="關 閉">
 </p>    </td>

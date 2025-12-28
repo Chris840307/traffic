@@ -59,12 +59,12 @@ body {
 <FORM NAME="myForm" METHOD="POST">  	
 <table width="100%" height="100%" bgcolor="dddddd" border="0" cellpadding="1">
 	<tr>
-		<td colspan="6" height="27" bgcolor="#FFCC33">
+		<td colspan="6" height="27" bgcolor="#1BF5FF">
 			<span class="pagetitle style3">權限設定系統-新增</span>
 		</td>
 	</tr>
 	<tr bgcolor="#FFFFFF">
-		<td height="33" bgcolor="#FFFFCC">
+		<td height="33" bgcolor="#EBE5FF">
 			<div align="right" class="style3">群組</div>
 		</td>
 		<td colspan="5">
@@ -88,7 +88,7 @@ body {
 			<input type="button" value="確定" onclick="selectFunc();">
         </td>
 	</tr>
-	<tr bgcolor="#FFCC55">
+	<tr bgcolor="#1BF5FF">
 		<td height="27" width="30%" align="center"><strong>系統</strong></td>
 		<td width="15%" align="center"><strong>使用權限</strong></td>
 		<td width="14%" align="center"><strong>新增</strong></td>
@@ -123,7 +123,7 @@ if trim(request("kinds"))<>"" then
 end if
 %>
 	<tr height="32" bgcolor="#FFFFFF">
-		<td bgcolor="#FFFFCC" align="left">
+		<td bgcolor="#EBE5FF" align="left">
 			<%=rsFunc("Content")%>
 			<input type="hidden" name="SysID" value="<%=rsFunc("ID")%>">
 		</td>
@@ -155,11 +155,11 @@ end if
 	set rsFunc=nothing
 %>
 	<tr bgcolor="#FFFFFF" height="33">
-        <td bgcolor="#FFFFCC"><div align="right" class="style3 style3">修改人員</div></td>
+        <td bgcolor="#EBE5FF"><div align="right" class="style3 style3">修改人員</div></td>
         <td colspan="5"><%=Session("Ch_Name")%></td>
 	</tr>
 	<tr>
-		<td colspan="6" height="35" bgcolor="#FFDD77"><p align="center" class="style1">
+		<td colspan="6" height="35" bgcolor="#1BF5FF"><p align="center" class="style1">
 			<input type="button" name="Submit423" value="確 定" onclick="UpdateFunc();">
 			<span class="style3"><img src="space.gif" width="9" height="8"></span>  
 		    <input type="button" name="Submit4232" onClick="javascript:window.close();" value="關 閉"></p>	

@@ -107,7 +107,7 @@ function DataDelete(ID)
 
 <table width="100%" border="0">
   <tr>
-    <td height="27" bgcolor="#FFCC33"><span class="style3">群組設定系統</span></td>
+    <td height="27" bgcolor="#1BF5FF"><span class="style3">群組設定系統</span></td>
   </tr>
 <form name="myForm" method="post"> 
   <tr>
@@ -127,7 +127,7 @@ function DataDelete(ID)
   <input type="Hidden" name="DB_Selt" value="">
   <input type="Hidden" name="DB_ID" value="">
   <tr>
-     <td height="26" bgcolor="#FFCC33"><span class="pagetitle style3"><span class="style3">群組設定</span>紀錄列表</span></td>
+     <td height="26" bgcolor="#1BF5FF"><span class="pagetitle style3"><span class="style3">群組設定</span>紀錄列表</span></td>
   </tr>
 <%
 
@@ -141,7 +141,7 @@ if not Rs.EOF then
   <tr>
      <td height="80" bgcolor="#E0E0E0">
      	   <table width="100%" height="100%" border="0" cellpadding="4" cellspacing="1">
-              <tr bgcolor="#EBFBE3">
+              <tr bgcolor="#FAFAF5">
                 <th width="50%" height="15" nowrap><span class="style3 style3 style3">群組名稱</span></th>
 				<td width="50%" height="15" nowrap><span class="style5 style3 style3">操作</span></td>
               </tr>
@@ -164,7 +164,7 @@ if not Rs.EOF then
      </td>
   </tr>
 	<tr>              
-		<td align="center" height="35" bgcolor="#FFDD77">
+		<td align="center" height="35" bgcolor="#1BF5FF">
 <%urlParam = "&SN=" & Request("SN") & "&GroupID=" & trim(request("GroupID")) & "&SystemID=" & trim(request("SystemID"))%>			
 			<font size="2"><%ShowPageLink actionPage,Rs.PageCount,"FunctionGroupAdd.asp",urlParam%></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	</tr>  

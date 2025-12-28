@@ -127,7 +127,7 @@ function newWin(url,win,w,h,l,t,sBar,mBar,res,full){
 <form name="Project" method="post" action="Project.asp?tag=search">
 <table width="100%" height="100%" border="0">
   <tr>
-    <td height="27" bgcolor="#FFCC33"><span class="pagetitle">專案資料檔維護</span><span class="style2"><span class="style3">    </span></span></td>
+    <td height="27" bgcolor="#1BF5FF"><span class="pagetitle">專案資料檔維護</span><span class="style2"><span class="style3">    </span></span></td>
   </tr>
   <tr>
     <td height="26" bgcolor="#CCCCCC"><table width="100%" height="100%"  border="0" cellpadding="5" cellspacing="1" bgcolor="#FFFFFF">
@@ -165,11 +165,11 @@ function newWin(url,win,w,h,l,t,sBar,mBar,res,full){
     </table></td>
   </tr>
   <tr>
-    <td height="26" bgcolor="#FFCC33"><span class="style2">專案資料檔紀錄列表 </span></td>
+    <td height="26" bgcolor="#1BF5FF"><span class="style2">專案資料檔紀錄列表 </span></td>
   </tr>
   <tr>
     <td height="25" bgcolor="#E0E0E0"><table width="100%" height="100%" border="0" cellpadding="4" cellspacing="1">
-      <tr bgcolor="#EBFBE3">
+      <tr bgcolor="#FAFAF5">
         <th width="8%" height="15" nowrap><span class="style3">專案代碼</span></th>
         <th width="14%" height="15" nowrap><span class="style3">專案名稱</span></th>
         <th width="14%" height="15" nowrap><span class="style3">專案施行期間</span></th>
@@ -245,7 +245,7 @@ function newWin(url,win,w,h,l,t,sBar,mBar,res,full){
     </table></td>
   </tr>
   <tr>
-    <td height="35" bgcolor="#FFDD77"><p align="center" class="style1">
+    <td height="35" bgcolor="#1BF5FF"><p align="center" class="style1">
       <input type=submit name="Submit422" value="上一頁" onclick="javascript:document.Project.Page.value='<%=cint(Page)-1%>' ;">
       <input type=hidden name='Page' value='' >
       <%=Page%>/<%=iPageCount%>

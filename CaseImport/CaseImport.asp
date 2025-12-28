@@ -265,15 +265,15 @@ memName=Session("Ch_Name")
 			  %>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 			  <%If tCity="高雄縣" Or tCity="新竹市" Then %> 
 				<a target="blank" href="CaseImportFileLog.asp">匯入記錄查詢</a>&nbsp;&nbsp;&nbsp; 
-                                <a target="blank" href="停管匯入.doc">使用說明</a>
+                                <a target="blank" href="停管匯入2.docx">使用說明</a>
 								&nbsp;&nbsp;&nbsp; 
                                 <a target="blank" href="ExecltoCSV.doc">Excel 轉換 CSV 說明</a>
 			  <%End if%>
 		<table width='100%' border='1' align="center" cellpadding="5" cellspacing="0">
-			<tr><td bgcolor="#FFCC33"><font size="4"><strong></strong></font>舉發單資料匯入系統</td></tr>
+			<tr><td bgcolor="#1BF5FF"><font size="4"><strong></strong></font>舉發單資料匯入系統</td></tr>
     		</table>
     		  <p><p>
-  <font size="4">選擇檔案</font><span><font size="4"> </font><input type="text" name="T1" size="53" value="<%=request("ImportFileName")%>" readonly></span>&nbsp;
+  <font size="4">選擇檔案</font><span><font size="4"> </font><input type="text" name="T1" size="50" value="<%=request("ImportFileName")%>" readonly></span>&nbsp;
   <input type="file"  name="attach1" size="1"  onchange="BrowsFile();" style="position: relative;-moz-opacity:0 ;-moz-opacity:0 ;filter:alpha(opacity: 0);opacity: 0;z-index: 2;" /> &nbsp;&nbsp;&nbsp;&nbsp; 
     <input type="button" value="匯入" name="btnInto" onclick="InsertData();">&nbsp;&nbsp;&nbsp;&nbsp; 
   <input type="button" value="清除" name="btnClear" onclick="Clear();">
@@ -1092,7 +1092,7 @@ end if
   <input type="hidden" name="ImportFileName" value="<%=request("ImportFileName")%>">
   <p></p>
 		<table width='100%' border='1' align="center" cellpadding="5" cellspacing="0">
-			<tr><td bgcolor="#FFCC33"><font size="4"><strong></strong></font>　
+			<tr><td bgcolor="#1BF5FF"><font size="4"><strong></strong></font>　
 			</td></tr>
 		</table>
 

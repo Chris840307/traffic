@@ -158,7 +158,7 @@ window.open(OpenFileStr,frmName);
 <form name="Law" method="post" action="Law.asp?tag=search">
 <table width="100%" height="100%" border="0">
   <tr>
-    <td height="27" bgcolor="#FFCC33"><span class="style2">法條檔檔維護</span><span class="style2"><span class="style3">    </span></span></td>
+    <td height="27" bgcolor="#1BF5FF"><span class="style2">法條檔檔維護</span><span class="style2"><span class="style3">    </span></span></td>
   </tr>
   <tr>
     <td height="26" bgcolor="#CCCCCC"><table width="100%" height="100%"  border="0" cellpadding="5" cellspacing="1" bgcolor="#FFFFFF">
@@ -269,11 +269,11 @@ iadoRS.open gsql,conn,3,1
     </table></td>
   </tr>
   <tr>
-    <td height="26" bgcolor="#FFCC33"><span class="style2">法條檔檔紀錄列表</span> <img src="space.gif" width="22" height="8"><b>歸責對象</b>( V歸車 0駕駛人 ) </td>
+    <td height="26" bgcolor="#1BF5FF"><span class="style2">法條檔檔紀錄列表</span> <img src="space.gif" width="22" height="8"><b>歸責對象</b>( V歸車 0駕駛人 ) </td>
   </tr>
   <tr>
     <td height="25" bgcolor="#E0E0E0"><table width="100%" height="100%" border="0" cellpadding="4" cellspacing="1">
-      <tr bgcolor="#EBFBE3">
+      <tr bgcolor="#FAFAF5">
         <th width="6%" height="15" nowrap><span class="style3">法條代碼</span></th>
         <th width="5%" height="15" nowrap><span class="style3">簡式<br>
           車種</span></th>
@@ -362,7 +362,7 @@ iadoRS.open gsql,conn,3,1
     </table></td>
   </tr>
   <tr>
-    <td height="35" bgcolor="#FFDD77"><p align="center" class="style1">
+    <td height="35" bgcolor="#1BF5FF"><p align="center" class="style1">
       <input type=submit name="Submit422" value="上一頁" onclick="javascript:document.Law.Page.value='<%=cint(Page)-1%>' ;">
       <input type=hidden name='Page' value='' >
       <%=Page%>/<%=iPageCount%>
